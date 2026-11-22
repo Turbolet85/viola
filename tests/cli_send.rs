@@ -1436,3 +1436,199 @@ fn send_long_text_wrapped_by_the_cli_is_confirmed() {
     );
     wrapper.stop();
 }
+
+/// The text the paste-bound cases send: past the 20 480 bytes a raw PTY takes from its master
+/// before a write blocks on a child that reads nothing (measured on the Linux dev host).
+fn unread_text() -> String {
+    "a".repeat(65_536)
+}
+
+/// `PASTE_BOUND`, as a literal oracle.
+const PASTE_BOUND: std::time::Duration = std::time::Duration::from_secs(5);
+/// How far past the bound a refusal or a line may land: the gate's quiet read and a process start.
+const PAST_THE_BOUND: std::time::Duration = std::time::Duration::from_secs(2);
+
+/// A stamped wrapper over a fake agent that stops reading its terminal once its start screen is
+/// drawn.
+fn boot_unread(stamped: StampedHome) -> Wrapper {
+    boot_on(stamped, None, &["--stop-reading"])
+}
+
+/// The case's reading for the chunk's evidence, read with `--no-capture`.
+#[expect(
+    clippy::print_stdout,
+    reason = "the elapsed time and the reading go to the evidence by the runner's stdout"
+)]
+fn reading(elapsed: std::time::Duration, word: &str) {
+    println!("elapsed-ms: {} · reading: {word}", elapsed.as_millis());
+}
+
+fn detail_of(sent: &Sent) -> String {
+    let doc: Value = serde_json::from_str(&sent.stdout).expect("one JSON document");
+    doc["detail"].as_str().expect("a detail word").to_owned()
+}
+
+/// A first send into the child that stops reading, started, and its `send-issued` record awaited:
+/// its paste is then blocked.
+fn blocked_send(wrapper: &Wrapper) -> (Child, Instant) {
+    let dir = wrapper.instance_dir();
+    let from = end_offset(&dir);
+    let child = spawn_send(wrapper.home(), &["builder", "--json"], &unread_text());
+    wait_events(&dir, "the blocked send's send-issued", |lines| {
+        lines.iter().any(|e| e["kind"] == "send-issued")
+    });
+    let issued = Instant::now();
+    assert!(
+        records_after(&dir, from)
+            .iter()
+            .all(|r| r["kind"] != "send-refused"),
+        "the first send ended before its block"
+    );
+    (child, issued)
+}
+
+#[rstest]
+fn send_into_a_child_that_stops_reading_ends_paste_cut_within_the_bound(stamped_home: StampedHome) {
+    let wrapper = boot_unread(stamped_home);
+    let dir = wrapper.instance_dir();
+    let l = end_offset(&dir);
+    let started = Instant::now();
+    let sent = send(wrapper.home(), &["builder", "--json"], &unread_text());
+    let elapsed = started.elapsed();
+    reading(elapsed, &detail_of(&sent));
+    assert_eq!(sent.code, Some(13));
+    assert_eq!(
+        serde_json::from_str::<Value>(&sent.stdout).expect("one JSON document"),
+        json!({"v": 1, "refusal": "not-delivered", "detail": "paste-cut"})
+    );
+    assert!(sent.stderr.is_empty(), "{}", sent.stderr);
+    assert!(
+        elapsed >= PASTE_BOUND,
+        "refused after {elapsed:?}, inside the bound"
+    );
+    assert!(elapsed < WITHIN, "refused after {elapsed:?}");
+    let records = records_after(&dir, l);
+    let kinds: Vec<&Value> = records.iter().map(|r| &r["kind"]).collect();
+    assert_eq!(kinds, ["send-issued", "send-refused"], "no wheel record");
+    assert_eq!(records[0]["data"], json!({"cursor": l}));
+    assert_eq!(
+        records[1]["data"],
+        json!({"refusal": "not-delivered", "detail": "paste-cut", "cursor": l})
+    );
+    drop(wrapper.kill());
+}
+
+#[rstest]
+fn send_after_a_paste_cut_is_refused_paste_cut_with_nothing_issued(stamped_home: StampedHome) {
+    let wrapper = boot_unread(stamped_home);
+    let dir = wrapper.instance_dir();
+    let first = send(wrapper.home(), &["builder", "--json"], &unread_text());
+    assert_eq!(detail_of(&first), "paste-cut");
+    let l = end_offset(&dir);
+    let started = Instant::now();
+    let next = send(
+        wrapper.home(),
+        &["builder", "--json"],
+        &format!("{CANARY} next"),
+    );
+    let elapsed = started.elapsed();
+    reading(elapsed, &detail_of(&next));
+    assert_eq!(next.code, Some(13));
+    assert_eq!(
+        serde_json::from_str::<Value>(&next.stdout).expect("one JSON document"),
+        json!({"v": 1, "refusal": "not-delivered", "detail": "paste-cut"})
+    );
+    assert!(
+        elapsed < std::time::Duration::from_millis(8_500),
+        "refused after {elapsed:?}"
+    );
+    let records = records_after(&dir, l);
+    let kinds: Vec<&Value> = records.iter().map(|r| &r["kind"]).collect();
+    assert_eq!(kinds, ["send-refused"], "nothing issued");
+    assert_eq!(
+        records[0]["data"],
+        json!({"refusal": "not-delivered", "detail": "paste-cut"})
+    );
+    drop(wrapper.kill());
+}
+
+/// A send issued while another's paste is blocked is refused within the bound, nothing typed. Its
+/// detail is a reading: `turn-running` while the first send still holds the slot, `paste-cut` once
+/// the cut's mark stands.
+#[rstest]
+fn send_during_a_blocked_paste_is_refused_within_the_bound(stamped_home: StampedHome) {
+    let wrapper = boot_unread(stamped_home);
+    let dir = wrapper.instance_dir();
+    let (first, issued) = blocked_send(&wrapper);
+    // Placed one second into the block, as the measurement before the bound was taken.
+    std::thread::sleep(std::time::Duration::from_secs(1).saturating_sub(issued.elapsed()));
+    let from = end_offset(&dir);
+    let started = Instant::now();
+    let second = send(wrapper.home(), &["builder", "--json"], "hello");
+    let elapsed = started.elapsed();
+    let detail = detail_of(&second);
+    reading(elapsed, &detail);
+    assert_eq!(second.code, Some(13));
+    assert!(
+        detail == "turn-running" || detail == "paste-cut",
+        "the second send read {detail}"
+    );
+    assert!(
+        elapsed < PASTE_BOUND + PAST_THE_BOUND,
+        "refused after {elapsed:?}"
+    );
+    assert_eq!(detail_of(&finish(first)), "paste-cut");
+    let issued_after = records_after(&dir, from)
+        .iter()
+        .filter(|r| r["kind"] == "send-issued")
+        .count();
+    assert_eq!(issued_after, 0, "the second send was issued");
+    drop(wrapper.kill());
+}
+
+/// A hook event fired while a paste is blocked lands within the bound: the flight guard is held
+/// no longer than the paste's own bound.
+#[rstest]
+fn hook_event_during_a_blocked_paste_lands_within_the_bound(stamped_home: StampedHome) {
+    let wrapper = boot_unread(stamped_home);
+    let dir = wrapper.instance_dir();
+    let (first, issued) = blocked_send(&wrapper);
+    std::thread::sleep(std::time::Duration::from_secs(1).saturating_sub(issued.elapsed()));
+    let from = end_offset(&dir);
+    let fired = Instant::now();
+    let mut hook = support::tied::viola()
+        .args(["hook", "notification"])
+        .env("VIOLA_NAME", "builder")
+        .env("VIOLA_DIR", dir.as_os_str())
+        .env_remove("VIOLA_BIN")
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .expect("viola hook");
+    hook.stdin
+        .take()
+        .expect("stdin")
+        .write_all(br#"{"hook_event_name":"Notification"}"#)
+        .expect("the payload");
+    let out = hook.wait_with_output().expect("viola hook exits");
+    assert_eq!(out.status.code(), Some(0));
+    assert!(out.stdout.is_empty() && out.stderr.is_empty());
+    let deadline = fired + PASTE_BOUND + PAST_THE_BOUND;
+    let landed = loop {
+        if records_after(&dir, from)
+            .iter()
+            .any(|r| r["kind"] == "activity")
+        {
+            break fired.elapsed();
+        }
+        assert!(
+            Instant::now() < deadline,
+            "the activity line did not land within the bound"
+        );
+        std::thread::sleep(std::time::Duration::from_millis(20));
+    };
+    reading(landed, "activity");
+    assert_eq!(detail_of(&finish(first)), "paste-cut");
+    drop(wrapper.kill());
+}

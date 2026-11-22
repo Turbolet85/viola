@@ -1,0 +1,1 @@
+Answer to the hygiene question on evidence/harness.py:29: "Path-free rewrite (Recommended)" — notes: The overseer's technical answer, 2026-11-22T12:48:00Z: the path-free rewrite, that one line alone; then re-run hygiene over the whole evidence dir and say its line. If hygiene names another file, stop again — nothing with a home path lands or is pushed.

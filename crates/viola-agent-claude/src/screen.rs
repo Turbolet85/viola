@@ -25,6 +25,11 @@ pub const CONFIRM_WINDOW_FALLBACK: Duration = Duration::from_secs(10);
 /// paste and this window together stay under the MCP client's tool-call timeout.
 pub const COMPACT_CONFIRM_WINDOW: Duration = Duration::from_secs(40);
 
+/// How long a send's bracketed paste may take to reach the child before it is cut. Compiled: with
+/// `GATE_MAX_WAIT` and `COMPACT_CONFIRM_WINDOW` it gives the longest delivered send, 8.5 + 5 + 40 =
+/// 53.5 s, under the MCP call deadline.
+pub const PASTE_BOUND: Duration = Duration::from_secs(5);
+
 /// The fewest `box_rule` characters a row needs to read as the input box's rule. The box's rules
 /// span the terminal's width (80 at 80 columns in the recorded probe streams, a 66-character
 /// leftover rule beside them), so a short rule drawn inside a turn's output never reads as the box.
@@ -430,6 +435,7 @@ mod tests {
         assert_eq!(GATE_MAX_WAIT, Duration::from_millis(8500));
         assert_eq!(CONFIRM_WINDOW_FALLBACK, Duration::from_secs(10));
         assert_eq!(COMPACT_CONFIRM_WINDOW, Duration::from_secs(40));
+        assert_eq!(PASTE_BOUND, Duration::from_secs(5));
     }
 
     #[test]

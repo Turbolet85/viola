@@ -659,7 +659,7 @@ mod tests {
     fn mcp_call_deadline_sits_between_the_wrapper_bounds_and_the_client_read() {
         use viola_agent_claude::MCP_CLIENT_BOUND_READ;
         use viola_agent_claude::screen::{
-            COMPACT_CONFIRM_WINDOW, CONFIRM_WINDOW_FALLBACK, GATE_MAX_WAIT,
+            COMPACT_CONFIRM_WINDOW, CONFIRM_WINDOW_FALLBACK, GATE_MAX_WAIT, PASTE_BOUND,
         };
         assert_eq!(MCP_CALL_DEADLINE, Duration::from_secs(55));
         assert_eq!(MCP_CLIENT_BOUND_READ, Duration::from_secs(120));
@@ -673,6 +673,15 @@ mod tests {
             Duration::from_millis(18_500)
         );
         assert!(GATE_MAX_WAIT + CONFIRM_WINDOW_FALLBACK < MCP_CALL_DEADLINE);
+        assert_eq!(
+            GATE_MAX_WAIT + PASTE_BOUND + COMPACT_CONFIRM_WINDOW,
+            Duration::from_millis(53_500)
+        );
+        assert!(GATE_MAX_WAIT + PASTE_BOUND + COMPACT_CONFIRM_WINDOW < MCP_CALL_DEADLINE);
+        assert_eq!(
+            GATE_MAX_WAIT + PASTE_BOUND + CONFIRM_WINDOW_FALLBACK,
+            Duration::from_millis(23_500)
+        );
         assert!(Duration::from_millis(WAIT_CAP) < MCP_CALL_DEADLINE);
         assert!(MCP_CALL_DEADLINE < MCP_CLIENT_BOUND_READ);
     }

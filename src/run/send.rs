@@ -72,7 +72,10 @@ struct Ctx<'a> {
 /// instance, links that instance to this one before `send-issued` (architecture [Links]); a
 /// refused send links nothing. The second reads, the link, `send-issued` and the paste are one
 /// section under the flight guard the hook tap's turn start takes too (`append_hook_event`): a
-/// `prompt-submitted` the wrapper takes before the paste refuses the send with nothing typed.
+/// `prompt-submitted` the wrapper takes before the paste refuses the send with nothing typed. A paste
+/// the child did not take within its bound is cut: the send ends `paste-cut` with its cursor, and
+/// every later send is refused `paste-cut` at the guarded section, nothing issued, until a human key,
+/// a `prompt-submitted`, a `session-start` or a `session-end` shows the text it left was dealt with.
 pub(crate) fn send(
     slot: &SendSlot,
     name: &ViolaName,
@@ -152,6 +155,13 @@ fn send_through(
             drop(flight);
             return ctx.not_delivered(None, NotDelivered::TurnRunning);
         }
+        if let Some(at) = flight.cut_at {
+            if at == slot.wheel.keys() {
+                drop(flight);
+                return ctx.not_delivered(None, NotDelivered::PasteCut);
+            }
+            flight.cut_at = None;
+        }
         if let (Some(links), Some(from)) = (slot.links.get(), ctx.from.as_ref())
             && from != name
         {
@@ -161,13 +171,21 @@ fn send_through(
             echo_from(&mut flight);
         }
         let cursor = ctx.issue(text.len())?;
-        let pasted = paste(text).map(|()| cursor).map_err(|_| cursor);
+        let pasted = match paste(text) {
+            Ok(()) => Ok(cursor),
+            Err(PtyError::PasteCut) => {
+                // Set while the guard is still held: no send can pass the mark's rung before it.
+                flight.cut_at = Some(slot.wheel.keys());
+                Err((cursor, NotDelivered::PasteCut))
+            }
+            Err(_) => Err((cursor, NotDelivered::InputNotReady)),
+        };
         drop(flight);
         pasted
     };
     let cursor = match pasted {
         Ok(cursor) => cursor,
-        Err(cursor) => return ctx.not_delivered(Some(cursor), NotDelivered::InputNotReady),
+        Err((cursor, detail)) => return ctx.not_delivered(Some(cursor), detail),
     };
     let unconfirmable = slot
         .flight()
@@ -351,10 +369,21 @@ mod tests {
         NoChild,
         Poisoned,
         Mute,
+        /// The child takes no paste within its bound: every paste is cut.
+        Cutting,
+        /// An earlier paste was cut, and the human took the wheel by a hook's prompt since.
+        MarkedHuman,
+        /// An earlier paste was cut, and a turn runs.
+        MarkedTurn,
+        /// An earlier paste was cut, and the screen is poisoned.
+        MarkedPoisoned,
+        /// An earlier paste was cut; the child would take this one.
+        Marked,
     }
 
     /// The `send` order, written out: control-character ahead of everything, then an empty typed
-    /// text, then the wheel, then the one in flight, then the gate, then the window.
+    /// text, then the wheel, then the one in flight, then the gate, then a cut paste's mark, then
+    /// the paste's own cut, then the window.
     #[rstest]
     #[case::control_character_before_empty_text(
         "\u{1b}\r\n",
@@ -473,6 +502,27 @@ mod tests {
         "not-delivered",
         Some("input-not-ready")
     )]
+    #[case::human_typing_before_paste_cut("hello", Setup::MarkedHuman, "human-typing", None)]
+    #[case::turn_running_before_paste_cut(
+        "hello",
+        Setup::MarkedTurn,
+        "not-delivered",
+        Some("turn-running")
+    )]
+    #[case::input_not_ready_before_paste_cut(
+        "hello",
+        Setup::MarkedPoisoned,
+        "not-delivered",
+        Some("input-not-ready")
+    )]
+    #[case::empty_text_before_paste_cut("\n", Setup::Marked, "not-delivered", Some("empty-text"))]
+    #[case::paste_cut_after_the_gate("hello", Setup::Marked, "not-delivered", Some("paste-cut"))]
+    #[case::paste_cut_when_the_paste_is_cut(
+        "hello",
+        Setup::Cutting,
+        "not-delivered",
+        Some("paste-cut")
+    )]
     fn send_refusal_order(
         #[case] text: &str,
         #[case] setup: Setup,
@@ -505,6 +555,23 @@ mod tests {
             Setup::NoChild => {}
             Setup::Poisoned => slot.attach(pastes.paste_fn(), poisoned_gate(base)),
             Setup::Mute => slot.attach(pastes.paste_fn(), quiet_gate(base)),
+            Setup::Cutting => slot.attach(Box::new(|_| Err(PtyError::PasteCut)), quiet_gate(base)),
+            Setup::MarkedHuman => {
+                slot.wheel.human_input();
+                marked(&slot);
+            }
+            Setup::MarkedTurn => {
+                slot.wheel.turn_started();
+                marked(&slot);
+            }
+            Setup::MarkedPoisoned => {
+                slot.attach(pastes.paste_fn(), poisoned_gate(base));
+                marked(&slot);
+            }
+            Setup::Marked => {
+                slot.attach(pastes.paste_fn(), quiet_gate(base));
+                marked(&slot);
+            }
         }
         let params = json!({"v": 1, "text": text});
         let reply = send(&slot, &name(), tmp.path(), &call(&params, 7)).expect("answered");
@@ -515,10 +582,15 @@ mod tests {
         assert_eq!(refused["source"], "wrapper");
         assert_eq!(refused["data"]["refusal"], refusal);
         assert_eq!(refused["data"]["detail"], json!(detail));
-        if matches!(setup, Setup::Mute) {
+        if matches!(setup, Setup::Mute | Setup::Cutting) {
             assert_eq!(kinds(tmp.path()), ["send-issued", "send-refused"]);
             assert_eq!(refused["data"]["cursor"], 0);
-            assert_eq!(pastes.all(), ["hello"]);
+            let typed: &[&str] = if matches!(setup, Setup::Mute) {
+                &["hello"]
+            } else {
+                &[]
+            };
+            assert_eq!(pastes.all(), typed);
         } else {
             assert_eq!(kinds(tmp.path()), ["send-refused"]);
             assert!(refused["data"].get("cursor").is_none());
@@ -636,6 +708,177 @@ mod tests {
         assert_eq!(reply["detail"], "input-not-ready");
         assert_eq!(events(tmp.path())[1]["data"]["cursor"], 0);
         assert!(slot.flight().send.is_none());
+    }
+
+    /// A cut paste's mark, as a cut leaves it: the wheel's key count at the cut.
+    fn marked(slot: &SendSlot) {
+        slot.flight().cut_at = Some(slot.wheel.keys());
+    }
+
+    /// A slot whose child takes no paste the first time, so it is cut, and every paste after it,
+    /// never submitting one: a send past the mark is typed, then expires `no-prompt-submitted`.
+    fn cutting_once() -> (SendSlot, Pastes) {
+        let base = Instant::now();
+        let slot = SendSlot::new(JumpClock(Mutex::new(base)), false, Arc::default());
+        let (pastes, _pasted) = Pastes::new();
+        let taken = pastes.paste_fn();
+        let cut = std::sync::atomic::AtomicBool::new(false);
+        slot.attach(
+            Box::new(move |text| {
+                if cut.swap(true, std::sync::atomic::Ordering::SeqCst) {
+                    taken(text)
+                } else {
+                    Err(PtyError::PasteCut)
+                }
+            }),
+            quiet_gate(base),
+        );
+        (slot, pastes)
+    }
+
+    fn cut_send(slot: &SendSlot, dir: &Path) {
+        let params = json!({"v": 1, "text": "hello"});
+        let reply = send(slot, &name(), dir, &call(&params, 1)).expect("answered");
+        assert_eq!(
+            reply,
+            json!({"refusal": "not-delivered", "detail": "paste-cut"})
+        );
+    }
+
+    fn next_send(slot: &SendSlot, dir: &Path) -> Value {
+        let params = json!({"v": 1, "text": "again"});
+        send(slot, &name(), dir, &call(&params, 2)).expect("answered")
+    }
+
+    #[test]
+    fn send_cut_paste_is_refused_paste_cut_with_its_cursor_and_no_wheel_record() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (slot, pastes) = cutting_once();
+        cut_send(&slot, tmp.path());
+        assert_eq!(kinds(tmp.path()), ["send-issued", "send-refused"]);
+        let events = events(tmp.path());
+        assert_eq!(events[0]["data"], json!({"cursor": 0}));
+        assert_eq!(
+            events[1]["data"],
+            json!({"refusal": "not-delivered", "detail": "paste-cut", "cursor": 0})
+        );
+        assert!(pastes.all().is_empty(), "nothing taken");
+        assert_eq!(slot.wheel.holder(), Wheel::Driver, "the wheel is not moved");
+        assert!(slot.flight().send.is_none(), "the slot is free again");
+    }
+
+    #[test]
+    fn send_after_a_cut_is_refused_paste_cut_with_nothing_issued() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (slot, pastes) = cutting_once();
+        cut_send(&slot, tmp.path());
+        let reply = next_send(&slot, tmp.path());
+        assert_eq!(
+            reply,
+            json!({"refusal": "not-delivered", "detail": "paste-cut"})
+        );
+        assert_eq!(
+            kinds(tmp.path()),
+            ["send-issued", "send-refused", "send-refused"]
+        );
+        assert_refused_without_a_cursor(tmp.path(), Some("paste-cut"));
+        assert!(pastes.all().is_empty(), "the paste was not called");
+        assert_eq!(
+            next_send(&slot, tmp.path())["detail"],
+            "paste-cut",
+            "the mark stands until something clears it"
+        );
+    }
+
+    #[test]
+    fn send_after_a_cut_clears_on_a_human_key_then_release() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (slot, pastes) = cutting_once();
+        cut_send(&slot, tmp.path());
+        slot.wheel.human_key();
+        assert_eq!(
+            next_send(&slot, tmp.path()),
+            json!({"refusal": "human-typing", "detail": null})
+        );
+        slot.wheel
+            .release(&call(&json!({"v": 1}), 3))
+            .expect("released");
+        assert_eq!(
+            next_send(&slot, tmp.path()),
+            json!({"refusal": "not-delivered", "detail": "no-prompt-submitted"})
+        );
+        assert_eq!(pastes.all(), ["again"]);
+        assert!(slot.flight().cut_at.is_none());
+    }
+
+    /// A release with no key since the cut leaves the mark, and so does a turn's end.
+    #[test]
+    fn send_after_a_cut_a_release_or_a_turn_end_leaves_the_mark() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (slot, pastes) = cutting_once();
+        cut_send(&slot, tmp.path());
+        slot.wheel
+            .release(&call(&json!({"v": 1}), 3))
+            .expect("released");
+        let ended = hook_line(
+            EventKind::TurnEnded,
+            json!({"last_assistant_message": "done"}),
+        );
+        append_hook_event(&slot, &feed(), tmp.path(), ended, None).expect("hook");
+        assert_eq!(next_send(&slot, tmp.path())["detail"], "paste-cut");
+        assert!(pastes.all().is_empty(), "nothing typed");
+    }
+
+    #[rstest]
+    #[case::prompt_submitted(EventKind::PromptSubmitted)]
+    #[case::session_start(EventKind::SessionStart)]
+    #[case::session_end(EventKind::SessionEnd)]
+    fn send_after_a_cut_clears_on(#[case] kind: EventKind) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let (slot, pastes) = cutting_once();
+        cut_send(&slot, tmp.path());
+        let line = match kind {
+            EventKind::PromptSubmitted => prompt(HARNESS_TURN, "harness"),
+            EventKind::SessionStart => hook_line(kind, json!({"cause": "clear"})),
+            _ => hook_line(kind, json!({})),
+        };
+        append_hook_event(&slot, &feed(), tmp.path(), line, None).expect("hook");
+        assert!(slot.flight().cut_at.is_none(), "the mark is cleared");
+        if kind == EventKind::PromptSubmitted {
+            let ended = hook_line(
+                EventKind::TurnEnded,
+                json!({"last_assistant_message": "done"}),
+            );
+            append_hook_event(&slot, &feed(), tmp.path(), ended, None).expect("hook");
+        }
+        assert_eq!(
+            next_send(&slot, tmp.path()),
+            json!({"refusal": "not-delivered", "detail": "no-prompt-submitted"})
+        );
+        assert_eq!(pastes.all(), ["again"]);
+    }
+
+    #[test]
+    fn send_a_failed_paste_is_still_input_not_ready_with_its_cursor() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let base = Instant::now();
+        let slot = SendSlot::new(FixedClock(base), false, Arc::default());
+        slot.attach(
+            Box::new(|_| Err(PtyError::Write(std::io::Error::other("gone")))),
+            quiet_gate(base),
+        );
+        let params = json!({"v": 1, "text": "hello"});
+        let reply = send(&slot, &name(), tmp.path(), &call(&params, 1)).expect("answered");
+        assert_eq!(
+            reply,
+            json!({"refusal": "not-delivered", "detail": "input-not-ready"})
+        );
+        assert_eq!(kinds(tmp.path()), ["send-issued", "send-refused"]);
+        assert_eq!(events(tmp.path())[1]["data"]["cursor"], 0);
+        assert!(
+            slot.flight().cut_at.is_none(),
+            "a failed paste sets no mark"
+        );
     }
 
     #[test]

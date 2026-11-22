@@ -116,6 +116,9 @@ struct Opts {
     local_command_mode: bool,
     inject_harness_turn: bool,
     exit_no_eof: bool,
+    /// `--stop-reading` (argv only): once its start screen is drawn, stdin is never read again,
+    /// so a write into its terminal fills the PTY and blocks: a child that stops reading.
+    stop_reading: bool,
     vt100_panic_bytes: bool,
     hold_stdout: bool,
     trusted_root: Option<PathBuf>,
@@ -177,6 +180,7 @@ impl Opts {
                 "--local-command-mode" => o.local_command_mode = true,
                 "--inject-harness-turn" => o.inject_harness_turn = true,
                 "--exit-no-eof" => o.exit_no_eof = true,
+                "--stop-reading" => o.stop_reading = true,
                 "--vt100-panic-bytes" => o.vt100_panic_bytes = true,
                 "--trusted-root" => o.trusted_root = value().map(PathBuf::from),
                 "--trust-config" => o.trust_config = value().map(PathBuf::from),
@@ -1394,6 +1398,9 @@ fn launch(agent: &Agent) {
 /// only its keys are read until an option is taken. With `standing` the `--start-screen` stands
 /// for the process's life: each byte is one `key` line, answers nothing and reaches no input box.
 fn read_stdin(agent: &Agent, mut trust: Option<Trust>, standing: bool) -> ExitCode {
+    if agent.opts.stop_reading {
+        input::read_nothing();
+    }
     let mut input = Input::new();
     let mut stdin = viola_pty::host_stdin();
     let mut byte = [0u8; 1];

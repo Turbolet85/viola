@@ -55,6 +55,9 @@ pub(crate) fn send_hint(name: &str, cause: &str) -> Option<String> {
             format!("{name} did not submit the prompt; check it, then send again")
         }
         "turn-running" => format!("a turn is running; viola wait {name} first"),
+        "paste-cut" => format!(
+            "{name} did not take the whole text in time; a human must look at the session before the next send"
+        ),
         "not-running" => format!("{name} is not running; viola list shows the live instances"),
         "unwrapped-name" => format!(
             "{name} is not a wrapped session; only sessions started with viola run take commands"
@@ -95,6 +98,10 @@ mod tests {
         "builder did not submit the prompt; check it, then send again"
     )]
     #[case::turn_running("turn-running", "a turn is running; viola wait builder first")]
+    #[case::paste_cut(
+        "paste-cut",
+        "builder did not take the whole text in time; a human must look at the session before the next send"
+    )]
     #[case::not_running(
         "not-running",
         "builder is not running; viola list shows the live instances"
@@ -139,6 +146,7 @@ mod tests {
             "input-not-ready",
             "no-prompt-submitted",
             "turn-running",
+            "paste-cut",
             "not-running",
             "unwrapped-name",
             "endpoint-lost",

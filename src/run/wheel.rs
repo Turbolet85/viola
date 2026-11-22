@@ -79,6 +79,8 @@ struct Held {
     typed: bool,
     /// The last turn end's scheduled-wake count; `None` when it was null or a session began.
     wakes: Option<u64>,
+    /// Stdin reads that held a human editing byte, counted (wrapping) since the start.
+    keys: u64,
 }
 
 /// One instance's wheel, starting with the driver and no turn running.
@@ -96,6 +98,7 @@ impl Default for WheelSlot {
                 turn: Turn::Idle,
                 typed: false,
                 wakes: None,
+                keys: 0,
             }),
             moves: OnceLock::new(),
         }
@@ -142,7 +145,14 @@ impl WheelSlot {
     fn mark_typed(&self) -> MutexGuard<'_, Held> {
         let mut held = self.held();
         held.typed = true;
+        held.keys = held.keys.wrapping_add(1);
         held
+    }
+
+    /// How many stdin reads holding a human editing byte have been seen: a cut paste's mark reads
+    /// whether one came after it.
+    pub(crate) fn keys(&self) -> u64 {
+        self.held().keys
     }
 
     /// Whether a human editing key crossed stdin since the last call; the mark is cleared.
@@ -794,6 +804,23 @@ mod tests {
         assert_eq!(keyed.holder(), Wheel::Human);
         assert!(keyed.take_typed(), "a key sets the mark");
         assert!(!keyed.take_typed(), "taking it clears it");
+    }
+
+    #[test]
+    fn wheel_counts_each_key_read_and_no_hook_move() {
+        let wheel = WheelSlot::default();
+        assert_eq!(wheel.keys(), 0);
+        wheel.human_input();
+        assert_eq!(wheel.keys(), 0, "the hook's move is no key");
+        wheel.human_key();
+        wheel.human_key();
+        assert_eq!(
+            wheel.keys(),
+            2,
+            "one count per read, whoever holds the wheel"
+        );
+        wheel.take_typed();
+        assert_eq!(wheel.keys(), 2, "taking the mark leaves the count");
     }
 
     #[test]

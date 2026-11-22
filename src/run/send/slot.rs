@@ -25,6 +25,9 @@ pub(super) struct Flight {
     /// The transcript the last `session-start` the tap took carried, re-validated; `None` before
     /// the first and when that line carried none. Held here alone: no line, log or snapshot.
     pub(super) transcript: Option<PathBuf>,
+    /// Set at a cut paste to the wheel's key count then: until a later key moves the count, or a
+    /// prompt or a session edge clears it, every send is refused `paste-cut`. In memory only.
+    pub(super) cut_at: Option<u64>,
 }
 
 impl Flight {
@@ -240,6 +243,12 @@ pub(crate) fn append_hook_event(
             prompt || (line.kind == EventKind::SessionStart && flight.session_started(&line.data));
         if line.kind == EventKind::SessionStart {
             flight.transcript = transcript;
+        }
+        if matches!(
+            line.kind,
+            EventKind::PromptSubmitted | EventKind::SessionStart | EventKind::SessionEnd
+        ) {
+            flight.cut_at = None;
         }
         // Before the line can be read, as the wheel below: a driver that read `turn-ended` is
         // never refused by that turn. The turn is marked ahead of the human's wheel move, so a

@@ -1,0 +1,37 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "7b0d7906",
+"ts": "2026-11-22T10:37:43Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-11-22-paste-write-bounded",
+"--id",
+"chk-aoz46xqg",
+"--desc-file",
+".andromeda/runs/2026-11-22T10-36-57Z-phase/master-desc.txt",
+"--scope-file",
+".andromeda/cache/docs/2026-11-22-paste-write-bounded/scope.md",
+"--run-dir",
+".andromeda/runs/2026-11-22T10-36-57Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"promoted 2026-11-22-paste-write-bounded · chk-aoz46xqg · Paste write bounded · tx 3902"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T10-37-33-2026-11-22-paste-write-bounded.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

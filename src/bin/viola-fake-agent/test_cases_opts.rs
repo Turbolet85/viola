@@ -104,6 +104,16 @@ fn transcript_of_session_is_the_id_s_own_file_beside_the_exe() {
 }
 
 #[test]
+fn opts_parse_reads_the_stop_reading_flag() {
+    assert!(Opts::parse(&args(&["--stop-reading"])).stop_reading);
+    assert!(!Opts::parse(&[]).stop_reading, "off by default");
+    assert!(
+        !Opts::parse(&args(&["--exit-no-eof", "--screens"])).stop_reading,
+        "argv's own flag alone"
+    );
+}
+
+#[test]
 fn opts_parse_reads_the_trim_prompt_end_flag() {
     assert!(Opts::parse(&args(&["--trim-prompt-end"])).trim_prompt_end);
     assert!(!Opts::parse(&[]).trim_prompt_end, "off by default");

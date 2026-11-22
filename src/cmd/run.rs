@@ -11,6 +11,7 @@ use serde_json::{Value, json};
 use tracing::instrument;
 use viola_agent_claude::StripPlan;
 use viola_agent_claude::ledger::transcript_path_ok;
+use viola_agent_claude::screen::PASTE_BOUND;
 use viola_agent_claude::trust::StartWord;
 use viola_channel::{Call, ChannelError, Dispatch, ProtocolError, Server, Serving};
 use viola_core::obs::{ObsEvent, ObsProcess};
@@ -638,7 +639,7 @@ pub(super) fn pump_child(launched: Launched) -> anyhow::Result<ExitCode> {
     let (feed, gate, _feed_thread) = gate::start(SystemClock, size, sigs);
     let paste = PasteHandle::default();
     let typed = paste.clone();
-    send.attach(Box::new(move |text| typed.paste(text)), gate);
+    send.attach(Box::new(move |text| typed.paste(text, PASTE_BOUND)), gate);
     let sizes = feed.clone();
     let mut host_size = move || {
         let size = viola_pty::host_size();

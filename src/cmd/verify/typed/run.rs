@@ -10,7 +10,7 @@ use std::thread::JoinHandle;
 use std::time::{Duration, Instant};
 
 use viola_agent_claude::ledger::FirstReading;
-use viola_agent_claude::screen::{SIGNATURES, Screen};
+use viola_agent_claude::screen::{PASTE_BOUND, SIGNATURES, Screen};
 use viola_core::obs::ObsEvent;
 use viola_core::{Clock, obs_event};
 use viola_pty::{PasteHandle, PortablePty, Pty, PumpEnd, Size, SpawnSpec};
@@ -179,7 +179,7 @@ impl Run {
 
     /// `text` as one bracketed paste unless the stop is set; whether it was pasted.
     pub(super) fn paste_text(&self, text: &str) -> bool {
-        !(self.stop)() && self.paste.paste(text).is_ok()
+        !(self.stop)() && self.paste.paste(text, PASTE_BOUND).is_ok()
     }
 
     /// The settled screen from `from` on; `None` when it never settles within `PROBE_DEADLINE` or

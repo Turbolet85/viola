@@ -268,6 +268,7 @@ pub enum NotDelivered {
     UnknownDialog,
     ControlCharacter,
     EmptyText,
+    PasteCut,
 }
 
 impl NotDelivered {
@@ -279,6 +280,7 @@ impl NotDelivered {
             Self::UnknownDialog => "unknown-dialog",
             Self::ControlCharacter => "control-character",
             Self::EmptyText => "empty-text",
+            Self::PasteCut => "paste-cut",
         }
     }
 }
@@ -741,6 +743,7 @@ mod tests {
             (NotDelivered::UnknownDialog, "unknown-dialog"),
             (NotDelivered::ControlCharacter, "control-character"),
             (NotDelivered::EmptyText, "empty-text"),
+            (NotDelivered::PasteCut, "paste-cut"),
         ];
         for (detail, text) in table {
             assert_eq!(detail.as_str(), text);
@@ -824,6 +827,7 @@ mod tests {
             "unknown-dialog",
             "control-character",
             "empty-text",
+            "paste-cut",
             "manual-pause",
             "a",
             "a1",

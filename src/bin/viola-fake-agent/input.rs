@@ -10,6 +10,14 @@ pub(super) struct Input {
     prompt: Vec<u8>,
 }
 
+/// `--stop-reading`: stdin is never read again and the process stays, its terminal still raw,
+/// until it is killed.
+pub(super) fn read_nothing() -> ! {
+    loop {
+        std::thread::park();
+    }
+}
+
 pub(super) enum Action {
     Key(u8),
     Submit(Vec<u8>),

@@ -131,3 +131,4 @@
 2026-11-21-cross-session-prefix-ledger-row · complete · Cross-session prefix ledger row: the no-prompt cause settled first, then the 29th relied row stamped live (v2-25) · → chk:2026-11-21-cross-session-prefix-ledger-row
 2026-11-21-mcp-calls-bounded · complete · every MCP tool call completes below the client's tool-call timeout · → chk:2026-11-21-mcp-calls-bounded
 2026-11-21-key-after-a-resize · complete · whether real claude on Linux loses a key typed right after a resize, read with no start first, measured on the operator's cap, fixed if it does · → chk:2026-11-21-key-after-a-resize
+2026-11-22-paste-write-bounded · pending · the wrapper's paste into the child's PTY ends within a compiled bound; a paste that cannot finish ends the send with a closed word, the wheel unmoved · → chk:2026-11-22-paste-write-bounded

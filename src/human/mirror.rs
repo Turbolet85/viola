@@ -122,6 +122,17 @@ mod tests {
             "[/ ] unable         builder  not-delivered  empty-text\n\
              hint: the text is empty once its trailing newlines are removed; send a text with content\n"
         );
+        let hint = send_hint("builder", "paste-cut");
+        assert_eq!(
+            one_write(|o| write_send_unable(
+                o,
+                "builder",
+                "not-delivered  paste-cut",
+                hint.as_deref()
+            )),
+            "[/ ] unable         builder  not-delivered  paste-cut\n\
+             hint: builder did not take the whole text in time; a human must look at the session before the next send\n"
+        );
         assert_eq!(
             one_write(|o| write_send_unable(o, "builder", "unknown", None)),
             "[/ ] unable         builder  unknown\n"

@@ -76,6 +76,8 @@ pub enum PtyError {
     /// A paste before the pump opened the child's input, or after it returned.
     NoInput,
     Write(io::Error),
+    /// A paste the child did not take within its bound: its bracket is closed, no Enter written.
+    PasteCut,
 }
 
 impl fmt::Display for PtyError {
@@ -89,6 +91,7 @@ impl fmt::Display for PtyError {
             Self::Kill(_) => "pty kill failed",
             Self::NoInput => "pty input not open",
             Self::Write(_) => "pty write failed",
+            Self::PasteCut => "pty paste cut at its bound",
         })
     }
 }
@@ -98,7 +101,7 @@ impl std::error::Error for PtyError {
         match self {
             Self::Open(e) | Self::Spawn(e) | Self::Handle(e) | Self::Resize(e) => Some(e.as_ref()),
             Self::Wait(e) | Self::Kill(e) | Self::Write(e) => Some(e),
-            Self::NoInput => None,
+            Self::NoInput | Self::PasteCut => None,
         }
     }
 }
@@ -611,8 +614,9 @@ mod tests {
         }
     }
 
-    /// Below the nextest `mutants` profile's 10 s kill, so a stuck wait fails the test itself, with
-    /// the reports so far in its message, before the runner kills it and loses that dump.
+    /// Below the nextest `mutants` profile's 15 s kill (5 s × 3), so a stuck wait fails the test
+    /// itself, with the reports so far in its message, before the runner kills it and loses that
+    /// dump.
     const CHILD_WITHIN: Duration = Duration::from_secs(7);
 
     /// Waits for the child's report to hold the exact line `want`, wherever the watcher's `size`
@@ -1017,5 +1021,8 @@ mod tests {
                 "pty kill failed"
             ]
         );
+        let cut = PtyError::PasteCut;
+        assert_eq!(cut.to_string(), "pty paste cut at its bound");
+        assert!(std::error::Error::source(&cut).is_none());
     }
 }
