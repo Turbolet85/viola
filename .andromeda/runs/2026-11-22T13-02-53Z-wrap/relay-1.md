@@ -1,2 +1,0 @@
-Q1 answer card (answer-card.md), the dialog's answer: «Confirm all 19 (Recommended)»
-notes: The overseer's delegate confirm, 2026-11-22T13:34:46Z: the nineteen operations read against the card's summary and the operator's recorded answers of 2026-11-22 (the word, the bound, the refusal after a cut); each lies inside them. PROVISIONAL, for the Epoch 4 boundary batch. The rows fit read not_master stay in founder-forks.md for his own word.

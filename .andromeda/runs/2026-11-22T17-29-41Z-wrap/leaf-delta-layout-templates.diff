@@ -1,0 +1,6 @@
+--- a/.andromeda/layout-templates.md
++++ b/.andromeda/layout-templates.md
+@@ -36,2 +36,3 @@
+ decision/only-header-bay-line · Only header is the BAY line — The only header on any verb is the one static BAY line at the top of `viola list`.
++decision/permission-request-question-answerable · A PermissionRequest question is answerable — A question first raised by PermissionRequest with no matching armed dialog is a held dialog that viola answer and the MCP answer tool answer, like any other held dialog. · except: A human key, an expired hold or an unverified CLI still leave the question to the human.
+ decision/plain-output-modes · Plain output modes — Under --json, a non-TTY, NO_COLOR, TERM=dumb and the viola run / viola revive passthrough the cli prints no colour, no non-ASCII glyph and no cursor control.

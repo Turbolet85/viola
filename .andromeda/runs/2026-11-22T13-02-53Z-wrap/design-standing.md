@@ -1,3 +1,0 @@
-# design · standing conventions
-
-- (none)

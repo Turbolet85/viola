@@ -1,9 +1,0 @@
-# Main's cascade patterns — the retired mechanism's phrasing (2026-11-22-paste-write-bounded).
-
-[[pattern]]
-id = 'M1-atomic-paste'
-regex = 'atomic paste|one-write paste|current atomic|single write_all|one write_all'
-
-[[pattern]]
-id = 'M2-two-threads'
-regex = 'two (run )?PTY (pump )?threads|either PTY pump|either thread|two pump threads|two copy threads'

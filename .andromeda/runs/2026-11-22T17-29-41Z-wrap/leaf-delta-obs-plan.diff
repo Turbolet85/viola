@@ -1,0 +1,11 @@
+--- a/.andromeda/obs-plan.md
++++ b/.andromeda/obs-plan.md
+@@ -356,3 +356,3 @@
+ contract/revive-list-stderr/refusal-pair · viola revive --list stderr · refusal pair — viola revive --list writes the refusal pair for its two refusals and nothing else on stderr.
+-contract/run-terminal-output/child-output · run terminal output · child output — run writes nothing to the terminal except the child's own output; while the child runs, neither run nor a revived start writes anything of its own.
++contract/run-terminal-output/child-output · run terminal output · child output — run writes nothing to the terminal except the child's own output and, before the child, a keyed start's automatic-verify lines and the verify child's own output, none under revive --json; while the child runs, neither run nor a revived start writes anything of its own.
+ contract/run-terminal-output/start-refusal · run terminal output · start refusal — A start refusal before any child is spawned writes exactly two fixed stderr lines with no path or pid: the home pair for a home-level refusal, the instance pair for an instance-level one.
+@@ -384,2 +384,3 @@
+ decision/span-kinds-not-emitted-v1 · Span kinds recorded but not emitted — Span kinds are recorded in the plan per span but not emitted in v1; if the deferred tracing-opentelemetry bridge is adopted, they map to the otel.kind span field.
++decision/standing-modal-reading-uninstrumented · Standing-modal reading uninstrumented — The readiness gate's standing-modal reading adds no log line, span field, event or detail code of its own: a modal label quoted above a ready input box lets the send proceed with nothing written, and a standing modal refuses with the existing detail input-not-ready.
+ decision/static-span-names · Static span names — Span names are static strings; instance names, dialog ids and paths never appear in a span name.

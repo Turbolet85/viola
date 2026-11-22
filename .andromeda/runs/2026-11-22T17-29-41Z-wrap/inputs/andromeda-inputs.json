@@ -1,0 +1,20 @@
+[
+  {
+    "id": "I1",
+    "kind": "relay",
+    "repo": null,
+    "path": "../additional/viola-overseer/boundary-wrap-0.2.0-e4-directive.md",
+    "form": "copy",
+    "state": "no-repo",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "7c5500233986615b13f7252bc3812dd463b14c974fbe65aa46ea5652f8908ed1",
+    "copy": "I1-boundary-wrap-0.2.0-e4-directive.md.txt",
+    "link": false,
+    "read_at": "2026-11-22T17:30:00Z",
+    "step": "wrap",
+    "why": "the operator own batch for the Epoch 4 boundary wrap: ratify every PROVISIONAL of Epoch 4, rows to built behaviour, mint Epoch 4 cleanup, advisory carry, the last card"
+  }
+]

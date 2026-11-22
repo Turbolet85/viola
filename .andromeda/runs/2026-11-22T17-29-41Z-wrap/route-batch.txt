@@ -1,0 +1,44 @@
+@chunk as=a after=epoch:viola-0.2.0/5
+Epoch 4 cleanup — the Epoch 4 audit's ranked defects mended and the chrono advisory re-measured, each item read by the next boundary's audit
+@carry in=@a
+CARRY: (the operator's own word «Один чанк в голову (Recommended)», 2026-11-22, relay .andromeda/runs/2026-11-22T17-29-41Z-wrap/inputs/I1-boundary-wrap-0.2.0-e4-directive.md.txt §3) one corrective entry, its items in the order of the audit's ranked list (.andromeda/runs/2026-11-22T16-09-04Z-code-audit/proposals.md), each worded by what the NEXT boundary's audit will read; no mutation run, no witness run and no live start inside the chunk; its phase sizes it against one window and proposes a split if it does not fit — a split is the operator's; deliberately NOT in it (the audit's own list): splitting `rig/mod.rs`, the duplication figure, mutating `viola-e2e` whole, raising any timeout.
+@carry in=@a
+CARRY: (item 1, same relay §3) `SendSlot::confirm` gets an end for a claimed line whose settle never comes (`src/run/send/slot.rs:285`, `:188`): measured first under a failing snapshot write, then mended, a test holding it.
+@carry in=@a
+CARRY: (item 2, same relay §3) killing tests for the seven `viola-agent-claude` mutation survivors, `env_names_fault` first (`ledger.rs:2023` ×3, `:1327`, `:1928`; `screen.rs:126`, `:135`).
+@carry in=@a
+CARRY: (item 3, same relay §3) killing tests for the three paste-writer mutation survivors (`crates/viola-pty/src/pump.rs:191`, `:337`, `:372`).
+@carry in=@a
+CARRY: (item 4, same relay §3; folds the carry `cry-dqh6s7r3` re-pinned from «Version done-check», the operator's word) verify's bounded `claude agents --json` read inside Run B (`src/run/agents.rs:39`) gets a bound of its own, measured under a stalled host: red twice under a neighbour's IO stall (7 of 48 verify-shaped rig rehearsals, agents-join, .andromeda/runs/2026-11-22T09-39-36Z-wrap/light-gate-red.md; the P5 baseline of «Paste write bounded», 870 of 900 s stalled), green in every layer on a quiet host (3 runs); never a retry or a loosened bound without that measurement.
+@carry in=@a
+CARRY: (item 5, same relay §3; folds the WATCH `cry-kyoy7e6j` re-pinned from «Lineage registry», the operator's word) the boot supervisor test: its binary copies out of the timed body, `ABORT_DEADLINE` strictly below the test's kill (`crates/viola-e2e/tests/harness_lifecycle.rs:321`, `harness/boot.rs:27`); `boot_that_never_gets_ready_times_out_and_stops_its_supervisor` timed out at its 20 s bound with no failed assertion under a neighbour's IO stall (.andromeda/runs/2026-11-22T13-02-53Z-wrap/light-gate-red.md, 802 of 900 s stalled), green on the same tree in implement, pre-push, CI ci#45024255877 and a re-fire on a quiet host (68.47 s); its cause unread.
+@carry in=@a
+CARRY: (item 6, same relay §3) the `mutants` nextest profile's 15 s kill on `contract_fake_agent_drift`'s two replay tests, read against a cold parallel baseline (`.config/nextest.toml`).
+@carry in=@a
+CARRY: (item 7, the operator's word «Найти причину в cleanup», read 2026-11-22, same relay §3) MEASURE, under a test-owned home and a test-owned Claude config, whether a `viola verify` ended by SIGKILL leaves a project entry in the Claude config pointing under its scratch root (one such entry was found standing in a real config, its writer unmeasured); if it does: a named residual in the masters, or a mend; nobody reads or edits the operator's real config.
+@carry in=@a
+CARRY: (same relay §3) at the phase's discretion, each named in its scope and none promised: (8) one step function for `framing_turns`' per-paste probes and a look at `send_through`'s guarded section; (9) the relied-row count from ONE source instead of literals moved by hand at every new row, and the stamped-set table held once; (10) testing.md's `paths:` gap.
+@carry in=@a
+CARRY: (re-pinned from «Lineage registry», its carry `cry-4szd7uli`; the operator's own word «Оставить игнор, измерить в cleanup (Recommended)», 2026-11-22, same relay §4) RUSTSEC-2026-0543 (chrono, unmaintained) stays ignored one more epoch; this chunk FIRST measures whether a safe upgrade of `chrono` exists and how cargo-deny treats an ignored id once one does: an upgrade found → the ignore leaves with the upgrade; none → the re-read is re-pinned to the Epoch 5 boundary, the operator's; `deny.toml`'s reason line keeps saying it is re-read at each boundary.
+@carry in=@a
+CARRY: (the overseer's technical direction, same relay §5) judgment-base growth as this entry's freight for ITS wrap: a drift-base detector over count and version literals written into the leaves (the leaf comparers wrote figures into leaves in three wraps running).
+@carry id=cry-fqwjpnqt
+old: P5 Carries) the live home `~/.viola` holds stamps that lack the relied rows
+new: P5 Carries; reworded at the 2026-11-22T17-29-41Z wrap, the overseer's directive .andromeda/runs/2026-11-22T17-29-41Z-wrap/inputs/I1-boundary-wrap-0.2.0-e4-directive.md.txt §5) the live home `~/.viola` holds stamps that lack, of the 29 relied rows a binary built from this tree reads, the rows
+old: the re-stamp is owned by the product re-pin operator step (no route entry), its live verify under the real home the founder's cap at that step; until that re-pin the pinned product holds none of six mends: «A fired scheduled wake keeps the wheel»'s, «A quoted modal never blocks a send»'s, «PermissionRequest question answered»'s, «A new CLI version stamped automatically»'s, «Harness-prefix and identity-floor ledger rows»'s and «Cross-session prefix ledger row»'s;
+new: the re-stamp is owned by the product re-pin operator step (no route entry), placed by the operator's own word of 2026-11-22 «После «Epoch 4 cleanup»» as ONE re-pin after «Epoch 4 cleanup» lands, him at the host, its live verify under the real home the founder's cap at that step; until that re-pin the pinned product holds none of eight mends: «A fired scheduled wake keeps the wheel»'s, «A quoted modal never blocks a send»'s, «PermissionRequest question answered»'s, «A new CLI version stamped automatically»'s, «Harness-prefix and identity-floor ledger rows»'s, «Cross-session prefix ledger row»'s, «MCP calls bounded»'s and «Paste write bounded»'s (the paste bound and `paste-cut`, the eighth);
+@carry id=cry-7jlshvj2
+old: CARRY: PROVISIONAL (delegate overseer, 2026-11-18, the wrap's route dialog):
+new: CARRY: (delegate overseer, 2026-11-18, the wrap's route dialog; ratified by the founder's own word «Ратифицировать все (Recommended)», 2026-11-22, relay .andromeda/runs/2026-11-22T17-29-41Z-wrap/inputs/I1-boundary-wrap-0.2.0-e4-directive.md.txt §1):
+@carry id=cry-eqecli3c
+old: CARRY: PROVISIONAL (delegate overseer, 2026-11-18, the wrap's route dialog):
+new: CARRY: (delegate overseer, 2026-11-18, the wrap's route dialog; ratified by the founder's own word «Ратифицировать все (Recommended)», 2026-11-22, relay .andromeda/runs/2026-11-22T17-29-41Z-wrap/inputs/I1-boundary-wrap-0.2.0-e4-directive.md.txt §1):
+@carry id=cry-kjnputld
+old: CARRY: PROVISIONAL (delegate overseer, 2026-11-19, route-record.md Q2) unmeasured
+new: CARRY: (delegate overseer, 2026-11-19, route-record.md Q2; ratified by the founder's own word «Ратифицировать все (Recommended)», 2026-11-22, relay .andromeda/runs/2026-11-22T17-29-41Z-wrap/inputs/I1-boundary-wrap-0.2.0-e4-directive.md.txt §1) unmeasured
+@carry id=cry-hgpcvcy7
+old: CARRY: PROVISIONAL (delegate overseer, 2026-11-19, route-record.md Q2) the live home's
+new: CARRY: (delegate overseer, 2026-11-19, route-record.md Q2; ratified by the founder's own word «Ратифицировать все (Recommended)», 2026-11-22, relay .andromeda/runs/2026-11-22T17-29-41Z-wrap/inputs/I1-boundary-wrap-0.2.0-e4-directive.md.txt §1) the live home's
+@carry id=cry-pwsitilr
+old: PROVISIONAL (delegate overseer, 2026-11-19, route-record.md Q2) the intermittent
+new: (delegate overseer, 2026-11-19, route-record.md Q2; ratified by the founder's own word «Ратифицировать все (Recommended)», 2026-11-22, relay .andromeda/runs/2026-11-22T17-29-41Z-wrap/inputs/I1-boundary-wrap-0.2.0-e4-directive.md.txt §1) the intermittent

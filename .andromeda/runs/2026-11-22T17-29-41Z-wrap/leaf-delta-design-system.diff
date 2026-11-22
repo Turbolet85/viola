@@ -1,0 +1,6 @@
+--- a/.andromeda/design-system.md
++++ b/.andromeda/design-system.md
+@@ -99,2 +99,3 @@
+ decision/no-terminal-background · No background colours — CLI output never sets a background colour. · why: the terminal background belongs to the user
++decision/permission-request-question-held · PermissionRequest question held for an answer — A question first raised by a PermissionRequest is held as a pending dialog and answered by `viola answer` like any dialog; a human key, an expired hold or an unverified CLI leave it to the human.
+ decision/prompt-text-from-stdin-or-file · Prompt text from stdin or file only — Prompt text comes only from stdin or `--file`.

@@ -1,0 +1,139 @@
+[
+{
+"tool": "gate",
+"v": "1.38",
+"sha8": "c4d66f32",
+"ts": "2026-11-22T17:43:51Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-11-22T17-29-41Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base HEAD (no --marker)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"P1 .andromeda/runs/2026-11-22T16-09-04Z-code-audit/epoch.diff:1676 ×52 · msys,tmp",
+"P1 .andromeda/runs/2026-11-22T16-09-04Z-code-audit/ledger.json:1 ×1 · home",
+"hygiene: refused 2 files — P1 2 · P2 0 · P3 0 · read 104 (runs 104 · evidence 0 · inputs 0) · trails 7 not read · copies 1 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [
+"P1 .andromeda/runs/2026-11-22T16-09-04Z-code-audit/epoch.diff:1676 ×52 · msys,tmp",
+"P1 .andromeda/runs/2026-11-22T16-09-04Z-code-audit/ledger.json:1 ×1 · home"
+],
+"counts": {
+"P1": 2,
+"P2": 0,
+"P3": 0,
+"runs": 104,
+"evidence": 0,
+"inputs": 0,
+"trails": 7,
+"copies": 1,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.38",
+"sha8": "c4d66f32",
+"ts": "2026-11-22T17:44:18Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-11-22T17-29-41Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base HEAD (no --marker)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 103 (runs 103 · evidence 0 · inputs 0) · trails 8 not read · copies 1 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 103,
+"evidence": 0,
+"inputs": 0,
+"trails": 8,
+"copies": 1,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.38",
+"sha8": "c4d66f32",
+"ts": "2026-11-22T17:44:28Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-11-22T17-29-41Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base HEAD (no --marker)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 103 (runs 103 · evidence 0 · inputs 0) · trails 8 not read · copies 1 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 103,
+"evidence": 0,
+"inputs": 0,
+"trails": 8,
+"copies": 1,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+}
+]
