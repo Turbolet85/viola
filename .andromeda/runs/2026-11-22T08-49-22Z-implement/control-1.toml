@@ -1,0 +1,27 @@
+[[control]]
+id = 'kr-after-key'
+entry = 3
+guard = 'settled_after loses its clause that the last drained byte be later than the mark'
+case = 'rig::tests::a_byte_drained_before_the_key_never_settles_it'
+
+[[control.edit]]
+path = 'crates/viola-e2e/src/rig/mod.rs'
+old = '''    mark.is_none_or(|mark| last_byte > mark) && now.saturating_duration_since(last_byte) >= quiet'''
+new = '''    let _ = mark;
+    now.saturating_duration_since(last_byte) >= quiet'''
+
+[[control]]
+id = 'kr-box-reread'
+entry = 3
+guard = 'kr_box_word reads a clean re-read as dirty: its late-redraw arm removed'
+case = 'rig::tests::the_kr_box_word_tells_a_late_redraw_from_a_dirty_box'
+
+[[control.edit]]
+path = 'crates/viola-e2e/src/rig/mod.rs'
+old = '''    } else if again == Some(hint) {
+        "late-redraw"
+    } else {
+        "dirty"'''
+new = '''    } else {
+        let _ = again;
+        "dirty"'''

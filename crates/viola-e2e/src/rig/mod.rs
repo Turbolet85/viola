@@ -8,6 +8,9 @@
 //! the user config read again → the summary. Every refusal before the ledger line is uncounted.
 //! `MB` wraps the fake agent with `viola run` and starts a print-mode `claude` as `viola mcp`'s
 //! MCP client: one `wait` call, read from its stream-json into closed words by [`mcpcall`].
+//! `KR` runs a plain `claude` whose own pty the rig resizes `KR_ROUNDS` times, one `x` and one DEL
+//! typed after each resize, no send: whether each key is kept is read from the box row's cell
+//! attributes against a no-resize control's, never its text.
 
 pub mod capture;
 pub mod isolate;
@@ -155,6 +158,10 @@ pub enum Arm {
     SF,
     /// Unwrapped, no send: the fresh box's drawn hint cells read, then one `x` and one DEL.
     HB,
+    /// Unwrapped, no send: a no-resize control `x` and DEL, then `KR_ROUNDS` rounds each resizing
+    /// the rig's own pty and typing one `x` a set delay after it, kept or lost read from the box
+    /// row's cell attributes, and one DEL.
+    KR,
     /// Wrapped, the scratch home's `config.json` keyed `verify_new_cli: true` and no stamp; the
     /// start's own verify, then the session; no send, no key; the stop TERM.
     AV,
@@ -184,6 +191,7 @@ impl Arm {
             "cx" => Some(Self::CX),
             "sf" => Some(Self::SF),
             "hb" => Some(Self::HB),
+            "kr" => Some(Self::KR),
             "av" => Some(Self::AV),
             "mb" => Some(Self::MB),
             _ => None,
@@ -203,7 +211,8 @@ impl Arm {
     /// spare `HF-2` and its conditional second base start `HG`, the cross-session recording `XS`
     /// with its second base start `XS-2`, the start's own verify `AV` with its spare `AV-2`, and the
     /// MCP client's bound, the long calls `MB` and `MB8` and the cut call `MC`, each with its spare
-    /// (`MB-2`, `MB8-2`, `MC-2`).
+    /// (`MB-2`, `MB8-2`, `MC-2`), and the key after a resize, `KR` and `KR8`, each with its spare
+    /// (`KR-2`, `KR8-2`).
     pub fn of_label(label: &str) -> Option<Self> {
         match label {
             "R1" | "R1-2" => Some(Self::R1),
@@ -225,6 +234,7 @@ impl Arm {
             "L2" | "CC" | "CC-2" => Some(Self::CX),
             "SF" | "SF-2" => Some(Self::SF),
             "HB" | "HB-2" => Some(Self::HB),
+            "KR" | "KR-2" | "KR8" | "KR8-2" => Some(Self::KR),
             "AV" | "AV-2" => Some(Self::AV),
             "MB" | "MB-2" | "MB8" | "MB8-2" | "MC" | "MC-2" => Some(Self::MB),
             _ => None,
@@ -267,6 +277,7 @@ impl Arm {
             Self::CX => "cx",
             Self::SF => "sf",
             Self::HB => "hb",
+            Self::KR => "kr",
             Self::AV => "av",
             Self::MB => "mb",
         }
@@ -283,7 +294,14 @@ impl Arm {
         self.verifies()
             || matches!(
                 self,
-                Self::VC | Self::TS | Self::TC | Self::CX | Self::SF | Self::HB | Self::AV
+                Self::VC
+                    | Self::TS
+                    | Self::TC
+                    | Self::CX
+                    | Self::SF
+                    | Self::HB
+                    | Self::KR
+                    | Self::AV
             )
     }
 
@@ -313,7 +331,8 @@ impl Arm {
             | Self::VR
             | Self::MT
             | Self::VH
-            | Self::HB => None,
+            | Self::HB
+            | Self::KR => None,
         }
     }
 
@@ -334,6 +353,7 @@ impl Arm {
                 | Self::CX
                 | Self::SF
                 | Self::HB
+                | Self::KR
                 | Self::AV
                 | Self::MB
         )
@@ -468,6 +488,10 @@ pub struct Plan {
     pub contain: bool,
     /// `MB`: the fake agent its `viola run` wraps (a live start requires it).
     pub fake: Option<PathBuf>,
+    /// `KR`: the quiet its after-key settles wait for (`--quiet-ms`, rehearse only).
+    pub quiet: Duration,
+    /// `KR`: the rehearse-only DEL stand-in (`--kr-del-seam`); never on a live start.
+    pub kr_seam: Option<KrSeam>,
 }
 
 /// The summary, `key: word` pairs in the order they were read.
@@ -674,6 +698,7 @@ pub fn start(plan: &Plan) -> u8 {
             | Arm::VH
             | Arm::CX
             | Arm::HB
+            | Arm::KR
             | Arm::MB => true,
         };
     if !placed {
@@ -782,6 +807,7 @@ fn finish(
         && summary.get("stopped-by").is_none()
         && summary.get("step2") != Some("not-started")
         && user_config != "changed-by-rig"
+        && (plan.arm != Arm::KR || kr_whole(&summary))
         && summary.get("mcp-child").is_none_or(|c| c == "exit 0")
         && summary.get("client").is_none_or(|c| c == "exit 0")
         && summary.get("child").is_none_or(|c| {
@@ -859,6 +885,8 @@ struct Session {
     settles: Vec<u128>,
     /// The child's session id, from a wrapped arm's first `session-start`, of the session-id shape.
     session_id: Option<String>,
+    /// The quiet `settle_since` waits for; `settle` keeps `QUIET`.
+    quiet: Duration,
 }
 
 impl Session {
@@ -888,6 +916,7 @@ impl Session {
             frames: None,
             settles: Vec::new(),
             session_id: None,
+            quiet: QUIET,
         })
     }
 
@@ -910,6 +939,28 @@ impl Session {
         }
     }
 
+    /// Drains the child's output for `span` (none at zero): a bound on reading, never a wait on
+    /// the child.
+    fn pump_for(&mut self, span: Duration) {
+        let until = Instant::now() + span;
+        loop {
+            let left = until.saturating_duration_since(Instant::now());
+            if left.is_zero() {
+                break;
+            }
+            self.pump(left);
+        }
+    }
+
+    /// The rig's own pty resized, then its model; false when the pty refused the size.
+    fn resize(&mut self, size: Size) -> bool {
+        if self.pty.resize(size).is_err() {
+            return false;
+        }
+        self.model.resize(size.rows, size.cols);
+        true
+    }
+
     /// Waits for a quiet frame that `until` admits, up to `bound`; true when one stood.
     fn settle(&mut self, until: impl Fn(&Reading) -> bool, bound: Duration) -> bool {
         let began = Instant::now();
@@ -919,6 +970,41 @@ impl Session {
             if quiet && until(&self.model.reading()) {
                 break true;
             }
+            if (quiet && self.exit.is_some())
+                || began.elapsed() >= bound
+                || procs::stop_requested().is_some()
+            {
+                break false;
+            }
+        };
+        self.settles.push(began.elapsed().as_millis());
+        met
+    }
+
+    /// Drains what is already queued and returns the rig's clock: the mark a key written right
+    /// after it is settled against.
+    fn mark(&mut self) -> Instant {
+        self.pump(Duration::ZERO);
+        Instant::now()
+    }
+
+    /// `settle` with the session's own quiet, met only once a byte drained after `mark` stands
+    /// (any byte when `mark` is `None`).
+    fn settle_since(
+        &mut self,
+        mark: Option<Instant>,
+        until: impl Fn(&Reading) -> bool,
+        bound: Duration,
+    ) -> bool {
+        let began = Instant::now();
+        let met = loop {
+            self.pump(Duration::from_millis(50));
+            let now = Instant::now();
+            if settled_after(self.last_byte, mark, now, self.quiet) && until(&self.model.reading())
+            {
+                break true;
+            }
+            let quiet = now.saturating_duration_since(self.last_byte) >= self.quiet;
             if (quiet && self.exit.is_some())
                 || began.elapsed() >= bound
                 || procs::stop_requested().is_some()
@@ -1182,6 +1268,7 @@ fn run_child(
         Arm::CX => arm_cx(plan, scratch, &env, &mut session, summary),
         Arm::SF => arm_sf(plan, scratch, &env, &mut session, summary),
         Arm::HB => arm_hb(plan, &mut session, summary),
+        Arm::KR => arm_kr(plan, &mut session, summary),
         Arm::AV => arm_av(plan, scratch, &mut session, summary),
         Arm::VC => arm_vc(plan, &mut session, summary),
         Arm::TC => arm_tc(plan, scratch, sentinel, &mut session, summary),
@@ -2290,6 +2377,323 @@ fn hint_cell_attrs(plan: &Plan, session: &mut Session, summary: &mut Summary) {
     summary.put("typed-attr", typed.clone());
     summary.put("hint-told-apart", hints_told_apart(&hints, &typed));
     summary.put("keys", keys.summary());
+}
+
+/// `KR`: the grant's resize and box keys first (else `refused: grant`, no key), the first frame
+/// with the box up and no dialog (else `refused: shape`), the no-resize control, then
+/// `KR_ROUNDS` rounds. No send, no wheel (unwrapped).
+fn arm_kr(plan: &Plan, session: &mut Session, summary: &mut Summary) {
+    let mut keys = Keys::new(plan.grant);
+    if !keys.may_resize() || !keys.may_type_box() {
+        summary.put("keys", "none");
+        summary.put("refused", "grant");
+        return;
+    }
+    let first = first_frame(plan, session);
+    record_reading(summary, &first);
+    if first.trust_shown() || first.modal != "none" || !first.is_box_up() {
+        summary.put("keys", "none");
+        summary.put("refused", "shape");
+        return;
+    }
+    session.quiet = plan.quiet;
+    let control = kr_control_round(plan, session, &mut keys);
+    match &control {
+        Ok((typed, hint)) => summary.put("control", kr_control(typed, hint)),
+        Err(word) => summary.put("control", format!("unread ({word})")),
+    }
+    let mut tally = KrTally::default();
+    if let Ok((typed, hint)) = &control
+        && kr_control(typed, hint) == "told-apart"
+    {
+        kr_rounds(plan, session, &mut keys, (typed, hint), &mut tally);
+    }
+    summary.put("keys", keys.summary());
+    tally.put(summary);
+}
+
+/// The control: `x` into the box read up, its cell's word the typed word, then DEL, the box's word
+/// after it the hint word; `Err` with the refusal word when a key is refused.
+fn kr_control_round(
+    plan: &Plan,
+    session: &mut Session,
+    keys: &mut Keys,
+) -> Result<(String, String), &'static str> {
+    session.settle_since(None, Reading::is_box_up, plan.settle);
+    let mark = session.mark();
+    keys.type_key(Key::X, &session.reading(), &mut session.writer)
+        .map_err(keys::Refusal::word)?;
+    session.settle_since(Some(mark), |_| true, plan.settle);
+    session.keep("after-x");
+    let typed = session.model.box_attr();
+    let mark = session.mark();
+    keys.type_key(Key::Del, &session.reading(), &mut session.writer)
+        .map_err(keys::Refusal::word)?;
+    session.settle_since(Some(mark), |_| true, plan.settle);
+    session.keep("after-del");
+    Ok((typed, session.model.box_attr()))
+}
+
+/// Types DEL on the frame read now and settles on a byte drained after it.
+fn kr_del(plan: &Plan, session: &mut Session, keys: &mut Keys) -> Result<(), &'static str> {
+    let mark = session.mark();
+    keys.type_key(Key::Del, &session.reading(), &mut session.writer)
+        .map_err(keys::Refusal::word)?;
+    session.settle_since(Some(mark), |_| true, plan.settle);
+    Ok(())
+}
+
+/// The rounds: each checks the box reads the hint word (once more after a further settle when it
+/// does not, a late DEL redraw told apart from a box left dirty), resizes the rig's own pty,
+/// drains for the round's delay, types `x` on the frame read before the resize, reads its cell
+/// (once more after a further settle when it reads the hint word), then types DEL.
+fn kr_rounds(
+    plan: &Plan,
+    session: &mut Session,
+    keys: &mut Keys,
+    (typed, hint): (&str, &str),
+    tally: &mut KrTally,
+) {
+    let mut withheld = false;
+    for n in 1..=KR_ROUNDS {
+        session.settle_since(None, Reading::is_box_up, plan.settle);
+        let first = session.model.box_attr();
+        let again = (first != hint).then(|| {
+            if withheld && matches!(plan.kr_seam, Some(KrSeam::Late(_))) {
+                withheld = false;
+                if let Err(word) = kr_del(plan, session, keys) {
+                    tally.refusal = Some(word);
+                }
+            }
+            session.pump_for(session.quiet);
+            session.settle_since(None, Reading::is_box_up, plan.settle);
+            session.model.box_attr()
+        });
+        match kr_box_word(hint, &first, again.as_deref()) {
+            "dirty" => {
+                tally.dirty_box = Some(n);
+                return;
+            }
+            "late-redraw" => tally.late_redraws += 1,
+            _ => {}
+        }
+        let on = session.reading();
+        let (rows, cols) = kr_size(n);
+        tally.rounds = n;
+        if !session.resize(Size { cols, rows }) {
+            tally.count(n, "unread");
+            tally.refusal = Some("resize-failed");
+            return;
+        }
+        session.pump_for(kr_delay(n));
+        let mark = session.mark();
+        if let Err(refusal) = keys.type_key(Key::X, &on, &mut session.writer) {
+            tally.count(n, "unread");
+            tally.refusal = Some(refusal.word());
+            return;
+        }
+        session.settle_since(Some(mark), |_| true, plan.settle);
+        session.keep("kr-x");
+        let first = session.model.box_attr();
+        let again = (first == hint).then(|| {
+            session.pump_for(session.quiet);
+            session.settle_since(None, |_| true, plan.settle);
+            session.model.box_attr()
+        });
+        tally.count(n, kr_round_word(typed, hint, &first, again.as_deref()));
+        if plan.kr_seam.is_some_and(|seam| seam.withholds(n)) {
+            withheld = true;
+            continue;
+        }
+        if let Err(word) = kr_del(plan, session, keys) {
+            tally.refusal = Some(word);
+            return;
+        }
+        session.keep("kr-del");
+    }
+}
+
+/// A rehearse-only stand-in for a CLI's DEL redraw, `kr` over the fake agent alone: round `n`
+/// types no DEL after its `x`, so the next round's box reads dirty; `Late` types it there, before
+/// the re-read, as a redraw that came late; `Withheld` never does, as a DEL never drawn.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum KrSeam {
+    Withheld(usize),
+    Late(usize),
+}
+
+impl KrSeam {
+    /// `withheld:<n>` or `late:<n>`, `n` from 1 to 11; any other form is `None`.
+    pub fn parse(word: &str) -> Option<Self> {
+        let (kind, n) = word.split_once(':')?;
+        let n: usize = n.parse().ok().filter(|n| (1..KR_ROUNDS).contains(n))?;
+        match kind {
+            "withheld" => Some(Self::Withheld(n)),
+            "late" => Some(Self::Late(n)),
+            _ => None,
+        }
+    }
+
+    const fn withholds(self, round: usize) -> bool {
+        match self {
+            Self::Withheld(n) | Self::Late(n) => n == round,
+        }
+    }
+}
+
+/// `settle_since`'s quiet from `--quiet-ms`: `QUIET` when absent, 100–400 ms when given, else
+/// `None`.
+pub fn quiet_of(ms: Option<u64>) -> Option<Duration> {
+    match ms {
+        None => Some(QUIET),
+        Some(ms) if (100..=400).contains(&ms) => Some(Duration::from_millis(ms)),
+        Some(_) => None,
+    }
+}
+
+/// Whether a settle after a key written at `mark` is met at `now`: a byte drained after the mark
+/// (any byte when there is none), then `quiet` since it.
+fn settled_after(last_byte: Instant, mark: Option<Instant>, now: Instant, quiet: Duration) -> bool {
+    mark.is_none_or(|mark| last_byte > mark) && now.saturating_duration_since(last_byte) >= quiet
+}
+
+/// A round's box word: `clean` on the hint word at once, `late-redraw` on it only at the re-read,
+/// else `dirty`.
+fn kr_box_word(hint: &str, first: &str, again: Option<&str>) -> &'static str {
+    if first == hint {
+        "clean"
+    } else if again == Some(hint) {
+        "late-redraw"
+    } else {
+        "dirty"
+    }
+}
+
+/// `KR`'s rounds: one control, then this many resizes, each followed by one `x` and one DEL.
+const KR_ROUNDS: usize = 12;
+/// The delays after a resize, interleaved from round 1.
+const KR_DELAYS_MS: [u64; 3] = [0, 20, 100];
+
+/// Round `n`'s delay after its resize returned: 0, 20 or 100 ms, interleaved from round 1.
+fn kr_delay(n: usize) -> Duration {
+    Duration::from_millis(KR_DELAYS_MS[(n + KR_DELAYS_MS.len() - 1) % KR_DELAYS_MS.len()])
+}
+
+/// Round `n`'s size as `(rows, cols)`: 180×40 on an odd round, the rig's own 210×45 on an even
+/// one, so the width changes every round.
+fn kr_size(n: usize) -> (u16, u16) {
+    if n % 2 == 1 {
+        (40, 180)
+    } else {
+        (screen::ROWS, screen::COLS)
+    }
+}
+
+/// The control's word: `told-apart` when the typed word was read and differs from the hint word,
+/// else `confounded`.
+fn kr_control(typed: &str, hint: &str) -> &'static str {
+    if typed.starts_with("unread") || typed == hint {
+        "confounded"
+    } else {
+        "told-apart"
+    }
+}
+
+/// One round's word: `kept` when the first read, or the re-read after a further settle, is the
+/// typed word; `lost` when both are the hint word; else `unread`.
+fn kr_round_word(typed: &str, hint: &str, first: &str, again: Option<&str>) -> &'static str {
+    if first == typed || again == Some(typed) {
+        "kept"
+    } else if first == hint && again == Some(hint) {
+        "lost"
+    } else {
+        "unread"
+    }
+}
+
+/// The start's reading: `lost` at one lost round or more, `kept` at every round kept, else
+/// `unverified`.
+fn kr_reading(kept: usize, lost: usize, _unread: usize) -> &'static str {
+    if lost > 0 {
+        "lost"
+    } else if kept == KR_ROUNDS {
+        "kept"
+    } else {
+        "unverified"
+    }
+}
+
+/// `KR`'s whole-start rule beside the rig's own: the control told apart, every round run, and a
+/// reading that is not `unverified` (a `lost` is the measurement, never the rig's red).
+fn kr_whole(summary: &Summary) -> bool {
+    summary.get("control") == Some("told-apart")
+        && summary.get("rounds") == Some(KR_ROUNDS.to_string().as_str())
+        && summary.get("kr-reading").is_some_and(|r| r != "unverified")
+}
+
+/// The rounds' words as read, for the summary.
+#[derive(Debug, Default)]
+struct KrTally {
+    rounds: usize,
+    /// Each round run, its delay and its word.
+    words: Vec<(Duration, &'static str)>,
+    dirty_box: Option<usize>,
+    /// The rounds whose box read clean only at its re-read.
+    late_redraws: usize,
+    refusal: Option<&'static str>,
+}
+
+impl KrTally {
+    fn count(&mut self, n: usize, word: &'static str) {
+        self.words.push((kr_delay(n), word));
+    }
+
+    fn of(&self, word: &str) -> usize {
+        self.words.iter().filter(|(_, w)| *w == word).count()
+    }
+
+    fn put(&self, summary: &mut Summary) {
+        let (kept, lost, unread) = (self.of("kept"), self.of("lost"), self.of("unread"));
+        summary.put("rounds", self.rounds.to_string());
+        summary.put("kept", format!("{kept}/{KR_ROUNDS}"));
+        summary.put("lost", format!("{lost}/{KR_ROUNDS}"));
+        summary.put("unread", format!("{unread}/{KR_ROUNDS}"));
+        let per_delay = KR_ROUNDS / KR_DELAYS_MS.len();
+        for ms in KR_DELAYS_MS {
+            let at = Duration::from_millis(ms);
+            let k = self
+                .words
+                .iter()
+                .filter(|(d, w)| *d == at && *w == "kept")
+                .count();
+            summary.put(&format!("kept-{ms}ms"), format!("{k}/{per_delay}"));
+        }
+        let lost_at: Vec<String> = self
+            .words
+            .iter()
+            .filter(|(_, w)| *w == "lost")
+            .map(|(d, _)| format!("{}ms", d.as_millis()))
+            .collect();
+        summary.put(
+            "lost-at",
+            if lost_at.is_empty() {
+                "none".to_owned()
+            } else {
+                lost_at.join(",")
+            },
+        );
+        summary.put("kr-reading", kr_reading(kept, lost, unread));
+        summary.put("sizes", format!("{}x{}-180x40", screen::COLS, screen::ROWS));
+        summary.put(
+            "dirty-box",
+            self.dirty_box
+                .map_or_else(|| "none".to_owned(), |n| n.to_string()),
+        );
+        summary.put("late-redraw", self.late_redraws.to_string());
+        if let Some(word) = self.refusal {
+            summary.put("key-refusal", word);
+        }
+    }
 }
 
 /// Each distinct attribute word with its count, in first-seen order: `<word>(<n>)`, `,`-joined.
@@ -3989,6 +4393,254 @@ mod tests {
         assert!(Arm::HB.marker_seed());
         assert!(!Arm::HB.verify_seed());
         assert!(!Arm::HB.sentinel_seed());
+    }
+
+    #[test]
+    fn the_kr_labels_take_the_unwrapped_trusted_marker_seeded_arm() {
+        for (label, arm) in [
+            ("KR", Some(Arm::KR)),
+            ("KR-2", Some(Arm::KR)),
+            ("KR8", Some(Arm::KR)),
+            ("KR8-2", Some(Arm::KR)),
+            ("KR-3", None),
+            ("KR8-3", None),
+            ("KR9", None),
+        ] {
+            assert_eq!(Arm::of_label(label), arm, "{label}");
+            assert_eq!(StampShape::of(label), None, "{label}");
+        }
+        assert_eq!(Arm::parse("kr"), Some(Arm::KR));
+        assert_eq!(Arm::KR.word(), "kr");
+        assert_eq!(Arm::KR.wrapped(), None);
+        assert!(!Arm::KR.has_vhome() && !Arm::KR.verifies());
+        assert!(Arm::KR.trusted() && Arm::KR.marker_seed());
+        assert!(!Arm::KR.verify_seed() && !Arm::KR.sentinel_seed());
+        assert!(Arm::KR.browser_tools_seed());
+        assert_eq!(
+            Arm::KR.pty_size(),
+            Size {
+                cols: 210,
+                rows: 45
+            }
+        );
+    }
+
+    #[test]
+    fn the_kr_schedule_interleaves_its_delays_four_each_and_changes_width_every_round() {
+        let delays: Vec<u128> = (1..=KR_ROUNDS).map(|n| kr_delay(n).as_millis()).collect();
+        assert_eq!(delays, [0, 20, 100, 0, 20, 100, 0, 20, 100, 0, 20, 100]);
+        for ms in [0, 20, 100] {
+            assert_eq!(delays.iter().filter(|&&d| d == ms).count(), 4, "{ms} ms");
+        }
+        assert_eq!(kr_size(1), (40, 180));
+        assert_eq!(kr_size(2), (45, 210));
+        for n in 1..KR_ROUNDS {
+            assert_ne!(kr_size(n).1, kr_size(n + 1).1, "round {n}");
+        }
+    }
+
+    #[test]
+    fn each_kr_round_and_reading_word_comes_from_attribute_words() {
+        for (label, first, again, want) in [
+            ("kept at once", "plain", None, "kept"),
+            ("kept late", "inverse", Some("plain"), "kept"),
+            ("lost", "inverse", Some("inverse"), "lost"),
+            ("unread with no box", "unread (no-box)", None, "unread"),
+            ("unread on a third word", "dim", None, "unread"),
+            (
+                "unread on a late third word",
+                "inverse",
+                Some("dim"),
+                "unread",
+            ),
+        ] {
+            assert_eq!(
+                kr_round_word("plain", "inverse", first, again),
+                want,
+                "{label}"
+            );
+        }
+        for (label, kept, lost, unread, want) in [
+            ("every round kept", 12, 0, 0, "kept"),
+            ("one lost", 11, 1, 0, "lost"),
+            ("lost beside unread", 9, 1, 2, "lost"),
+            ("one unread", 11, 0, 1, "unverified"),
+            ("cut short", 3, 0, 0, "unverified"),
+        ] {
+            assert_eq!(kr_reading(kept, lost, unread), want, "{label}");
+        }
+        for (label, typed, hint, want) in [
+            ("apart", "plain", "inverse", "told-apart"),
+            (
+                "apart from an unread hint",
+                "plain",
+                "unread (no-cell)",
+                "told-apart",
+            ),
+            ("equal", "plain", "plain", "confounded"),
+            ("typed unread", "unread (no-box)", "inverse", "confounded"),
+        ] {
+            assert_eq!(kr_control(typed, hint), want, "{label}");
+        }
+    }
+
+    #[test]
+    fn the_kr_tally_puts_its_closed_words_and_the_whole_start_rule_reads_them() {
+        let mut tally = KrTally::default();
+        for n in 1..=KR_ROUNDS {
+            tally.rounds = n;
+            tally.count(n, if n == 2 || n == 5 { "lost" } else { "kept" });
+        }
+        let mut summary = Summary::default();
+        summary.put("control", "told-apart");
+        tally.put(&mut summary);
+        let got: Vec<String> = summary.0.iter().map(|(k, v)| format!("{k}: {v}")).collect();
+        assert_eq!(
+            got,
+            [
+                "control: told-apart",
+                "rounds: 12",
+                "kept: 10/12",
+                "lost: 2/12",
+                "unread: 0/12",
+                "kept-0ms: 4/4",
+                "kept-20ms: 2/4",
+                "kept-100ms: 4/4",
+                "lost-at: 20ms,20ms",
+                "kr-reading: lost",
+                "sizes: 210x45-180x40",
+                "dirty-box: none",
+                "late-redraw: 0",
+            ]
+        );
+        assert!(kr_whole(&summary), "a lost reading ends a whole start");
+        let mut dirty = KrTally {
+            rounds: 3,
+            dirty_box: Some(4),
+            ..KrTally::default()
+        };
+        for n in 1..=3 {
+            dirty.count(n, "kept");
+        }
+        dirty.refusal = Some("key-not-ready");
+        let mut cut = Summary::default();
+        cut.put("control", "told-apart");
+        dirty.put(&mut cut);
+        assert_eq!(cut.get("kr-reading"), Some("unverified"));
+        assert_eq!(cut.get("dirty-box"), Some("4"));
+        assert_eq!(cut.get("lost-at"), Some("none"));
+        assert_eq!(cut.get("key-refusal"), Some("key-not-ready"));
+        assert!(!kr_whole(&cut), "a cut start is not whole");
+        let mut confounded = Summary::default();
+        confounded.put("control", "confounded");
+        tally.put(&mut confounded);
+        assert!(!kr_whole(&confounded), "a confounded control is not whole");
+        let mut late = KrTally::default();
+        for n in 1..=KR_ROUNDS {
+            late.rounds = n;
+            late.count(n, "kept");
+        }
+        late.late_redraws = 1;
+        let mut read = Summary::default();
+        late.put(&mut read);
+        assert_eq!(read.get("late-redraw"), Some("1"));
+        assert_eq!(read.get("dirty-box"), Some("none"));
+        assert_eq!(read.get("kr-reading"), Some("kept"));
+    }
+
+    #[test]
+    fn the_kr_box_word_tells_a_late_redraw_from_a_dirty_box() {
+        for (label, first, again, want) in [
+            ("clean at once", "inverse", None, "clean"),
+            (
+                "clean at the re-read",
+                "plain",
+                Some("inverse"),
+                "late-redraw",
+            ),
+            ("dirty on both", "plain", Some("plain"), "dirty"),
+            ("dirty on a third word", "plain", Some("dim"), "dirty"),
+            ("dirty with no re-read", "plain", None, "dirty"),
+        ] {
+            assert_eq!(kr_box_word("inverse", first, again), want, "{label}");
+        }
+    }
+
+    #[test]
+    fn a_byte_drained_before_the_key_never_settles_it() {
+        let byte = Instant::now();
+        let mark = byte + Duration::from_millis(5);
+        for quiet_ms in [0, 400, 60_000] {
+            let now = mark + Duration::from_secs(120);
+            assert!(
+                !settled_after(byte, Some(mark), now, Duration::from_millis(quiet_ms)),
+                "{quiet_ms} ms"
+            );
+        }
+        assert!(
+            !settled_after(mark, Some(mark), mark + QUIET, QUIET),
+            "a byte at the mark is not after it"
+        );
+    }
+
+    #[test]
+    fn a_byte_after_the_key_settles_once_quiet() {
+        let mark = Instant::now();
+        let byte = mark + Duration::from_millis(30);
+        let quiet = Duration::from_millis(100);
+        assert!(!settled_after(byte, Some(mark), byte, quiet));
+        assert!(!settled_after(
+            byte,
+            Some(mark),
+            byte + Duration::from_millis(99),
+            quiet
+        ));
+        assert!(settled_after(byte, Some(mark), byte + quiet, quiet));
+    }
+
+    #[test]
+    fn no_mark_settles_on_quiet_alone() {
+        let byte = Instant::now();
+        assert!(!settled_after(
+            byte,
+            None,
+            byte + Duration::from_millis(399),
+            QUIET
+        ));
+        assert!(settled_after(byte, None, byte + QUIET, QUIET));
+    }
+
+    #[test]
+    fn the_kr_seam_reads_withheld_and_late_rounds_and_refuses_any_other_form() {
+        for (word, want) in [
+            ("withheld:1", Some(KrSeam::Withheld(1))),
+            ("withheld:11", Some(KrSeam::Withheld(11))),
+            ("late:3", Some(KrSeam::Late(3))),
+            ("late:0", None),
+            ("late:12", None),
+            ("x:3", None),
+            ("late", None),
+            ("late:", None),
+            ("late:-1", None),
+            ("", None),
+        ] {
+            assert_eq!(KrSeam::parse(word), want, "{word}");
+        }
+        assert!(KrSeam::Late(3).withholds(3) && !KrSeam::Late(3).withholds(4));
+        assert!(KrSeam::Withheld(2).withholds(2) && !KrSeam::Withheld(2).withholds(1));
+    }
+
+    #[test]
+    fn the_quiet_option_reads_one_to_four_hundred_ms() {
+        for (ms, want) in [
+            (None, Some(QUIET)),
+            (Some(100), Some(Duration::from_millis(100))),
+            (Some(400), Some(Duration::from_millis(400))),
+            (Some(99), None),
+            (Some(401), None),
+        ] {
+            assert_eq!(quiet_of(ms), want, "{ms:?}");
+        }
     }
 
     /// The floor's doc pin: 24 rows, `stop-session-crons` beside `stop-message`, which read the same

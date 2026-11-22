@@ -98,6 +98,23 @@ impl Model {
         }
     }
 
+    /// The screen set to a new size in place, its cells kept as a terminal keeps them; a poisoned
+    /// model stays poisoned.
+    pub fn resize(&mut self, rows: u16, cols: u16) {
+        let Some(parser) = self.parser.as_mut() else {
+            return;
+        };
+        if catch_unwind(AssertUnwindSafe(|| {
+            parser.screen_mut().set_size(rows, cols)
+        }))
+        .is_err()
+        {
+            self.parser = None;
+            return;
+        }
+        self.cols = cols;
+    }
+
     pub fn is_poisoned(&self) -> bool {
         self.parser.is_none()
     }
@@ -497,6 +514,29 @@ mod tests {
         let mut poisoned = Model::new();
         poisoned.parser = None;
         assert_eq!(poisoned.hint_cells(), Err("poisoned"));
+    }
+
+    #[test]
+    fn a_resized_model_keeps_its_box_and_reads_at_the_new_width() {
+        let mut m = Model::new();
+        let rule = rule();
+        m.feed(format!("\x1b[H{rule}\r\n❯ \r\n{rule}").as_bytes());
+        assert_eq!(m.reading().box_up, "up");
+        m.resize(40, 180);
+        assert_eq!(m.rows().expect("rows").len(), 40);
+        assert_eq!(m.cell_attr(0, 179), "plain");
+        assert_eq!(m.cell_attr(0, 180), "unread (past-screen)");
+        assert_eq!(m.reading().box_up, "up", "180x40");
+        m.resize(ROWS, COLS);
+        assert_eq!(m.rows().expect("rows").len(), 45);
+        assert_eq!(m.cell_attr(0, 209), "plain");
+        assert_eq!(m.cell_attr(0, 210), "unread (past-screen)");
+        assert_eq!(m.reading().box_up, "up", "210x45");
+        let mut poisoned = Model::new();
+        poisoned.parser = None;
+        poisoned.resize(40, 180);
+        assert!(poisoned.is_poisoned());
+        assert_eq!(poisoned.reading(), Reading::POISONED);
     }
 
     #[test]

@@ -1,12 +1,15 @@
 # Coverage — viola-0.2.0
 
-verified 22/37 · deferred 2 · planned 13 · implemented 0 · unclaimed 13
+verified 22/37 · deferred 2 · planned 12 · implemented 1 · unclaimed 12
 
 ## deferred (2)
 - v2-21 · A key answering the CLI's session-feedback survey keeps the wheel
 - v2-22 · Product-owned session settings
 
-## planned, unclaimed (13)
+## implemented (1)
+- v2-27 · A key typed right after a resize · 2026-11-21-key-after-a-resize
+
+## planned, unclaimed (12)
 - v2-07 · Launch a session into the fleet
 - v2-08 · The launch authority bounded
 - v2-09 · The lineage registry
@@ -16,7 +19,6 @@ verified 22/37 · deferred 2 · planned 13 · implemented 0 · unclaimed 13
 - v2-13 · Adopt a plain session into the fleet
 - v2-14 · The fleet console
 - v2-15 · Every verb from the console
-- v2-27 · A key typed right after a resize
 - v2-28 · The fleet run by viola
 - v2-30 · Model and effort named at launch
 - v2-31 · Switch a session's model and effort

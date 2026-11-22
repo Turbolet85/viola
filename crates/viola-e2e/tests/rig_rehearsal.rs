@@ -1436,6 +1436,197 @@ fn rig_rehearsal_hb_reads_the_fresh_box_then_x_and_del_with_no_send() {
     assert_torn_down(&out, &case);
 }
 
+/// The fake agent's `size` receipts as `(cols, rows)`, in order.
+fn sizes(case: &Case) -> Vec<(u64, u64)> {
+    case.receipt_lines()
+        .iter()
+        .filter(|l| l["kind"] == "size")
+        .filter_map(|l| Some((l["cols"].as_u64()?, l["rows"].as_u64()?)))
+        .collect()
+}
+
+/// `kr` over the fake agent under the box and resize grant: unwrapped, a no-resize control `x`
+/// and DEL told apart, then twelve rounds each resizing the rig's own pty and typing one `x` right
+/// after it, every one kept (the fake keeps every byte through a resize), one DEL after each; no
+/// send. Keys are read from the rig's own `keys` word.
+#[test]
+fn rig_rehearsal_kr_reads_each_key_kept_after_its_own_resize() {
+    let case = Case::new();
+    let out = run(case.rig(
+        "kr",
+        &["--grant", "box,resize", "--quiet-ms", "100"],
+        &case.child(true, &[]),
+    ));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    for (key, want) in [
+        ("arm", "kr"),
+        ("box", "up"),
+        ("modal", "none"),
+        ("keys", "x 13, del 13"),
+        ("control", "told-apart"),
+        ("rounds", "12"),
+        ("kept", "12/12"),
+        ("lost", "0/12"),
+        ("unread", "0/12"),
+        ("kept-0ms", "4/4"),
+        ("kept-20ms", "4/4"),
+        ("kept-100ms", "4/4"),
+        ("lost-at", "none"),
+        ("kr-reading", "kept"),
+        ("sizes", "210x45-180x40"),
+        ("dirty-box", "none"),
+        ("late-redraw", "0"),
+    ] {
+        assert_eq!(word(&out, key).as_deref(), Some(want), "{key}: {summary}");
+    }
+    assert_eq!(word(&out, "refused"), None, "{summary}");
+    let sizes = sizes(&case);
+    assert!(sizes.contains(&(180, 40)), "{sizes:?}");
+    assert!(sizes.contains(&(210, 45)), "{sizes:?}");
+    assert!(
+        case.receipt_lines().iter().all(|l| l["kind"] != "prompt"),
+        "no prompt submitted"
+    );
+    assert_torn_down(&out, &case);
+}
+
+/// `kr` under the box grant alone: refused `grant` before any key or resize.
+#[test]
+fn rig_rehearsal_kr_without_the_resize_grant_types_nothing() {
+    let case = Case::new();
+    let out = run(case.rig("kr", &["--grant", "box"], &case.child(true, &[])));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(1), "{summary}");
+    assert_eq!(word(&out, "refused").as_deref(), Some("grant"), "{summary}");
+    assert_eq!(word(&out, "keys").as_deref(), Some("none"), "{summary}");
+    let sizes = sizes(&case);
+    assert!(
+        sizes.iter().all(|&s| s == (210, 45)),
+        "no size past the start's own: {sizes:?}"
+    );
+    assert_torn_down(&out, &case);
+}
+
+/// `kr` with round 3's DEL typed late, at round 4's dirty box: the re-read reads the box clean, the
+/// round goes on, and the start reads every key kept with one late redraw.
+#[test]
+fn rig_rehearsal_kr_reads_a_late_redraw_and_keeps_the_round() {
+    let case = Case::new();
+    let out = run(case.rig(
+        "kr",
+        &[
+            "--grant",
+            "box,resize",
+            "--quiet-ms",
+            "100",
+            "--kr-del-seam",
+            "late:3",
+        ],
+        &case.child(true, &[]),
+    ));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(0), "{summary}");
+    for (key, want) in [
+        ("keys", "x 13, del 13"),
+        ("rounds", "12"),
+        ("kept", "12/12"),
+        ("late-redraw", "1"),
+        ("dirty-box", "none"),
+        ("kr-reading", "kept"),
+    ] {
+        assert_eq!(word(&out, key).as_deref(), Some(want), "{key}: {summary}");
+    }
+    assert_torn_down(&out, &case);
+}
+
+/// `kr` with round 2's DEL withheld: round 3's box reads dirty on both reads, and the start stops
+/// there, unverified.
+#[test]
+fn rig_rehearsal_kr_stops_on_a_box_still_dirty_on_its_re_read() {
+    let case = Case::new();
+    let out = run(case.rig(
+        "kr",
+        &[
+            "--grant",
+            "box,resize",
+            "--quiet-ms",
+            "100",
+            "--kr-del-seam",
+            "withheld:2",
+        ],
+        &case.child(true, &[]),
+    ));
+    let summary = stdout(&out);
+    assert_eq!(out.status.code(), Some(1), "{summary}");
+    for (key, want) in [
+        ("keys", "x 3, del 2"),
+        ("rounds", "2"),
+        ("dirty-box", "3"),
+        ("late-redraw", "0"),
+        ("kr-reading", "unverified"),
+    ] {
+        assert_eq!(word(&out, key).as_deref(), Some(want), "{key}: {summary}");
+    }
+    assert_torn_down(&out, &case);
+}
+
+/// The `kr` seams are rehearse-only and `kr`-only: a live start carrying one, or another arm, is
+/// refused `usage` before any ledger line or spawn. The live starts keep `CI` set and name a CLI no
+/// install holds, so no parse could reach a real one.
+#[test]
+fn rig_rehearsal_kr_seams_refuse_a_live_start_and_another_arm() {
+    let case = Case::new();
+    let ledger = case.ledger().display().to_string();
+    let live = |seam: &[&str]| {
+        let mut cmd = Command::new(RIG);
+        cmd.args([
+            "live",
+            "KR8-2",
+            "--cli",
+            "0.0.0-none",
+            "--grant",
+            "box,resize",
+            "--cap",
+            "2",
+            "--spare",
+            "1",
+            "--ledger",
+            ledger.as_str(),
+        ])
+        .args(seam)
+        .env("CI", "1")
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped());
+        cmd
+    };
+    for (label, cmd) in [
+        ("live quiet", live(&["--quiet-ms", "100"])),
+        ("live seam", live(&["--kr-del-seam", "late:3"])),
+        (
+            "another arm",
+            case.rig(
+                "hb",
+                &["--grant", "box", "--kr-del-seam", "late:3"],
+                &case.child(true, &[]),
+            ),
+        ),
+    ] {
+        let out = run(cmd);
+        let summary = stdout(&out);
+        assert_eq!(out.status.code(), Some(2), "{label}: {summary}");
+        assert_eq!(
+            word(&out, "refused").as_deref(),
+            Some("usage"),
+            "{label}: {summary}"
+        );
+        assert!(!case.ledger().exists(), "{label}: a ledger line");
+        assert!(case.receipt_lines().is_empty(), "{label}: a spawn");
+        assert!(case.live_processes().is_empty(), "{label}: a process");
+    }
+}
+
 /// `ws` then `r3w` over the fake agent in one out dir: `r3w` seeds the kept wake stamp, its send 1
 /// asks for the interval wake, the fake counts one scheduled wake at the turn's end and fires a
 /// keyless prompt a second later (its stand-in for the CLI's fire); viola files it `harness`, no

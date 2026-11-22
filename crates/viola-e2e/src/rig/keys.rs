@@ -41,10 +41,12 @@ impl Key {
 pub struct Grant {
     pub trust: bool,
     pub input_box: bool,
+    /// A resize of the rig's own pty: no key, so the closed key set stays as it is.
+    pub resize: bool,
 }
 
 impl Grant {
-    /// `trust`, `box`, or both comma-separated; absent is no grant. Any other word is refused.
+    /// `trust`, `box`, `resize`, comma-separated; absent is no grant. Any other word is refused.
     pub fn parse(arg: Option<&str>) -> Option<Self> {
         let mut grant = Self::default();
         let Some(arg) = arg else {
@@ -54,6 +56,7 @@ impl Grant {
             match word {
                 "trust" => grant.trust = true,
                 "box" => grant.input_box = true,
+                "resize" => grant.resize = true,
                 _ => return None,
             }
         }
@@ -90,6 +93,16 @@ impl Keys {
             grant,
             typed: Vec::new(),
         }
+    }
+
+    /// Whether the grant holds a resize of the rig's own pty.
+    pub const fn may_resize(&self) -> bool {
+        self.grant.resize
+    }
+
+    /// Whether the grant holds the box keys, `x` and DEL.
+    pub const fn may_type_box(&self) -> bool {
+        self.grant.input_box
     }
 
     fn granted(&self, key: Key) -> bool {
@@ -226,12 +239,39 @@ mod tests {
             Grant::parse(Some("trust,box")),
             Some(Grant {
                 trust: true,
-                input_box: true
+                input_box: true,
+                resize: false
             })
         );
         assert_eq!(Grant::parse(Some("box")).map(|g| g.trust), Some(false));
         assert_eq!(Grant::parse(Some("trust,enter")), None);
         assert_eq!(Grant::parse(Some("")), None);
+    }
+
+    #[test]
+    fn the_resize_word_grants_a_resize_and_no_key() {
+        for (label, arg, want) in [
+            ("box and resize", Some("box,resize"), Some((true, true))),
+            ("resize alone", Some("resize"), Some((false, true))),
+            ("box alone", Some("box"), Some((true, false))),
+            ("an unknown word", Some("box,resize,paste"), None),
+            ("absent", None, Some((false, false))),
+        ] {
+            let got = Grant::parse(arg).map(|g| {
+                let keys = Keys::new(g);
+                (keys.may_type_box(), keys.may_resize())
+            });
+            assert_eq!(got, want, "{label}");
+        }
+        let mut keys = Keys::new(Grant::parse(Some("resize")).expect("grant"));
+        let mut out = Vec::new();
+        assert_eq!(
+            keys.type_key(Key::X, &input_box(), &mut out),
+            Err(Refusal::NotGranted),
+            "resize alone grants no x"
+        );
+        assert!(out.is_empty());
+        assert_eq!(keys.summary(), "none");
     }
 
     #[test]

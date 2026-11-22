@@ -1,0 +1,269 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-22T08:33:13Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-21-key-after-a-resize",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-resize-revision.md",
+"--kind",
+"relay",
+"--why",
+"the operator's word after the cut KR8: mend the rig settle (a byte after the key), tell dirty-box from a late redraw, then the spare KR8-2 on 2.1.328; the overseer's technical items 2-7",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-11-22T08-32-38Z-phase",
+"--marker",
+"2026-11-21-key-after-a-resize"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy no-repo · ../additional/viola-overseer/relay-resize-revision.md",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-relay-resize-revision.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-resize-revision.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "6cb2504674849d9fb09c02171f86831278740b1acaa01b01d4eb6f7e8a7f0cf5",
+"copy": "I6-relay-resize-revision.md.txt",
+"link": false,
+"read_at": "2026-11-22T08:33:12Z",
+"step": "phase:P3",
+"why": "the operator's word after the cut KR8: mend the rig settle (a byte after the key), tell dirty-box from a late redraw, then the spare KR8-2 on 2.1.328; the overseer's technical items 2-7"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-22T08:33:13Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-21-key-after-a-resize",
+"--message-file",
+".andromeda/runs/2026-11-22T08-32-38Z-phase/relay-1.md",
+"--origin",
+"the overseer, this session's prompt, 2026-11-22T08:32Z",
+"--kind",
+"relay",
+"--why",
+"the revision directive: implement stopped on this plan (KR kept, KR8 cut at dirty-box); revise, no live start, stop at the P5 card",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-11-22T08-32-38Z-phase",
+"--marker",
+"2026-11-21-key-after-a-resize"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy message · message: the overseer, this session's prompt, 2026-11-22T08:32Z",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer, this session's prompt, 2026-11-22T08:32Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "fbb33f4a166aa1ee667beb7082eb1b5d43ff9f200f85d6ffab19833be6fde96b",
+"copy": "I7-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-22T08:33:13Z",
+"step": "phase:P3",
+"why": "the revision directive: implement stopped on this plan (KR kept, KR8 cut at dirty-box); revise, no live start, stop at the P5 card"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-22T08:42:00Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-21-key-after-a-resize",
+"--run-dir",
+".andromeda/runs/2026-11-22T08-32-38Z-phase",
+"--marker",
+"2026-11-21-key-after-a-resize"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-resize-directive.md",
+"I1 cited scope.md:43 · scope.md:47 · scope.md:68 · research.md:7 · plan.md:9 · plan.md:180 · plan.md:213 · plan.md:290 (in fence) · plan.md:515",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-resize-p3.md",
+"I2 cited plan.md:9 · plan.md:24 · plan.md:47 · plan.md:187 · plan.md:395 (in fence) · plan.md:410 (in fence) · plan.md:458 (in fence) · plan.md:506 · plan.md:515 · plan.md:538 · plan.md:544 · plan.md:546 · plan.md:560 · plan.md:561 · plan.md:564 · plan.md:571 · plan.md:590 · plan.md:596",
+"I3 n/a — a message has no live source · copy message · message: the overseer as delegate, in this session, 2026-11-22T08:18:32Z",
+"I3 UNCITED",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/implement-resize-directive.md",
+"I4 UNCITED",
+"I5 n/a — a message has no live source · copy message · message: the overseer",
+"I5 UNCITED",
+"I6 unchanged · copy no-repo · ../additional/viola-overseer/relay-resize-revision.md",
+"I6 cited scope.md:101 · scope.md:109 · scope.md:110 · scope.md:117 · research.md:71 · plan.md:13 · plan.md:42 · plan.md:50 · plan.md:74 · plan.md:118 · plan.md:119 · plan.md:152 · plan.md:160 · plan.md:179 · plan.md:207 · plan.md:218 · plan.md:228 · plan.md:275 (in fence) · plan.md:306 (in fence) · plan.md:329 (in fence) · plan.md:337 (in fence) · plan.md:345 (in fence) · plan.md:355 (in fence) · plan.md:387 (in fence) · plan.md:516 · plan.md:552 · plan.md:554 · plan.md:556 · plan.md:557 · plan.md:605",
+"I7 n/a — a message has no live source · copy message · message: the overseer, this session's prompt, 2026-11-22T08:32Z",
+"I7 cited scope.md:101 · plan.md:14 · plan.md:516",
+"inputs: 7 entries — unchanged 4 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 3 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 4,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 3,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-22T08:45:13Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-21-key-after-a-resize",
+"--run-dir",
+".andromeda/runs/2026-11-22T08-32-38Z-phase",
+"--marker",
+"2026-11-21-key-after-a-resize"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-resize-directive.md",
+"I1 cited scope.md:43 · scope.md:47 · scope.md:68 · research.md:7 · plan.md:9 · plan.md:181 · plan.md:214 · plan.md:295 (in fence) · plan.md:521",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-resize-p3.md",
+"I2 cited plan.md:9 · plan.md:24 · plan.md:47 · plan.md:188 · plan.md:400 (in fence) · plan.md:416 (in fence) · plan.md:464 (in fence) · plan.md:512 · plan.md:521 · plan.md:544 · plan.md:550 · plan.md:552 · plan.md:566 · plan.md:567 · plan.md:570 · plan.md:577 · plan.md:596 · plan.md:602",
+"I3 n/a — a message has no live source · copy message · message: the overseer as delegate, in this session, 2026-11-22T08:18:32Z",
+"I3 UNCITED",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/implement-resize-directive.md",
+"I4 UNCITED",
+"I5 n/a — a message has no live source · copy message · message: the overseer",
+"I5 UNCITED",
+"I6 unchanged · copy no-repo · ../additional/viola-overseer/relay-resize-revision.md",
+"I6 cited scope.md:101 · scope.md:109 · scope.md:110 · scope.md:117 · research.md:71 · plan.md:13 · plan.md:42 · plan.md:50 · plan.md:74 · plan.md:118 · plan.md:119 · plan.md:152 · plan.md:161 · plan.md:180 · plan.md:208 · plan.md:219 · plan.md:229 · plan.md:280 (in fence) · plan.md:311 (in fence) · plan.md:334 (in fence) · plan.md:342 (in fence) · plan.md:350 (in fence) · plan.md:360 (in fence) · plan.md:392 (in fence) · plan.md:522 · plan.md:558 · plan.md:560 · plan.md:562 · plan.md:563 · plan.md:611",
+"I7 n/a — a message has no live source · copy message · message: the overseer, this session's prompt, 2026-11-22T08:32Z",
+"I7 cited scope.md:101 · plan.md:14 · plan.md:522",
+"inputs: 7 entries — unchanged 4 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 3 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 4,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 3,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "363241ce",
+"ts": "2026-11-22T08:48:40Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-21-key-after-a-resize",
+"--message-file",
+".andromeda/runs/2026-11-22T08-32-38Z-phase/relay-2.md",
+"--origin",
+"the overseer as delegate, this session's prompt, 2026-11-22T08:48:33Z",
+"--kind",
+"relay",
+"--why",
+"the P5 word yes on .andromeda/runs/2026-11-22T08-32-38Z-phase/p5-card-1.md, its Beyond the plan rows included; authority delegate the overseer, PROVISIONAL",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-22T08-32-38Z-phase",
+"--marker",
+"2026-11-21-key-after-a-resize"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I8 · copy message · message: the overseer as delegate, this session's prompt, 2026-11-22T08:48:33Z",
+"cite: inputs#I8"
+],
+"stderr": null,
+"wrote": [
+"inputs/I8-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I8",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer as delegate, this session's prompt, 2026-11-22T08:48:33Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "617f6285934dbe25c32ee446bb26f2cdbf2f653605f4afb3d2e79f4735f9ca4f",
+"copy": "I8-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-22T08:48:39Z",
+"step": "phase:P5",
+"why": "the P5 word yes on .andromeda/runs/2026-11-22T08-32-38Z-phase/p5-card-1.md, its Beyond the plan rows included; authority delegate the overseer, PROVISIONAL"
+}
+}
+]

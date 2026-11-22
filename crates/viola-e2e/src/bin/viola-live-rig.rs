@@ -3,7 +3,7 @@
 //! granted keys, keeps its frames under the gitignored `target/live-rig/`, and owns its isolation
 //! and its processes.
 //!
-//! - `rehearse <r1|r2|hold|r3b|r3|im|v|vc|ts|tc|vr|mt|vh|cx|sf|hb|av|mb|mc|cs|cc|ws|r3w> --program <fake agent> [--viola <exe>]
+//! - `rehearse <r1|r2|hold|r3b|r3|im|v|vc|ts|tc|vr|mt|vh|cx|sf|hb|kr|av|mb|mc|cs|cc|ws|r3w> --program <fake agent> [--viola <exe>]
 //!   [--tap <exe>] [--fake <exe>] [--target-home <dir> --claude-dir <dir> --user-config <file>] [--contain]
 //!   [-- <child args>]`: one start over the fake agent (CI runs these); `vh` refuses `usage` without
 //!   all three of its paths; `--contain` (`sf` alone, else `usage`) runs the child inside the
@@ -13,11 +13,15 @@
 //!   `/context`, then reading the hint's cells around one `x` and one DEL; `ws` is `v` keeping its
 //!   stamp in `<out>/wake-stamp.json`, `r3w` is `r3` seeding that kept stamp and reading viola's own
 //!   `wheel` lines after the fired wake, then sending again; `hb` reads a fresh box's hint cells
-//!   around one `x` and one DEL, unwrapped, with no send; `av` runs `viola run` in a home keyed
+//!   around one `x` and one DEL, unwrapped, with no send; `kr` (under `--grant box,resize`) types
+//!   a no-resize control `x` and DEL, then resizes its own pty 12 times, one `x` and one DEL after
+//!   each, unwrapped, with no send, and alone takes `--quiet-ms <100-400>` and `--kr-del-seam
+//!   withheld:<n>|late:<n>` (round `n`'s DEL never drawn, or drawn late), which `live` takes
+//!   none of; `av` runs `viola run` in a home keyed
 //!   `verify_new_cli` with no stamp, so the start runs its own verify before the session; `mb`
 //!   wraps the fake agent (`--fake`, else `--program`) with `viola run` and starts `--program` as
 //!   `viola mcp`'s print-mode MCP client, `mc` the same with the cut call's private `timeout`.
-//! - `live <R1|R2|R3B|R3|IM|S0|S0R|S0B|S0C|S1|S2|BP|BK|R4|R4M|L1|L2|SF|CS|CC|WS|HB|R3W|AV|MB|MB8|MC|…-2|R3-326|R3D> --cli <version> [--fake <exe>] --cap <n> --spare <n> --ledger <file>`: one live start
+//! - `live <R1|R2|R3B|R3|IM|S0|S0R|S0B|S0C|S1|S2|BP|BK|R4|R4M|L1|L2|SF|CS|CC|WS|HB|KR|KR8|R3W|AV|MB|MB8|MC|…-2|R3-326|R3D> --cli <version> [--fake <exe>] --cap <n> --spare <n> --ledger <file>`: one live start
 //!   of the stamped `claude`, refused under `CI`; `S0` / `S0R` / `S0B` run `viola verify` over it, `S0C`
 //!   reads its first frame at 80×24 and stops it with no key; `S1` runs `viola verify` in a trusted
 //!   git folder, then `viola run` in a fresh untrusted one, and `S2` a plain `claude` in one, each
@@ -31,7 +35,9 @@
 //!   against the snapshot's verdict, and stops it by TERM; `MB` and `MB8` (the long call) and `MC`
 //!   (the cut call, its server's `timeout` 5000 ms) run `viola run` over the fake agent given by
 //!   `--fake`, refused `fake` before their ledger line without it, and the stamped `claude` as
-//!   `viola mcp`'s print-mode client, one `wait` read into closed words.
+//!   `viola mcp`'s print-mode client, one `wait` read into closed words; `KR` and `KR8` run a
+//!   plain `claude` whose own pty the rig resizes 12 times, one `x` and one DEL after each resize,
+//!   no send.
 //! - `census [--kill]`: the processes an earlier, dead rig left, and their kill.
 //! - `capture --out <file>` (hidden): a wake start's UserPromptSubmit hook and `SF`'s StopFailure
 //!   hook, one closed-word line per payload.
@@ -78,6 +84,12 @@ enum Verb {
         /// `mb` / `mc`: the fake agent `viola run` wraps; `--program` when absent.
         #[arg(long)]
         fake: Option<PathBuf>,
+        /// `kr`: the quiet its after-key settles wait for, 100–400 ms.
+        #[arg(long)]
+        quiet_ms: Option<u64>,
+        /// `kr`: `withheld:<n>` or `late:<n>`, round `n`'s DEL withheld or typed late.
+        #[arg(long)]
+        kr_del_seam: Option<String>,
         #[command(flatten)]
         common: Common,
         #[arg(last = true)]
@@ -187,6 +199,8 @@ fn plan_of(label: String, arm: Arm, live: bool, common: Common) -> Option<Plan> 
         cwd: None,
         contain: false,
         fake: None,
+        quiet: rig::quiet_of(None)?,
+        kr_seam: None,
     })
 }
 
@@ -230,6 +244,8 @@ fn main() -> ExitCode {
             claude_dir,
             contain,
             fake,
+            quiet_ms,
+            kr_del_seam,
             common,
             child_args,
         } => {
@@ -247,6 +263,17 @@ fn main() -> ExitCode {
             if contain && arm != Arm::SF {
                 return usage();
             }
+            if (quiet_ms.is_some() || kr_del_seam.is_some()) && arm != Arm::KR {
+                return usage();
+            }
+            let Some(quiet) = rig::quiet_of(quiet_ms) else {
+                return usage();
+            };
+            let kr_seam = match kr_del_seam.as_deref().map(rig::KrSeam::parse) {
+                None => None,
+                Some(Some(seam)) => Some(seam),
+                Some(None) => return usage(),
+            };
             if arm == Arm::VH
                 && (target_home.is_none() || claude_dir.is_none() || common.user_config.is_none())
             {
@@ -261,6 +288,8 @@ fn main() -> ExitCode {
             plan.tap = tap;
             plan.contain = contain;
             plan.fake = fake;
+            plan.quiet = quiet;
+            plan.kr_seam = kr_seam;
             if arm == Arm::VH {
                 plan.target_home = target_home;
                 plan.claude_dir = claude_dir;
