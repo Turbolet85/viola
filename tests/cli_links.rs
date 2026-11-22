@@ -588,3 +588,66 @@ fn links_an_unlink_survives_a_wrapper_restart(stamped_home: StampedHome) {
     assert_logs_clean(&home);
     second.stop();
 }
+
+/// What a parent edge could change, read on one booted `builder`: each send's exit, the link pairs
+/// its log holds after it, in log order, and the wheel's holder after it. A send from `tester`,
+/// then, once its turn has ended, one from `overseer`.
+fn sends_read(stamped: StampedHome, flags: &[&str]) -> Vec<(Option<i32>, Vec<Value>, Value)> {
+    let fixtures = workspace_path("fixtures/claude");
+    let fixtures = fixtures.to_str().expect("utf-8 path");
+    let wrapper = Wrapper::boot_flagged(
+        stamped,
+        "builder",
+        None,
+        flags,
+        Some(PATH3),
+        &["--fixtures", fixtures],
+    );
+    let dir = wrapper.instance_dir();
+    let home = wrapper.home().to_path_buf();
+    wait_events(&dir, "the session-start record", |l| {
+        l.iter().any(|e| e["kind"] == "session-start")
+    });
+    assert!(links(&events(&dir)).is_empty(), "a link before any send");
+    let read = |code: Option<i32>| {
+        let pairs = links(&events(&dir))
+            .into_iter()
+            .map(|l| l["data"].clone())
+            .collect();
+        let holder = snapshot_data(&dir).expect("snapshot")["wheel"].clone();
+        (code, pairs, holder)
+    };
+    let mut readings = vec![read(send(&home, Some("tester")).code)];
+    wrapper.release();
+    wrapper.release();
+    wait_events(&dir, "the scripted Stop's turn-ended", |l| {
+        l.iter().any(|e| e["kind"] == "turn-ended")
+    });
+    readings.push(read(send(&home, Some("overseer")).code));
+    assert_eq!(wrapper.stop().code(), Some(0));
+    readings
+}
+
+/// A child launched `--parent overseer`: a send from `overseer` and one from `tester` are each
+/// accepted and each records its own implicit link, no `overseer -> builder` link stands until
+/// `overseer` sends, and the wheel reads as it does on a twin launched with no parent.
+#[rstest]
+fn lineage_changes_no_wheel_link_or_send(
+    stamped_home: StampedHome,
+    #[from(stamped_home)] twin: StampedHome,
+) {
+    let declared = sends_read(stamped_home, &["--parent", "overseer"]);
+    let pair = |driver: &str| json!({"driver": driver, "driven": "builder"});
+    assert_eq!(
+        declared,
+        [
+            (Some(0), vec![pair("tester")], json!("driver")),
+            (
+                Some(0),
+                vec![pair("tester"), pair("overseer")],
+                json!("driver")
+            ),
+        ]
+    );
+    assert_eq!(declared, sends_read(twin, &[]));
+}

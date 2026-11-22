@@ -62,6 +62,19 @@ pub struct InstanceSnapshot {
     /// `claude agents --json` rows (architecture §Standard Contracts, Instance snapshot).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub agent_session_id: Option<String>,
+    /// The `{parent, role}` the start's `lineage` line recorded: a drawing label for `viola list`,
+    /// read by no wheel, link, send or answer path.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub lineage: Option<Lineage>,
+}
+
+/// A start's self-reported parent and role, each absent when none was declared.
+#[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub struct Lineage {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub parent: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub role: Option<String>,
 }
 
 /// `{dialog_id, kind}` of the one pending dialog.
@@ -167,6 +180,7 @@ mod tests {
             pending_dialog: None,
             cwd: None,
             agent_session_id: None,
+            lineage: None,
         }
     }
 

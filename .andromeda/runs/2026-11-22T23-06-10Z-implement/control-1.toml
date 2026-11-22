@@ -1,0 +1,52 @@
+[[control]]
+id = "last-wins"
+entry = 6
+guard = "the replace in apply_lineage_line: a held lineage is kept, so the first lineage line wins"
+case = "lineage_rule_a_later_line_with_no_parent_clears_it"
+
+[[control.edit]]
+path = "crates/viola-state/src/replay.rs"
+old = '''
+    let data = &line["data"];
+    *lineage = Some(Lineage {
+'''
+new = '''
+    let data = &line["data"];
+    if lineage.is_some() {
+        return;
+    }
+    *lineage = Some(Lineage {
+'''
+
+[[control]]
+id = "name-check"
+entry = 6
+guard = "the ViolaName::try_new filter on a board link pair"
+case = "board_read_links_are_sorted_deduplicated_and_name_checked"
+
+[[control.edit]]
+path = "crates/viola-state/src/board.rs"
+old = '''
+        if ViolaName::try_new(driver.to_owned()).is_err()
+            || ViolaName::try_new(driven.to_owned()).is_err()
+        {
+            continue;
+        }
+'''
+new = '''
+'''
+
+[[control]]
+id = "revive-keep"
+entry = 10
+guard = "the recorded lineage handed into the revive's Launch (a default in its place)"
+case = "revive_keeps_the_recorded_parent_and_role"
+
+[[control.edit]]
+path = "src/cmd/revive.rs"
+old = '''
+        lineage: recorded_lineage(&recovered),
+'''
+new = '''
+        lineage: Lineage::default(),
+'''

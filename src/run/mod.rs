@@ -40,6 +40,7 @@ pub(crate) fn first() -> viola_state::snapshot::InstanceSnapshot {
         pending_dialog: None,
         cwd: None,
         agent_session_id: None,
+        lineage: None,
     }
 }
 

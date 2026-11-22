@@ -23,7 +23,7 @@ use viola_state::heartbeat::{Heartbeat, beat_age, touch_heartbeat};
 use viola_state::liveness::{Liveness, STALE_AFTER, classify, own_start, same_process};
 use viola_state::pin::{PinError, Pinned, pin_bytes, pin_key};
 use viola_state::replay::{Recovered, read_snapshot_or_replay};
-use viola_state::snapshot::{InstanceSnapshot, Wheel};
+use viola_state::snapshot::{InstanceSnapshot, Lineage, Wheel};
 use viola_state::strict::check_endpoint_dir;
 use viola_state::strict::{TreeRefused, check_home_tree};
 
@@ -44,9 +44,48 @@ pub(crate) struct RunArgs {
     /// Instance name: [a-z0-9-], 1-32 characters, starting with a letter
     #[arg(value_parser = super::send::parse_name)]
     pub(super) name: ViolaName,
+    /// The session this one was launched by, a name; else the launching session's own
+    #[arg(long, value_name = "NAME", value_parser = super::send::parse_name)]
+    parent: Option<ViolaName>,
+    /// A word naming this session's role: [a-z0-9-], starting with a letter
+    #[arg(long, value_name = "WORD", value_parser = parse_role)]
+    role: Option<String>,
     /// The program to wrap and its arguments, after `--`
     #[arg(last = true, required = true)]
     program: Vec<OsString>,
+}
+
+fn parse_role(word: &str) -> Result<String, String> {
+    if viola_core::is_code_word(word) {
+        Ok(word.to_owned())
+    } else {
+        Err("a role is [a-z0-9-], 1-64 characters, starting with a letter".to_owned())
+    }
+}
+
+/// The arguments clap cannot check alone: a `--parent` naming the session itself is a usage error.
+fn checked(args: RunArgs) -> Result<RunArgs, clap::Error> {
+    if args.parent.as_ref() == Some(&args.name) {
+        return Err(clap::Error::raw(
+            clap::error::ErrorKind::ArgumentConflict,
+            "the argument '--parent <NAME>' cannot name the session itself\n",
+        ));
+    }
+    Ok(args)
+}
+
+/// The lineage a `run` start records: the `--parent` given, else the inherited name of the session
+/// it was typed in (read as the parent only, never as this instance), dropped when it is this
+/// instance's own; the role as given.
+fn lineage_of(args: &RunArgs, inherited: Option<ViolaName>) -> Lineage {
+    let parent = args
+        .parent
+        .clone()
+        .or_else(|| inherited.filter(|own| own != &args.name));
+    Lineage {
+        parent: parent.map(|name| name.as_ref().to_owned()),
+        role: args.role.clone(),
+    }
 }
 
 fn name_str(name: &ViolaName) -> &str {
@@ -166,9 +205,13 @@ pub(super) struct Launch {
     pub(super) spawn_dir: PathBuf,
     /// A start refusal prints its one `--json` document in place of its pair.
     pub(super) json: bool,
+    /// The `{parent, role}` the start's `lineage` line records.
+    pub(super) lineage: Lineage,
 }
 
 pub(crate) fn run(home: &Path, args: RunArgs) -> anyhow::Result<ExitCode> {
+    let args = checked(args).unwrap_or_else(|usage| usage.exit());
+    let lineage = lineage_of(&args, super::client::own_name());
     let exe = match checked_exe(home, &args.name)? {
         Ok(exe) => exe,
         Err(refused) => {
@@ -186,6 +229,7 @@ pub(crate) fn run(home: &Path, args: RunArgs) -> anyhow::Result<ExitCode> {
         args: words.collect(),
         spawn_dir: std::env::current_dir()?,
         json: false,
+        lineage,
     };
     match start(home, &launch, &persistent, &exe)? {
         Started::Launched(launched) => pump_child(*launched),
@@ -382,6 +426,7 @@ pub(super) fn start(
         Recorded {
             spawn_dir: &launch.spawn_dir,
             links: links.current(),
+            lineage: launch.lineage.clone(),
         },
     )?;
     let child = run::child_launch(
@@ -551,11 +596,13 @@ fn socket_dir_ready(endpoint: &str) -> bool {
 struct Recorded<'a> {
     spawn_dir: &'a Path,
     links: Vec<Value>,
+    lineage: Lineage,
 }
 
-/// The first snapshot (with the endpoint, the version gate's reading, the restored link set and the
-/// child's spawn directory when it is valid UTF-8), the heartbeat and its thread, then the start's
-/// `wheel` event; the returned guard keeps the heartbeat running.
+/// The first snapshot (with the endpoint, the version gate's reading, the restored link set, the
+/// child's spawn directory when it is valid UTF-8 and the launch's lineage), the heartbeat and its
+/// thread, then the start's `wheel` event and its `lineage` event; the returned guard keeps the
+/// heartbeat running.
 fn start_state(
     name: &ViolaName,
     instance_dir: &Path,
@@ -580,12 +627,17 @@ fn start_state(
         pending_dialog: None,
         cwd: recorded.spawn_dir.to_str().map(str::to_owned),
         agent_session_id: None,
+        lineage: Some(recorded.lineage.clone()),
     };
     snapshots.init(snapshot.clone())?;
     touch_heartbeat(instance_dir)?;
     let beat = Heartbeat::start(instance_dir.to_path_buf());
     let data = json!({"holder": Wheel::Driver.as_str(), "cause": WheelCause::Start.as_str()});
     let line = EventLine::new(name, EventKind::Wheel, Source::Wrapper, data, Utc::now());
+    append_event(instance_dir, &line)?;
+    let Lineage { parent, role } = recorded.lineage;
+    let data = json!({"parent": parent, "role": role});
+    let line = EventLine::new(name, EventKind::Lineage, Source::Wrapper, data, Utc::now());
     append_event(instance_dir, &line)?;
     Ok((beat, snapshot))
 }
@@ -1246,6 +1298,14 @@ mod tests {
     /// The first snapshot `start_state` writes for a child spawned in `spawn_dir`, read back from
     /// the instance directory.
     fn first_snapshot(instance_dir: &Path, spawn_dir: &Path) -> InstanceSnapshot {
+        first_snapshot_of(instance_dir, spawn_dir, Lineage::default())
+    }
+
+    fn first_snapshot_of(
+        instance_dir: &Path,
+        spawn_dir: &Path,
+        lineage: Lineage,
+    ) -> InstanceSnapshot {
         let name = ViolaName::try_new("builder".to_owned()).expect("valid");
         let pinned = Pinned {
             key: "k".to_owned(),
@@ -1270,6 +1330,7 @@ mod tests {
             Recorded {
                 spawn_dir,
                 links: links.current(),
+                lineage,
             },
         )
         .expect("the start state");
@@ -1306,7 +1367,7 @@ mod tests {
             .iter()
             .map(|e| e["kind"].clone())
             .collect();
-        assert_eq!(kinds, ["link", "wheel"]);
+        assert_eq!(kinds, ["link", "wheel", "lineage"]);
     }
 
     /// The first snapshot records where the child is spawned, and the start event stands as it
@@ -1325,10 +1386,122 @@ mod tests {
         let read: Vec<(&Value, &Value)> = events.iter().map(|e| (&e["kind"], &e["data"])).collect();
         assert_eq!(
             read,
-            [(
-                &json!("wheel"),
-                &json!({"holder": "driver", "cause": "start"})
-            ),]
+            [
+                (
+                    &json!("wheel"),
+                    &json!({"holder": "driver", "cause": "start"})
+                ),
+                (&json!("lineage"), &json!({"parent": null, "role": null})),
+            ]
+        );
+    }
+
+    /// The snapshot holds the lineage before the start's lines; the `lineage` line, `source`
+    /// `wrapper`, follows the `wheel` start line directly.
+    #[test]
+    fn start_state_writes_the_lineage_line_after_the_wheel_line() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let instance_dir = tmp.path().join("instance");
+        let lineage = Lineage {
+            parent: Some("overseer".to_owned()),
+            role: Some("builder".to_owned()),
+        };
+        let snapshot = first_snapshot_of(&instance_dir, tmp.path(), lineage.clone());
+        assert_eq!(snapshot.lineage, Some(lineage));
+        let events = events_in(&instance_dir);
+        let read: Vec<(&Value, &Value, &Value)> = events
+            .iter()
+            .map(|e| (&e["kind"], &e["source"], &e["data"]))
+            .collect();
+        assert_eq!(
+            read,
+            [
+                (
+                    &json!("wheel"),
+                    &json!("wrapper"),
+                    &json!({"holder": "driver", "cause": "start"})
+                ),
+                (
+                    &json!("lineage"),
+                    &json!("wrapper"),
+                    &json!({"parent": "overseer", "role": "builder"})
+                ),
+            ]
+        );
+    }
+
+    #[derive(clap::Parser)]
+    struct Line {
+        #[command(flatten)]
+        args: RunArgs,
+    }
+
+    fn parse(words: &[&str]) -> Result<RunArgs, clap::error::ErrorKind> {
+        use clap::Parser as _;
+        Line::try_parse_from(std::iter::once("run").chain(words.iter().copied()))
+            .map_err(|error| error.kind())
+            .and_then(|line| checked(line.args).map_err(|error| error.kind()))
+    }
+
+    fn named(text: &str) -> ViolaName {
+        ViolaName::try_new(text.to_owned()).expect("valid")
+    }
+
+    #[rstest::rstest]
+    #[case::both(&["builder", "--parent", "overseer", "--role", "builder", "--", "claude"], Ok((Some("overseer"), Some("builder"))))]
+    #[case::parent_alone(&["builder", "--parent", "overseer", "--", "claude"], Ok((Some("overseer"), None)))]
+    #[case::neither(&["builder", "--", "claude"], Ok((None, None)))]
+    #[case::bad_name(&["builder", "--parent", "Over Seer", "--", "claude"], Err(clap::error::ErrorKind::ValueValidation))]
+    #[case::bad_role(&["builder", "--role", "Builder!", "--", "claude"], Err(clap::error::ErrorKind::ValueValidation))]
+    #[case::self_parent(&["builder", "--parent", "builder", "--", "claude"], Err(clap::error::ErrorKind::ArgumentConflict))]
+    fn run_args_take_parent_and_role(
+        #[case] words: &[&str],
+        #[case] expected: Result<(Option<&str>, Option<&str>), clap::error::ErrorKind>,
+    ) {
+        let parsed =
+            parse(words).map(|args| (args.parent.map(|name| name.as_ref().to_owned()), args.role));
+        let expected =
+            expected.map(|(parent, role)| (parent.map(str::to_owned), role.map(str::to_owned)));
+        assert_eq!(parsed, expected);
+        if let Err(kind) = parsed {
+            let error = clap::Error::new(kind);
+            assert_eq!(error.exit_code(), 2, "{kind:?}");
+        }
+    }
+
+    #[test]
+    fn run_lineage_takes_the_flag_over_the_inherited_name() {
+        let args = parse(&["builder", "--parent", "overseer", "--", "claude"]).expect("args");
+        assert_eq!(
+            lineage_of(&args, Some(named("tester"))),
+            Lineage {
+                parent: Some("overseer".to_owned()),
+                role: None,
+            }
+        );
+    }
+
+    #[test]
+    fn run_lineage_an_inherited_name_is_the_parent_when_no_flag() {
+        let args = parse(&["builder", "--role", "builder", "--", "claude"]).expect("args");
+        assert_eq!(
+            lineage_of(&args, Some(named("overseer"))),
+            Lineage {
+                parent: Some("overseer".to_owned()),
+                role: Some("builder".to_owned()),
+            }
+        );
+        assert_eq!(lineage_of(&args, None).parent, None);
+    }
+
+    /// A `viola run builder` typed inside `builder`'s own session: the inherited name is dropped,
+    /// never refused.
+    #[test]
+    fn run_lineage_an_inherited_own_name_is_no_parent() {
+        let args = parse(&["builder", "--", "claude"]).expect("args");
+        assert_eq!(
+            lineage_of(&args, Some(named("builder"))),
+            Lineage::default()
         );
     }
 
@@ -1366,6 +1539,7 @@ mod tests {
             args: Vec::new(),
             spawn_dir: std::env::current_dir().expect("cwd"),
             json: false,
+            lineage: Lineage::default(),
         };
         let exe = std::fs::read(std::env::current_exe().expect("exe")).expect("exe bytes");
         let (started, spans) =

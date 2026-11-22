@@ -12,6 +12,7 @@ use serde_json::{Value, json};
 use viola_agent_claude::{PROGRAM, RESUME_FLAG, is_session_id, resume_args};
 use viola_core::ViolaName;
 use viola_state::replay::{Recovered, SessionLink, read_snapshot_or_replay, session_chain};
+use viola_state::snapshot::Lineage;
 use viola_state::strict::check_instance;
 
 use super::client;
@@ -223,7 +224,7 @@ fn preflight(home: &Path, args: ReviveArgs) -> anyhow::Result<Result<Launch, Sta
         |(id, _)| (!fork && live_elsewhere(&home, &cwd, id)).then(|| refuse(Refusal::SessionLive)),
         |(_, recovered)| recorded_dir(recovered).ok_or_else(|| refuse(Refusal::CwdMissing)),
     )?;
-    let ((id, _), spawn_dir) = match passed {
+    let ((id, recovered), spawn_dir) = match passed {
         Ok(passed) => passed,
         Err(refusal) => return Ok(Err(refusal)),
     };
@@ -235,7 +236,17 @@ fn preflight(home: &Path, args: ReviveArgs) -> anyhow::Result<Result<Launch, Sta
         args: child_args,
         spawn_dir,
         json,
+        lineage: recorded_lineage(&recovered),
     }))
+}
+
+/// The lineage the dead wrapper recorded, kept as it was, a gone parent included; none from a
+/// replayed or an absent snapshot, which a revive refuses `cwd-missing` before it matters.
+fn recorded_lineage(recovered: &Recovered) -> Lineage {
+    match recovered {
+        Recovered::Snapshot(snapshot) => snapshot.lineage.clone().unwrap_or_default(),
+        Recovered::Absent | Recovered::Replayed { .. } => Lineage::default(),
+    }
 }
 
 /// The session a revive resumes: the asked id when the log holds it, else the newest logged one.
@@ -538,6 +549,7 @@ mod tests {
             pending_dialog: None,
             cwd: cwd.map(|dir| dir.to_str().expect("utf-8").to_owned()),
             agent_session_id: None,
+            lineage: None,
         }))
     }
 

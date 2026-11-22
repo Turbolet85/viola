@@ -1,0 +1,96 @@
+[
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "913e94cc",
+"ts": "2026-11-22T23:35:25Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-22-lineage-registry",
+"--id",
+"v2-09",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-22T23-06-10Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v2-09 · status planned → implemented · ref tests/chaos_snapshot_replay.rs::e5_the_replay_reads_the_lineage_the_wrapper_wrot… (928 chars)",
+"landed, rendered ./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson"
+],
+"before": {
+"id": "v2-09",
+"chunk": "2026-11-22-lineage-registry",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "A session's declared parent and role (`viola run --parent`/`--role`, else the inherited `VIOLA_NAME` as the parent) are … (1016 chars)",
+"notes_chars": 708
+},
+"after": {
+"id": "v2-09",
+"chunk": "2026-11-22-lineage-registry",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/chaos_snapshot_replay.rs::e5_the_replay_reads_the_lineage_the_wrapper_wrote · src/cmd/run.rs::tests::start_state_w… (928 chars)",
+"acceptance": "A session's declared parent and role (`viola run --parent`/`--role`, else the inherited `VIOLA_NAME` as the parent) are … (1016 chars)",
+"notes_chars": 708
+}
+},
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "913e94cc",
+"ts": "2026-11-22T23:35:26Z",
+"argv": [
+"implement",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-22-lineage-registry",
+"--id",
+"v2-10",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-22T23-06-10Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v2-10 · status planned → implemented · ref tests/cli_list.rs::list_links_block_shows_a_send_link_apart_from_the_parent_edge… (442 chars)",
+"landed, rendered ./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson"
+],
+"before": {
+"id": "v2-10",
+"chunk": "2026-11-22-lineage-registry",
+"status": "planned",
+"method": "integration",
+"ref": "null",
+"acceptance": "Observed links appear apart from parent edges on every view that shows both, and a link whose name is not a valid viola … (665 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v2-10",
+"chunk": "2026-11-22-lineage-registry",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cli_list.rs::list_links_block_shows_a_send_link_apart_from_the_parent_edge · crates/viola-state/src/board.rs::test… (442 chars)",
+"acceptance": "Observed links appear apart from parent edges on every view that shows both, and a link whose name is not a valid viola … (665 chars)",
+"notes_chars": 0
+}
+}
+]

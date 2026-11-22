@@ -1,0 +1,14 @@
+[[control]]
+id = "harness-unwrapped"
+entry = 11
+guard = "the harness wrapper spawn's removal of the inherited VIOLA_NAME / VIOLA_DIR / VIOLA_BIN"
+case = "harness_session_boots_reports_logs_and_tears_down"
+
+[[control.edit]]
+path = "crates/viola-e2e/src/harness/supervise.rs"
+old = '''
+        env_remove: INHERITED.iter().map(OsString::from).collect(),
+'''
+new = '''
+        env_remove: Vec::new(),
+'''

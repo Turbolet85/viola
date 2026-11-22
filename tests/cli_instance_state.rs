@@ -51,13 +51,15 @@ const TAMPERED: &str = "unable: the pinned viola copy failed its integrity check
 fn path1_start_writes_state_before_the_spawn(booted_wrapper: Wrapper) {
     let dir = booted_wrapper.instance_dir();
     let events = events(&dir);
-    assert_eq!(events.len(), 1, "{events:?}");
-    {
-        let (line, kind, data) = (
+    assert_eq!(events.len(), 2, "{events:?}");
+    for (line, kind, data) in [
+        (
             &events[0],
             "wheel",
             json!({"holder": "driver", "cause": "start"}),
-        );
+        ),
+        (&events[1], "lineage", json!({"parent": null, "role": null})),
+    ] {
         assert_eq!(line["v"], 1);
         assert_eq!(line["instance"], "builder");
         assert_eq!(line["kind"], kind);
@@ -213,7 +215,7 @@ fn run_takes_over_a_gone_name_and_appends(stamped_home: StampedHome) {
     assert!(now.starts_with(&prior), "earlier bytes were not kept");
     let added = support::ndjson::complete_lines(&now[prior.len()..]);
     let kinds: Vec<&Value> = added.iter().map(|l| &l["kind"]).collect();
-    assert_eq!(kinds, [&json!("wheel")]);
+    assert_eq!(kinds, [&json!("wheel"), &json!("lineage")]);
     assert_ne!(snapshot_data(&dir).expect("snapshot")["pid"], first_pid);
     assert_eq!(second.stop().code(), Some(0));
 }
@@ -377,11 +379,11 @@ fn run_in_the_default_home_leaves_the_user_settings_as_found() {
     assert_eq!(bytes_and_mtime(&settings), before);
 }
 
-/// test-plan §6 Path 1 with the child's first hook: records 1–2 are `wheel{cause:"start"}` →
+/// test-plan §6 Path 1 with the child's first hook: records 1–3 are `wheel{cause:"start"}` → `lineage` →
 /// `session-start{source:"hook"}`, and the fake agent ran the plugin's SessionStart command by its
 /// absolute path (M6).
 #[rstest]
-fn path1_session_start_is_record_two_through_the_absolute_hook(stamped_home: StampedHome) {
+fn path1_session_start_is_record_three_through_the_absolute_hook(stamped_home: StampedHome) {
     let fixtures = stamped_home.home.scratch().join("fixtures");
     fake::write_fixture(
         &fixtures,
@@ -411,25 +413,27 @@ fn path1_session_start_is_record_two_through_the_absolute_hook(stamped_home: Sta
     let deadline = std::time::Instant::now() + support::watch::WITHIN;
     let events = loop {
         let lines = events(&dir);
-        if lines.len() >= 2 {
+        if lines.len() >= 3 {
             break lines;
         }
         watch.note(&format!("events {}", lines.len()));
-        watch.deadline_check(deadline, "no second event");
+        watch.deadline_check(deadline, "no third event");
         std::thread::yield_now();
     };
-    assert_eq!(events.len(), 2, "{events:?}");
+    assert_eq!(events.len(), 3, "{events:?}");
     let kinds: Vec<(&Value, &Value)> = events.iter().map(|l| (&l["kind"], &l["source"])).collect();
     assert_eq!(
         kinds,
         [
             (&json!("wheel"), &json!("wrapper")),
+            (&json!("lineage"), &json!("wrapper")),
             (&json!("session-start"), &json!("hook")),
         ]
     );
     assert_eq!(events[0]["data"]["cause"], "start");
+    assert_eq!(events[1]["data"], json!({"parent": null, "role": null}));
     assert_eq!(
-        events[1]["data"],
+        events[2]["data"],
         json!({"cause": "startup", "agent_session_id": "s-3"})
     );
     assert_eq!(wrapper.stop().code(), Some(0));

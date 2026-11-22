@@ -10,7 +10,9 @@ use viola_core::{EventKind, ViolaName, obs_event};
 
 use crate::StateError;
 use crate::events::{Skipped, read_from};
-use crate::snapshot::{InstanceSnapshot, SNAPSHOT, SnapshotRead, Wheel, read_snapshot_classified};
+use crate::snapshot::{
+    InstanceSnapshot, Lineage, SNAPSHOT, SnapshotRead, Wheel, read_snapshot_classified,
+};
 
 /// What one pass over the log recovers. A field no line gave is `None`, never a default. `links`
 /// is derived from the link kinds alone, and a pending dialog is never rebuilt from the log.
@@ -22,6 +24,8 @@ pub struct Replayed {
     pub dialog_pending: bool,
     /// What the pass stepped over.
     pub skipped: Skipped,
+    /// The last `lineage` line's `{parent, role}`.
+    pub lineage: Option<Lineage>,
 }
 
 /// Why the log was replayed in place of the snapshot.
@@ -52,6 +56,7 @@ pub fn replay(instance_dir: &Path) -> Result<Replayed, StateError> {
     for line in lines.by_ref() {
         let line = line?;
         apply_link_line(&mut replayed.links, &line.value);
+        apply_lineage_line(&mut replayed.lineage, &line.value);
         let data = &line.value["data"];
         match line.value["kind"].as_str().and_then(EventKind::from_name) {
             Some(EventKind::Wheel) => replayed.wheel = holder(&data["holder"]),
@@ -91,6 +96,20 @@ pub fn apply_link_line(links: &mut Vec<Value>, line: &Value) -> bool {
         }
         _ => false,
     }
+}
+
+/// One logged line applied to the held lineage: a `lineage` line replaces it whole with its own
+/// `{parent, role}`, so a later start that declared no parent clears an earlier one (a non-string
+/// or absent member reads `None`); a line of any other kind changes nothing. It writes nothing.
+pub fn apply_lineage_line(lineage: &mut Option<Lineage>, line: &Value) {
+    if line["kind"].as_str().and_then(EventKind::from_name) != Some(EventKind::Lineage) {
+        return;
+    }
+    let data = &line["data"];
+    *lineage = Some(Lineage {
+        parent: data["parent"].as_str().map(str::to_owned),
+        role: data["role"].as_str().map(str::to_owned),
+    });
 }
 
 /// One logged session: a `session-start` line that carries an id.
@@ -217,6 +236,7 @@ mod tests {
             pending_dialog: None,
             cwd: None,
             agent_session_id: None,
+            lineage: None,
         }
     }
 
@@ -256,6 +276,7 @@ mod tests {
             links: Vec::new(),
             dialog_pending: false,
             skipped: NONE_SKIPPED,
+            lineage: None,
         }
     }
 
@@ -284,6 +305,7 @@ mod tests {
                 links: Vec::new(),
                 dialog_pending: false,
                 skipped: NONE_SKIPPED,
+                lineage: None,
             }
         );
     }
@@ -306,6 +328,7 @@ mod tests {
                 links: Vec::new(),
                 dialog_pending: false,
                 skipped: NONE_SKIPPED,
+                lineage: None,
             }
         );
     }
@@ -338,6 +361,7 @@ mod tests {
             links: Vec::new(),
             dialog_pending: false,
             skipped: NONE_SKIPPED,
+            lineage: None,
         };
         let tmp = tempfile::tempdir().expect("tempdir");
         assert_eq!(replay(tmp.path()).expect("absent"), nothing);
@@ -370,6 +394,7 @@ mod tests {
                     unknown_fields: 1,
                     torn_lines: 1,
                 },
+                lineage: None,
             }
         );
     }
@@ -652,6 +677,80 @@ mod tests {
                 ..full_state()
             }
         );
+    }
+
+    fn lineage_line(data: Value) -> Value {
+        json!({"v": 1, "ts": FIRST, "instance": "builder", "kind": "lineage", "source": "wrapper",
+            "data": data})
+    }
+
+    fn lineage(parent: Option<&str>, role: Option<&str>) -> Option<Lineage> {
+        Some(Lineage {
+            parent: parent.map(str::to_owned),
+            role: role.map(str::to_owned),
+        })
+    }
+
+    #[test]
+    fn lineage_rule_the_last_line_wins() {
+        let mut held = None;
+        apply_lineage_line(
+            &mut held,
+            &lineage_line(json!({"parent": "overseer", "role": "builder"})),
+        );
+        assert_eq!(held, lineage(Some("overseer"), Some("builder")));
+        apply_lineage_line(
+            &mut held,
+            &lineage_line(json!({"parent": "tester", "role": null})),
+        );
+        assert_eq!(held, lineage(Some("tester"), None));
+    }
+
+    /// A reused name: its later start declared no parent, so the earlier life's parent is gone.
+    #[test]
+    fn lineage_rule_a_later_line_with_no_parent_clears_it() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        log(
+            tmp.path(),
+            &[
+                (
+                    EventKind::Lineage,
+                    json!({"parent": "overseer", "role": "builder"}),
+                ),
+                (EventKind::Lineage, json!({"parent": null, "role": null})),
+            ],
+        );
+        assert_eq!(
+            replay(tmp.path()).expect("replay").lineage,
+            lineage(None, None)
+        );
+    }
+
+    #[rstest]
+    #[case::numbers(json!({"parent": 7, "role": 8}))]
+    #[case::objects(json!({"parent": {"name": "overseer"}, "role": ["builder"]}))]
+    #[case::absent(json!({}))]
+    fn lineage_rule_a_non_string_member_reads_none(#[case] data: Value) {
+        let mut held = lineage(Some("overseer"), Some("builder"));
+        apply_lineage_line(&mut held, &lineage_line(data));
+        assert_eq!(held, lineage(None, None));
+    }
+
+    #[test]
+    fn lineage_rule_a_line_of_another_kind_changes_nothing() {
+        let mut held = lineage(Some("overseer"), Some("builder"));
+        for kind in ["wheel", "link", "session-start", "later-kind"] {
+            let line = json!({"ts": LATER, "kind": kind,
+                "data": {"parent": "other", "role": "other"}});
+            apply_lineage_line(&mut held, &line);
+            assert_eq!(held, lineage(Some("overseer"), Some("builder")), "{kind}");
+        }
+        let no_kind = json!({"ts": LATER, "data": {"parent": "other", "role": "other"}});
+        apply_lineage_line(&mut held, &no_kind);
+        assert_eq!(held, lineage(Some("overseer"), Some("builder")));
+        let mut none = None;
+        apply_lineage_line(&mut none, &no_kind);
+        assert_eq!(none, None);
     }
 
     fn link(cause: &str, id: &str) -> SessionLink {

@@ -17,6 +17,10 @@ use super::{Outcome, POLL, Workspace, exe, expired, valid_session_id, write_json
 
 const STOP_DEADLINE: Duration = Duration::from_secs(10);
 
+/// A wrapped session's own names, which a harness boot launched inside one would hand on: its
+/// wrappers start unwrapped, so none records the launching session as its parent.
+const INHERITED: [&str; 3] = ["VIOLA_NAME", "VIOLA_DIR", "VIOLA_BIN"];
+
 struct Wrapper {
     name: String,
     pty: PortablePty,
@@ -34,7 +38,7 @@ fn spawn_in_pty(
         args,
         cwd: std::env::current_dir().unwrap_or_else(|_| std::env::temp_dir()),
         env_set: env,
-        env_remove: Vec::new(),
+        env_remove: INHERITED.iter().map(OsString::from).collect(),
         size: Size::DEFAULT,
     };
     let mut pty = viola_pty::spawn(&spec)?;

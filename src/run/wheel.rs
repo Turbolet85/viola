@@ -909,6 +909,7 @@ mod tests {
                 pending_dialog: None,
                 cwd: None,
                 agent_session_id: None,
+                lineage: None,
             })
             .expect("snapshot");
         let wheel = Arc::new(WheelSlot::default());

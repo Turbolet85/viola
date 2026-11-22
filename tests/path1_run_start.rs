@@ -43,21 +43,22 @@ fn commands(value: &Value, found: &mut Vec<String>) {
 
 #[rstest]
 fn path1_run_start_one_home_in_order(stamped_home: StampedHome) {
-    // 1. The start under an outer terminal: the wheel, then the hook's session-start, and the child
-    // spawned after the wheel's record.
+    // 1. The start under an outer terminal: the wheel, the wrapper's lineage, then the hook's
+    // session-start, and the child spawned after the wheel's record.
     let wrapper = support::events::boot(stamped_home, None, &[]);
     let home = wrapper.home().to_path_buf();
     let dir = wrapper.instance_dir();
     let records = events(&dir);
     let kinds: Vec<(&Value, &Value)> = records
         .iter()
-        .take(2)
+        .take(3)
         .map(|l| (&l["kind"], &l["source"]))
         .collect();
     assert_eq!(
         kinds,
         [
             (&json!("wheel"), &json!("wrapper")),
+            (&json!("lineage"), &json!("wrapper")),
             (&json!("session-start"), &json!("hook")),
         ]
     );

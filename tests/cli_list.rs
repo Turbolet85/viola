@@ -22,6 +22,10 @@ use support::home::{
     workspace_path,
 };
 use support::hygiene::load_schema;
+use support::verify::CANARY;
+
+/// A gated `PostToolUse`, then a gated `Stop`: the turn a confirmed send started, ended on cue.
+const PATH3: &str = "fixtures/fake-scripts/path3.json";
 
 const BAY: &str = "BAY  skipped 0 - 0 - 0";
 const CAPTION: &str = "NAME     LIVE   STATUS   WHEEL                    DIALOG             CLI";
@@ -695,4 +699,168 @@ fn list_refuses_an_instance_another_user_could_write() {
     assert_eq!(tree(home), before, "a file was added or changed");
     assert_eq!(mode_of(&dir), 0o770);
     set_mode(&dir, 0o700);
+}
+/// `builder` declared under `parent` with the role `builder`, beside a wrapper already booted on
+/// the same home (or alone on `stamped`), over the committed hook fixtures and `script`, its
+/// SessionStart landed.
+fn boot_child(stamped: StampedHome, parent: &str, script: Option<&str>) -> Wrapper {
+    let fixtures = workspace_path("fixtures/claude");
+    let fixtures = fixtures.to_str().expect("utf-8 path");
+    let wrapper = Wrapper::boot_flagged(
+        stamped,
+        "builder",
+        None,
+        &["--parent", parent, "--role", "builder"],
+        script,
+        &["--fixtures", fixtures],
+    );
+    support::events::wait_events(&wrapper.instance_dir(), "the session-start record", |l| {
+        l.iter().any(|e| e["kind"] == "session-start")
+    });
+    wrapper
+}
+
+/// `overseer` booted, then `builder` launched with `--parent overseer`: the piped board draws
+/// `builder` under `overseer`, its NAME two spaces in, every column still under its caption.
+#[rstest]
+fn list_draws_a_declared_child_under_its_parent_piped(stamped_home: StampedHome) {
+    let overseer = Wrapper::boot(stamped_home, "overseer", None, &[]);
+    let builder = boot_child(overseer.beside(), "overseer", None);
+    let home = overseer.home().to_path_buf();
+    let human = list(&home, false, None);
+    assert_eq!(human.code, Some(0), "stderr: {}", human.stderr);
+    assert_eq!(
+        human.stdout,
+        concat!(
+            "BAY  skipped 0 - 0 - 0\n",
+            "NAME       LIVE   STATUS   WHEEL                    DIALOG             CLI\n",
+            "overseer   live   unknown  driver                   none               2.1.328 verified\n",
+            "  builder  live   unknown  driver                   none               2.1.328 verified\n",
+        )
+    );
+    assert!(human.stderr.is_empty(), "stderr: {}", human.stderr);
+    assert_plain(&human);
+    assert_eq!(builder.stop().code(), Some(0));
+    assert_eq!(overseer.stop().code(), Some(0));
+}
+
+/// `--json` gives the declared child `parent` and `role` after its eight keys; the parent's own
+/// item carries neither, and the board holds no link.
+#[rstest]
+fn list_json_carries_parent_and_role(stamped_home: StampedHome) {
+    let overseer = Wrapper::boot(stamped_home, "overseer", None, &[]);
+    let builder = boot_child(overseer.beside(), "overseer", None);
+    let home = overseer.home().to_path_buf();
+    let doc = document(&list(&home, true, None));
+    assert_eq!(
+        doc,
+        json!({"v": 1, "ok": {
+            "items": [
+                {
+                    "name": "builder", "wrapped": true, "liveness": "live", "status": "unknown",
+                    "wheel": "driver", "dialog_pending": false,
+                    "cli_version": "2.1.328", "cli_verified": true,
+                    "parent": "overseer", "role": "builder",
+                },
+                {
+                    "name": "overseer", "wrapped": true, "liveness": "live", "status": "unknown",
+                    "wheel": "driver", "dialog_pending": false,
+                    "cli_version": "2.1.328", "cli_verified": true,
+                },
+            ],
+            "skipped": {"unknown_kinds": 0, "unknown_fields": 0, "torn_lines": 0},
+        }})
+    );
+    let keys: Vec<&str> = doc["ok"]["items"][0]
+        .as_object()
+        .expect("an item")
+        .keys()
+        .map(String::as_str)
+        .collect();
+    assert_eq!(
+        keys,
+        [
+            "name",
+            "wrapped",
+            "liveness",
+            "status",
+            "wheel",
+            "dialog_pending",
+            "cli_version",
+            "cli_verified",
+            "parent",
+            "role"
+        ]
+    );
+    assert_eq!(builder.stop().code(), Some(0));
+    assert_eq!(overseer.stop().code(), Some(0));
+}
+
+/// A send into `builder` from `tester` (its `VIOLA_NAME` on the sending CLI only) is an observed
+/// link: it prints in the `-- LINKS --` block after the board and in `--json`'s top-level `links`,
+/// while `builder`'s declared parent `overseer`, never booted, gives no link and no row.
+#[rstest]
+fn list_links_block_shows_a_send_link_apart_from_the_parent_edge(stamped_home: StampedHome) {
+    let builder = boot_child(stamped_home, "overseer", Some(PATH3));
+    let home = builder.home().to_path_buf();
+    let text = format!("{CANARY} to the builder");
+    let sent = viola(
+        &home,
+        &["send", "builder", "--json"],
+        Some(&text),
+        Some("tester"),
+    );
+    assert_eq!(sent.code, Some(0), "stderr: {}", sent.stderr);
+
+    let human = list(&home, false, None);
+    assert_eq!(human.code, Some(0), "stderr: {}", human.stderr);
+    assert_eq!(
+        human.stdout,
+        format!("{BAY}\n{CAPTION}\n{ROW}\n-- LINKS --\ntester -> builder\n")
+    );
+    assert_plain(&human);
+    let doc = document(&list(&home, true, None));
+    let links = doc["ok"]["links"].as_array().expect("links");
+    assert_eq!(links.len(), 1, "{links:?}");
+    assert_eq!(links[0]["driver"], "tester");
+    assert_eq!(links[0]["driven"], "builder");
+    assert!(links[0]["since"].is_string(), "{links:?}");
+    assert_eq!(doc["ok"]["items"][0]["parent"], "overseer");
+    let keys: Vec<&str> = doc["ok"]
+        .as_object()
+        .expect("ok")
+        .keys()
+        .map(String::as_str)
+        .collect();
+    assert_eq!(keys, ["items", "links", "skipped"]);
+    assert_eq!(builder.stop().code(), Some(0));
+}
+
+/// A name started again with no `--parent` has none: its log holds both starts' `lineage` lines,
+/// the last one's `parent` null, and the board reads the last.
+#[rstest]
+fn list_a_reused_name_started_without_a_parent_has_none(stamped_home: StampedHome) {
+    let first = boot_child(stamped_home, "overseer", None);
+    let (stopped, stamped) = first.stop_keep();
+    assert_eq!(stopped.code(), Some(0));
+    let second = Wrapper::boot(stamped, "builder", None, &[]);
+    let home = second.home().to_path_buf();
+    let lineage: Vec<Value> = support::events::events(&second.instance_dir())
+        .into_iter()
+        .filter(|l| l["kind"] == "lineage")
+        .map(|l| l["data"].clone())
+        .collect();
+    assert_eq!(
+        lineage,
+        [
+            json!({"parent": "overseer", "role": "builder"}),
+            json!({"parent": null, "role": null}),
+        ]
+    );
+    let doc = document(&list(&home, true, None));
+    let item = &doc["ok"]["items"][0];
+    assert_eq!(item["name"], "builder");
+    assert!(item.get("parent").is_none(), "{item}");
+    assert!(item.get("role").is_none(), "{item}");
+    assert_eq!(second.stop().code(), Some(0));
 }

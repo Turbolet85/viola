@@ -71,11 +71,12 @@ pub enum EventKind {
     Link,
     Unlink,
     DialogExpired,
+    Lineage,
 }
 
 impl EventKind {
     /// Every kind, in declaration order.
-    pub const ALL: [Self; 15] = [
+    pub const ALL: [Self; 16] = [
         Self::SessionStart,
         Self::PromptSubmitted,
         Self::TurnEnded,
@@ -91,6 +92,7 @@ impl EventKind {
         Self::Link,
         Self::Unlink,
         Self::DialogExpired,
+        Self::Lineage,
     ];
 
     /// The kinds that end a `wait` (architecture §Standard Contracts); every other kind is
@@ -132,6 +134,7 @@ impl EventKind {
             Self::Plan => &["dialog_id", "plan"],
             Self::Link | Self::Unlink => &["driver", "driven"],
             Self::DialogExpired => &["dialog_id", "dialog_kind"],
+            Self::Lineage => &["parent", "role"],
         }
     }
 
@@ -152,6 +155,7 @@ impl EventKind {
             Self::Link => "link",
             Self::Unlink => "unlink",
             Self::DialogExpired => "dialog-expired",
+            Self::Lineage => "lineage",
         }
     }
 }
@@ -561,10 +565,11 @@ mod tests {
                 "dialog-expired"
             ]
         );
+        assert!(!EventKind::WAIT_WAKE.contains(&EventKind::Lineage));
     }
 
     /// Architecture's per-kind `data` list, written out as the oracle, in declaration order.
-    const KIND_TABLE: [(EventKind, &str, &[&str]); 15] = [
+    const KIND_TABLE: [(EventKind, &str, &[&str]); 16] = [
         (
             EventKind::SessionStart,
             "session-start",
@@ -613,6 +618,7 @@ mod tests {
             "dialog-expired",
             &["dialog_id", "dialog_kind"],
         ),
+        (EventKind::Lineage, "lineage", &["parent", "role"]),
     ];
 
     #[test]
@@ -638,7 +644,7 @@ mod tests {
     }
 
     #[test]
-    fn kind_table_all_is_the_fifteen_kinds_in_declaration_order() {
+    fn kind_table_all_is_the_sixteen_kinds_in_declaration_order() {
         let all: Vec<&str> = EventKind::ALL.iter().map(|k| k.as_str()).collect();
         assert_eq!(
             all,
@@ -658,6 +664,7 @@ mod tests {
                 "link",
                 "unlink",
                 "dialog-expired",
+                "lineage",
             ]
         );
     }

@@ -1,0 +1,248 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "1b37ac0d",
+"ts": "2026-11-22T22:07:16Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-22-lineage-registry",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-lineage-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer directive this take-up runs under: no live start, measurements first at P3, one priced founder-forks block at P3 end",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-22T22-06-16Z-phase",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-lineage-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-lineage-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-lineage-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "37d945896909692ff28279de3b53ed81c73a3690b6d82a4a1e0c9bdb7845c812",
+"copy": "I1-phase-lineage-directive.md.txt",
+"link": false,
+"read_at": "2026-11-22T22:07:16Z",
+"step": "phase:P1",
+"why": "the overseer directive this take-up runs under: no live start, measurements first at P3, one priced founder-forks block at P3 end"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "1b37ac0d",
+"ts": "2026-11-22T22:50:12Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-22-lineage-registry",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-lineage-p3.md",
+"--kind",
+"relay",
+"--why",
+"the answers to the P3 block: the operator own words on F1 F2 F4 F5 F9 (each arm a) and the overseer technical answers on F3 F6 F7 F8 (arm a)",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-22T22-06-16Z-phase",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy no-repo · ../additional/viola-overseer/relay-lineage-p3.md",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-lineage-p3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-lineage-p3.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "436a01e1c19237ebef69352ff5f2031f0b87887ef4bee28006e5c714eb4d6752",
+"copy": "I2-relay-lineage-p3.md.txt",
+"link": false,
+"read_at": "2026-11-22T22:50:11Z",
+"step": "phase:P4",
+"why": "the answers to the P3 block: the operator own words on F1 F2 F4 F5 F9 (each arm a) and the overseer technical answers on F3 F6 F7 F8 (arm a)"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "1b37ac0d",
+"ts": "2026-11-22T22:59:06Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-22-lineage-registry",
+"--run-dir",
+".andromeda/runs/2026-11-22T22-06-16Z-phase",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-lineage-directive.md",
+"I1 cited scope.md:35 · scope.md:38 · research.md:5 · research.md:7 · plan.md:9 · plan.md:200 · plan.md:299 (in fence) · plan.md:428",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-lineage-p3.md",
+"I2 cited plan.md:8 · plan.md:27 · plan.md:61 · plan.md:102 · plan.md:118 · plan.md:391 · plan.md:428 · plan.md:434 · plan.md:438 · plan.md:439 · plan.md:458 · plan.md:460 · plan.md:462 · plan.md:463 · plan.md:464",
+"inputs: 2 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "1b37ac0d",
+"ts": "2026-11-22T23:03:56Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-22-lineage-registry",
+"--run-dir",
+".andromeda/runs/2026-11-22T22-06-16Z-phase",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-lineage-directive.md",
+"I1 cited scope.md:35 · scope.md:38 · research.md:5 · research.md:7 · plan.md:9 · plan.md:200 · plan.md:316 (in fence) · plan.md:445",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-lineage-p3.md",
+"I2 cited plan.md:8 · plan.md:27 · plan.md:61 · plan.md:102 · plan.md:118 · plan.md:408 · plan.md:445 · plan.md:451 · plan.md:455 · plan.md:456 · plan.md:475 · plan.md:477 · plan.md:479 · plan.md:480 · plan.md:481 · plan.md:482",
+"inputs: 2 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "1b37ac0d",
+"ts": "2026-11-22T23:04:35Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-22-lineage-registry",
+"--message-file",
+".andromeda/runs/2026-11-22T22-06-16Z-phase/relay-1.md",
+"--kind",
+"relay",
+"--origin",
+"the driving overseer, in the phase session, 2026-11-22T23:04Z",
+"--why",
+"the P5 word yes on card .andromeda/runs/2026-11-22T22-06-16Z-phase/p5-card-2.md after the review folded from p5-card-1.md; authority delegate overseer, provisional",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-22T22-06-16Z-phase",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the driving overseer, in the phase session, 2026-11-22T23:04Z",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the driving overseer, in the phase session, 2026-11-22T23:04Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "c7a257c2eccd7de4e0e50be22bf22ba20c46b51857089aef85eb305b173fa9b1",
+"copy": "I3-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-22T23:04:34Z",
+"step": "phase:P5",
+"why": "the P5 word yes on card .andromeda/runs/2026-11-22T22-06-16Z-phase/p5-card-2.md after the review folded from p5-card-1.md; authority delegate overseer, provisional"
+}
+}
+]

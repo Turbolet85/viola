@@ -10,15 +10,16 @@ use std::path::{Path, PathBuf};
 use std::time::SystemTime;
 
 use serde::Serialize;
+use serde_json::Value;
 use viola_core::obs::ObsEvent;
-use viola_core::{ViolaName, obs_event};
+use viola_core::{ViolaName, is_code_word, obs_event};
 
 use crate::StateError;
 use crate::events::{Skipped, read_from};
 use crate::heartbeat::beat_age;
 use crate::liveness::{Liveness, STALE_AFTER, classify, same_process};
 use crate::replay::{Recovered, read_snapshot_or_replay};
-use crate::snapshot::{InstanceSnapshot, Wheel};
+use crate::snapshot::{InstanceSnapshot, Lineage, Wheel};
 use crate::strict::{Refused, check_instance, check_path, check_read};
 
 const INSTANCES: &str = "instances";
@@ -176,6 +177,12 @@ pub struct Item {
     pub cli_version: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub cli_verified: Option<bool>,
+    /// The parent the instance's last `lineage` line declared, kept only when it is a `ViolaName`
+    /// other than the row's own: a drawing label, never a link.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub parent: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub role: Option<String>,
     /// The pending dialog's kind word, for the human row; no field of the document.
     #[serde(skip)]
     pub dialog_kind: Option<String>,
@@ -196,6 +203,8 @@ impl Item {
             dialog_pending: false,
             cli_version: None,
             cli_verified: None,
+            parent: None,
+            role: None,
             dialog_kind: None,
             join: JoinKeys::default(),
         }
@@ -218,14 +227,66 @@ impl SkippedTotal {
     }
 }
 
-/// The rows, in name order, and the summed counts.
+/// One observed `driver -> driven` link, both names re-parsed as `ViolaName`s.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct BoardLink {
+    pub driver: String,
+    pub driven: String,
+    pub since: String,
+}
+
+/// The rows, in name order, the observed links of every listed wrapped instance, sorted by
+/// `(driver, driven)` and deduplicated, and the summed counts.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Board {
     pub items: Vec<Item>,
+    pub links: Vec<BoardLink>,
     pub skipped: SkippedTotal,
 }
 
+/// `(parent, role)` as a display row may show them: a parent only when it parses as a `ViolaName`
+/// and is not the row's own name, a role only when it is a code word.
+fn shown_lineage(name: &ViolaName, lineage: Option<&Lineage>) -> (Option<String>, Option<String>) {
+    let Some(lineage) = lineage else {
+        return (None, None);
+    };
+    let parent = lineage
+        .parent
+        .as_ref()
+        .filter(|parent| parent.as_str() != name.as_ref())
+        .filter(|parent| ViolaName::try_new((*parent).clone()).is_ok())
+        .cloned();
+    let role = lineage
+        .role
+        .as_ref()
+        .filter(|role| is_code_word(role))
+        .cloned();
+    (parent, role)
+}
+
+/// The held links a listed row adds to the board: a pair whose `driver` or `driven` is no
+/// `ViolaName` is dropped, counted nowhere.
+fn add_links(board: &mut Vec<BoardLink>, links: &[Value]) {
+    for link in links {
+        let (Some(driver), Some(driven)) = (link["driver"].as_str(), link["driven"].as_str())
+        else {
+            continue;
+        };
+        if ViolaName::try_new(driver.to_owned()).is_err()
+            || ViolaName::try_new(driven.to_owned()).is_err()
+        {
+            continue;
+        }
+        board.push(BoardLink {
+            driver: driver.to_owned(),
+            driven: driven.to_owned(),
+            since: link["since"].as_str().unwrap_or("unknown").to_owned(),
+        });
+    }
+}
+
 fn snapshot_item(name: &ViolaName, snapshot: &InstanceSnapshot, liveness: RowLiveness) -> Item {
+    let (parent, role) = shown_lineage(name, snapshot.lineage.as_ref());
     Item {
         name: name.as_ref().to_owned(),
         wrapped: true,
@@ -235,6 +296,8 @@ fn snapshot_item(name: &ViolaName, snapshot: &InstanceSnapshot, liveness: RowLiv
         dialog_pending: snapshot.pending_dialog.is_some(),
         cli_version: snapshot.cli_version.clone(),
         cli_verified: Some(snapshot.cli_verified),
+        parent,
+        role,
         dialog_kind: snapshot.pending_dialog.as_ref().map(|d| d.kind.clone()),
         join: JoinKeys {
             child_pid: snapshot.child_pid,
@@ -263,6 +326,7 @@ fn log_pass(instance_dir: &Path) -> Skipped {
 pub fn read(scan: &Scan, now: SystemTime) -> Board {
     let mut board = Board {
         items: Vec::new(),
+        links: Vec::new(),
         skipped: SkippedTotal::default(),
     };
     for (name, dir) in &scan.instances {
@@ -275,11 +339,14 @@ pub fn read(scan: &Scan, now: SystemTime) -> Board {
                 };
                 if let Some(liveness) = liveness {
                     board.items.push(snapshot_item(name, &snapshot, liveness));
+                    add_links(&mut board.links, &snapshot.links);
                 }
                 board.skipped.add(log_pass(dir));
             }
             Ok(Recovered::Replayed { state, .. }) => {
                 if beat_age(dir, now).is_some_and(|age| age <= STALE_AFTER) {
+                    let (parent, role) = shown_lineage(name, state.lineage.as_ref());
+                    add_links(&mut board.links, &state.links);
                     board.items.push(Item {
                         name: name.as_ref().to_owned(),
                         wrapped: true,
@@ -289,6 +356,8 @@ pub fn read(scan: &Scan, now: SystemTime) -> Board {
                         dialog_pending: false,
                         cli_version: None,
                         cli_verified: None,
+                        parent,
+                        role,
                         dialog_kind: None,
                         join: JoinKeys {
                             child_pid: None,
@@ -301,6 +370,12 @@ pub fn read(scan: &Scan, now: SystemTime) -> Board {
             Ok(Recovered::Absent) | Err(_) => board.skipped.add(log_pass(dir)),
         }
     }
+    board
+        .links
+        .sort_by(|a, b| (&a.driver, &a.driven).cmp(&(&b.driver, &b.driven)));
+    board
+        .links
+        .dedup_by(|a, b| a.driver == b.driver && a.driven == b.driven);
     for (detail, count) in [
         ("symlink-ignored", scan.links_ignored),
         ("malformed", scan.malformed),
@@ -389,6 +464,7 @@ mod tests {
             pending_dialog: None,
             cwd: Some("/work/secret-cwd".to_owned()),
             agent_session_id: None,
+            lineage: None,
         }
     }
 
@@ -450,6 +526,7 @@ mod tests {
             Board {
                 items: Vec::new(),
                 skipped: SkippedTotal::default(),
+                links: Vec::new(),
             }
         );
         assert!(!home.exists());
@@ -704,6 +781,8 @@ mod tests {
                     cli_verified: None,
                     dialog_kind: None,
                     join: JoinKeys::default(),
+                    parent: None,
+                    role: None,
                 }],
                 "{detail}"
             );
@@ -789,6 +868,8 @@ mod tests {
             cli_verified: None,
             dialog_kind: Some("plan".to_owned()),
             join: JoinKeys::default(),
+            parent: None,
+            role: None,
         };
         assert_eq!(
             serde_json::to_string(&none).expect("serialise"),
@@ -803,6 +884,163 @@ mod tests {
             .expect("serialise"),
             r#"{"unknown_kinds":1,"unknown_fields":2,"torn_lines":3}"#
         );
+    }
+
+    fn with_lineage(parent: Option<&str>, role: Option<&str>) -> InstanceSnapshot {
+        InstanceSnapshot {
+            lineage: Some(Lineage {
+                parent: parent.map(str::to_owned),
+                role: role.map(str::to_owned),
+            }),
+            ..own_snapshot()
+        }
+    }
+
+    #[test]
+    fn board_read_item_with_a_parent_and_role_serialises_both() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = home(&tmp);
+        let dir = booted(
+            &home,
+            "builder",
+            &with_lineage(Some("overseer"), Some("builder")),
+        );
+        let board = read(&scanned(&home), beat_time(&dir));
+        assert_eq!(
+            serde_json::to_string(&board.items[0]).expect("serialise"),
+            r#"{"name":"builder","wrapped":true,"liveness":"live","status":"unknown","wheel":"driver","dialog_pending":false,"cli_version":"2.1.287","cli_verified":true,"parent":"overseer","role":"builder"}"#
+        );
+        let parent_only = tmp.path().join("other");
+        let home = {
+            create_private_dir(&parent_only.join(INSTANCES)).expect("instances");
+            parent_only
+        };
+        let dir = booted(&home, "builder", &with_lineage(Some("overseer"), None));
+        let board = read(&scanned(&home), beat_time(&dir));
+        assert_eq!(board.items[0].parent.as_deref(), Some("overseer"));
+        let every = serde_json::to_string(&board.items[0]).expect("serialise");
+        assert!(
+            every.ends_with(r#""cli_verified":true,"parent":"overseer"}"#),
+            "{every}"
+        );
+    }
+
+    /// A parent that is no `ViolaName`, or the row's own name, and a role that is no code word,
+    /// are each dropped from the row; the rest of the lineage stands.
+    #[test]
+    fn board_read_drops_a_parent_that_is_no_name_or_its_own() {
+        for (label, parent, role, shown) in [
+            (
+                "bad-name",
+                Some("BAD NAME"),
+                Some("builder"),
+                (None, Some("builder")),
+            ),
+            (
+                "own-name",
+                Some("builder"),
+                Some("builder"),
+                (None, Some("builder")),
+            ),
+            ("empty", Some(""), None, (None, None)),
+            (
+                "bad-role",
+                Some("overseer"),
+                Some("Not A Word"),
+                (Some("overseer"), None),
+            ),
+            (
+                "good",
+                Some("overseer"),
+                Some("tester"),
+                (Some("overseer"), Some("tester")),
+            ),
+        ] {
+            let tmp = tempfile::tempdir().expect("tempdir");
+            let home = home(&tmp);
+            let dir = booted(&home, "builder", &with_lineage(parent, role));
+            let board = read(&scanned(&home), beat_time(&dir));
+            let item = &board.items[0];
+            assert_eq!(
+                (item.parent.as_deref(), item.role.as_deref()),
+                shown,
+                "{label}"
+            );
+        }
+    }
+
+    fn held(driver: &str, driven: &str, since: &str) -> Value {
+        json!({"driver": driver, "driven": driven, "since": since})
+    }
+
+    fn shown(driver: &str, driven: &str, since: &str) -> BoardLink {
+        BoardLink {
+            driver: driver.to_owned(),
+            driven: driven.to_owned(),
+            since: since.to_owned(),
+        }
+    }
+
+    /// Two snapshots' link sets, written by the crate's own snapshot writer, one pair held by both
+    /// and one whose driver is no name; a third instance read through the replay of its own
+    /// appended `link` lines, one of them `BAD NAME`'s.
+    #[test]
+    fn board_read_links_are_sorted_deduplicated_and_name_checked() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = home(&tmp);
+        let mut builder = own_snapshot();
+        builder.links = vec![
+            held("tester", "builder", "2026-10-11T01:02:04.000Z"),
+            held("BAD NAME", "builder", "2026-10-11T01:02:05.000Z"),
+            held("overseer", "builder", "2026-10-11T01:02:03.000Z"),
+        ];
+        let dir = booted(&home, "builder", &builder);
+        let mut overseer = own_snapshot();
+        overseer.links = vec![
+            held("overseer", "builder", "2026-10-11T01:02:03.000Z"),
+            held("overseer", "BAD NAME", "2026-10-11T01:02:06.000Z"),
+        ];
+        booted(&home, "overseer", &overseer);
+        let replayed = booted(&home, "tester", &own_snapshot());
+        log(
+            &replayed,
+            &[
+                (
+                    EventKind::Link,
+                    json!({"driver": "BAD NAME", "driven": "tester"}),
+                ),
+                (
+                    EventKind::Link,
+                    json!({"driver": "builder", "driven": "tester"}),
+                ),
+            ],
+        );
+        let path = replayed.join("snapshot.json");
+        let written = fs::read_to_string(&path).expect("snapshot");
+        fs::write(&path, &written[..written.len() / 2]).expect("cut");
+        let board = read(&scanned(&home), beat_time(&dir));
+        assert_eq!(board.items.len(), 3);
+        assert_eq!(
+            board.links,
+            [
+                shown("builder", "tester", "2026-10-11T01:02:03.000Z"),
+                shown("overseer", "builder", "2026-10-11T01:02:03.000Z"),
+                shown("tester", "builder", "2026-10-11T01:02:04.000Z"),
+            ]
+        );
+    }
+
+    #[test]
+    fn board_read_a_gone_instance_gives_no_links() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = home(&tmp);
+        let mut gone = own_snapshot();
+        gone.started_at = "2001-01-01T00:00:00.000Z".to_owned();
+        gone.links = vec![held("overseer", "tester", "2026-10-11T01:02:03.000Z")];
+        let dir = booted(&home, "tester", &gone);
+        let board = read(&scanned(&home), beat_time(&dir));
+        assert_eq!(board.items, Vec::new());
+        assert_eq!(board.links, Vec::new());
     }
 
     #[test]

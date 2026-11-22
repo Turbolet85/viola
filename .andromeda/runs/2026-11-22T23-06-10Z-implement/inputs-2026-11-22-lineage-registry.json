@@ -1,0 +1,106 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "1b37ac0d",
+"ts": "2026-11-22T23:06:39Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-22-lineage-registry",
+"--source",
+"~/dev/projects/additional/viola-overseer/implement-lineage-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer directive for this implement run: host rule (hostwatch before whole layers and pre-push), the stops, no live start, no mutation run, no timer tool",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-22T23-06-10Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy no-repo · ../additional/viola-overseer/implement-lineage-directive.md",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-implement-lineage-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/implement-lineage-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "bfb8499c0e4582c0dd6971979105808aafd8efdc29f3a12e58aa34c516da89d5",
+"copy": "I4-implement-lineage-directive.md.txt",
+"link": false,
+"read_at": "2026-11-22T23:06:38Z",
+"step": "implement",
+"why": "the overseer directive for this implement run: host rule (hostwatch before whole layers and pre-push), the stops, no live start, no mutation run, no timer tool"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "1b37ac0d",
+"ts": "2026-11-22T23:28:19Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-22-lineage-registry",
+"--message-file",
+".andromeda/runs/2026-11-22T23-06-10Z-implement/relay-1.md",
+"--origin",
+"the operator (overseer word on the quiet window)",
+"--kind",
+"relay",
+"--why",
+"the quiet window: neighbour builds stopped at 2026-11-22T23:28:02Z; hostwatch read --from that time before the layers and before pre-push; QUIET means go on to the CI read",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-22T23-06-10Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy message · message: the operator (overseer word on the quiet window)",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "message: the operator (overseer word on the quiet window)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "608e28ec857b6025b45b99d66bf1f0baa7861efae3bb5d67fb11decd87e3aab4",
+"copy": "I5-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-22T23:28:19Z",
+"step": "implement",
+"why": "the quiet window: neighbour builds stopped at 2026-11-22T23:28:02Z; hostwatch read --from that time before the layers and before pre-push; QUIET means go on to the CI read"
+}
+}
+]

@@ -152,3 +152,39 @@ fn a_start_over_a_replayed_snapshot_and_a_fresh_beat_refuses_already_live(
     assert_eq!(recovered(&home).len(), 1);
     drop(stamped);
 }
+
+/// A child booted with a declared parent and role, its wrapper killed (no clean exit), its
+/// snapshot cut short by the writer's own bytes: `viola list --json` reads the same `parent` and
+/// `role` back through the log replay. The beat is set fresh off the file, so the replayed row is
+/// `live` whatever the kill's own wait took.
+#[rstest]
+fn e5_the_replay_reads_the_lineage_the_wrapper_wrote(stamped_home: StampedHome) {
+    let wrapper = Wrapper::boot_flagged(
+        stamped_home,
+        "builder",
+        None,
+        &["--parent", "overseer", "--role", "builder"],
+        None,
+        &[],
+    );
+    let dir = wrapper.instance_dir();
+    let recorded = snapshot_data(&dir).expect("the snapshot")["lineage"].clone();
+    assert_eq!(
+        recorded,
+        serde_json::json!({"parent": "overseer", "role": "builder"})
+    );
+    let stamped = wrapper.kill();
+    let home = stamped.home.path().to_path_buf();
+    fault(&dir, "cut");
+    assert!(age_beat(&dir, Duration::ZERO) <= STALE_AFTER);
+
+    let listed = viola(&home, &["list", "--json"], None, None);
+    assert_eq!(listed.code, Some(0), "stderr: {}", listed.stderr);
+    let doc: Value = serde_json::from_str(&listed.stdout).expect("one document");
+    let item = &doc["ok"]["items"][0];
+    assert_eq!(item["name"], "builder");
+    assert!(item.get("cli_version").is_none(), "a replayed row: {item}");
+    assert_eq!(item["parent"], "overseer");
+    assert_eq!(item["role"], "builder");
+    drop(stamped);
+}

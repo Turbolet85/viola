@@ -251,6 +251,15 @@ impl TestHome {
         &self.home
     }
 
+    /// The same home, owning nothing: its drop removes nothing, so a second wrapper booted on it
+    /// must be stopped before the owning home is dropped.
+    fn borrowed(&self) -> Self {
+        Self {
+            dir: None,
+            home: self.home.clone(),
+        }
+    }
+
     /// The per-test scratch dir the home sits in (for files that are not viola state).
     pub fn scratch(&self) -> &Path {
         self.home.parent().expect("home has a parent")
@@ -363,6 +372,15 @@ pub struct StampedHome {
 }
 
 impl StampedHome {
+    /// This stamped home again, owning nothing: a second wrapper's in the same home.
+    pub fn beside(&self) -> Self {
+        Self {
+            home: self.home.borrowed(),
+            fake: self.fake.clone(),
+            stamped: self.stamped,
+        }
+    }
+
     /// A home for the tests that assert the unverified path: nothing is run and nothing written.
     pub fn unstamped(home: TestHome) -> Self {
         Self {
@@ -673,6 +691,8 @@ struct Host<'a> {
     open_umask: bool,
     /// Further variables set on the wrapper alone.
     env: &'a [(&'a str, &'a str)],
+    /// `viola run`'s own flags, between the name and `--`.
+    flags: &'a [&'a str],
 }
 
 /// The wrapper's exit code once it stopped.
@@ -731,6 +751,29 @@ impl Wrapper {
             ..Host::default()
         };
         Self::boot_with(stamped, name, None, extra, Size::DEFAULT, false, host)
+    }
+
+    /// `boot` typed in `dir` (this test's own cwd when none), with `flags` given to `viola run`
+    /// before its `--` (and `script`, workspace-relative).
+    pub fn boot_flagged(
+        stamped: StampedHome,
+        name: &str,
+        dir: Option<&Path>,
+        flags: &[&str],
+        script: Option<&str>,
+        extra: &[&str],
+    ) -> Self {
+        let host = Host {
+            dir,
+            flags,
+            ..Host::default()
+        };
+        Self::boot_with(stamped, name, script, extra, Size::DEFAULT, true, host)
+    }
+
+    /// A second stamped home on this wrapper's own home, owning nothing.
+    pub fn beside(&self) -> StampedHome {
+        self.stamped.beside()
     }
 
     /// `boot` typed in `dir`, which is the fake agent's cwd and its trusted root.
@@ -894,7 +937,9 @@ impl Wrapper {
         if !host.default_home {
             args.extend(["--home".into(), home.clone().into()]);
         }
-        args.extend(["run", name, "--"].map(OsString::from));
+        args.extend(["run", name].map(OsString::from));
+        args.extend(host.flags.iter().map(OsString::from));
+        args.push("--".into());
         args.push(stamped.fake.clone().into());
         args.push("--control".into());
         args.push(fake::control_path(&home, name).into());

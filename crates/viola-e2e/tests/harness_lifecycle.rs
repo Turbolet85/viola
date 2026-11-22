@@ -126,6 +126,10 @@ fn harness_session_boots_reports_logs_and_tears_down() {
         assert_eq!(item["wrapped"], true, "{name}");
         assert_eq!(item["liveness"], "live", "{name}");
         assert!(
+            item.get("parent").is_none(),
+            "{name}: a harness wrapper inherits no launching session as its parent: {item}"
+        );
+        assert!(
             item["status"] == "idle" || item["status"] == "busy",
             "{name}: the session claude answers the join under the recorded mode: {item}"
         );

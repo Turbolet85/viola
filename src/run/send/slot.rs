@@ -508,6 +508,7 @@ mod tests {
             pending_dialog: None,
             cwd: dir.to_str().map(str::to_owned),
             agent_session_id: None,
+            lineage: None,
         }
     }
 

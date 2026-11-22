@@ -761,3 +761,67 @@ fn revive_writes_the_record_for_its_recorded_cwd(stamped_home: StampedHome) {
     );
     assert_eq!(second.stop().code(), Some(0));
 }
+
+/// A first life launched `--parent overseer --role builder` and stopped; its revive's own
+/// `lineage` line, read from the revive's start offset, repeats both, and the board keeps them.
+/// `overseer` was never booted: `builder` is drawn as a root.
+#[rstest]
+fn revive_keeps_the_recorded_parent_and_role(stamped_home: StampedHome) {
+    let dir = made_dir(&stamped_home.home, "recorded");
+    let fixtures = workspace_path("fixtures/claude");
+    let fixtures = fixtures.to_str().expect("utf-8 path");
+    let first = Wrapper::boot_flagged(
+        stamped_home,
+        "builder",
+        Some(&dir),
+        &["--parent", "overseer", "--role", "builder"],
+        None,
+        &["--fixtures", fixtures],
+    );
+    wait_events(&first.instance_dir(), "the session-start record", |l| {
+        l.iter().any(|e| e["kind"] == "session-start")
+    });
+    wait_session_start_hooks(&first.receipt(), 1);
+    let (stopped, stamped) = first.stop_keep();
+    assert_eq!(stopped.code(), Some(0));
+    let log = instance_dir(&stamped.home);
+    let offset = fs::metadata(log.join("events.ndjson"))
+        .expect("the log")
+        .len();
+
+    let typed_in = made_dir(&stamped.home, "typed-in");
+    let second = Wrapper::revive(stamped, "builder", &typed_in, &dir, &[]);
+    let home = second.home().to_path_buf();
+    let revived: Vec<Value> = viola_state::events::read_from(&log, offset)
+        .expect("the log")
+        .map(|line| line.expect("a line").value)
+        .collect();
+    let kinds: Vec<&Value> = revived.iter().take(2).map(|l| &l["kind"]).collect();
+    assert_eq!(kinds, ["wheel", "lineage"], "{revived:?}");
+    assert_eq!(revived[1]["source"], "wrapper");
+    assert_eq!(
+        revived[1]["data"],
+        serde_json::json!({"parent": "overseer", "role": "builder"})
+    );
+
+    let listed = support::cli::viola(&home, &["list", "--json"], None, None);
+    assert_eq!(listed.code, Some(0), "stderr: {}", listed.stderr);
+    let doc: Value = serde_json::from_str(&listed.stdout).expect("one document");
+    let item = &doc["ok"]["items"][0];
+    assert_eq!(
+        (&item["parent"], &item["role"]),
+        (&Value::from("overseer"), &Value::from("builder"))
+    );
+    let human = support::cli::viola(&home, &["list"], None, None);
+    assert_eq!(human.code, Some(0), "stderr: {}", human.stderr);
+    assert!(
+        human
+            .stdout
+            .lines()
+            .nth(2)
+            .is_some_and(|row| row.starts_with("builder  ")),
+        "{}",
+        human.stdout
+    );
+    assert_eq!(second.stop().code(), Some(0));
+}

@@ -58,9 +58,12 @@ fn padding(text: &str, width: usize) -> String {
     " ".repeat(width.saturating_sub(text.chars().count()))
 }
 
-/// One row: its cells padded by their plain text, then, at a depth, its spans around their words.
+/// One row: its NAME cell indented `indent` spaces, its cells padded by their plain text, then, at
+/// a depth, its spans around their words (the indent inside a stale row's dim span, outside the
+/// NAME's own).
 pub(super) fn board_line(
     width: usize,
+    indent: usize,
     cells: [&str; 6],
     styled: Option<(Tokens, Spans)>,
 ) -> String {
@@ -87,9 +90,10 @@ pub(super) fn board_line(
         }
     };
     format!(
-        "{open}{shown_name}{}  {live:<LIVE_WIDTH$}  {status:<STATUS_WIDTH$}  {wheel:<WHEEL_WIDTH$}  \
+        "{open}{}{shown_name}{}  {live:<LIVE_WIDTH$}  {status:<STATUS_WIDTH$}  {wheel:<WHEEL_WIDTH$}  \
          {shown_dialog}{}  {cli}{close}",
-        padding(name, width),
+        " ".repeat(indent),
+        padding(name, width.saturating_sub(indent)),
         padding(dialog, DIALOG_WIDTH),
     )
 }

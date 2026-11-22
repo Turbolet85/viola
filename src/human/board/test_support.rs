@@ -23,5 +23,7 @@ pub(super) fn item(name: &str) -> Item {
         cli_verified: Some(true),
         dialog_kind: None,
         join: viola_state::board::JoinKeys::default(),
+        parent: None,
+        role: None,
     }
 }

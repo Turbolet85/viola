@@ -1,5 +1,7 @@
-//! The board's rows in the order given, and the board as one write.
+//! The board's rows, the wrapped ones drawn as a forest by their parents, and the board as one
+//! write.
 
+use std::collections::BTreeMap;
 use std::io::{self, Write};
 
 use viola_state::board::{Board, Item, RowLiveness};
@@ -12,23 +14,87 @@ use super::cells::{
     dialog_cell, wheel_cell,
 };
 
-/// The caption row and one row per item, in the order given; every NAME is escaped as a row field
-/// and padded to the longer of its caption and the longest escaped name on the board. With the
-/// terminal's width known, an unwrapped NAME gets only the room its row leaves, never less than the
-/// caption's: one longer is cut to end in `...`. A wrapped NAME is never cut. At a depth, the
-/// spans go around the words after the layout, so the columns are the plain board's.
+/// The spaces a NAME cell is indented per depth of its row in the forest.
+const INDENT: usize = 2;
+
+/// The wrapped items as a forest, each `(index, depth)` once, siblings kept in the board's own
+/// order (name order, as `board::read` gives it): the roots are the items whose parent names no
+/// wrapped item here, each followed directly by its children, depth first; then every item not yet
+/// drawn (a parent cycle) is drawn as a root with its not-yet-drawn descendants under it. The
+/// unwrapped items follow at depth 0 in the order given.
+fn forest(items: &[Item]) -> Vec<(usize, usize)> {
+    let wrapped: Vec<usize> = (0..items.len()).filter(|&at| items[at].wrapped).collect();
+    let by_name: BTreeMap<&str, usize> = wrapped
+        .iter()
+        .map(|&at| (items[at].name.as_str(), at))
+        .collect();
+    let parent_of = |at: usize| {
+        items[at]
+            .parent
+            .as_deref()
+            .and_then(|parent| by_name.get(parent).copied())
+            .filter(|&parent| parent != at)
+    };
+    let ordered = wrapped;
+    let mut children: BTreeMap<usize, Vec<usize>> = BTreeMap::new();
+    for &at in &ordered {
+        if let Some(parent) = parent_of(at) {
+            children.entry(parent).or_default().push(at);
+        }
+    }
+    let mut drawn = vec![false; items.len()];
+    let mut rows = Vec::with_capacity(items.len());
+    let roots = ordered
+        .iter()
+        .copied()
+        .filter(|&at| parent_of(at).is_none());
+    for root in roots.chain(ordered.iter().copied()) {
+        if drawn[root] {
+            continue;
+        }
+        let mut stack = vec![(root, 0)];
+        while let Some((at, depth)) = stack.pop() {
+            if drawn[at] {
+                continue;
+            }
+            drawn[at] = true;
+            rows.push((at, depth));
+            if let Some(kids) = children.get(&at) {
+                stack.extend(kids.iter().rev().map(|&kid| (kid, depth + 1)));
+            }
+        }
+    }
+    rows.extend(
+        (0..items.len())
+            .filter(|&at| !items[at].wrapped)
+            .map(|at| (at, 0)),
+    );
+    rows
+}
+
+/// The caption row and one row per item, the wrapped ones as a forest (each child under its parent,
+/// its NAME indented two spaces per depth), then the unwrapped ones in the order given; every NAME
+/// is escaped as a row field and padded to the longer of its caption and the widest NAME cell on
+/// the board, indent included. With the terminal's width known, an unwrapped NAME gets only the
+/// room its row leaves, never less than the caption's: one longer is cut to end in `...`. A wrapped
+/// NAME, indent included, is never cut. At a depth, the spans go around the words after the layout,
+/// so the columns are the plain board's.
 pub(crate) fn board_rows(
     items: &[Item],
     width: Option<usize>,
     depth: Option<Depth>,
 ) -> Vec<String> {
+    let order = forest(items);
+    let items: Vec<&Item> = order.iter().map(|&(at, _)| &items[at]).collect();
+    let indents: Vec<usize> = order.iter().map(|&(_, depth)| depth * INDENT).collect();
     let names: Vec<String> = items.iter().map(|item| escape_row(&item.name)).collect();
     let longest = |wrapped: bool| {
         items
             .iter()
             .zip(&names)
-            .filter(|(item, _)| item.wrapped == wrapped)
-            .map(|(_, name)| name.chars().count())
+            .zip(&indents)
+            .filter(|((item, _), _)| item.wrapped == wrapped)
+            .map(|((_, name), indent)| indent + name.chars().count())
             .fold(0, usize::max)
     };
     let unwrapped = match width {
@@ -38,10 +104,11 @@ pub(crate) fn board_rows(
     let column = longest(true).max(unwrapped).max(NAME_CAPTION.len());
     let mut rows = vec![board_line(
         column,
+        0,
         [NAME_CAPTION, "LIVE", "STATUS", "WHEEL", DIALOG_WORD, "CLI"],
         None,
     )];
-    for (item, name) in items.iter().zip(names) {
+    for ((item, name), indent) in items.iter().zip(names).zip(indents) {
         let (wheel, dialog, cli) = if item.wrapped {
             (wheel_cell(item), dialog_cell(item), cli_cell(item))
         } else {
@@ -60,6 +127,7 @@ pub(crate) fn board_rows(
         };
         rows.push(board_line(
             column,
+            indent,
             [
                 &name,
                 item.liveness.as_str(),
@@ -78,8 +146,11 @@ const EMPTY_BOARD: &str = "no wrapped sessions  start one: viola run <name> -- c
 
 const UNWRAPPED_SEPARATOR: &str = "-- UNWRAPPED - READ-ONLY --";
 
+const LINKS_SEPARATOR: &str = "-- LINKS --";
+
 /// The board as ONE write: the BAY line, the caption row, the wrapped rows or the empty-board line,
-/// then, when the board holds any, the separator and the unwrapped rows.
+/// then, when the board holds any, the separator and the unwrapped rows, then, when it holds any
+/// observed link, the links separator and one `<driver> -> <driven>` line per link, never coloured.
 pub(crate) fn write_board(
     out: &mut impl Write,
     board: &Board,
@@ -96,6 +167,16 @@ pub(crate) fn write_board(
     if wrapped < board.items.len() {
         lines.push(UNWRAPPED_SEPARATOR.to_owned());
         lines.extend(rows);
+    }
+    if !board.links.is_empty() {
+        lines.push(LINKS_SEPARATOR.to_owned());
+        lines.extend(board.links.iter().map(|link| {
+            format!(
+                "{} -> {}",
+                escape_row(&link.driver),
+                escape_row(&link.driven)
+            )
+        }));
     }
     let mut text = lines.join("\n");
     text.push('\n');
@@ -182,6 +263,7 @@ mod tests {
         let board = Board {
             items: Vec::new(),
             skipped: counts(0, 0, 0),
+            links: Vec::new(),
         };
         assert_eq!(
             one_write(|o| write_board(o, &board, None, None)),
@@ -227,6 +309,7 @@ mod tests {
                 unwrapped(SESSION, viola_state::board::SessionStatus::Busy),
             ],
             skipped: counts(0, 0, 0),
+            links: Vec::new(),
         };
         assert_eq!(
             one_write(|o| write_board(o, &board, None, None)),
@@ -277,6 +360,7 @@ mod tests {
                 unwrapped("s-2", viola_state::board::SessionStatus::Unknown),
             ],
             skipped: counts(0, 0, 0),
+            links: Vec::new(),
         };
         assert_eq!(
             one_write(|o| write_board(o, &board, None, None)),
@@ -294,6 +378,7 @@ mod tests {
         let board = Board {
             items: vec![item("builder"), item("tester")],
             skipped: counts(0, 0, 0),
+            links: Vec::new(),
         };
         let text = one_write(|o| write_board(o, &board, None, None));
         assert_eq!(text.lines().count(), 4, "{text:?}");
@@ -307,6 +392,7 @@ mod tests {
         let board = Board {
             items: vec![hostile, item("tester")],
             skipped: counts(0, 0, 1),
+            links: Vec::new(),
         };
         let text = one_write(|o| write_board(o, &board, None, None));
         assert_eq!(text.lines().count(), 4, "{text:?}");
@@ -566,6 +652,7 @@ mod tests {
             let board = Board {
                 items,
                 skipped: counts(0, 0, 0),
+                links: Vec::new(),
             };
             let text = one_write(|o| write_board(o, &board, None, Some(Depth::Truecolor)));
             for line in text
@@ -597,6 +684,7 @@ mod tests {
                 unwrapped(SESSION, viola_state::board::SessionStatus::Busy),
             ],
             skipped: counts(0, 0, 0),
+            links: Vec::new(),
         };
         for width in [None, Some(80)] {
             let styled = one_write(|o| write_board(o, &board, width, Some(depth)));
@@ -641,5 +729,228 @@ mod tests {
             name.to_owned()
         };
         assert!(rows[2].starts_with(&shown), "{:?}", rows[2]);
+    }
+
+    fn child(name: &str, parent: &str) -> Item {
+        let mut row = item(name);
+        row.parent = Some(parent.to_owned());
+        row
+    }
+
+    /// Each row's NAME cell, its indent kept: the text before the LIVE column, trailing spaces cut.
+    fn name_cells(rows: &[String]) -> Vec<String> {
+        let at = rows[0].find("LIVE").expect("caption") - 2;
+        rows[1..]
+            .iter()
+            .map(|row| row[..at].trim_end().to_owned())
+            .collect()
+    }
+
+    #[test]
+    fn board_row_a_board_with_no_parent_is_todays_literal() {
+        let board = Board {
+            items: vec![item("builder"), item("tester")],
+            skipped: counts(0, 0, 0),
+            links: Vec::new(),
+        };
+        assert_eq!(
+            one_write(|o| write_board(o, &board, None, None)),
+            concat!(
+                "BAY  skipped 0 - 0 - 0\n",
+                "NAME     LIVE   STATUS   WHEEL                    DIALOG             CLI\n",
+                "builder  live   unknown  driver                   none               2.1.287 verified\n",
+                "tester   live   unknown  driver                   none               2.1.287 verified\n",
+            )
+        );
+    }
+
+    #[test]
+    fn board_tree_a_child_row_follows_its_parent_indented_two() {
+        assert_eq!(
+            board_rows(
+                &[child("builder", "overseer"), item("overseer")],
+                None,
+                None
+            ),
+            [
+                "NAME       LIVE   STATUS   WHEEL                    DIALOG             CLI",
+                "overseer   live   unknown  driver                   none               2.1.287 verified",
+                "  builder  live   unknown  driver                   none               2.1.287 verified",
+            ]
+        );
+    }
+
+    /// The board as `board::read` gives it, in name order, each child listed before its parent.
+    #[test]
+    fn board_tree_siblings_and_roots_are_in_name_order() {
+        let rows = board_rows(
+            &[
+                child("alpha", "builder"),
+                child("builder", "overseer"),
+                item("overseer"),
+                child("tester", "overseer"),
+                item("zed"),
+            ],
+            None,
+            None,
+        );
+        assert_eq!(
+            name_cells(&rows),
+            ["overseer", "  builder", "    alpha", "  tester", "zed"]
+        );
+    }
+
+    /// A parent that is gone, never booted, or only an unwrapped session's name gives no row to
+    /// hang under: the child is a root, and the unwrapped rows stay after the wrapped ones.
+    #[test]
+    fn board_tree_a_row_whose_parent_has_no_row_is_a_root() {
+        let rows = board_rows(
+            &[
+                item("alpha"),
+                child("builder", "gone-one"),
+                child("tester", "s-1"),
+                unwrapped("s-1", viola_state::board::SessionStatus::Idle),
+            ],
+            None,
+            None,
+        );
+        assert_eq!(name_cells(&rows), ["alpha", "builder", "tester", "s-1"]);
+    }
+
+    #[test]
+    fn board_tree_a_cycle_prints_each_row_once_from_its_first_name() {
+        let rows = board_rows(
+            &[child("a", "b"), child("b", "a"), child("c", "b"), item("d")],
+            None,
+            None,
+        );
+        assert_eq!(name_cells(&rows), ["d", "a", "  b", "    c"]);
+        let own = board_rows(&[child("a", "a")], None, None);
+        assert_eq!(name_cells(&own), ["a"]);
+    }
+
+    #[test]
+    fn board_tree_an_indent_past_the_width_prints_whole_and_moves_the_columns_right() {
+        let root = "a".repeat(32);
+        let leaf = "b".repeat(32);
+        let rows = board_rows(&[item(&root), child(&leaf, &root)], Some(40), None);
+        let tail = "  live   unknown  driver                   none               2.1.287 verified";
+        assert_eq!(
+            rows,
+            [
+                format!(
+                    "NAME{}  LIVE   STATUS   WHEEL                    DIALOG             CLI",
+                    " ".repeat(30)
+                ),
+                format!("{root}  {tail}"),
+                format!("  {leaf}{tail}"),
+            ]
+        );
+    }
+
+    #[rstest]
+    #[case::truecolor(Depth::Truecolor)]
+    #[case::ansi_16(Depth::Ansi16)]
+    fn board_tree_a_stale_child_keeps_the_dim_span_over_its_indent(#[case] depth: Depth) {
+        let mut stale = child("builder", "overseer");
+        stale.liveness = viola_state::board::RowLiveness::Stale;
+        let items = [stale, item("overseer")];
+        let rows = board_rows(&items, None, Some(depth));
+        let piped = board_rows(&items, None, None);
+        let shown: Vec<String> = rows.iter().map(|row| plain(row)).collect();
+        assert_eq!(
+            shown, piped,
+            "the tree's characters, piped and on a terminal"
+        );
+        assert_eq!(
+            rows[2],
+            format!(
+                "{DIM}  {BOLD}builder{RESET}{DIM}  stale  unknown  driver                   \
+                 none               2.1.287 verified{RESET}"
+            )
+        );
+        assert_eq!(
+            rows[1],
+            format!(
+                "{BOLD}overseer{RESET}   live   unknown  driver                   \
+                 none               2.1.287 verified"
+            )
+        );
+    }
+
+    fn link(driver: &str, driven: &str) -> viola_state::board::BoardLink {
+        viola_state::board::BoardLink {
+            driver: driver.to_owned(),
+            driven: driven.to_owned(),
+            since: "2026-11-22T01:02:03.000Z".to_owned(),
+        }
+    }
+
+    #[rstest]
+    #[case::plain(None)]
+    #[case::truecolor(Some(Depth::Truecolor))]
+    fn board_links_block_follows_the_board_and_the_rack(#[case] depth: Option<Depth>) {
+        let board = Board {
+            items: vec![
+                child("builder", "overseer"),
+                unwrapped("s-1", viola_state::board::SessionStatus::Busy),
+            ],
+            skipped: counts(0, 0, 0),
+            links: vec![link("overseer", "builder"), link("tester", "builder")],
+        };
+        let text = one_write(|o| write_board(o, &board, None, depth));
+        if depth.is_none() {
+            assert!(
+                text.ends_with(concat!(
+                    "-- UNWRAPPED - READ-ONLY --\n",
+                    "s-1      live   busy     n/a                      n/a                n/a\n",
+                    "-- LINKS --\n",
+                    "overseer -> builder\n",
+                    "tester -> builder\n",
+                )),
+                "{text:?}"
+            );
+        }
+        let tail: Vec<&str> = text.lines().rev().take(3).collect();
+        assert_eq!(
+            tail,
+            ["tester -> builder", "overseer -> builder", "-- LINKS --"]
+        );
+        let alone = Board {
+            items: vec![item("builder")],
+            skipped: counts(0, 0, 0),
+            links: vec![link("tester", "builder")],
+        };
+        assert_eq!(
+            one_write(|o| write_board(o, &alone, None, depth))
+                .lines()
+                .collect::<Vec<_>>()[2..],
+            [
+                if depth.is_some() {
+                    "\x1b[1mbuilder\x1b[0m  live   unknown  driver                   none               2.1.287 verified"
+                } else {
+                    "builder  live   unknown  driver                   none               2.1.287 verified"
+                },
+                "-- LINKS --",
+                "tester -> builder",
+            ]
+        );
+    }
+
+    #[test]
+    fn board_links_block_is_absent_with_no_link() {
+        for items in [
+            vec![child("builder", "overseer"), item("overseer")],
+            Vec::new(),
+        ] {
+            let board = Board {
+                items,
+                skipped: counts(0, 0, 0),
+                links: Vec::new(),
+            };
+            let text = one_write(|o| write_board(o, &board, None, None));
+            assert!(!text.contains("LINKS"), "{text:?}");
+            assert!(!text.contains("->"), "{text:?}");
+        }
     }
 }

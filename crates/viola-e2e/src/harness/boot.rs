@@ -492,20 +492,22 @@ pub fn fresh_age(age: Duration) -> bool {
     age < BEAT_WITHIN
 }
 
-/// `events.ndjson`'s first two complete lines are `wheel{cause:"start"}`, then the hook's
-/// `session-start` (test-plan §3 Readiness signal).
+/// `events.ndjson`'s first three complete lines are `wheel{cause:"start"}`, the wrapper's
+/// `lineage`, then the hook's `session-start` (test-plan §3 Readiness signal).
 pub fn start_records(instance_dir: &Path) -> bool {
     let text = fs::read_to_string(instance_dir.join("events.ndjson")).unwrap_or_default();
     let records: Option<Vec<Value>> = text
         .split_inclusive('\n')
         .filter(|l| l.ends_with('\n'))
-        .take(2)
+        .take(3)
         .map(|l| serde_json::from_str(l).ok())
         .collect();
     match records.as_deref() {
-        Some([wheel, start]) => {
+        Some([wheel, lineage, start]) => {
             wheel["kind"] == "wheel"
                 && wheel["data"]["cause"] == "start"
+                && lineage["kind"] == "lineage"
+                && lineage["source"] == "wrapper"
                 && start["kind"] == "session-start"
                 && start["source"] == "hook"
         }
@@ -653,6 +655,8 @@ mod tests {
     const SNAPSHOT: &str = r#"{"v":1,"written_at":"t","writer":"0.1.0","data":{"pid":1,"started_at":"s","child_pid":2,"endpoint":"e"}}"#;
 
     const WHEEL: &str = r#"{"v":1,"kind":"wheel","source":"wrapper","data":{"cause":"start"}}"#;
+    const LINEAGE: &str =
+        r#"{"v":1,"kind":"lineage","source":"wrapper","data":{"parent":null,"role":null}}"#;
     const SESSION_START: &str =
         r#"{"v":1,"kind":"session-start","source":"hook","data":{"cause":"startup"}}"#;
 
@@ -667,29 +671,34 @@ mod tests {
         fs::create_dir_all(&dir).expect("mkdir");
         fs::write(dir.join("snapshot.json"), SNAPSHOT).expect("snapshot");
         fs::write(dir.join("heartbeat"), b"").expect("heartbeat");
-        write_events(&dir, &[WHEEL, SESSION_START]);
+        write_events(&dir, &[WHEEL, LINEAGE, SESSION_START]);
     }
 
     #[test]
-    fn start_records_are_the_wheel_then_the_hooks_session_start() {
+    fn start_records_are_the_wheel_the_lineage_then_the_hooks_session_start() {
         let tmp = tempfile::tempdir().expect("tempdir");
         assert!(!start_records(tmp.path()));
-        write_events(tmp.path(), &[WHEEL, SESSION_START]);
+        write_events(tmp.path(), &[WHEEL, LINEAGE, SESSION_START]);
         assert!(start_records(tmp.path()));
         let from_wrapper = SESSION_START.replace(r#""hook""#, r#""wrapper""#);
         let resumed = WHEEL.replace(r#""start""#, r#""resume""#);
+        let hook_lineage = LINEAGE.replace(r#""wrapper""#, r#""hook""#);
         for lines in [
             vec![WHEEL],
-            vec![SESSION_START, WHEEL],
-            vec![WHEEL, from_wrapper.as_str()],
-            vec![resumed.as_str(), SESSION_START],
-            vec!["not json", SESSION_START],
-            vec![WHEEL, WHEEL, SESSION_START],
+            vec![WHEEL, LINEAGE],
+            vec![WHEEL, SESSION_START],
+            vec![LINEAGE, WHEEL, SESSION_START],
+            vec![SESSION_START, WHEEL, LINEAGE],
+            vec![WHEEL, LINEAGE, from_wrapper.as_str()],
+            vec![WHEEL, hook_lineage.as_str(), SESSION_START],
+            vec![resumed.as_str(), LINEAGE, SESSION_START],
+            vec!["not json", LINEAGE, SESSION_START],
+            vec![WHEEL, WHEEL, LINEAGE, SESSION_START],
         ] {
             write_events(tmp.path(), &lines);
             assert!(!start_records(tmp.path()), "{lines:?}");
         }
-        let torn = format!("{WHEEL}\n{SESSION_START}");
+        let torn = format!("{WHEEL}\n{LINEAGE}\n{SESSION_START}");
         fs::write(tmp.path().join("events.ndjson"), torn).expect("events");
         assert!(
             !start_records(tmp.path()),
@@ -705,7 +714,7 @@ mod tests {
             format!(r#"{{"event":"process-start","subject":"claude-child","child_pid":{me}}}"#),
         ]);
         plant_state(home.path());
-        write_events(&instance_dir(home.path(), "builder"), &[WHEEL]);
+        write_events(&instance_dir(home.path(), "builder"), &[WHEEL, LINEAGE]);
         assert_eq!(
             readiness(home.path(), &spec("builder")),
             Readiness::Pending(vec!["builder:events".to_owned()])

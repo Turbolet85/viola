@@ -15,7 +15,7 @@ use viola_state::replay::{
     session_chain,
 };
 use viola_state::snapshot::{
-    InstanceSnapshot, SnapshotRead, Wheel, read_snapshot_classified, write_snapshot,
+    InstanceSnapshot, Lineage, SnapshotRead, Wheel, read_snapshot_classified, write_snapshot,
 };
 
 fn snapshot() -> InstanceSnapshot {
@@ -32,6 +32,7 @@ fn snapshot() -> InstanceSnapshot {
         pending_dialog: None,
         cwd: Some("work/project".to_owned()),
         agent_session_id: None,
+        lineage: None,
     }
 }
 
@@ -86,6 +87,7 @@ fn replayed() -> Replayed {
             unknown_fields: 0,
             torn_lines: 0,
         },
+        lineage: None,
     }
 }
 
@@ -155,6 +157,53 @@ fn state_replay_a_snapshot_cut_short_is_replayed_from_the_log_and_left_untouched
             "snapshot.json",
             "snapshot.json.lock"
         ]
+    );
+}
+
+/// Two starts' `lineage` lines laid down by the crate's own writers, the snapshot mirroring the
+/// last; cut short, the replay returns that last line's lineage, not the first.
+#[test]
+fn state_replay_a_snapshot_cut_short_is_replayed_with_the_logged_lineage() {
+    let tmp = written();
+    let name = ViolaName::try_new("builder".to_owned()).expect("valid");
+    for data in [
+        json!({"parent": "tester", "role": null}),
+        json!({"parent": "overseer", "role": "builder"}),
+    ] {
+        let line = EventLine::new(&name, EventKind::Lineage, Source::Wrapper, data, Utc::now());
+        append_event(tmp.path(), &line).expect("append");
+    }
+    let last = Lineage {
+        parent: Some("overseer".to_owned()),
+        role: Some("builder".to_owned()),
+    };
+    let mirrored = InstanceSnapshot {
+        lineage: Some(last.clone()),
+        ..snapshot()
+    };
+    write_snapshot(tmp.path(), &mirrored).expect("snapshot");
+    assert_eq!(
+        read_snapshot_or_replay(tmp.path()).expect("recovered"),
+        Recovered::Snapshot(Box::new(mirrored))
+    );
+    let path = tmp.path().join("snapshot.json");
+    let whole = fs::metadata(&path).expect("the snapshot").len();
+    OpenOptions::new()
+        .write(true)
+        .open(&path)
+        .expect("the snapshot")
+        .set_len(whole / 2)
+        .expect("shorten");
+
+    assert_eq!(
+        read_snapshot_or_replay(tmp.path()).expect("recovered"),
+        Recovered::Replayed {
+            cause: ReplayCause::Unreadable,
+            state: Replayed {
+                lineage: Some(last),
+                ..replayed()
+            },
+        }
     );
 }
 
@@ -351,6 +400,7 @@ fn snapshot_of_a_budget_era_writer_reads_whole_skipping_its_budget_fields() {
             pending_dialog: None,
             cwd: None,
             agent_session_id: Some("0d6f1c52-3b7e-4a86-9a52-2f8b1c3d4e5f".to_owned()),
+            lineage: None,
         }))
     );
 }
@@ -384,6 +434,7 @@ fn replay_over_a_budget_era_log_skips_its_gate_lines() {
                     unknown_fields: 0,
                     torn_lines: 0,
                 },
+                lineage: None,
             },
         }
     );

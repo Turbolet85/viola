@@ -121,9 +121,13 @@ fn observations(list: AgentsList) -> Vec<Observation> {
         .collect()
 }
 
-/// `{"v":1,"ok":{"items":[…],"skipped":{…}}}`.
+/// `{"v":1,"ok":{"items":[…],"links":[…],"skipped":{…}}}`, `links` absent when the board holds
+/// none.
 fn document(board: &Board) -> Value {
-    json!({"v": 1, "ok": {"items": board.items, "skipped": board.skipped}})
+    if board.links.is_empty() {
+        return json!({"v": 1, "ok": {"items": board.items, "skipped": board.skipped}});
+    }
+    json!({"v": 1, "ok": {"items": board.items, "links": board.links, "skipped": board.skipped}})
 }
 
 #[cfg(test)]
@@ -131,7 +135,7 @@ mod tests {
     use super::*;
     use clap::Parser as _;
     use viola_agent_claude::agents;
-    use viola_state::board::{Item, JoinKeys, RowLiveness, SkippedTotal};
+    use viola_state::board::{BoardLink, Item, JoinKeys, RowLiveness, SkippedTotal};
     use viola_state::snapshot::Wheel;
 
     fn board() -> Board {
@@ -147,12 +151,15 @@ mod tests {
                 cli_verified: Some(true),
                 dialog_kind: None,
                 join: JoinKeys::default(),
+                parent: None,
+                role: None,
             }],
             skipped: SkippedTotal {
                 unknown_kinds: 1,
                 unknown_fields: 0,
                 torn_lines: 2,
             },
+            links: Vec::new(),
         }
     }
 
@@ -165,10 +172,27 @@ mod tests {
     }
 
     #[test]
+    fn list_document_carries_parent_role_and_links() {
+        let mut board = board();
+        board.items[0].parent = Some("overseer".to_owned());
+        board.items[0].role = Some("builder".to_owned());
+        board.links = vec![BoardLink {
+            driver: "tester".to_owned(),
+            driven: "builder".to_owned(),
+            since: "2026-11-22T01:02:03.000Z".to_owned(),
+        }];
+        assert_eq!(
+            document(&board).to_string(),
+            r#"{"v":1,"ok":{"items":[{"name":"builder","wrapped":true,"liveness":"live","status":"unknown","wheel":"driver","dialog_pending":false,"cli_version":"2.1.287","cli_verified":true,"parent":"overseer","role":"builder"}],"links":[{"driver":"tester","driven":"builder","since":"2026-11-22T01:02:03.000Z"}],"skipped":{"unknown_kinds":1,"unknown_fields":0,"torn_lines":2}}}"#
+        );
+    }
+
+    #[test]
     fn list_document_of_an_empty_board_holds_no_item() {
         let empty = Board {
             items: Vec::new(),
             skipped: SkippedTotal::default(),
+            links: Vec::new(),
         };
         assert_eq!(
             document(&empty).to_string(),

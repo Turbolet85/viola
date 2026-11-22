@@ -1,0 +1,19 @@
+[[control]]
+id = "census-bite"
+entry = 9
+guard = "the absence of any lineage reader in a link path: a reader of the snapshot's lineage planted in src/run/links.rs"
+case = "lineage_is_read_by_no_wheel_link_send_or_answer_path"
+
+[[control.edit]]
+path = "src/run/links.rs"
+old = '''
+use crate::run::snapshot::Snapshots;
+'''
+new = '''
+use crate::run::snapshot::Snapshots;
+
+#[allow(dead_code)]
+fn planted_reader(snapshot: &viola_state::snapshot::InstanceSnapshot) -> bool {
+    snapshot.lineage.is_some()
+}
+'''
