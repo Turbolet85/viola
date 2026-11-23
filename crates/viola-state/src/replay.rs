@@ -6,12 +6,13 @@ use std::path::Path;
 
 use serde_json::{Value, json};
 use viola_core::obs::ObsEvent;
-use viola_core::{EventKind, ViolaName, obs_event};
+use viola_core::{EventKind, ORIGIN_WORDS, PLACEMENT_WORDS, ViolaName, obs_event};
 
 use crate::StateError;
 use crate::events::{Skipped, read_from};
 use crate::snapshot::{
-    InstanceSnapshot, Launch, Lineage, SNAPSHOT, SnapshotRead, Wheel, read_snapshot_classified,
+    InstanceSnapshot, Launch, Lineage, SNAPSHOT, SnapshotRead, Wheel, Window,
+    read_snapshot_classified,
 };
 
 /// What one pass over the log recovers. A field no line gave is `None`, never a default. `links`
@@ -28,6 +29,8 @@ pub struct Replayed {
     pub lineage: Option<Lineage>,
     /// The last `launch` line's `{model, effort}`.
     pub launch: Option<Launch>,
+    /// The last `window` line after the last `launch` line.
+    pub window: Option<Window>,
 }
 
 /// Why the log was replayed in place of the snapshot.
@@ -45,7 +48,7 @@ pub enum Recovered {
     Absent,
     Replayed {
         cause: ReplayCause,
-        state: Replayed,
+        state: Box<Replayed>,
     },
 }
 
@@ -60,6 +63,7 @@ pub fn replay(instance_dir: &Path) -> Result<Replayed, StateError> {
         apply_link_line(&mut replayed.links, &line.value);
         apply_lineage_line(&mut replayed.lineage, &line.value);
         apply_launch_line(&mut replayed.launch, &line.value);
+        apply_window_line(&mut replayed.window, &line.value);
         let data = &line.value["data"];
         match line.value["kind"].as_str().and_then(EventKind::from_name) {
             Some(EventKind::Wheel) => replayed.wheel = holder(&data["holder"]),
@@ -132,6 +136,41 @@ pub fn apply_launch_line(launch: &mut Option<Launch>, line: &Value) {
     };
 }
 
+/// One logged line applied to the held window: a `launch` line clears it, since a start that
+/// records no window runs in none it knew; a `window` line whose `placement` and `origin` are each
+/// a closed word replaces it, its address kept only when it is an address's closed form and its
+/// workspace only as an `i32`; any other line changes nothing. It writes nothing.
+pub fn apply_window_line(window: &mut Option<Window>, line: &Value) {
+    match line["kind"].as_str().and_then(EventKind::from_name) {
+        Some(EventKind::Launch) => *window = None,
+        Some(EventKind::Window) => {
+            let data = &line["data"];
+            let (Some(placement), Some(origin)) = (
+                data["placement"]
+                    .as_str()
+                    .filter(|word| PLACEMENT_WORDS.contains(word)),
+                data["origin"]
+                    .as_str()
+                    .filter(|word| ORIGIN_WORDS.contains(word)),
+            ) else {
+                return;
+            };
+            *window = Some(Window {
+                address: data["address"]
+                    .as_str()
+                    .filter(|address| viola_hyprland::is_address(address))
+                    .map(str::to_owned),
+                workspace: data["workspace"]
+                    .as_i64()
+                    .and_then(|id| i32::try_from(id).ok()),
+                placement: placement.to_owned(),
+                origin: origin.to_owned(),
+            });
+        }
+        _ => {}
+    }
+}
+
 /// One logged session: a `session-start` line that carries an id.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct SessionLink {
@@ -201,7 +240,10 @@ pub fn read_snapshot_or_replay(instance_dir: &Path) -> Result<Recovered, StateEr
         v_seen = v_seen,
         scanned = scanned,
     );
-    Ok(Recovered::Replayed { cause, state })
+    Ok(Recovered::Replayed {
+        cause,
+        state: Box::new(state),
+    })
 }
 
 /// The scanned instance's name: `instance_dir`'s own last component when it is a `ViolaName`, so
@@ -258,6 +300,7 @@ mod tests {
             agent_session_id: None,
             lineage: None,
             launch: None,
+            window: None,
         }
     }
 
@@ -299,6 +342,7 @@ mod tests {
             skipped: NONE_SKIPPED,
             lineage: None,
             launch: None,
+            window: None,
         }
     }
 
@@ -329,6 +373,7 @@ mod tests {
                 skipped: NONE_SKIPPED,
                 lineage: None,
                 launch: None,
+                window: None,
             }
         );
     }
@@ -353,6 +398,7 @@ mod tests {
                 skipped: NONE_SKIPPED,
                 lineage: None,
                 launch: None,
+                window: None,
             }
         );
     }
@@ -387,6 +433,7 @@ mod tests {
             skipped: NONE_SKIPPED,
             lineage: None,
             launch: None,
+            window: None,
         };
         let tmp = tempfile::tempdir().expect("tempdir");
         assert_eq!(replay(tmp.path()).expect("absent"), nothing);
@@ -421,6 +468,7 @@ mod tests {
                 },
                 lineage: None,
                 launch: None,
+                window: None,
             }
         );
     }
@@ -435,7 +483,7 @@ mod tests {
             recovered.expect("recovered"),
             Recovered::Replayed {
                 cause: ReplayCause::Unreadable,
-                state: full_state(),
+                state: Box::new(full_state()),
             }
         );
         assert_eq!(
@@ -464,7 +512,7 @@ mod tests {
             recovered.expect("recovered"),
             Recovered::Replayed {
                 cause: ReplayCause::Unsupported { v_seen: 99 },
-                state: full_state(),
+                state: Box::new(full_state()),
             }
         );
         assert_eq!(
@@ -828,6 +876,99 @@ mod tests {
             "source": "wrapper", "data": data});
         apply_launch_line(&mut held, &line);
         assert_eq!(held, None);
+    }
+
+    fn window(address: Option<&str>, workspace: Option<i32>, placement: &str) -> Option<Window> {
+        Some(Window {
+            address: address.map(str::to_owned),
+            workspace,
+            placement: placement.to_owned(),
+            origin: "cli".to_owned(),
+        })
+    }
+
+    #[test]
+    fn window_rule_the_last_line_after_launch_wins() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        log(
+            tmp.path(),
+            &[
+                (
+                    EventKind::Launch,
+                    json!({"model": "haiku", "effort": "low"}),
+                ),
+                (
+                    EventKind::Window,
+                    json!({"address": null, "workspace": null, "placement": "window-unseen",
+                        "origin": "cli"}),
+                ),
+                (
+                    EventKind::Wheel,
+                    json!({"holder": "human", "cause": "start"}),
+                ),
+                (
+                    EventKind::Window,
+                    json!({"address": "0x555aa16bde50", "workspace": 1, "placement": "placed",
+                        "origin": "cli"}),
+                ),
+            ],
+        );
+        assert_eq!(
+            replay(tmp.path()).expect("replay").window,
+            window(Some("0x555aa16bde50"), Some(1), "placed")
+        );
+    }
+
+    #[test]
+    fn window_rule_a_later_launch_clears_it() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        log(
+            tmp.path(),
+            &[
+                (
+                    EventKind::Launch,
+                    json!({"model": "haiku", "effort": "low"}),
+                ),
+                (
+                    EventKind::Window,
+                    json!({"address": "0x555aa16bde50", "workspace": 1, "placement": "placed",
+                        "origin": "agent"}),
+                ),
+                (
+                    EventKind::Launch,
+                    json!({"model": "sonnet", "effort": "high"}),
+                ),
+            ],
+        );
+        assert_eq!(replay(tmp.path()).expect("replay").window, None);
+    }
+
+    #[rstest]
+    #[case::unknown_placement(json!({"address": "0x1", "workspace": 1, "placement": "moved",
+        "origin": "cli"}))]
+    #[case::unknown_origin(json!({"address": "0x1", "workspace": 1, "placement": "placed",
+        "origin": "human"}))]
+    #[case::no_placement(json!({"address": "0x1", "workspace": 1, "origin": "cli"}))]
+    #[case::numbers(json!({"address": "0x1", "workspace": 1, "placement": 1, "origin": 2}))]
+    fn window_rule_drops_a_line_with_an_unknown_word(#[case] data: Value) {
+        let mut held = window(Some("0xabc"), Some(2), "placed");
+        let line = json!({"v": 1, "ts": FIRST, "instance": "builder", "kind": "window",
+            "source": "wrapper", "data": data});
+        apply_window_line(&mut held, &line);
+        assert_eq!(held, window(Some("0xabc"), Some(2), "placed"));
+        let bad_fields = json!({"v": 1, "ts": FIRST, "instance": "builder", "kind": "window",
+            "source": "wrapper", "data": {"address": "0xZZ; x", "workspace": 4_294_967_296_i64,
+            "placement": "unplaced", "origin": "agent"}});
+        apply_window_line(&mut held, &bad_fields);
+        assert_eq!(
+            held,
+            Some(Window {
+                address: None,
+                workspace: None,
+                placement: "unplaced".to_owned(),
+                origin: "agent".to_owned(),
+            })
+        );
     }
 
     fn link(cause: &str, id: &str) -> SessionLink {

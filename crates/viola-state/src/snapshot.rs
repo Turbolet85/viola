@@ -70,6 +70,22 @@ pub struct InstanceSnapshot {
     /// handed again by `viola revive`.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub launch: Option<Launch>,
+    /// The `{address, workspace, placement, origin}` an opened start's `window` line recorded;
+    /// absent on a start no `viola open` asked for.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub window: Option<Window>,
+}
+
+/// The window an opened start runs in: its address and workspace as the compositor read them
+/// (either `None` when unread), how the window step ended and who asked, each a closed word.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct Window {
+    #[serde(default)]
+    pub address: Option<String>,
+    #[serde(default)]
+    pub workspace: Option<i32>,
+    pub placement: String,
+    pub origin: String,
 }
 
 /// The model and effort words a start handed its child.
@@ -193,6 +209,7 @@ mod tests {
             agent_session_id: None,
             lineage: None,
             launch: None,
+            window: None,
         }
     }
 

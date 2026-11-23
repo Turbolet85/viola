@@ -1,14 +1,18 @@
 # Coverage — viola-0.2.0
 
-verified 25/37 · deferred 2 · planned 10 · implemented 0 · unclaimed 10
+verified 25/37 · deferred 2 · planned 9 · implemented 1 · unclaimed 8
 
 ## deferred (2)
 - v2-21 · A key answering the CLI's session-feedback survey keeps the wheel
 - v2-22 · Product-owned session settings
 
-## planned, unclaimed (10)
-- v2-07 · Launch a session into the fleet
-- v2-08 · The launch authority bounded
+## implemented (1)
+- v2-08 · The launch authority bounded · 2026-11-23-viola-open-2
+
+## planned, gated (1)
+- v2-07 · Launch a session into the fleet · 2026-11-23-viola-open-2
+
+## planned, unclaimed (8)
 - v2-11 · Focus a session's window
 - v2-12 · Restore the fleet after a reboot
 - v2-13 · Adopt a plain session into the fleet

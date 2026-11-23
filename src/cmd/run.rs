@@ -1,4 +1,4 @@
-use std::ffi::OsString;
+use std::ffi::{OsStr, OsString};
 use std::io;
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
@@ -23,7 +23,7 @@ use viola_state::heartbeat::{Heartbeat, beat_age, touch_heartbeat};
 use viola_state::liveness::{Liveness, STALE_AFTER, classify, own_start, same_process};
 use viola_state::pin::{PinError, Pinned, pin_bytes, pin_key};
 use viola_state::replay::{Recovered, read_snapshot_or_replay};
-use viola_state::snapshot::{InstanceSnapshot, Lineage, Wheel};
+use viola_state::snapshot::{InstanceSnapshot, Lineage, Wheel, Window};
 use viola_state::strict::check_endpoint_dir;
 use viola_state::strict::{TreeRefused, check_home_tree};
 
@@ -57,9 +57,23 @@ pub(crate) struct RunArgs {
     /// The effort the session starts on: low, medium, high, xhigh or max; else the configured default
     #[arg(long, value_name = "EFFORT", value_parser = parse_effort)]
     effort: Option<String>,
+    /// Who asked `viola open` for this start, self-reported: the window step runs only with it
+    #[arg(long, hide = true, value_name = "WORD", value_parser = parse_origin)]
+    origin: Option<String>,
+    /// The workspace `viola open` chose for this start's window
+    #[arg(long, hide = true, value_name = "N", allow_negative_numbers = true)]
+    place: Option<i32>,
     /// The program to wrap and its arguments, after `--`
     #[arg(last = true, required = true)]
     program: Vec<OsString>,
+}
+
+fn parse_origin(word: &str) -> Result<String, String> {
+    if viola_core::ORIGIN_WORDS.contains(&word) {
+        Ok(word.to_owned())
+    } else {
+        Err("an origin is cli or agent".to_owned())
+    }
 }
 
 fn parse_role(word: &str) -> Result<String, String> {
@@ -94,13 +108,19 @@ pub(super) fn pair_after_dashes() -> clap::Error {
     )
 }
 
-/// The arguments clap cannot check alone: a `--parent` naming the session itself, and a model or
-/// an effort among the program's words, are usage errors.
+/// The arguments clap cannot check alone: a `--parent` naming the session itself, a place with no
+/// origin, and a model or an effort among the program's words, are usage errors.
 fn checked(args: RunArgs) -> Result<RunArgs, clap::Error> {
     if args.parent.as_ref() == Some(&args.name) {
         return Err(clap::Error::raw(
             clap::error::ErrorKind::ArgumentConflict,
             "the argument '--parent <NAME>' cannot name the session itself\n",
+        ));
+    }
+    if args.place.is_some() && args.origin.is_none() {
+        return Err(clap::Error::raw(
+            clap::error::ErrorKind::MissingRequiredArgument,
+            "the argument '--place <N>' needs '--origin <WORD>'\n",
         ));
     }
     if run::launch::names_pair(&args.program) {
@@ -244,6 +264,14 @@ pub(super) struct Launch {
     pub(super) lineage: Lineage,
     /// The `(model, effort)` halves the start was given; a missing half is the default's.
     pub(super) given: (Option<String>, Option<String>),
+    /// What `viola open` asked of this start's window; `None` runs no window step.
+    pub(super) window: Option<WindowAsk>,
+}
+
+/// Who asked for the window, self-reported, and the workspace it goes to when one was chosen.
+pub(super) struct WindowAsk {
+    pub(super) origin: String,
+    pub(super) place: Option<i32>,
 }
 
 pub(crate) fn run(home: &Path, args: RunArgs) -> anyhow::Result<ExitCode> {
@@ -268,6 +296,10 @@ pub(crate) fn run(home: &Path, args: RunArgs) -> anyhow::Result<ExitCode> {
         json: false,
         lineage,
         given: (args.model, args.effort),
+        window: args.origin.map(|origin| WindowAsk {
+            origin,
+            place: args.place,
+        }),
     };
     match start(home, &launch, &persistent, &exe)? {
         Started::Launched(launched) => pump_child(*launched),
@@ -406,6 +438,10 @@ pub(super) fn start(
     };
     let cli_verified = gate.cli_verified;
     trust_folder(cli_verified, &strip, &launch.spawn_dir);
+    let window = launch
+        .window
+        .as_ref()
+        .map(|ask| open_window(ask, &cwd, &strip));
     let wheel = Arc::new(WheelSlot::default());
     let snapshots = Arc::new(Snapshots::new(instance_dir.clone()));
     let (hold, rejections) = run::dialog::read_hold(&home);
@@ -471,6 +507,7 @@ pub(super) fn start(
             links: links.current(),
             lineage: launch.lineage.clone(),
             launch: pair.clone(),
+            window,
         },
     )?;
     let child = run::child_launch(
@@ -501,6 +538,23 @@ pub(super) fn start(
         _beat: beat,
         _serving: serving,
     })))
+}
+
+/// The window step of a start `viola open` asked for, over the compositor seam: `hyprctl` looked up
+/// on `PATH` (none reads `unsupported`, nothing spawned), the terminal the wrapper's parent, the
+/// R8 strip's names taken out of each read's environment. Its bound never stops the start.
+fn open_window(ask: &WindowAsk, cwd: &Path, strip: &StripPlan) -> Window {
+    let hyprctl = run::resolve_program(OsStr::new(viola_hyprland::PROGRAM), cwd).ok();
+    let mut read = |request: &viola_hyprland::Request| {
+        viola_hyprland::read(hyprctl.as_deref(), request, &strip.remove).reply
+    };
+    run::window::window_step(
+        &mut read,
+        std::os::unix::process::parent_id(),
+        ask.place,
+        &ask.origin,
+        run::window::WINDOW_WAIT,
+    )
 }
 
 /// The child's folder trusted for the CLI before its spawn, on a verified CLI only: one
@@ -643,12 +697,14 @@ struct Recorded<'a> {
     links: Vec<Value>,
     lineage: Lineage,
     launch: Pair,
+    window: Option<Window>,
 }
 
 /// The first snapshot (with the endpoint, the version gate's reading, the restored link set, the
 /// child's spawn directory when it is valid UTF-8, the launch's lineage and its pair), the
-/// heartbeat and its thread, then the start's `wheel` event, its `lineage` event and its `launch`
-/// event; the returned guard keeps the heartbeat running.
+/// heartbeat and its thread, then the start's `wheel` event, its `lineage` event, its `launch`
+/// event and, for an opened start, its `window` event; the returned guard keeps the heartbeat
+/// running.
 fn start_state(
     name: &ViolaName,
     instance_dir: &Path,
@@ -675,6 +731,7 @@ fn start_state(
         agent_session_id: None,
         lineage: Some(recorded.lineage.clone()),
         launch: Some(recorded.launch.clone()),
+        window: recorded.window.clone(),
     };
     snapshots.init(snapshot.clone())?;
     touch_heartbeat(instance_dir)?;
@@ -690,6 +747,18 @@ fn start_state(
     let data = json!({"model": model, "effort": effort});
     let line = EventLine::new(name, EventKind::Launch, Source::Wrapper, data, Utc::now());
     append_event(instance_dir, &line)?;
+    if let Some(Window {
+        address,
+        workspace,
+        placement,
+        origin,
+    }) = recorded.window
+    {
+        let data = json!({"address": address, "workspace": workspace, "placement": placement,
+            "origin": origin});
+        let line = EventLine::new(name, EventKind::Window, Source::Wrapper, data, Utc::now());
+        append_event(instance_dir, &line)?;
+    }
     Ok((beat, snapshot))
 }
 
@@ -1366,6 +1435,16 @@ mod tests {
         lineage: Lineage,
         launch: Pair,
     ) -> InstanceSnapshot {
+        first_snapshot_opened(instance_dir, spawn_dir, lineage, launch, None)
+    }
+
+    fn first_snapshot_opened(
+        instance_dir: &Path,
+        spawn_dir: &Path,
+        lineage: Lineage,
+        launch: Pair,
+        window: Option<Window>,
+    ) -> InstanceSnapshot {
         let name = ViolaName::try_new("builder".to_owned()).expect("valid");
         let pinned = Pinned {
             key: "k".to_owned(),
@@ -1392,6 +1471,7 @@ mod tests {
                 links: links.current(),
                 lineage,
                 launch,
+                window,
             },
         )
         .expect("the start state");
@@ -1523,6 +1603,83 @@ mod tests {
         assert_eq!(
             events[2]["data"],
             json!({"model": "haiku", "effort": "low"})
+        );
+    }
+
+    /// An opened start: the snapshot holds the window before the start's lines, and the `window`
+    /// line, `source` `wrapper`, follows the `launch` line directly.
+    #[test]
+    fn start_state_writes_the_window_line_after_the_launch_line() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let instance_dir = tmp.path().join("instance");
+        let window = Window {
+            address: Some("0x555aa16bde50".to_owned()),
+            workspace: Some(1),
+            placement: "placed".to_owned(),
+            origin: "cli".to_owned(),
+        };
+        let snapshot = first_snapshot_opened(
+            &instance_dir,
+            tmp.path(),
+            Lineage::default(),
+            run::launch::compiled(),
+            Some(window.clone()),
+        );
+        assert_eq!(snapshot.window, Some(window));
+        let events = events_in(&instance_dir);
+        let read: Vec<(&Value, &Value)> =
+            events.iter().map(|e| (&e["kind"], &e["source"])).collect();
+        assert_eq!(
+            read,
+            [
+                (&json!("wheel"), &json!("wrapper")),
+                (&json!("lineage"), &json!("wrapper")),
+                (&json!("launch"), &json!("wrapper")),
+                (&json!("window"), &json!("wrapper")),
+            ]
+        );
+        assert_eq!(
+            events[3]["data"],
+            json!({"address": "0x555aa16bde50", "workspace": 1, "placement": "placed",
+                "origin": "cli"})
+        );
+    }
+
+    #[test]
+    fn run_args_refuse_a_place_without_an_origin() {
+        assert_eq!(
+            parse(&["builder", "--place", "1", "--", "claude"]).err(),
+            Some(clap::error::ErrorKind::MissingRequiredArgument)
+        );
+        assert_eq!(
+            parse(&["builder", "--origin", "human", "--", "claude"]).err(),
+            Some(clap::error::ErrorKind::ValueValidation)
+        );
+        assert_eq!(
+            parse(&["builder", "--origin", "cli", "--place", "x", "--", "claude"]).err(),
+            Some(clap::error::ErrorKind::ValueValidation)
+        );
+    }
+
+    #[test]
+    fn run_args_take_a_hidden_origin_and_place() {
+        let args = parse(&[
+            "builder", "--origin", "agent", "--place", "3", "--", "claude",
+        ])
+        .expect("args");
+        assert_eq!(
+            (args.origin.as_deref(), args.place),
+            (Some("agent"), Some(3))
+        );
+        let args = parse(&["builder", "--origin", "cli", "--", "claude"]).expect("args");
+        assert_eq!((args.origin.as_deref(), args.place), (Some("cli"), None));
+        let args = parse(&["builder", "--", "claude"]).expect("args");
+        assert_eq!((args.origin, args.place), (None, None));
+        use clap::CommandFactory as _;
+        let help = Line::command().render_help().to_string();
+        assert!(
+            !help.contains("--origin") && !help.contains("--place"),
+            "{help}"
         );
     }
 
@@ -1678,6 +1835,7 @@ mod tests {
             json: false,
             lineage: Lineage::default(),
             given: (None, None),
+            window: None,
         };
         let exe = std::fs::read(std::env::current_exe().expect("exe")).expect("exe bytes");
         let (started, spans) =

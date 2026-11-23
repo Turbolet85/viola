@@ -13,6 +13,7 @@ pub(crate) mod snapshot;
 pub(crate) mod version_gate;
 pub(crate) mod wait;
 pub(crate) mod wheel;
+pub(crate) mod window;
 
 use std::ffi::{OsStr, OsString};
 use std::path::{Path, PathBuf};
@@ -43,6 +44,7 @@ pub(crate) fn first() -> viola_state::snapshot::InstanceSnapshot {
         agent_session_id: None,
         lineage: None,
         launch: None,
+        window: None,
     }
 }
 

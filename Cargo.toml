@@ -150,6 +150,8 @@ viola-agent-claude = { path = "crates/viola-agent-claude" }
 viola-state = { path = "crates/viola-state" }
 viola-channel = { path = "crates/viola-channel" }
 viola-mcp = { path = "crates/viola-mcp" }
+# The compositor seam: `viola open`'s parent window read and the wrapper's window step.
+viola-hyprland = { path = "crates/viola-hyprland" }
 anyhow.workspace = true
 chrono.workspace = true
 clap.workspace = true
@@ -170,8 +172,6 @@ serde_json.workspace = true
 sha2.workspace = true
 sysinfo.workspace = true
 tempfile.workspace = true
-# The Hyprland seam's replay contract drives its read over the fake `hyprctl`.
-viola-hyprland = { path = "crates/viola-hyprland" }
 # The shared test helpers (tracing field capture, the pipe DACL read-back): tests only, never a
 # release build (scripts/release-check.sh proves the feature absent).
 viola-channel = { path = "crates/viola-channel", features = ["test-support"] }

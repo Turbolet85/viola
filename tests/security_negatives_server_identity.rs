@@ -119,6 +119,7 @@ fn served(label: &str, recorded: u32) -> Served {
         agent_session_id: None,
         lineage: None,
         launch: None,
+        window: None,
     };
     write_snapshot(&instance, &snapshot).expect("the snapshot");
     viola_state::heartbeat::touch_heartbeat(&instance).expect("the heartbeat");

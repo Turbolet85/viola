@@ -1,0 +1,454 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T21:26:01Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-open2-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer phase directive for viola open: its facts measured 2026-11-23T21:22Z and its 12 items bind this phase",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-23T21-24-59Z-phase",
+"--marker",
+"2026-11-23-viola-open-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-open2-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-open2-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-open2-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "72ec89c756b256c1540cb729c2ed64920049b295c9650659e56f85887f7568ca",
+"copy": "I1-phase-open2-directive.md.txt",
+"link": false,
+"read_at": "2026-11-23T21:26:00Z",
+"step": "phase:P1",
+"why": "the overseer phase directive for viola open: its facts measured 2026-11-23T21:22Z and its 12 items bind this phase"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T22:09:20Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-open2-p3.md",
+"--kind",
+"relay",
+"--why",
+"the overseer technical answers T1-T6 (a delegate): T1 replaces F3, T4 window-unseen and no seam read without --origin; four steps while W1-W3 wait",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-23T21-24-59Z-phase",
+"--marker",
+"2026-11-23-viola-open-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy no-repo · ../additional/viola-overseer/relay-open2-p3.md",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-open2-p3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-open2-p3.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "5d5de0c0d22d0b582f8bf9bda370d3d1cfc0cf5d54a0924fd4526b38014cb6b0",
+"copy": "I2-relay-open2-p3.md.txt",
+"link": false,
+"read_at": "2026-11-23T22:09:20Z",
+"step": "phase:P4",
+"why": "the overseer technical answers T1-T6 (a delegate): T1 replaces F3, T4 window-unseen and no seam read without --origin; four steps while W1-W3 wait"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T22:09:21Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-open-r2.md",
+"--kind",
+"relay",
+"--why",
+"R2: the operator cap ONE live claude start no spare, workspace 1 free, the overseer orders: a no-start probe under the lock, two branches, ten-minute fit, one written command",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-23T21-24-59Z-phase",
+"--marker",
+"2026-11-23-viola-open-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy no-repo · ../additional/viola-overseer/relay-open-r2.md",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-open-r2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-open-r2.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "83172a20ca5fafd98524ecdc059a6aaca42c5ab24a4e15146d782ed3c063f1c2",
+"copy": "I3-relay-open-r2.md.txt",
+"link": false,
+"read_at": "2026-11-23T22:09:21Z",
+"step": "phase:P4",
+"why": "R2: the operator cap ONE live claude start no spare, workspace 1 free, the overseer orders: a no-start probe under the lock, two branches, ten-minute fit, one written command"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T22:20:38Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-open2-w.md",
+"--kind",
+"relay",
+"--why",
+"the operator own answers W1-W3, all arm (a): origin and workspace as two hidden flags; recorded window else ancestry walk of 8; window and origin on list --json and MCP list",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-23T21-24-59Z-phase",
+"--marker",
+"2026-11-23-viola-open-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy no-repo · ../additional/viola-overseer/relay-open2-w.md",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-open2-w.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-open2-w.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "e9a0ba082e5b195b7e3acb1157b74386f0402bfdd5ed11cbe67402750ba260f2",
+"copy": "I4-relay-open2-w.md.txt",
+"link": false,
+"read_at": "2026-11-23T22:20:37Z",
+"step": "phase:P4",
+"why": "the operator own answers W1-W3, all arm (a): origin and workspace as two hidden flags; recorded window else ancestry walk of 8; window and origin on list --json and MCP list"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T22:55:45Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--run-dir",
+".andromeda/runs/2026-11-23T21-24-59Z-phase",
+"--marker",
+"2026-11-23-viola-open-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-open2-directive.md",
+"I1 cited scope.md:100 · research.md:9 · plan.md:19 · plan.md:245 · plan.md:339 (in fence) · plan.md:492",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-open2-p3.md",
+"I2 cited plan.md:12 · plan.md:14",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-open-r2.md",
+"I3 cited scope.md:57 · research.md:126 · plan.md:18 · plan.md:189 · plan.md:202 · plan.md:492",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/relay-open2-w.md",
+"I4 cited scope.md:63 · plan.md:15 · plan.md:539",
+"inputs: 4 entries — unchanged 4 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 4,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T22:57:41Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--run-dir",
+".andromeda/runs/2026-11-23T21-24-59Z-phase",
+"--marker",
+"2026-11-23-viola-open-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-open2-directive.md",
+"I1 cited scope.md:100 · research.md:9 · plan.md:19 · plan.md:245 · plan.md:349 (in fence) · plan.md:504",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-open2-p3.md",
+"I2 cited plan.md:12 · plan.md:14",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-open-r2.md",
+"I3 cited scope.md:57 · research.md:126 · plan.md:18 · plan.md:189 · plan.md:202 · plan.md:504",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/relay-open2-w.md",
+"I4 cited scope.md:63 · plan.md:15 · plan.md:551",
+"inputs: 4 entries — unchanged 4 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 4,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T22:59:51Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--run-dir",
+".andromeda/runs/2026-11-23T21-24-59Z-phase",
+"--marker",
+"2026-11-23-viola-open-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-open2-directive.md",
+"I1 cited scope.md:100 · research.md:9 · plan.md:19 · plan.md:250 · plan.md:354 (in fence) · plan.md:549",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-open2-p3.md",
+"I2 cited plan.md:12 · plan.md:14",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-open-r2.md",
+"I3 cited scope.md:57 · research.md:126 · plan.md:18 · plan.md:189 · plan.md:207 · plan.md:457 (in fence) · plan.md:481 (in fence) · plan.md:549",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/relay-open2-w.md",
+"I4 cited scope.md:63 · plan.md:15 · plan.md:596",
+"inputs: 4 entries — unchanged 4 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 4,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T23:02:30Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-open2-p5-review.md",
+"--kind",
+"relay",
+"--why",
+"the overseer review of P5 card 1: probe a reading (expect empty), the morning branch re-fires the probe first, the stop and the two goes, test -f before the config grep",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-23T21-24-59Z-phase",
+"--marker",
+"2026-11-23-viola-open-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy no-repo · ../additional/viola-overseer/relay-open2-p5-review.md",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-open2-p5-review.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-open2-p5-review.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "95c2ae05f50a3609e79a9875bb057af437d72fedc3ce32c92a757728c4bf3968",
+"copy": "I5-relay-open2-p5-review.md.txt",
+"link": false,
+"read_at": "2026-11-23T23:02:27Z",
+"step": "phase:P5",
+"why": "the overseer review of P5 card 1: probe a reading (expect empty), the morning branch re-fires the probe first, the stop and the two goes, test -f before the config grep"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T23:05:03Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--run-dir",
+".andromeda/runs/2026-11-23T21-24-59Z-phase",
+"--marker",
+"2026-11-23-viola-open-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-open2-directive.md",
+"I1 cited scope.md:100 · research.md:9 · plan.md:19 · plan.md:267 · plan.md:371 (in fence) · plan.md:567",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-open2-p3.md",
+"I2 cited plan.md:12 · plan.md:14",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-open-r2.md",
+"I3 cited scope.md:57 · research.md:126 · plan.md:18 · plan.md:213 · plan.md:499 (in fence) · plan.md:567",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/relay-open2-w.md",
+"I4 cited scope.md:63 · plan.md:15 · plan.md:614",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/relay-open2-p5-review.md",
+"I5 cited plan.md:188 · plan.md:200 · plan.md:213 · plan.md:483 (in fence) · plan.md:490 (in fence)",
+"inputs: 5 entries — unchanged 5 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 5,
+"counts": {
+"unchanged": 5,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

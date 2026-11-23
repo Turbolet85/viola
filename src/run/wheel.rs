@@ -911,6 +911,7 @@ mod tests {
                 agent_session_id: None,
                 lineage: None,
                 launch: None,
+                window: None,
             })
             .expect("snapshot");
         let wheel = Arc::new(WheelSlot::default());

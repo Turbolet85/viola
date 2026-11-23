@@ -200,6 +200,7 @@ fn diag_line_schema_confines_corr_to_its_events() {
 #[case::verify_sender("verify-sender", true)]
 #[case::verify_pty_probe("verify-pty-probe", true)]
 #[case::version_probe("version-probe", true)]
+#[case::terminal("terminal", true)]
 #[case::unknown("probe", false)]
 fn diag_line_schema_takes_only_catalogued_spawn_subjects(
     #[case] subject: &str,
@@ -212,6 +213,22 @@ fn diag_line_schema_takes_only_catalogued_spawn_subjects(
         "instance": "verifier", "subject": subject, "child_exit_status": 0, "duration_ms": 12
     });
     assert_eq!(validator.is_valid(&exit), valid);
+}
+
+/// `viola open`'s two exit-1 causes are `process-exit` details of the catalog; a detail outside
+/// it is still refused.
+#[rstest]
+#[case::terminal_not_found("terminal-not-found", true)]
+#[case::not_live("not-live", true)]
+#[case::unknown("not-open", false)]
+fn diag_line_schema_takes_the_open_exit_details(#[case] detail: &str, #[case] valid: bool) {
+    let validator = jsonschema::validator_for(&line_schema()).expect("valid schema");
+    let exit = json!({
+        "timestamp": "2026-11-23T03:12:07.412Z", "level": "ERROR", "target": "viola::run",
+        "message": "process-exit", "event": "process-exit", "process": "cli",
+        "instance": "child", "subject": "self", "exit_code": 1, "detail": detail, "duration_ms": 12
+    });
+    assert_eq!(validator.is_valid(&exit), valid, "{exit}");
 }
 
 /// A replayed snapshot's `state-recovered` line, with and without the scanned instance: `scanned`

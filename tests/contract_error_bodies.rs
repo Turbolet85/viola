@@ -38,7 +38,49 @@ const REVIVE: &str = "client::refused_document(self.detail());";
 const SEND_REFUSAL: &str =
     r#"client::document(&json!({"v": 1, "refusal": reason, "detail": detail}));"#;
 
+const OPEN_REFUSED: &str = "client::refused_document(detail);";
+
 const CLI_DOCUMENTS: &[Body] = &[
+    Body {
+        code: "strict-modes-failed",
+        detail: "null",
+        exit: Some(1),
+        file: "src/cmd/open.rs",
+        needle: r#"client::refused_document("strict-modes-failed");"#,
+        witness: "open_refuses_a_home_another_user_may_read",
+    },
+    Body {
+        code: "terminal-not-found",
+        detail: "null",
+        exit: Some(1),
+        file: "src/cmd/open.rs",
+        needle: OPEN_REFUSED,
+        witness: "open_without_foot_refuses_terminal_not_found_and_spawns_nothing",
+    },
+    Body {
+        code: "not-live",
+        detail: "null",
+        exit: Some(1),
+        file: "src/cmd/open.rs",
+        needle: OPEN_REFUSED,
+        witness: "wait_live_past_its_bound_is_not_live",
+    },
+    Body {
+        code: "pinned-hash-mismatch",
+        detail: "null",
+        exit: Some(1),
+        file: "src/cmd/open.rs",
+        needle: OPEN_REFUSED,
+        witness: "a_tampered_pinned_copy_is_pinned_hash_mismatch",
+    },
+    Body {
+        code: "already-live",
+        detail: "null",
+        exit: Some(1),
+        file: "src/cmd/run.rs",
+        needle: "super::client::refused_document(detail);",
+        witness: "open_refuses_a_live_name_before_any_spawn",
+    },
     Body {
         code: "instance-unreachable",
         detail: "strict-modes-failed",
@@ -371,6 +413,16 @@ const NOT_ERROR_BODIES: &[(&str, &str, &str)] = &[
         "a fixed stderr line for a text never read, with no document (the design table's row 2)",
     ),
     (
+        "src/cmd/open.rs",
+        "pub(crate) const OPEN_PROGRAM: &str =",
+        "a fixed usage line for a word after `--` other than claude alone, echoing none of the words, with no document",
+    ),
+    (
+        "src/cmd/open.rs",
+        r#"client::document(&json!({"v": 1, "ok": {"#,
+        "open's ok document: its name, parent, window and placement word, no error body",
+    ),
+    (
         "src/cmd/answer.rs",
         "const UNUSABLE_RESPONSE: &str =",
         "a fixed stderr line for a response never read, with no document (the design table's row 2)",
@@ -408,7 +460,7 @@ const NOT_ERROR_BODIES: &[(&str, &str, &str)] = &[
     (
         "crates/viola-hyprland/src/lib.rs",
         "pub enum HyprlandError {",
-        "the Hyprland seam's closed failure words, each message fixed: no verb calls the seam yet, so no surface writes one",
+        "the Hyprland seam's closed failure words, each message fixed: its callers keep only the word, as a placement word, and no surface writes a message",
     ),
 ];
 

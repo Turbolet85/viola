@@ -1931,6 +1931,7 @@ dependencies = [
  "tracing",
  "tracing-subscriber",
  "viola-core",
+ "viola-hyprland",
 ]
 
 [[package]]

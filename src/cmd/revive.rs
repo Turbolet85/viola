@@ -256,6 +256,7 @@ fn preflight(home: &Path, args: ReviveArgs) -> anyhow::Result<Result<Launch, Sta
         json,
         lineage: recorded_lineage(&recovered),
         given,
+        window: None,
     }))
 }
 
@@ -594,6 +595,7 @@ mod tests {
             agent_session_id: None,
             lineage: None,
             launch: None,
+            window: None,
         }))
     }
 
@@ -615,7 +617,7 @@ mod tests {
         assert_eq!(recorded_dir(&Recovered::Absent), None);
         let replayed = Recovered::Replayed {
             cause: ReplayCause::Unreadable,
-            state: Replayed::default(),
+            state: Box::new(Replayed::default()),
         };
         assert_eq!(recorded_dir(&replayed), None);
     }

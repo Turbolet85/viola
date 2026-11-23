@@ -73,11 +73,12 @@ pub enum EventKind {
     DialogExpired,
     Lineage,
     Launch,
+    Window,
 }
 
 impl EventKind {
     /// Every kind, in declaration order.
-    pub const ALL: [Self; 17] = [
+    pub const ALL: [Self; 18] = [
         Self::SessionStart,
         Self::PromptSubmitted,
         Self::TurnEnded,
@@ -95,6 +96,7 @@ impl EventKind {
         Self::DialogExpired,
         Self::Lineage,
         Self::Launch,
+        Self::Window,
     ];
 
     /// The kinds that end a `wait` (architecture §Standard Contracts); every other kind is
@@ -138,6 +140,7 @@ impl EventKind {
             Self::DialogExpired => &["dialog_id", "dialog_kind"],
             Self::Lineage => &["parent", "role"],
             Self::Launch => &["model", "effort"],
+            Self::Window => &["address", "workspace", "placement", "origin"],
         }
     }
 
@@ -160,9 +163,27 @@ impl EventKind {
             Self::DialogExpired => "dialog-expired",
             Self::Lineage => "lineage",
             Self::Launch => "launch",
+            Self::Window => "window",
         }
     }
 }
+
+/// The closed `placement` words of a `window` line: how the wrapper's window step ended. The
+/// last five are the compositor seam's own error words.
+pub const PLACEMENT_WORDS: [&str; 8] = [
+    "placed",
+    "unplaced",
+    "window-unseen",
+    "unsupported",
+    "unreachable",
+    "oversize",
+    "malformed",
+    "refused",
+];
+
+/// The closed `origin` words of a `window` line: who asked for the window, self-reported on the
+/// started wrapper's argv; it authenticates nothing.
+pub const ORIGIN_WORDS: [&str; 2] = ["cli", "agent"];
 
 /// Why a request was refused: a normal outcome, never a protocol fault (architecture §Conventions).
 #[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
@@ -583,10 +604,35 @@ mod tests {
         );
         assert!(!EventKind::WAIT_WAKE.contains(&EventKind::Lineage));
         assert!(!EventKind::WAIT_WAKE.contains(&EventKind::Launch));
+        assert!(!EventKind::WAIT_WAKE.contains(&EventKind::Window));
+    }
+
+    #[test]
+    fn placement_and_origin_words_are_the_closed_lists() {
+        assert_eq!(
+            PLACEMENT_WORDS,
+            [
+                "placed",
+                "unplaced",
+                "window-unseen",
+                "unsupported",
+                "unreachable",
+                "oversize",
+                "malformed",
+                "refused",
+            ]
+        );
+        assert_eq!(ORIGIN_WORDS, ["cli", "agent"]);
+        assert!(
+            PLACEMENT_WORDS
+                .iter()
+                .chain(ORIGIN_WORDS.iter())
+                .all(|w| is_code_word(w))
+        );
     }
 
     /// Architecture's per-kind `data` list, written out as the oracle, in declaration order.
-    const KIND_TABLE: [(EventKind, &str, &[&str]); 17] = [
+    const KIND_TABLE: [(EventKind, &str, &[&str]); 18] = [
         (
             EventKind::SessionStart,
             "session-start",
@@ -637,6 +683,11 @@ mod tests {
         ),
         (EventKind::Lineage, "lineage", &["parent", "role"]),
         (EventKind::Launch, "launch", &["model", "effort"]),
+        (
+            EventKind::Window,
+            "window",
+            &["address", "workspace", "placement", "origin"],
+        ),
     ];
 
     #[test]
@@ -662,7 +713,7 @@ mod tests {
     }
 
     #[test]
-    fn kind_table_all_is_the_seventeen_kinds_in_declaration_order() {
+    fn kind_table_all_is_the_eighteen_kinds_in_declaration_order() {
         let all: Vec<&str> = EventKind::ALL.iter().map(|k| k.as_str()).collect();
         assert_eq!(
             all,
@@ -684,6 +735,7 @@ mod tests {
                 "dialog-expired",
                 "lineage",
                 "launch",
+                "window",
             ]
         );
     }

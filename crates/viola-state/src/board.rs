@@ -12,14 +12,14 @@ use std::time::SystemTime;
 use serde::Serialize;
 use serde_json::Value;
 use viola_core::obs::ObsEvent;
-use viola_core::{ViolaName, is_code_word, is_model_word, obs_event};
+use viola_core::{ORIGIN_WORDS, ViolaName, is_code_word, is_model_word, obs_event};
 
 use crate::StateError;
 use crate::events::{Skipped, read_from};
 use crate::heartbeat::beat_age;
 use crate::liveness::{Liveness, STALE_AFTER, classify, same_process};
 use crate::replay::{Recovered, read_snapshot_or_replay};
-use crate::snapshot::{InstanceSnapshot, Launch, Lineage, Wheel};
+use crate::snapshot::{InstanceSnapshot, Launch, Lineage, Wheel, Window};
 use crate::strict::{Refused, check_instance, check_path, check_read};
 
 const INSTANCES: &str = "instances";
@@ -189,6 +189,13 @@ pub struct Item {
     pub model: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub effort: Option<String>,
+    /// The window the instance's last `window` line recorded, kept only when its address re-parses
+    /// as an address.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub window: Option<ItemWindow>,
+    /// The origin word of that line: who asked for the window, self-reported.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub origin: Option<String>,
     /// The pending dialog's kind word, for the human row; no field of the document.
     #[serde(skip)]
     pub dialog_kind: Option<String>,
@@ -213,10 +220,19 @@ impl Item {
             role: None,
             model: None,
             effort: None,
+            window: None,
+            origin: None,
             dialog_kind: None,
             join: JoinKeys::default(),
         }
     }
+}
+
+/// A row's window: its address and the workspace the compositor read it on.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize)]
+pub struct ItemWindow {
+    pub address: String,
+    pub workspace: Option<i32>,
 }
 
 /// The board's `skipped`: the reader's three counts summed over every scanned instance.
@@ -287,6 +303,26 @@ fn shown_launch(launch: Option<&Launch>) -> (Option<String>, Option<String>) {
     (model, effort)
 }
 
+/// `(window, origin)` as a row may show them: the window only when its address is an address's
+/// closed form, the origin only when it is an origin word.
+fn shown_window(window: Option<&Window>) -> (Option<ItemWindow>, Option<String>) {
+    let Some(window) = window else {
+        return (None, None);
+    };
+    let shown = window
+        .address
+        .as_ref()
+        .filter(|address| viola_hyprland::is_address(address))
+        .map(|address| ItemWindow {
+            address: address.clone(),
+            workspace: window.workspace,
+        });
+    let origin = Some(&window.origin)
+        .filter(|origin| ORIGIN_WORDS.contains(&origin.as_str()))
+        .cloned();
+    (shown, origin)
+}
+
 /// The held links a listed row adds to the board: a pair whose `driver` or `driven` is no
 /// `ViolaName` is dropped, counted nowhere.
 fn add_links(board: &mut Vec<BoardLink>, links: &[Value]) {
@@ -311,6 +347,7 @@ fn add_links(board: &mut Vec<BoardLink>, links: &[Value]) {
 fn snapshot_item(name: &ViolaName, snapshot: &InstanceSnapshot, liveness: RowLiveness) -> Item {
     let (parent, role) = shown_lineage(name, snapshot.lineage.as_ref());
     let (model, effort) = shown_launch(snapshot.launch.as_ref());
+    let (window, origin) = shown_window(snapshot.window.as_ref());
     Item {
         name: name.as_ref().to_owned(),
         wrapped: true,
@@ -324,6 +361,8 @@ fn snapshot_item(name: &ViolaName, snapshot: &InstanceSnapshot, liveness: RowLiv
         role,
         model,
         effort,
+        window,
+        origin,
         dialog_kind: snapshot.pending_dialog.as_ref().map(|d| d.kind.clone()),
         join: JoinKeys {
             child_pid: snapshot.child_pid,
@@ -373,6 +412,7 @@ pub fn read(scan: &Scan, now: SystemTime) -> Board {
                 if beat_age(dir, now).is_some_and(|age| age <= STALE_AFTER) {
                     let (parent, role) = shown_lineage(name, state.lineage.as_ref());
                     let (model, effort) = shown_launch(state.launch.as_ref());
+                    let (window, origin) = shown_window(state.window.as_ref());
                     add_links(&mut board.links, &state.links);
                     board.items.push(Item {
                         name: name.as_ref().to_owned(),
@@ -387,6 +427,8 @@ pub fn read(scan: &Scan, now: SystemTime) -> Board {
                         role,
                         model,
                         effort,
+                        window,
+                        origin,
                         dialog_kind: None,
                         join: JoinKeys {
                             child_pid: None,
@@ -495,6 +537,7 @@ mod tests {
             agent_session_id: None,
             lineage: None,
             launch: None,
+            window: None,
         }
     }
 
@@ -815,6 +858,8 @@ mod tests {
                     role: None,
                     model: None,
                     effort: None,
+                    window: None,
+                    origin: None,
                 }],
                 "{detail}"
             );
@@ -904,6 +949,8 @@ mod tests {
             role: None,
             model: None,
             effort: None,
+            window: None,
+            origin: None,
         };
         assert_eq!(
             serde_json::to_string(&none).expect("serialise"),
@@ -979,6 +1026,56 @@ mod tests {
             serde_json::to_string(&board.items[0]).expect("serialise"),
             r#"{"name":"builder","wrapped":true,"liveness":"live","status":"unknown","wheel":"driver","dialog_pending":false,"cli_version":"2.1.287","cli_verified":true,"role":"builder","model":"claude-haiku-4.5","effort":"low"}"#
         );
+    }
+
+    fn with_window(address: Option<&str>, origin: &str) -> InstanceSnapshot {
+        InstanceSnapshot {
+            window: Some(Window {
+                address: address.map(str::to_owned),
+                workspace: Some(2),
+                placement: "placed".to_owned(),
+                origin: origin.to_owned(),
+            }),
+            ..own_snapshot()
+        }
+    }
+
+    #[test]
+    fn board_read_item_with_a_window_serialises_it() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = home(&tmp);
+        let dir = booted(
+            &home,
+            "builder",
+            &with_window(Some("0x555aa16bde50"), "agent"),
+        );
+        let board = read(&scanned(&home), beat_time(&dir));
+        assert_eq!(
+            serde_json::to_string(&board.items[0]).expect("serialise"),
+            r#"{"name":"builder","wrapped":true,"liveness":"live","status":"unknown","wheel":"driver","dialog_pending":false,"cli_version":"2.1.287","cli_verified":true,"window":{"address":"0x555aa16bde50","workspace":2},"origin":"agent"}"#
+        );
+    }
+
+    /// An address that is not an address's closed form drops the window, and a word that is no
+    /// origin word drops the origin; an absent address drops the window alone.
+    #[test]
+    fn board_read_drops_a_window_address_that_does_not_parse() {
+        for (label, address, origin, shown) in [
+            ("bad-address", Some("0xZZ; rm"), "cli", (false, Some("cli"))),
+            ("no-address", None, "agent", (false, Some("agent"))),
+            ("bad-origin", Some("0x1f"), "human", (true, None)),
+        ] {
+            let tmp = tempfile::tempdir().expect("tempdir");
+            let home = home(&tmp);
+            let dir = booted(&home, "builder", &with_window(address, origin));
+            let board = read(&scanned(&home), beat_time(&dir));
+            let item = &board.items[0];
+            assert_eq!(
+                (item.window.is_some(), item.origin.as_deref()),
+                shown,
+                "{label}"
+            );
+        }
     }
 
     /// A model that is no model word and an effort that is no code word are each dropped from the

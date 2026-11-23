@@ -155,6 +155,8 @@ mod tests {
                 role: None,
                 model: None,
                 effort: None,
+                window: None,
+                origin: None,
             }],
             skipped: SkippedTotal {
                 unknown_kinds: 1,

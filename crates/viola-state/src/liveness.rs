@@ -56,6 +56,23 @@ pub fn process_start_time(pid: u32) -> Option<u64> {
         .map(sysinfo::Process::start_time)
 }
 
+/// `pid`'s parent chain, nearest first, from one read of the process table: at most `max` pids,
+/// ending at pid 1 or at the first process whose parent is unknown. The pids stay in memory.
+pub fn ancestors(pid: u32, max: usize) -> Vec<u32> {
+    let mut sys = System::new();
+    sys.refresh_processes(ProcessesToUpdate::All, true);
+    let mut chain = Vec::new();
+    let mut at = Pid::from_u32(pid);
+    while chain.len() < max && at.as_u32() > 1 {
+        let Some(parent) = sys.process(at).and_then(sysinfo::Process::parent) else {
+            break;
+        };
+        chain.push(parent.as_u32());
+        at = parent;
+    }
+    chain
+}
+
 /// `pid`'s start time as the snapshot's `started_at`.
 pub fn own_start(pid: u32) -> Option<String> {
     let secs = i64::try_from(process_start_time(pid)?).ok()?;
@@ -164,6 +181,17 @@ mod tests {
     use crate::snapshot::Wheel;
     use rstest::rstest;
 
+    #[test]
+    fn ancestors_of_this_process_start_with_its_parent() {
+        let chain = ancestors(std::process::id(), 8);
+        assert_eq!(chain.first(), Some(&std::os::unix::process::parent_id()));
+        assert!(chain.len() <= 8, "{chain:?}");
+        assert!(chain.iter().all(|pid| *pid >= 1), "{chain:?}");
+        assert_eq!(ancestors(std::process::id(), 1).len(), 1);
+        assert_eq!(ancestors(std::process::id(), 0), Vec::<u32>::new());
+        assert_eq!(ancestors(1, 8), Vec::<u32>::new());
+    }
+
     #[rstest]
     #[case::fresh(Some(4_900), true, Liveness::Live)]
     #[case::at_the_bound(Some(5_000), true, Liveness::Live)]
@@ -196,6 +224,7 @@ mod tests {
             agent_session_id: None,
             lineage: None,
             launch: None,
+            window: None,
         }
     }
 

@@ -232,6 +232,7 @@ impl Impostor {
             agent_session_id: None,
             lineage: None,
             launch: None,
+            window: None,
         };
         viola_state::snapshot::write_snapshot(&instance, &snapshot).expect("the snapshot");
         viola_state::heartbeat::touch_heartbeat(&instance).expect("the heartbeat");

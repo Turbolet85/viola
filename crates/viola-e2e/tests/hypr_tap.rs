@@ -89,10 +89,23 @@ fn stub_terminal(dir: &Path) -> PathBuf {
     planted(dir, "terminal", &body)
 }
 
+/// How the stub `hyprctl` of `record-move` answers its dispatch and its `clients`.
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum Move {
+    /// The dispatch prints `ok` and moves the window; `clients` follows `/proc`.
+    Taken,
+    /// The dispatch prints a text other than `ok`.
+    NotOk,
+    /// The dispatch prints `ok` and moves nothing.
+    Unseen,
+    /// `clients` lists the terminal's pid whatever `/proc` says.
+    Stays,
+}
+
 /// A stub `hyprctl` for `record-move`: `clients` names the stub terminal's pid on workspace 1 until a
 /// dispatch, on `moved_to` after it, and no window once the pid is gone; `with_window` false names
-/// no window of that pid at all.
-fn stub_move(dir: &Path, moved_to: i32, with_window: bool) -> PathBuf {
+/// no window of that pid at all; `answer` bends the dispatch or `clients` as its variant says.
+fn stub_move(dir: &Path, moved_to: i32, with_window: bool, answer: Move) -> PathBuf {
     let version: Value = serde_json::from_slice(
         &fs::read(fixtures().join("Version.recorded-1.json")).expect("a committed reply"),
     )
@@ -103,15 +116,25 @@ fn stub_move(dir: &Path, moved_to: i32, with_window: bool) -> PathBuf {
     )
     .expect("the reply file");
     let d = dir.display();
+    let alive = if answer == Move::Stays {
+        String::new()
+    } else {
+        " && [ -d \"/proc/$pid\" ]".to_owned()
+    };
     let clients = if with_window {
         format!(
-            "pid=$(cat '{d}/terminal-pid' 2>/dev/null)\n      if [ -n \"$pid\" ] && [ -d \"/proc/$pid\" ]; then\n        ws=1; [ -f '{d}/moved' ] && ws=$(cat '{d}/moved')\n        printf '[{{\"address\":\"0x55d4c1a2b3c0\",\"pid\":%s,\"workspace\":{{\"id\":%s}}}}]' \"$pid\" \"$ws\"\n      else printf '[]'; fi"
+            "pid=$(cat '{d}/terminal-pid' 2>/dev/null)\n      if [ -n \"$pid\" ]{alive}; then\n        ws=1; [ -f '{d}/moved' ] && ws=$(cat '{d}/moved')\n        printf '[{{\"address\":\"0x55d4c1a2b3c0\",\"pid\":%s,\"workspace\":{{\"id\":%s}}}}]' \"$pid\" \"$ws\"\n      else printf '[]'; fi"
         )
     } else {
         "printf '[{\"address\":\"0x55d4c1a2b3c0\",\"pid\":1,\"workspace\":{\"id\":1}}]'".to_owned()
     };
+    let dispatch = match answer {
+        Move::Taken | Move::Stays => format!("echo {moved_to} > '{d}/moved'; echo ok"),
+        Move::NotOk => format!("echo {moved_to} > '{d}/moved'; echo not-taken"),
+        Move::Unseen => "echo ok".to_owned(),
+    };
     let body = format!(
-        "case \"$1 $2\" in\n  '-j version') cat '{d}/reply-version' ;;\n  '-j clients')\n      {clients} ;;\n  dispatch*) printf '%s' \"$2\" > '{d}/dispatched'; echo {moved_to} > '{d}/moved'; echo ok ;;\n  *) exit 1 ;;\nesac"
+        "case \"$1 $2\" in\n  '-j version') cat '{d}/reply-version' ;;\n  '-j clients')\n      {clients} ;;\n  dispatch*) printf '%s' \"$2\" > '{d}/dispatched'; {dispatch} ;;\n  *) exit 1 ;;\nesac"
     );
     planted(dir, "hyprctl", &body)
 }
@@ -266,7 +289,7 @@ fn hypr_tap_record_monitors_writes_the_monitors_reply_alone() {
 fn hypr_tap_record_move_moves_the_window_of_its_own_terminal_and_ends_it() {
     let rig = Rig::new();
     let terminal = stub_terminal(rig.dir.path());
-    let program = stub_move(rig.dir.path(), 7, true);
+    let program = stub_move(rig.dir.path(), 7, true, Move::Taken);
     let out = rig.run(&[
         "record-move",
         "--program",
@@ -306,7 +329,7 @@ fn hypr_tap_record_move_moves_the_window_of_its_own_terminal_and_ends_it() {
 fn hypr_tap_record_move_refuses_with_no_window_of_its_terminal_and_writes_nothing() {
     let rig = Rig::new();
     let terminal = stub_terminal(rig.dir.path());
-    let program = stub_move(rig.dir.path(), 7, false);
+    let program = stub_move(rig.dir.path(), 7, false, Move::Taken);
     let out = rig.run(&[
         "record-move",
         "--program",
@@ -326,6 +349,55 @@ fn hypr_tap_record_move_refuses_with_no_window_of_its_terminal_and_writes_nothin
     assert_eq!(fs::read_dir(&rig.out).expect("the out dir").count(), 0);
     assert!(!rig.dir.path().join("dispatched").exists());
     assert!(terminal_gone(rig.dir.path()));
+}
+
+/// `record-move` over a stub bent as `answer`: exit 1 with `code` alone on stderr, nothing written
+/// under the out dir, and the stub terminal it started gone.
+fn assert_move_refused(answer: Move, code: &str) {
+    let rig = Rig::new();
+    let terminal = stub_terminal(rig.dir.path());
+    let program = stub_move(rig.dir.path(), 7, true, answer);
+    let out = rig.run(&[
+        "record-move",
+        "--program",
+        program.to_str().expect("utf-8"),
+        "--terminal",
+        terminal.to_str().expect("utf-8"),
+        "--workspace",
+        "7",
+        "--out",
+        rig.out_arg(),
+    ]);
+    assert_eq!(out.status.code(), Some(1), "{code}");
+    assert_eq!(
+        String::from_utf8_lossy(&out.stderr),
+        format!("viola-hypr-tap: {code}\n")
+    );
+    assert_eq!(
+        fs::read_dir(&rig.out).expect("the out dir").count(),
+        0,
+        "{code}"
+    );
+    assert!(
+        rig.dir.path().join("dispatched").exists(),
+        "{code}: no dispatch"
+    );
+    assert!(terminal_gone(rig.dir.path()), "{code}");
+}
+
+#[test]
+fn hypr_tap_record_move_refuses_a_move_not_answered_ok() {
+    assert_move_refused(Move::NotOk, "move-refused");
+}
+
+#[test]
+fn hypr_tap_record_move_refuses_a_move_not_seen() {
+    assert_move_refused(Move::Unseen, "move-unseen");
+}
+
+#[test]
+fn hypr_tap_record_move_refuses_a_window_that_never_leaves() {
+    assert_move_refused(Move::Stays, "window-left");
 }
 
 #[test]

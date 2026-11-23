@@ -446,6 +446,7 @@ mod tests {
             agent_session_id: None,
             lineage: None,
             launch: None,
+            window: None,
         };
         write_snapshot(&instance_dir, &snapshot).expect("the snapshot");
         let name = viola_core::ViolaName::try_new("builder".to_owned()).expect("valid");

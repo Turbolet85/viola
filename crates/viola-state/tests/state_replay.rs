@@ -35,6 +35,7 @@ fn snapshot() -> InstanceSnapshot {
         agent_session_id: None,
         lineage: None,
         launch: None,
+        window: None,
     }
 }
 
@@ -91,6 +92,7 @@ fn replayed() -> Replayed {
         },
         lineage: None,
         launch: None,
+        window: None,
     }
 }
 
@@ -148,7 +150,7 @@ fn state_replay_a_snapshot_cut_short_is_replayed_from_the_log_and_left_untouched
         read_snapshot_or_replay(tmp.path()).expect("recovered"),
         Recovered::Replayed {
             cause: ReplayCause::Unreadable,
-            state: replayed(),
+            state: Box::new(replayed()),
         }
     );
     assert_eq!(on_disk(tmp.path()), before);
@@ -202,10 +204,10 @@ fn state_replay_a_snapshot_cut_short_is_replayed_with_the_logged_lineage() {
         read_snapshot_or_replay(tmp.path()).expect("recovered"),
         Recovered::Replayed {
             cause: ReplayCause::Unreadable,
-            state: Replayed {
+            state: Box::new(Replayed {
                 lineage: Some(last),
                 ..replayed()
-            },
+            }),
         }
     );
 }
@@ -229,6 +231,7 @@ fn state_replay_a_snapshot_cut_short_is_replayed_with_the_logged_launch() {
     };
     let mirrored = InstanceSnapshot {
         launch: Some(last.clone()),
+        window: None,
         ..snapshot()
     };
     write_snapshot(tmp.path(), &mirrored).expect("snapshot");
@@ -249,10 +252,11 @@ fn state_replay_a_snapshot_cut_short_is_replayed_with_the_logged_launch() {
         read_snapshot_or_replay(tmp.path()).expect("recovered"),
         Recovered::Replayed {
             cause: ReplayCause::Unreadable,
-            state: Replayed {
+            state: Box::new(Replayed {
                 launch: Some(last),
+                window: None,
                 ..replayed()
-            },
+            }),
         }
     );
 }
@@ -274,7 +278,7 @@ fn state_replay_a_snapshot_of_v_99_is_replayed_with_the_v_it_saw_and_left_untouc
         read_snapshot_or_replay(tmp.path()).expect("recovered"),
         Recovered::Replayed {
             cause: ReplayCause::Unsupported { v_seen: 99 },
-            state: replayed(),
+            state: Box::new(replayed()),
         }
     );
     assert_eq!(on_disk(tmp.path()), before);
@@ -400,10 +404,10 @@ fn state_replay_a_snapshot_cut_short_is_replayed_with_the_logged_link() {
         read_snapshot_or_replay(tmp.path()).expect("recovered"),
         Recovered::Replayed {
             cause: ReplayCause::Unreadable,
-            state: Replayed {
+            state: Box::new(Replayed {
                 links: vec![json!({"driver": "overseer", "driven": "builder", "since": since})],
                 ..replayed()
-            },
+            }),
         }
     );
     assert_eq!(on_disk(tmp.path()), before);
@@ -452,6 +456,7 @@ fn snapshot_of_a_budget_era_writer_reads_whole_skipping_its_budget_fields() {
             agent_session_id: Some("0d6f1c52-3b7e-4a86-9a52-2f8b1c3d4e5f".to_owned()),
             lineage: None,
             launch: None,
+            window: None,
         }))
     );
 }
@@ -473,7 +478,7 @@ fn replay_over_a_budget_era_log_skips_its_gate_lines() {
         read_snapshot_or_replay(tmp.path()).expect("recovered"),
         Recovered::Replayed {
             cause: ReplayCause::Unreadable,
-            state: Replayed {
+            state: Box::new(Replayed {
                 wheel: Some(Wheel::Human),
                 agent_session_id: None,
                 links: vec![
@@ -487,7 +492,8 @@ fn replay_over_a_budget_era_log_skips_its_gate_lines() {
                 },
                 lineage: None,
                 launch: None,
-            },
+                window: None,
+            }),
         }
     );
 

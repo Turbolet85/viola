@@ -5,6 +5,7 @@ mod last;
 mod link;
 mod list;
 mod mcp;
+mod open;
 mod pause;
 mod plugin;
 mod release;
@@ -35,7 +36,7 @@ board:    list
 traffic:  send, wait, last, answer
 wheel:    pause, release
 handoff:  link, unlink
-setup:    run, revive, verify, plugin install
+setup:    open, run, revive, verify, plugin install
 
 Options:
 {options}";
@@ -58,6 +59,8 @@ pub(crate) struct Cli {
 
 #[derive(Subcommand)]
 enum Command {
+    /// Open a terminal window running claude as the named instance, beside its parent's
+    Open(open::OpenArgs),
     /// Wrap a program as the named instance
     Run(run::RunArgs),
     /// Restart a dead instance in this terminal, resuming its newest logged session
@@ -111,6 +114,11 @@ pub(crate) fn dispatch(cli: Cli) -> Result<ExitCode, Failure> {
     match cli.command {
         // The hook's home is its session's, from `VIOLA_DIR`, never `--home`.
         Command::Hook(args) => hook::hook(&args),
+        Command::Open(args) => {
+            let home = resolved_home(cli.home)?;
+            let sink = cli_sink(&home, &args.name);
+            open::open(&home, args).map_err(|error| Failure { error, sink })
+        }
         Command::Run(args) => {
             let home = resolved_home(cli.home)?;
             let sink = DetailSink {

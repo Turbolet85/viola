@@ -688,6 +688,7 @@ mod tests {
             agent_session_id: None,
             lineage: None,
             launch: None,
+            window: None,
         };
         viola_state::snapshot::write_snapshot(&instance.dir, &snapshot).expect("snapshot");
         let path = instance.dir.join(viola_state::snapshot::SNAPSHOT);
@@ -959,6 +960,7 @@ mod tests {
             agent_session_id: None,
             lineage: None,
             launch: None,
+            window: None,
         };
         viola_state::snapshot::write_snapshot(&instance.dir, &snapshot).expect("snapshot");
         (instance, serving)
@@ -1246,6 +1248,7 @@ mod tests {
             agent_session_id: None,
             lineage: None,
             launch: None,
+            window: None,
         };
         viola_state::snapshot::write_snapshot(&instance.dir, &snapshot).expect("snapshot");
         std::fs::set_permissions(&dir, std::fs::Permissions::from_mode(0o755)).expect("chmod");
@@ -1795,6 +1798,7 @@ mod tests {
                     agent_session_id: None,
                     lineage: None,
                     launch: None,
+                    window: None,
                 };
                 viola_state::snapshot::write_snapshot(&instance.dir, &snapshot).expect("snapshot");
                 (instance, Some(serving))

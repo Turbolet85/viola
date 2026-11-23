@@ -290,6 +290,67 @@ fn hyprctl_output_replays_the_recorded_fixture_for_its_argv_and_each_mode_its_by
     assert_eq!(HYPRCTL, "hyprctl");
 }
 
+/// `terminal` mode: `clients` lists one window at the move fixture's address on the stand-in
+/// `foot`'s recorded pid (none before it stands), and the recorded move to workspace 1 at that
+/// address replays `ok`; every other argv is the recorded replay.
+#[test]
+fn hyprctl_terminal_mode_names_the_stand_in_pid() {
+    use super::foot::{FOOT_PID, split_options};
+    use super::hyprctl::{TERMINAL_ADDRESS, hyprctl_output};
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let set = tmp.path().join("hyprctl-set");
+    fs::create_dir_all(&set).expect("set");
+    let fixture = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("fixtures/hyprland/0.56.2/MoveToWorkspace.recorded-1.json");
+    fs::copy(&fixture, set.join("MoveToWorkspace.recorded-1.json")).expect("the move fixture");
+    let dir = Some(tmp.path());
+    let clients_argv = args(&["-j", "clients"]);
+    assert_eq!(
+        hyprctl_output(Some("terminal"), dir, &clients_argv),
+        (b"[]\n".to_vec(), 0)
+    );
+    fs::write(tmp.path().join(FOOT_PID), "4242").expect("the pid");
+    let (out, code) = hyprctl_output(Some("terminal"), dir, &clients_argv);
+    assert_eq!(code, 0);
+    let listed: Value = serde_json::from_slice(&out).expect("json");
+    assert_eq!(
+        listed,
+        json!([{"address": TERMINAL_ADDRESS, "pid": 4242, "workspace": {"id": 2, "name": "2"}}])
+    );
+    let parsed = viola_hyprland::reply::parse_clients(&out).expect("the seam parses it");
+    assert_eq!(parsed[0].pid, Some(4242));
+    let move_argv = args(&[
+        "dispatch",
+        &format!(
+            "hl.dsp.window.move({{ workspace = 1, window = \"address:{TERMINAL_ADDRESS}\" }})"
+        ),
+    ]);
+    assert_eq!(
+        hyprctl_output(Some("terminal"), dir, &move_argv),
+        (b"ok\n".to_vec(), 0)
+    );
+    let other = args(&[
+        "dispatch",
+        &format!(
+            "hl.dsp.window.move({{ workspace = 3, window = \"address:{TERMINAL_ADDRESS}\" }})"
+        ),
+    ]);
+    assert_eq!(
+        hyprctl_output(Some("terminal"), dir, &other),
+        (Vec::new(), 1)
+    );
+    let foot_argv = args(&[
+        "--app-id=viola.x",
+        "--title=x",
+        "--working-directory=/w d",
+        "/v",
+        "run",
+    ]);
+    let (working, words) = split_options(&foot_argv);
+    assert_eq!(working, Some("/w d"));
+    assert_eq!(words, args(&["/v", "run"]));
+}
+
 /// A fixtures root holding `<version>/<name>` for each of `files`, and the agent's arguments over
 /// it: `--cli-version 3.0.0 --fixtures <root> --receipt <tmp>/receipt.ndjson` and `extra`.
 fn over_set(tmp: &Path, files: &[(&str, &str)], extra: &[&str]) -> Vec<String> {

@@ -1,0 +1,32 @@
+[[control]]
+id = 'open-allowlist'
+entry = 7
+guard = 'the claude-alone check on the words after -- in open checked() is never taken'
+case = 'open_args_refuse_a_word_after_dashes_other_than_claude'
+
+[[control.edit]]
+path = 'src/cmd/open.rs'
+old = '    if args.program != [OsStr::new(PROGRAM)] {'
+new = '    if false && args.program != [OsStr::new(PROGRAM)] {'
+
+[[control]]
+id = 'window-launch'
+entry = 6
+guard = 'a launch line no longer clears the held window in the replay window rule'
+case = 'window_rule_a_later_launch_clears_it'
+
+[[control.edit]]
+path = 'crates/viola-state/src/replay.rs'
+old = '        Some(EventKind::Launch) => *window = None,'
+new = '        Some(EventKind::Launch) => {}'
+
+[[control]]
+id = 'place-only-seen'
+entry = 7
+guard = 'the window step takes the first client with any pid in place of the one whose pid is its terminal'
+case = 'window_step_with_no_window_is_window_unseen'
+
+[[control.edit]]
+path = 'src/run/window.rs'
+old = '            .find(|window| window.pid == Some(terminal_pid))'
+new = '            .find(|window| window.pid.is_some() || terminal_pid == 0)'

@@ -65,6 +65,8 @@ const PROGRAM_NOT_FOUND: &str = "install Claude Code or put it on PATH";
 const VERSION_UNREADABLE: &str = "run claude --version to check the install";
 const UNCLEAN_FIXTURE: &str = "record with a viola home under your user home";
 const INTERRUPTED: &str = "run viola verify again to stamp this CLI";
+const TERMINAL_NOT_FOUND: &str = "install foot, the terminal viola open starts";
+const NOT_LIVE: &str = "the window stays open; viola list shows builder once it is live";
 
 /// A code, its exit, and a hint it ends with: `None` where the cause has none.
 type Cause = (&'static str, u8, Option<&'static str>);
@@ -93,6 +95,8 @@ const CAUSES: &[Cause] = &[
     ("version-unreadable", 1, Some(VERSION_UNREADABLE)),
     ("unclean-fixture", 1, Some(UNCLEAN_FIXTURE)),
     ("interrupted", 1, Some(INTERRUPTED)),
+    ("terminal-not-found", 1, Some(TERMINAL_NOT_FOUND)),
+    ("not-live", 1, Some(NOT_LIVE)),
 ];
 
 const UNVERIFIED_CLI: &str = "run viola verify for this CLI version";

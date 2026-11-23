@@ -75,10 +75,45 @@ pub(crate) fn send_hint(name: &str, cause: &str) -> Option<String> {
     })
 }
 
+/// `viola open`'s `terminal-not-found` pair: no `foot` on `PATH`, nothing spawned.
+pub(crate) fn terminal_not_found_pair() -> (&'static str, &'static str) {
+    (
+        "no foot terminal on PATH",
+        "install foot, the terminal viola open starts",
+    )
+}
+
+/// `viola open`'s `not-live` pair: the instance did not come up within the live bound, and its
+/// window was left standing.
+pub(crate) fn not_live_pair(name: &str) -> (String, String) {
+    (
+        format!("{name} did not come up within 30 s"),
+        format!("the window stays open; viola list shows {name} once it is live"),
+    )
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
     use rstest::rstest;
+
+    #[test]
+    fn open_pairs_are_the_fixed_lines() {
+        assert_eq!(
+            terminal_not_found_pair(),
+            (
+                "no foot terminal on PATH",
+                "install foot, the terminal viola open starts"
+            )
+        );
+        assert_eq!(
+            not_live_pair("builder"),
+            (
+                "builder did not come up within 30 s".to_owned(),
+                "the window stays open; viola list shows builder once it is live".to_owned()
+            )
+        );
+    }
 
     #[rstest]
     #[case::control_character(

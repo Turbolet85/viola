@@ -8,10 +8,13 @@ pub(super) const HYPRCTL: &str = "hyprctl";
 /// Beside the executable: one recorded fixture per request word.
 const HYPRCTL_SET: &str = "hyprctl-set";
 /// Beside the executable: `recorded` (the default, also for an absent file), `oversize`,
-/// `malformed` or `absent` (the recorded no-instance reply, whatever the request).
+/// `malformed`, `absent` (the recorded no-instance reply, whatever the request) or `terminal`
+/// (`clients` names the stand-in `foot`'s pid, every other argv the recorded replay).
 const HYPRCTL_MODE: &str = "hyprctl-mode";
 /// The variant of the recorded no-instance reply.
 const ABSENT_VARIANT: &str = ".absent-1.json";
+/// The address `terminal` mode lists the stand-in's window at: the recorded move fixture's.
+pub(super) const TERMINAL_ADDRESS: &str = "0x555aa16bde50";
 
 /// Whether this process was started under the file name `hyprctl`.
 pub(super) fn is_hyprctl() -> bool {
@@ -48,11 +51,26 @@ pub(super) fn hyprctl_output(
         )),
         Some("malformed") => Some((b"viola fixture text\n".to_vec(), 0)),
         Some("absent") => recorded(dir, |name, _| name.ends_with(ABSENT_VARIANT)),
+        Some("terminal") if args == ["-j", "clients"] => Some((terminal_clients(dir), 0)),
         _ => recorded(dir, |name, doc| {
             !name.ends_with(ABSENT_VARIANT) && doc["args"] == json!(args)
         }),
     }
     .unwrap_or((Vec::new(), 1))
+}
+
+/// One synthetic client on the stand-in `foot`'s pid, the fields the seam's parse reads; `[]`
+/// while no `foot-pid` stands beside the executable.
+fn terminal_clients(dir: Option<&Path>) -> Vec<u8> {
+    let pid = dir
+        .and_then(|d| fs::read_to_string(d.join(super::foot::FOOT_PID)).ok())
+        .and_then(|text| text.trim().parse::<u32>().ok());
+    let clients = match pid {
+        Some(pid) => json!([{"address": TERMINAL_ADDRESS, "pid": pid,
+            "workspace": {"id": 2, "name": "2"}}]),
+        None => json!([]),
+    };
+    format!("{clients}\n").into_bytes()
 }
 
 fn recorded(dir: Option<&Path>, matches: impl Fn(&str, &Value) -> bool) -> Option<(Vec<u8>, u8)> {

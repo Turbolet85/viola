@@ -13,6 +13,8 @@ fake-agent = []
 
 [dependencies]
 viola-core = { path = "../viola-core" }
+# `is_address`, the one window-address validator (security-plan §Input Validation).
+viola-hyprland = { path = "../viola-hyprland" }
 chrono.workspace = true
 # `geteuid` for the strict-modes owner check.
 libc.workspace = true

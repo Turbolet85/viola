@@ -27,5 +27,7 @@ pub(super) fn item(name: &str) -> Item {
         role: None,
         model: None,
         effort: None,
+        window: None,
+        origin: None,
     }
 }

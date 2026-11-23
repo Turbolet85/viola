@@ -1,0 +1,133 @@
+[
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "afc8a3a0",
+"ts": "2026-11-23T23:07:01Z",
+"argv": [
+"claim",
+"--dir",
+"viola-0.2.0",
+"--id",
+"v2-08",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--acceptance-file",
+".andromeda/runs/2026-11-23T21-24-59Z-phase/acceptance-v2-08.md",
+"--run-dir",
+".andromeda/runs/2026-11-23T21-24-59Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claim v2-08 → chunk 2026-11-23-viola-open-2 (was null; status planned kept)",
+"acceptance: An open carrying a flag outside the closed allowlist is refused before… (260 chars)",
+"         → An `open` carrying a flag outside the closed allowlist, or any word af… (723 chars)",
+"landed, rendered ./.andromeda/db/log/2026-11-23T21-25-56-2026-11-23-viola-open-2.ndjson · 1 entry changed",
+"pool: unclaimed 9 [v2-07 v2-11 v2-12 v2-13 v2-14 v2-15 v2-28 v2-30 v2-31]"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-23T21-25-56-2026-11-23-viola-open-2.ndjson"
+],
+"before": {
+"id": "v2-08",
+"chunk": null,
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "An open carrying a flag outside the closed allowlist is refused before anything starts; no shell line is ever built from… (260 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v2-08",
+"chunk": "2026-11-23-viola-open-2",
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "An `open` carrying a flag outside the closed allowlist, or any word after `--` other than `claude` alone, exits 2 before… (723 chars)",
+"notes_chars": 0
+}
+},
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "afc8a3a0",
+"ts": "2026-11-23T23:07:01Z",
+"argv": [
+"claim",
+"--dir",
+"viola-0.2.0",
+"--id",
+"v2-07",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--acceptance-file",
+".andromeda/runs/2026-11-23T21-24-59Z-phase/acceptance-v2-07.md",
+"--gated-file",
+".andromeda/runs/2026-11-23T21-24-59Z-phase/gated-v2-07.md",
+"--run-dir",
+".andromeda/runs/2026-11-23T21-24-59Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claim v2-07 → chunk 2026-11-23-viola-open-2 (was null; status planned kept)",
+"acceptance: From the CLI and from an agent's own shell, an open brings up a new te… (363 chars)",
+"         → From the CLI and from an agent's own shell, an open brings up a new te… (972 chars)",
+"gated: R2, ONE viola open end to end beside a live parent under a scratch home, at the … (152 chars)",
+"landed, rendered ./.andromeda/db/log/2026-11-23T21-25-56-2026-11-23-viola-open-2.ndjson · 1 entry changed",
+"pool: unclaimed 8 [v2-11 v2-12 v2-13 v2-14 v2-15 v2-28 v2-30 v2-31]"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-23T21-25-56-2026-11-23-viola-open-2.ndjson"
+],
+"before": {
+"id": "v2-07",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "From the CLI and from an agent's own shell, an open brings up a new terminal window running the named wrapped session, p… (363 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v2-07",
+"chunk": "2026-11-23-viola-open-2",
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "From the CLI and from an agent's own shell, an open brings up a new terminal window running the named wrapped session, p… (972 chars)",
+"notes_chars": 0
+}
+},
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "afc8a3a0",
+"ts": "2026-11-23T23:07:02Z",
+"argv": [
+"audit",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--run-dir",
+".andromeda/runs/2026-11-23T21-24-59Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-23-viola-open-2: 2 · ## Acceptance Criteria: line 502, 26 lines",
+"v2-07: cited in ## Acceptance Criteria (line 510)",
+"  shape v2-07: method e2e · no interaction verb",
+"v2-08: cited in ## Acceptance Criteria (line 503)",
+"pool: unclaimed 8 [v2-11 v2-12 v2-13 v2-14 v2-15 v2-28 v2-30 v2-31]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]
