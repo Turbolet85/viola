@@ -1,0 +1,18 @@
+--- a/.andromeda/security-plan.md
++++ b/.andromeda/security-plan.md
+@@ -122,2 +122,3 @@
+ decision/leftover-socket-file-kept · Leftover socket file is not removed — A killed wrapper's socket file stays in the per-user directory until a next bind of that name takes it over; nothing removes it. · why: by choice: a harmless file in a 0700 directory
++decision/lineage-parent-authenticates-nothing · Self-reported parent authenticates nothing — An instance's parent is read as the parent only — never the instance, never an identity, never joined into a path — taken from --parent or else the inherited VIOLA_NAME and dropped when it is the instance's own name; it authenticates nothing. · guard: lineage_is_read_by_no_wheel_link_send_or_answer_path
+ decision/live-rig-hb-arm-keeps-attributes-only · Live rig's HB arm keeps cell attributes and counts only — The live rig's HB arm types one x and one DEL into a fresh box in its own unwrapped pty before any send, and records only cell attributes and counts, never screen text.
+@@ -193,2 +194,3 @@
+ ## security-plan · input-validation
++decision/board-lineage-and-links-name-checked · Board lineage and links shown only when they re-parse — The board shows a recorded parent only when it re-parses as a viola name other than the row's own, a role only when it is a code word, and a link pair only when both names parse; a gone instance gives no links. · provisional
+ decision/bounded-readers-census · Every product reader bounded or named — Every product reader call is bounded in its statement or named as an exception, and each external boundary's bounded read has a named witness. · guard: product_readers_are_each_bounded_or_named · except: Reads of viola's own executable for the pinned copy are not external input.
+@@ -265,2 +267,3 @@
+ decision/revive-trailing-words-as-argv · revive trailing words as argv — The words after -- in viola revive go to the child as argv elements of a direct spawn.
++decision/run-lineage-flags-checked · viola run's lineage flags checked before anything is read — viola run's --parent goes through the viola name check and --role must be a code word; a --parent equal to the instance's own name is a usage error, exit 2, before anything is read. · provisional
+ decision/run-resolves-absolute-program · run resolves its child program itself — viola run resolves its child program itself and hands the PTY an absolute path: a given path as given, a bare name looked up on PATH; a program not found is ProgramNotFound.
+@@ -359,2 +362,3 @@
+ decision/hyprland-reply-text-dropped · Hyprland reply text dropped at the parse — Hyprland reply types hold no text field: window titles, classes and every other reply string are dropped at the parse and reach no log line and no error. · guard: contract_hyprland_canary_reaches_no_line_and_no_error
++decision/lineage-kept-to-snapshot-and-event-log · Lineage kept to the snapshot and the event log — An instance's lineage (parent and role names) is kept only in the snapshot and one lineage line of the event log at start, with no process-log line, span or terminal byte.
+ decision/link-names-kept-out-of-process-log · Link names kept out of the process log — The wrapper's link and unlink methods write no process-log line of their own and their request and response lines carry no name; viola link and unlink print only their own parsed arguments, never a name read back from a reply or log.

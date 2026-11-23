@@ -1,0 +1,63 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "1cbefedf",
+"ts": "2026-11-23T06:34:02Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-22-lineage-registry",
+"--date",
+"2026-11-23",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin listing NOT DERIVED -- 2026-11-22-lineage-registry carries no freight (already compact)",
+"dry-run · would flip 2026-11-22-lineage-registry pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "1cbefedf",
+"ts": "2026-11-23T06:34:06Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-22-lineage-registry",
+"--date",
+"2026-11-23",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin listing NOT DERIVED -- 2026-11-22-lineage-registry carries no freight (already compact)",
+"flip 2026-11-22-lineage-registry pending -> complete · tx 4172",
+"compacted 0 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

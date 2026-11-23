@@ -1,0 +1,1822 @@
+[
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T05:35:54Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-22-lineage-registry",
+"--section-file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-22-lineage-registry/report rev 3 · 10 new · 0 revised · 0 retired · 35 kept · tx 4126"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T05:35:57Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-22-lineage-registry",
+"--section-file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-22-lineage-registry/report rev 4 · 62 new · 0 revised · 0 retired · 45 kept · tx 4127"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T05:36:21Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/cites-land-2026-11-22-lineage-registry.ndjson",
+"--base",
+"f274938f018268c3384ecb850d479a3c7a5c8820",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T05:36:26Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/cites-land-2026-11-22-lineage-registry.ndjson",
+"--base",
+"f274938f018268c3384ecb850d479a3c7a5c8820",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 4129"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T05:38:25Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 983 · packs 10 · pack 100 · 282612 B",
+"security-plan: rows 633 · packs 7 · pack 100 · 194771 B",
+"design-system: rows 326 · packs 4 · pack 100 · 79686 B",
+"layout-templates: rows 225 · packs 3 · pack 100 · 54259 B",
+"test-plan: rows 1373 · packs 14 · pack 100 · 374968 B",
+"obs-plan: rows 1038 · packs 11 · pack 100 · 287291 B",
+"a11y-plan: rows 238 · packs 3 · pack 100 · 68488 B",
+"rows-packs: 7 master(s) · 4816 row(s) · 52 pack(s) · 2 draw(s) a pack · pin 4129"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T05:54:21Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 983 · packs 10 · picked 64 (48 by every draw) · standing 0 · 219017 B · Established Decisions: by boundary, the rest under `also here:`",
+"security-plan: rows 633 · packs 7 · picked 53 (34 by every draw) · standing 0 · 154032 B",
+"design-system: rows 326 · packs 4 · picked 27 (14 by every draw) · standing 0 · 69081 B",
+"layout-templates: rows 225 · packs 3 · picked 34 (27 by every draw) · standing 0 · 48678 B",
+"test-plan: rows 1373 · packs 14 · picked 86 (38 by every draw) · standing 0 · 275601 B",
+"obs-plan: rows 1038 · packs 11 · picked 49 (24 by every draw) · standing 0 · 210504 B",
+"a11y-plan: rows 238 · packs 3 · picked 31 (17 by every draw) · standing 0 · 51850 B",
+"rows-union: 7 master(s) · picked 344 of 4816 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/arch-rows.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/arch-standing.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/security-rows.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/security-standing.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/design-rows.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/design-standing.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/layouts-rows.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/tests-rows.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/tests-standing.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/obs-rows.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/obs-standing.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:05:56Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"contract/normalised-event-kinds/lineage: an add on a delegate word carries state: provisional — its `@row_add` takes `state: provisional` (master-rows.md `state`)",
+"contract/event-data/lineage: an add on a delegate word carries state: provisional — its `@row_add` takes `state: provisional` (master-rows.md `state`)",
+"contract/list-item/parent: an add on a delegate word carries state: provisional — its `@row_add` takes `state: provisional` (master-rows.md `state`)",
+"contract/list-item/role: an add on a delegate word carries state: provisional — its `@row_add` takes `state: provisional` (master-rows.md `state`)"
+],
+"stderr": "rows-land: 4 disposition problem(s) under ops-architecture.md — nothing written",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:21Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/snapshot-replay-log-fields-only · rejected",
+"decision/board-read-model-shape · rejected",
+"contract/list-item/parent · rejected",
+"contract/list-item/role · rejected",
+"decision/lineage-line-at-start · rejected",
+"decision/list-board-tree · rejected",
+"decision/list-board-links-block · rejected",
+"decision/harness-wrapper-drops-viola-env · rejected",
+"fit: fits 14 · not_master 0 · stands 0",
+"## 2026-11-22-lineage-registry — Standard Contracts: 4 row(s) (1 of 2)\n**Section:** Standard Contracts\n**Change:** ~ decision/wrapper-events-log-only · rule: was «Event kinds the wrapper appends (`wheel`, `send-issued`, `send-confirmed`, `send-refused`, `link`, `unlink`) are log-only and never wake `wait`.»; now «Event kinds the wrapper appends (`wheel`, `lineage`, `send-issued`, `send-confirmed`, `send-refused`, `link`, `unlink`) are log-only and never wake `wait`.»\n~ contract/snapshot-envelope/unreadable-snapshot · promise: was «A snapshot whose `v` is higher than the reader supports, or that fails to parse, is ignored and state is rebuilt by replaying `events.ndjson`, recovering only `links`, `agent_session_id`, `wheel`; the replay writes no file.»; now «A snapshot whose `v` is higher than the reader supports, or that fails to parse, is ignored and state is rebuilt by replaying `events.ndjson`, recovering only `links`, `agent_session_id`, `wheel`, `lineage`; the replay writes no file.»\n~ contract/instance-snapshot/data · promise: was «`data` is `{endpoint?, pid, started_at, pinned_bin, cli_version?, cli_verified, wheel, pending_dialog?, links, child_pid?, agent_session_id?, cwd?}`.»; now «`data` is `{endpoint?, pid, started_at, pinned_bin, cli_version?, cli_verified, wheel, pending_dialog?, links, child_pid?, agent_session_id?, cwd?, lineage?}`.»\n~ contract/list-payload/items · promise: was «Each `items` entry is `{name, wrapped, liveness, status, wheel?, dialog_pending, cli_version?, cli_verified?}`.»; now «Each `items` entry is `{name, wrapped, liveness, status, wheel?, dialog_pending, cli_version?, cli_verified?, parent?, role?}`.»\n**Why:** decision/wrapper-events-log-only: The chunk adds the wrapper-appended `lineage` kind, kept out of the wait wake set, so the row's list of log-only wrapper kinds must name it. — on delegate overseer, 2026-11-22 (F3), PROVISIONAL\ncontract/snapshot-envelope/unreadable-snapshot: The replay's recovered fields went from three to four with `lineage`, so the promise's closed list must follow.\ncontract/instance-snapshot/data: The snapshot data gains an optional `lineage`, so the shape the contract promises must list it.\ncontract/list-payload/items: A list item now carries an optional `parent` and `role` after `cli_verified`, so the item shape must list them.\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"## 2026-11-22-lineage-registry — Standard Contracts: 4 row(s) (2 of 2)\n**Section:** Standard Contracts\n**Change:** ~ contract/list-payload/ok · promise: was «The `list` `ok` payload, CLI `--json` and MCP `list` alike, is `{items, skipped}`; `list` is not a channel method and needs no live wrapper.»; now «The `list` `ok` payload, CLI `--json` and MCP `list` alike, is `{items, links?, skipped}`; `list` is not a channel method and needs no live wrapper.»\n+ contract/event-data/lineage — event data · `lineage`\n+ contract/instance-snapshot/lineage — instance snapshot · lineage\n+ contract/list-payload/links — list payload · links\n**Why:** contract/list-payload/ok: The `ok` payload of CLI `list --json` and MCP `list` gains an optional `links` list, so the promised shape must carry it. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22: F6 arm (a), «Additive: parent and role on a wrapped item when present, a top-level links array … no v move» — PROVISIONAL, the most conservative option of founder-forks.md row W1\ncontract/event-data/lineage: The new `lineage` kind's data keys are a contract readers of the events log rely on, and no event-data row holds them.\ncontract/instance-snapshot/lineage: The snapshot gains a lineage field with its own shape and replay rule, and each snapshot field stands as its own row.\ncontract/list-payload/links: The `ok` payload's new `links` list has its own order, dedup and name-check promise, which no row holds. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22: F6 arm (a) — PROVISIONAL, founder-forks.md row W1\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"## 2026-11-22-lineage-registry — Conventions: 2 row(s)\n**Section:** Conventions\n**Change:** ~ contract/mcp-tool-results/success · promise: was «A success is a tool result with `isError: false` and the channel `ok` payload as `structuredContent`; for `list`, the caller-side `{items, skipped}` payload.»; now «A success is a tool result with `isError: false` and the channel `ok` payload as `structuredContent`; for `list`, the caller-side `{items, links?, skipped}` payload.»\n+ contract/normalised-event-kinds/lineage — normalised event kinds · lineage\n**Why:** contract/mcp-tool-results/success: MCP `list` carries the board document with its new optional `links` unchanged, so the success shape for `list` must name it. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22: F6 arm (a) — PROVISIONAL, founder-forks.md row W1\ncontract/normalised-event-kinds/lineage: The chunk adds `lineage` as the sixteenth normalised event kind, and each kind stands as its own row.\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"## 2026-11-22-lineage-registry — Established Decisions: 2 row(s)\n**Section:** Established Decisions\n**Change:** ~ decision/revive-in-place · rule: was «A revive resumes the `gone` instance in place through the same start as `run`, its `events.ndjson` appended to, never truncated.»; now «A revive resumes the `gone` instance in place through the same start as `run`, its `events.ndjson` appended to, never truncated, and keeps the parent and role its real snapshot records.»\n+ decision/lineage-label-only — Lineage is a label only\n**Why:** decision/revive-in-place: Revive now hands the lineage recorded in the real snapshot to the start, so the in-place rule must say the recorded parent and role are kept. — on delegate overseer, 2026-11-22 (F7), PROVISIONAL\ndecision/lineage-label-only: The chunk makes lineage a label no control path reads, held by a source census contract test, a decision future work must respect.\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"## 2026-11-22-lineage-registry — Occupied Resources: 2 row(s)\n**Section:** Occupied Resources\n**Change:** + contract/viola-cli-arguments/run-parent — viola CLI arguments · run --parent\n+ contract/viola-cli-arguments/run-role — viola CLI arguments · run --role\n**Why:** contract/viola-cli-arguments/run-parent: viola run gains the --parent flag and the inherited-name fallback, an occupied argument no row registers. — resolved by the operator (Q2): relayed verbatim by overseer, 2026-11-22, inputs#I2: F1 «Флаг и наследование (Recommended)» (the card confirmed by the overseer, inputs#I7)\ncontract/viola-cli-arguments/run-role: viola run gains the --role flag, an occupied argument no row registers. — on relayed verbatim by overseer, 2026-11-22, inputs#I2 (F2)\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"patterns: none: 7 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 14 operation(s) · 5 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:26Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/snapshot-replay-log-fields-only · rejected",
+"decision/board-read-model-shape · rejected",
+"contract/list-item/parent · rejected",
+"contract/list-item/role · rejected",
+"decision/lineage-line-at-start · rejected",
+"decision/list-board-tree · rejected",
+"decision/list-board-links-block · rejected",
+"decision/harness-wrapper-drops-viola-env · rejected",
+"fit: fits 14 · not_master 0 · stands 0",
+"landed tx 4131 · 14 operation(s) · 5 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:29Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"fit: fits 4 · not_master 0 · stands 0",
+"contract/list-item/parent · no cell — `state:` is no cell of contract (boundary · item · promise)",
+"contract/list-item/role · no cell — `state:` is no cell of contract (boundary · item · promise)"
+],
+"stderr": "2 row(s) refused of 4 operation(s) to land — nothing written",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:42Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 4 · not_master 0 · stands 0",
+"## 2026-11-22-lineage-registry — Standard Contracts: 3 row(s)\n**Section:** Standard Contracts\n**Change:** ~ decision/snapshot-replay-log-fields-only · rule: was «A snapshot rebuilt by replay recovers only links, agent_session_id and wheel from the log; a field no line gave is absent, never a default.»; now «A snapshot rebuilt by replay recovers only links, agent_session_id, wheel and lineage from the log; a field no line gave is absent, never a default.»\n+ contract/list-item/parent — list payload item · parent\n+ contract/list-item/role — list payload item · role\n**Why:** decision/snapshot-replay-log-fields-only: The replay now recovers lineage as a fourth log-derived field, so the row's closed list of three is false; this is the shorter set the fit reader's not_master on the proposer's longer one leaves owed.\ncontract/list-item/parent: A list item gains an optional `parent` kept only under a name check, a promise to list readers no row holds; the add rests on the overseer's F6 and F8, a delegate's word. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22: F6 arm (a) — PROVISIONAL, founder-forks.md row W1\ncontract/list-item/role: A list item gains an optional `role` kept only when it is a code word, a promise to list readers no row holds; the add rests on the overseer's F6, a delegate's word. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22: F6 arm (a) — PROVISIONAL, founder-forks.md row W1\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"## 2026-11-22-lineage-registry — Infrastructure Patterns: 1 row(s)\n**Section:** Infrastructure Patterns\n**Change:** ~ decision/board-read-model-shape · rule: was «The board read model is sync and std only, carries no Claude shape, and none of its types holds endpoint, pinned_bin, cwd, pid, started_at or links.»; now «The board read model is sync and std only, carries no Claude shape, and none of its types holds endpoint, pinned_bin, cwd, pid or started_at.»\n**Why:** decision/board-read-model-shape: The board now holds a links list, so the row's ban on holding links is false; the ban is cut and nothing is added, the shorter set the fit reader's not_master leaves owed.\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 4 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:47Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 4 · not_master 0 · stands 0",
+"landed tx 4132 · 4 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:48Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/list-carries-lineage-and-links · rejected",
+"decision/lineage-from-real-snapshot-only · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"## 2026-11-22-lineage-registry — Input Validation: 2 row(s)\n**Section:** Input Validation\n**Change:** + decision/run-lineage-flags-checked — viola run's lineage flags checked before anything is read\n+ decision/board-lineage-and-links-name-checked — Board lineage and links shown only when they re-parse\n**Why:** decision/run-lineage-flags-checked: The chunk adds two CLI input flags, and the plan's input validation must name the checks that bound them. — on delegate overseer, 2026-11-22 (F8), PROVISIONAL\ndecision/board-lineage-and-links-name-checked: The board now reads parent, role and link names back from state files, and the plan must name the check that bounds what it shows. — on delegate overseer, 2026-11-22 (F8), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"## 2026-11-22-lineage-registry — Authentication & Authorization: 1 row(s)\n**Section:** Authentication & Authorization\n**Change:** + decision/lineage-parent-authenticates-nothing — Self-reported parent authenticates nothing\n**Why:** decision/lineage-parent-authenticates-nothing: The inherited VIOLA_NAME gains a second use as a self-reported parent, and the plan must say it grants no authority. — resolved by the operator (Q2): relayed verbatim by overseer, 2026-11-22, inputs#I2: F1 «Флаг и наследование (Recommended)» (the card confirmed by the overseer, inputs#I7)\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"## 2026-11-22-lineage-registry — Data Protection: 1 row(s)\n**Section:** Data Protection\n**Change:** + decision/lineage-kept-to-snapshot-and-event-log — Lineage kept to the snapshot and the event log\n**Why:** decision/lineage-kept-to-snapshot-and-event-log: The chunk stores a new pair of names, and the plan must say where they may stand.\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 4 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:48Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/stable-session-slots · rejected",
+"contract/viola-list-table/row-order · rejected",
+"contract/viola-run-flags/parent · rejected",
+"contract/viola-run-flags/role · rejected",
+"contract/viola-list-board/links-block · rejected",
+"contract/viola-list-json/item-parent-role · rejected",
+"contract/viola-list-json/ok-links · rejected",
+"decision/lineage-shown-never-acted-on · rejected",
+"decision/revive-keeps-lineage · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-22-lineage-registry — Iconography: 1 row(s)\n**Section:** Iconography\n**Change:** ~ contract/cli-transfer-arrow/ascii-arrow · promise: was «The CLI prints transfers with ASCII `->` and has no inbound form; links print only as `link` / `unlink` verb output (`overseer -> builder`).»; now «The CLI prints transfers with ASCII `->` and has no inbound form; links print only as `link` / `unlink` verb output (`overseer -> builder`) and as the `<driver> -> <driven>` lines of `viola list`'s `-- LINKS --` block.»\n**Why:** contract/cli-transfer-arrow/ascii-arrow: viola list now prints each link as a `driver -> driven` line in its LINKS block, so links no longer print only as link and unlink output. — resolved by the operator (Q2): relayed verbatim by overseer, 2026-11-22, inputs#I2: F5 «Блок LINKS под доской (Recommended)» (the card confirmed by the overseer, inputs#I7)\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"## 2026-11-22-lineage-registry — Surface: cli: 1 row(s)\n**Section:** Surface: cli\n**Change:** ~ contract/viola-list-board/name-column-width · promise: was «On a terminal of known width NAME's column is the largest of the caption's 4, the longest wrapped NAME and the longest unwrapped NAME capped at the width less the 65 columns the rest of an unwrapped row takes.»; now «On a terminal of known width NAME's column is the largest of the caption's 4, the longest wrapped NAME cell with its tree indent included, and the longest unwrapped NAME capped at the width less the 65 columns the rest of an unwrapped row takes.»\n**Why:** contract/viola-list-board/name-column-width: The NAME column is now the widest cell with its tree indent included, so a wrapped NAME's width alone no longer sets it. — on relayed verbatim by overseer, 2026-11-22, inputs#I2 (F4)\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:48Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-main-design-system.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 3 · not_master 0 · stands 0",
+"## 2026-11-22-lineage-registry — Iconography: 2 row(s)\n**Section:** Iconography\n**Change:** ~ decision/list-six-fixed-columns · rule: was «`viola list` carries no link column, so its six columns stay fixed.»; now «`viola list` carries no link column, so its six columns, their captions and their slot order stay fixed; a tree's indent stands inside the NAME cell and links print apart, in the board's `-- LINKS --` block.»\n~ contract/viola-list/columns · promise: was «`viola list` carries no link column in v1, so its six columns stay fixed.»; now «`viola list` carries no link column, so its six columns, their captions and their slot order stay fixed; a tree's indent stands inside the NAME cell and links print apart, in the board's `-- LINKS --` block.»\n**Why:** decision/list-six-fixed-columns: The board now draws trees in NAME and prints a LINKS block, while the six columns, captions and slot order stay as they were, so the row must say where the tree and the links stand without moving a column. — resolved by the operator (Q2): relayed verbatim by overseer, 2026-11-22, inputs#I2: F4 «Отступ в NAME везде (Recommended)»; F5 «Блок LINKS под доской (Recommended)» (the card confirmed by the overseer, inputs#I7)\ncontract/viola-list/columns: The output's columns stay six with their captions and slot order, while the tree enters the NAME cell and links get a block of their own, so the promise must name both. — resolved by the operator (Q2): relayed verbatim by overseer, 2026-11-22, inputs#I2: F4 «Отступ в NAME везде (Recommended)»; F5 «Блок LINKS под доской (Recommended)» (the card confirmed by the overseer, inputs#I7)\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"## 2026-11-22-lineage-registry — Surface: cli: 1 row(s)\n**Section:** Surface: cli\n**Change:** ~ contract/viola-list-table/row-order · promise: was «Rows are ordered by name.»; now «Rows keep the board's name order, each wrapped child drawn directly under its parent.»\n**Why:** contract/viola-list-table/row-order: The board draws wrapped rows as a tree in its own name order, so plain name order no longer states the row order; the tree's detail stands in layout-templates. — on relayed verbatim by overseer, 2026-11-22, inputs#I2 (F4)\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"patterns: 1 in cascade-patterns-design-system-1.toml",
+"dry-run · would land 3 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/cascade-patterns-design-system-1.toml"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:48Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/no-link-column · rejected",
+"contract/cli-verbs/revive · rejected",
+"contract/viola-run-flags/parent-and-role · rejected",
+"decision/inherited-session-name-as-parent · rejected",
+"contract/viola-list-board/parent-and-role · rejected",
+"decision/lineage-display-only · rejected",
+"fit: fits 6 · not_master 0 · stands 0",
+"## 2026-11-22-lineage-registry — Surface: cli: 4 row(s) (1 of 2)\n**Section:** Surface: cli\n**Change:** ~ decision/board-ordered-by-name · rule: was «viola list rows are ordered by name and nothing is re-sorted by state; NAME values are bold.»; now «viola list rows keep the board's own name order with no second sort, each wrapped child drawn directly under its parent with its NAME cell indented, so a child whose name sorts before its parent's is drawn after that parent, under it; nothing is re-sorted by state; NAME values are bold.»\n~ contract/viola-list-board/single-write · promise: was «viola list prints as one stdout write: the BAY line, the caption row, then one row per wrapped session in name order (or the empty line), then the unwrapped rack when there is one.»; now «viola list prints as one stdout write: the BAY line, the caption row, then one row per wrapped session in tree order (or the empty line), then the unwrapped rack when there is one, then the -- LINKS -- block when there is a link.»\n~ contract/viola-list-board/column-widths · promise: was «NAME is padded to the longer of 4 and the longest name over both racks in characters, LIVE to 5, STATUS to 7, WHEEL to 23, DIALOG to 17, CLI last and unpadded; no line ends in a space.»; now «NAME is padded to the longer of 4 and the widest NAME cell over both racks in characters, its tree indent included, LIVE to 5, STATUS to 7, WHEEL to 23, DIALOG to 17, CLI last and unpadded; no line ends in a space.»\n~ decision/mcp-hides-wheel-and-handoff-verbs · rule: was «No viola mcp tool, description or result names release, pause, link or unlink.»; now «No viola mcp tool, description or result names the release, pause, link or unlink verbs; the list tool's result carries the board's held links as data.»\n**Why:** decision/board-ordered-by-name: The board now draws its wrapped rows as a tree in the board's own name order, so a plain name order no longer states the row order. — resolved by the operator (Q2): relayed verbatim by overseer, 2026-11-22, inputs#I2: F4 «Отступ в NAME везде (Recommended)» (the card confirmed by the overseer, inputs#I7)\ncontract/viola-list-board/single-write: The single write now orders the wrapped rows as a tree and ends with the LINKS block, which the standing write order omits. — on relayed verbatim by overseer, 2026-11-22, inputs#I2 (F4, F5)\ncontract/viola-list-board/column-widths: The NAME column is now the widest NAME cell with its tree indent included, not the longest name alone. — on relayed verbatim by overseer, 2026-11-22, inputs#I2 (F4)\ndecision/mcp-hides-wheel-and-handoff-verbs: The MCP list tool's document now carries the board's links, so a flat ban on any result naming link no longer holds as written. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22: F6 arm (a) — PROVISIONAL, founder-forks.md row W1\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"## 2026-11-22-lineage-registry — Surface: cli: 2 row(s) (2 of 2)\n**Section:** Surface: cli\n**Change:** + contract/viola-list-board/tree — viola list board · tree\n+ contract/viola-list-board/links-block — viola list board · -- LINKS -- block\n**Why:** contract/viola-list-board/tree: The board gains a tree layout of its wrapped rows that no wireframe row describes. — resolved by the operator (Q2): relayed verbatim by overseer, 2026-11-22, inputs#I2: F4 «Отступ в NAME везде (Recommended)» (the card confirmed by the overseer, inputs#I7)\ncontract/viola-list-board/links-block: The board gains a new region with its own separator and line wording that no row states. — resolved by the operator (Q2): relayed verbatim by overseer, 2026-11-22, inputs#I2: F5 «Блок LINKS под доской (Recommended)» (the card confirmed by the overseer, inputs#I7)\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"patterns: none: 4 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 6 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:49Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-main-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-22-lineage-registry — Surface: cli: 1 row(s)\n**Section:** Surface: cli\n**Change:** ~ decision/no-link-column · rule: was «The six shared board columns stay fixed; links are visible only in `link` / `unlink` verb output.»; now «The six shared board columns, their captions and their slot order stay unchanged, with no link column; links show in `link` / `unlink` verb output and in the board's -- LINKS -- block after the unwrapped rack.»\n**Why:** decision/no-link-column: viola list now prints the held links in a block of its own after the rack while the six columns stay as they were, so links are no longer visible only in the link / unlink output. — resolved by the operator (Q2): relayed verbatim by overseer, 2026-11-22, inputs#I2: F5 «Блок LINKS под доской (Recommended)» (the card confirmed by the overseer, inputs#I7)\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:49Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/event-data/lineage · rejected",
+"contract/viola-run-flags/parent · rejected",
+"contract/viola-run-flags/role · rejected",
+"decision/run-parent-from-inherited-name · rejected",
+"decision/revive-keeps-lineage · rejected",
+"decision/list-board-tree · rejected",
+"contract/list-human/links-block · rejected",
+"contract/viola-list-json/item-lineage · rejected",
+"contract/viola-list-json/links · rejected",
+"decision/lineage-read-by-no-control-path · rejected",
+"contract/instance-snapshot/lineage · rejected",
+"fit: fits 5 · not_master 0 · stands 0",
+"## 2026-11-22-lineage-registry — 1. Test Scope Summary: 1 row(s)\n**Section:** 1. Test Scope Summary\n**Change:** ~ contract/viola-list-json/items · promise: was «In the {\"v\":1,\"ok\":...} document, ok.items is an array of {name, wrapped, liveness live|stale, status idle|busy|unknown, wheel? human|driver, dialog_pending, cli_version?, cli_verified?}.»; now «In the {\"v\":1,\"ok\":...} document, ok.items is an array of {name, wrapped, liveness live|stale, status idle|busy|unknown, wheel? human|driver, dialog_pending, cli_version?, cli_verified?, parent?, role?}.»\n**Why:** contract/viola-list-json/items: A list item's keys moved up to ten with parent and role when present, so the item shape the row states must name them.\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"## 2026-11-22-lineage-registry — 1. Test Scope Summary: 2 row(s)\n**Section:** 1. Test Scope Summary\n**Change:** ~ decision/snapshot-replay-fields · rule: was «A corrupt snapshot or one of unsupported v is replayed from the event log, recovering only links, agent_session_id and wheel with dialog_pending false; the replay writes no file and gives no cwd.»; now «A corrupt snapshot or one of unsupported v is replayed from the event log, recovering only links, agent_session_id, wheel and lineage with dialog_pending false, the last lineage line winning so a later line with no parent clears it; the replay writes no file and gives no cwd.»\n~ contract/run-start-events/order · promise: was «The events log reads wheel with cause start, then the agent's session-start with source hook.»; now «The events log reads wheel with cause start, then lineage with source wrapper, then the agent's session-start with source hook.»\n**Why:** decision/snapshot-replay-fields: The replay's recovered fields moved from three to four with lineage, taken from the last lineage line, so the fixed field set the row states must follow.\ncontract/run-start-events/order: A start's records moved from two to three with the lineage line between the wheel start line and session-start, so the stated order is stale. — on delegate overseer, 2026-11-22 (F3), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"## 2026-11-22-lineage-registry — 3. Test Harness Contract: 2 row(s)\n**Section:** 3. Test Harness Contract\n**Change:** ~ contract/boot-readiness/events · promise: was «Event lines 1 and 2 are a wheel line with cause start, then session-start with source hook; missing reads events.»; now «Event lines 1, 2 and 3 are a wheel line with cause start, a lineage line with source wrapper, then session-start with source hook; missing reads events.»\n+ decision/supervisor-spawn-strips-bridge-env — Harness wrapper spawn strips the bridge env\n**Why:** contract/boot-readiness/events: Boot readiness now reads three start records (wheel, lineage, session-start), so the row's two-line readiness is stale.\ndecision/supervisor-spawn-strips-bridge-env: The supervisor's spawn now drops the inherited names as harness status already did, a rule no harness row states for the spawn.\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"patterns: none: 4 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 5 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:49Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/link-names-never-in-process-log · rejected",
+"decision/inherited-name-default-parent · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"## 2026-11-22-lineage-registry — 1. Obs Scope Summary: 1 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ contract/run-start-events/order · promise: was «A run start writes wheel{cause:\"start\"} before session-start; on a start whose folder-trust keys pass through the wrapper, wheel{human-input} also precedes session-start, and a later human key adds no wheel line, the wheel being already human.»; now «A run start writes wheel{cause:\"start\"} and then one lineage line before session-start; on a start whose folder-trust keys pass through the wrapper, wheel{human-input} also precedes session-start, and a later human key adds no wheel line, the wheel being already human.»\n**Why:** contract/run-start-events/order: Every run and revive start now writes three records before the hook's session-start (wheel, lineage, session-start), so the start order the contract promises gains the lineage line. — on delegate overseer, 2026-11-22 (F3), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"## 2026-11-22-lineage-registry — 4. Span / Trace Coverage: 2 row(s)\n**Section:** 4. Span / Trace Coverage\n**Change:** ~ decision/product-order-from-events-log · rule: was «The start product order, wheel{cause:\"start\"} before session-start{source:\"hook\"} with wheel{human-input} also before it where folder-trust keys pass through the wrapper, is verified from that start's own lines of the instance's events log, not duplicated into process logs.»; now «The start product order, wheel{cause:\"start\"} then lineage before session-start{source:\"hook\"} with wheel{human-input} also before it where folder-trust keys pass through the wrapper, is verified from that start's own lines of the instance's events log, not duplicated into process logs.»\n+ decision/lineage-line-untraced — Lineage line has no trace of its own\n**Why:** decision/product-order-from-events-log: The start now writes the snapshot, the wheel start line and then one lineage line before the spawn, with no process-log line, so the product order read from the events log gains the lineage line. — on delegate overseer, 2026-11-22 (F3), PROVISIONAL\ndecision/lineage-line-untraced: The chunk adds a lineage events line at every start, log-only and outside the wait wake kinds, instrumented by rule with no line or span, and no row of the span coverage says so. — on delegate overseer, 2026-11-22 (F3), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"## 2026-11-22-lineage-registry — 8. PII Scrubbing & Compliance: 1 row(s)\n**Section:** 8. PII Scrubbing & Compliance\n**Change:** + decision/lineage-names-confined — Parent and role confined to product surfaces\n**Why:** decision/lineage-names-confined: The chunk records a self-reported parent and role at every start and shows them on list and the MCP list tool, so the PII section must say where those names may reach and that no log line carries them. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-22: F6 arm (a) — PROVISIONAL (`state: provisional`), founder-forks.md row W1\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 4 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:50Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-main-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-22-lineage-registry — 8. PII Scrubbing & Compliance: 1 row(s)\n**Section:** 8. PII Scrubbing & Compliance\n**Change:** ~ decision/link-names-never-in-process-log · rule: was «link and unlink driver and driven names appear only in the wrapper's link and unlink event lines in events.ndjson, never in a process-log line; the channel pair logs the method, never the params.»; now «link and unlink driver and driven names never appear in a process-log line; the channel pair logs the method, never the params.»\n**Why:** decision/link-names-never-in-process-log: Link names now also reach the viola list board, list --json and the MCP list result, so «only in the link and unlink event lines» is false; the row keeps its true half, the shorter set the fit reader's not_master leaves owed.\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"patterns: 1 in cascade-patterns-obs-plan-1.toml",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/cascade-patterns-obs-plan-1.toml"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:50Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-list-board/links-separator · rejected",
+"contract/viola-list-board/tree · rejected",
+"decision/name-column-holds-tree-indent · rejected",
+"contract/viola-run-flags/parent · rejected",
+"contract/viola-run-flags/role · rejected",
+"decision/board-lineage-and-links-name-checked · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"## 2026-11-22-lineage-registry — 1. A11y Scope Summary: 1 row(s)\n**Section:** 1. A11y Scope Summary\n**Change:** ~ contract/viola-list-board/order · promise: was «The board is the BAY context line, the uppercase caption row and the wrapped rows, then the unwrapped read-only rows behind their separator.»; now «The board is the BAY context line, the uppercase caption row and the wrapped rows drawn as a tree, then the unwrapped read-only rows behind their separator, then the links behind their `-- LINKS --` separator.»\n**Why:** contract/viola-list-board/order: The board now draws its wrapped rows as a tree and prints a `-- LINKS --` block after the unwrapped rack, so the structure row must name both. — resolved by the operator (Q2): relayed verbatim by overseer, 2026-11-22, inputs#I2: F4 «Отступ в NAME везде (Recommended)»; F5 «Блок LINKS под доской (Recommended)» (the card confirmed by the overseer, inputs#I7)\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"## 2026-11-22-lineage-registry — 1. A11y Scope Summary: 1 row(s)\n**Section:** 1. A11y Scope Summary\n**Change:** ~ decision/terminal-structural-equivalents · rule: was «In place of ARIA roles, terminal structure is carried by the caption line, the unwrapped separator and the --help group labels.»; now «In place of ARIA roles, terminal structure is carried by the caption line, the unwrapped separator, the `-- LINKS --` separator of the related links, the plain-space NAME indent of tree depth and the --help group labels.»\n**Why:** decision/terminal-structural-equivalents: Tree depth and the links group are now carried by a plain-space NAME indent and a `-- LINKS --` separated block, which the row of terminal structural equivalents must list. — resolved by the operator (Q2): relayed verbatim by overseer, 2026-11-22, inputs#I2: F4 «Отступ в NAME везде (Recommended)»; F5 «Блок LINKS под доской (Recommended)» (the card confirmed by the overseer, inputs#I7)\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"## 2026-11-22-lineage-registry — 4. ARIA Patterns & Roles: 1 row(s)\n**Section:** 4. ARIA Patterns & Roles\n**Change:** ~ decision/cli-structural-landmark-equivalents · rule: was «The CLI has no landmark roles; its structure is carried by the BAY context line, the uppercase caption line, the `-- UNWRAPPED - READ-ONLY --` separator and the `--help` group labels.»; now «The CLI has no landmark roles; its structure is carried by the BAY context line, the uppercase caption line, the `-- UNWRAPPED - READ-ONLY --` separator, the `-- LINKS --` separator, the plain-space NAME indent of tree depth and the `--help` group labels.»\n**Why:** decision/cli-structural-landmark-equivalents: The board gains a `-- LINKS --` separator and a NAME indent for tree depth as structure carriers, so the list of landmark equivalents is incomplete without them. — on relayed verbatim by overseer, 2026-11-22, inputs#I2 (F4, F5)\n**Ref:** .andromeda/runs/2026-11-23T05-33-20Z-wrap/",
+"patterns: none: 3 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 3 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:55Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/list-carries-lineage-and-links · rejected",
+"decision/lineage-from-real-snapshot-only · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"landed tx 4133 · 4 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:55Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/stable-session-slots · rejected",
+"contract/viola-list-table/row-order · rejected",
+"contract/viola-run-flags/parent · rejected",
+"contract/viola-run-flags/role · rejected",
+"contract/viola-list-board/links-block · rejected",
+"contract/viola-list-json/item-parent-role · rejected",
+"contract/viola-list-json/ok-links · rejected",
+"decision/lineage-shown-never-acted-on · rejected",
+"decision/revive-keeps-lineage · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 4134 · 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:55Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-main-design-system.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 3 · not_master 0 · stands 0",
+"landed tx 4135 · 3 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:56Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/no-link-column · rejected",
+"contract/cli-verbs/revive · rejected",
+"contract/viola-run-flags/parent-and-role · rejected",
+"decision/inherited-session-name-as-parent · rejected",
+"contract/viola-list-board/parent-and-role · rejected",
+"decision/lineage-display-only · rejected",
+"fit: fits 6 · not_master 0 · stands 0",
+"landed tx 4136 · 6 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:56Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-main-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 4137 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:57Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/event-data/lineage · rejected",
+"contract/viola-run-flags/parent · rejected",
+"contract/viola-run-flags/role · rejected",
+"decision/run-parent-from-inherited-name · rejected",
+"decision/revive-keeps-lineage · rejected",
+"decision/list-board-tree · rejected",
+"contract/list-human/links-block · rejected",
+"contract/viola-list-json/item-lineage · rejected",
+"contract/viola-list-json/links · rejected",
+"decision/lineage-read-by-no-control-path · rejected",
+"contract/instance-snapshot/lineage · rejected",
+"fit: fits 5 · not_master 0 · stands 0",
+"landed tx 4138 · 5 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:57Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/link-names-never-in-process-log · rejected",
+"decision/inherited-name-default-parent · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"landed tx 4139 · 4 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:57Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-main-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 4140 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:06:58Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-list-board/links-separator · rejected",
+"contract/viola-list-board/tree · rejected",
+"decision/name-column-holds-tree-indent · rejected",
+"contract/viola-run-flags/parent · rejected",
+"contract/viola-run-flags/role · rejected",
+"decision/board-lineage-and-links-name-checked · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"landed tx 4141 · 3 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:11:57Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/a11y-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap/staged-leaf-.claude__docs__a11y-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/a11y-summary.md rev 23 · 0 new · 1 revised · 0 retired · tx 4142"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"./.claude/docs/a11y-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:11:58Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/conventions.md",
+"--file",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap/staged-leaf-.claude__docs__conventions.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/conventions.md rev 22 · 0 new · 1 revised · 0 retired · tx 4143"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"./.claude/docs/conventions.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:12:00Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-state.md",
+"--file",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap/staged-leaf-.claude__docs__services__viola-state.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-state.md rev 10 · 0 new · 2 revised · 0 retired · tx 4144"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"./.claude/docs/services/viola-state.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:12:01Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola.md",
+"--file",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap/staged-leaf-.claude__docs__services__viola.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola.md rev 28 · 0 new · 3 revised · 0 retired · tx 4145"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"./.claude/docs/services/viola.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:12:02Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/events.md",
+"--file",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap/staged-leaf-.claude__rules__events.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/events.md rev 21 · 0 new · 3 revised · 0 retired · tx 4146"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"./.claude/rules/events.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:12:03Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/frontend.md",
+"--file",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap/staged-leaf-.claude__rules__frontend.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/frontend.md rev 12 · 0 new · 1 revised · 0 retired · tx 4147"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"./.claude/rules/frontend.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:12:05Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/api.md",
+"--file",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap/staged-leaf-.claude__rules__api.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/api.md rev 15 · 0 new · 3 revised · 0 retired · tx 4148"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"./.claude/rules/api.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:12:06Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/commands.md",
+"--file",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap/staged-leaf-.claude__docs__commands.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/commands.md rev 29 · 0 new · 1 revised · 0 retired · tx 4149"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"./.claude/docs/commands.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:12:10Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/design-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap/staged-leaf-.claude__docs__design-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/design-summary.md rev 19 · 0 new · 2 revised · 0 retired · tx 4150"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"./.claude/docs/design-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:12:11Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/obs-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap/staged-leaf-.claude__docs__obs-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/obs-summary.md rev 17 · 0 new · 1 revised · 0 retired · tx 4151"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"./.claude/docs/obs-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:12:11Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/security-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap/staged-leaf-.claude__docs__security-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 41 · 0 new · 2 revised · 0 retired · tx 4152"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:12:12Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/security.md",
+"--file",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap/staged-leaf-.claude__rules__security.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/security.md rev 44 · 0 new · 1 revised · 0 retired · tx 4153"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"./.claude/rules/security.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:12:12Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/tests-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap/staged-leaf-.claude__docs__tests-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/tests-summary.md rev 41 · 0 new · 1 revised · 0 retired · tx 4154"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"./.claude/docs/tests-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:12:13Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/verification-harness.md",
+"--file",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap/staged-leaf-.claude__rules__verification-harness.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/verification-harness.md rev 45 · 0 new · 2 revised · 0 retired · tx 4155"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"./.claude/rules/verification-harness.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:12:14Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/observability.md",
+"--file",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap/staged-leaf-.claude__rules__observability.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/observability.md rev 24 · 0 new · 1 revised · 0 retired · tx 4156"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"./.claude/rules/observability.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:16:57Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 1 record(s) · 1 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:17:00Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/route-batch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 1 edge(s) · tx 4162 · cry-saswcxef … cry-saswcxef"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:17:20Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 4164 · run-azyvcmbi … run-azyvcmbi"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:32:27Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/route-batch-2.txt",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 1 record(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:32:31Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/route-batch-2.txt",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 4167 · cry-saswcxef … cry-saswcxef"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.55",
+"sha8": "2f5fb0e8",
+"ts": "2026-11-23T06:32:42Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-22-lineage-registry",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 12 file(s) of 2026-11-22-lineage-registry"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

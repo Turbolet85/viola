@@ -1,6 +1,0 @@
---- a/.andromeda/obs-plan.md
-+++ b/.andromeda/obs-plan.md
-@@ -483,2 +483,3 @@
- contract/confirm-window-close/context · run.confirm_window close · /context — On a verified CLI, closes on a new local-command-stdout tag in the session transcript within the fallback window, with no prompt submitted; on an unverified CLI, or before the session transcript exists, the send reads unconfirmable.
-+contract/confirm-window-close/failed-snapshot-write · run.confirm_window close · claimed session-start whose snapshot write fails — A /clear or /compact session-start line the window claims, whose snapshot write then fails, leaves the send unclaimed and does not close the window; the window's own deadline ends the send unconfirmed as send-refused not-delivered with detail no-prompt-submitted.
- contract/confirm-window-close/ordinary-send · run.confirm_window close · ordinary send — Closes on the prompt-submitted{origin:"driver"} whose prompt equals the typed text, or is non-empty and equals the typed text with a trailing run of ASCII space, TAB, CR or LF removed, or on window expiry.

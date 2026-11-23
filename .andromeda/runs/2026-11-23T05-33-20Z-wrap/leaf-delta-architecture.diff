@@ -1,0 +1,70 @@
+--- a/.andromeda/architecture.md
++++ b/.andromeda/architecture.md
+@@ -120,2 +120,3 @@
+ decision/ipc-interprocess-local-socket · interprocess local_socket for IPC — Inter-process messaging uses interprocess `local_socket`, one endpoint per `viola run`, behind viola's own `channel` seam; `hook` and `wait` block on the channel, so nothing polls. · why: One API over Unix sockets, sync and Tokio flavours, and no daemon.
++decision/lineage-label-only · Lineage is a label only — Lineage is a label only: no wheel, link, send or answer path reads the declared parent or role. · guard: lineage_is_read_by_no_wheel_link_send_or_answer_path
+ decision/link-recording · How a driver-to-driven link is recorded — A link `driver → driven` is recorded when a `send` or `answer` is issued from inside a wrapped session to another instance, or by an explicit `viola link <driver> <driven>`; `viola unlink` removes it.
+@@ -180,3 +181,3 @@
+ decision/release-cli-only · release is CLI-only — `release` is never an MCP tool; only the CLI offers it. · why: A driver is never offered a way to hand the wheel back to automation: an affordance, not an enforcement.
+-decision/revive-in-place · Revive resumes in place through the start path — A revive resumes the `gone` instance in place through the same start as `run`, its `events.ndjson` appended to, never truncated.
++decision/revive-in-place · Revive resumes in place through the start path — A revive resumes the `gone` instance in place through the same start as `run`, its `events.ndjson` appended to, never truncated, and keeps the parent and role its real snapshot records.
+ decision/revive-program-resolution · Revive resolves the program from its own PATH — Program resolution and the version gate never read a revive's recorded directory: the program is looked up on the reviving process's own PATH from its own current directory, and resolved to an absolute path by viola. · why: Ratified as a boundary widening.
+@@ -421,3 +422,3 @@
+ contract/mcp-tool-results/refusal · MCP tool results · refusal — A refusal is a tool result with isError true and the channel's refusal and detail in structuredContent.
+-contract/mcp-tool-results/success · MCP tool results · success — A success is a tool result with `isError: false` and the channel `ok` payload as `structuredContent`; for `list`, the caller-side `{items, skipped}` payload.
++contract/mcp-tool-results/success · MCP tool results · success — A success is a tool result with `isError: false` and the channel `ok` payload as `structuredContent`; for `list`, the caller-side `{items, links?, skipped}` payload.
+ contract/mcp-tool-results/wrapper-fault · MCP tool results · wrapper-fault — A wrapper protocol fault is an isError true result {"error":"wrapper-fault","detail":…} carrying the sanitised JSON-RPC fault {code,message,data}: a fixed message, data a closed object or null.
+@@ -425,2 +426,3 @@
+ contract/normalised-event-kinds/dialog-expired · normalised event kinds · dialog-expired — `dialog-expired` is a normalised event kind.
++contract/normalised-event-kinds/lineage · normalised event kinds · lineage — `lineage` is a normalised event kind.
+ contract/normalised-event-kinds/link · normalised event kinds · link — `link` is a normalised event kind.
+@@ -496,3 +498,3 @@
+ decision/server-identity-check-before-frame · Server identity checked before the first frame — Every frame-writing client refuses a peer with another euid or an unreadable one, then compares the peer pid and its OS start time with the snapshot's; a refusal, a mismatch or a check that cannot be made writes no frame.
+-decision/snapshot-replay-log-fields-only · Snapshot replay recovers only log-derived fields — A snapshot rebuilt by replay recovers only links, agent_session_id and wheel from the log; a field no line gave is absent, never a default.
++decision/snapshot-replay-log-fields-only · Snapshot replay recovers only log-derived fields — A snapshot rebuilt by replay recovers only links, agent_session_id, wheel and lineage from the log; a field no line gave is absent, never a default.
+ decision/spawn-directory-confined-to-snapshot · Spawn directory confined to the snapshot — The spawn directory host path lives, among viola's own files, only in the owner-only (0600) instance snapshot, on no event, log line, error body or stdout; the start's trust record keys the child's Claude config entry by it.
+@@ -503,3 +505,3 @@
+ decision/wrapper-channel-json-rpc · JSON-RPC over ndjson for the wrapper channel — The wrapper channel speaks JSON-RPC 2.0 over ndjson on local sockets.
+-decision/wrapper-events-log-only · Wrapper-appended events are log-only — Event kinds the wrapper appends (`wheel`, `send-issued`, `send-confirmed`, `send-refused`, `link`, `unlink`) are log-only and never wake `wait`. · why: They are how the audit trail and a replay learn the wheel holder, each send's outcome and the link set. · except: `dialog-expired`, the one wrapper-appended kind that wakes `wait`.
++decision/wrapper-events-log-only · Wrapper-appended events are log-only — Event kinds the wrapper appends (`wheel`, `lineage`, `send-issued`, `send-confirmed`, `send-refused`, `link`, `unlink`) are log-only and never wake `wait`. · why: They are how the audit trail and a replay learn the wheel holder, each send's outcome and the link set. · except: `dialog-expired`, the one wrapper-appended kind that wakes `wait`.
+ contract/agents-listing/status · agents listing · `status` — `claude agents --json` adds `status` (idle/busy) to the listing.
+@@ -569,2 +571,3 @@
+ contract/event-data/dialog-expired · event data · `dialog-expired` — `{dialog_id, dialog_kind}` with `source: wrapper`, appended once when a held dialog's hold ends; carries no question, plan or tool text.
++contract/event-data/lineage · event data · `lineage` — `{parent, role}`, each a string or `null`, with `source: wrapper`.
+ contract/event-data/link · event data · `link` — `{driver, driven}`.
+@@ -620,4 +623,5 @@
+ contract/instance-snapshot/cwd · instance snapshot · cwd — `cwd` is the directory the start spawned its child in, written into the first snapshot when valid UTF-8 and omitted otherwise; its one reader is `viola revive`, which uses it as the revived child's spawn directory and as the folder its start's trust record is keyed by.
+-contract/instance-snapshot/data · instance snapshot · data — `data` is `{endpoint?, pid, started_at, pinned_bin, cli_version?, cli_verified, wheel, pending_dialog?, links, child_pid?, agent_session_id?, cwd?}`.
++contract/instance-snapshot/data · instance snapshot · data — `data` is `{endpoint?, pid, started_at, pinned_bin, cli_version?, cli_verified, wheel, pending_dialog?, links, child_pid?, agent_session_id?, cwd?, lineage?}`.
+ contract/instance-snapshot/endpoint · instance snapshot · endpoint — `endpoint` is present from the first snapshot, because the bind precedes it; only a replay rebuild lacks it.
++contract/instance-snapshot/lineage · instance snapshot · lineage — `lineage` is `{parent?, role?}`, the declared parent and role the start recorded; a replay rebuilds it from the log, the last `lineage` line replacing the held value.
+ contract/instance-snapshot/links · instance snapshot · links — `links` is the set derived by replaying `link`/`unlink` events, as `{driver, driven, since}` with `since` the `link` line's `ts`; the wrapper restores it at every start, a revived one included, and a failed append leaves it as it was.
+@@ -639,2 +643,4 @@
+ contract/list-item/liveness · list payload item · liveness — live or stale; gone instances are omitted.
++contract/list-item/parent · list payload item · parent — Present only when the recorded parent parses as an instance name other than the item's own.
++contract/list-item/role · list payload item · role — Present only when the recorded role is a code word.
+ contract/list-item/status · list payload item · status — idle, busy or unknown.
+@@ -644,5 +650,6 @@
+ contract/list-payload/dialog-pending · list payload · dialog_pending — `dialog_pending` comes only from the snapshot's `pending_dialog`, so a reader that falls back to replay reports `dialog_pending: false`.
+-contract/list-payload/items · list payload · items — Each `items` entry is `{name, wrapped, liveness, status, wheel?, dialog_pending, cli_version?, cli_verified?}`.
++contract/list-payload/items · list payload · items — Each `items` entry is `{name, wrapped, liveness, status, wheel?, dialog_pending, cli_version?, cli_verified?, parent?, role?}`.
++contract/list-payload/links · list payload · links — `links` is the union of the listed instances' link sets as `{driver, driven, since}`, sorted by driver then driven, deduplicated, each pair kept only when both names parse, and omitted when empty; adding it moved no `v`.
+ contract/list-payload/liveness · list payload · liveness — An entry's `liveness` is `live` or `stale`; gone instances are omitted.
+-contract/list-payload/ok · list payload · ok — The `list` `ok` payload, CLI `--json` and MCP `list` alike, is `{items, skipped}`; `list` is not a channel method and needs no live wrapper.
++contract/list-payload/ok · list payload · ok — The `list` `ok` payload, CLI `--json` and MCP `list` alike, is `{items, links?, skipped}`; `list` is not a channel method and needs no live wrapper.
+ contract/list-payload/skipped · list payload · skipped — `skipped` counts records a reader could not interpret, so the board can show them.
+@@ -662,3 +669,3 @@
+ contract/snapshot-envelope/shape · snapshot envelope · shape — A snapshot is atomically replaced JSON of the shape `{v, written_at, writer, data}`.
+-contract/snapshot-envelope/unreadable-snapshot · snapshot envelope · unreadable snapshot — A snapshot whose `v` is higher than the reader supports, or that fails to parse, is ignored and state is rebuilt by replaying `events.ndjson`, recovering only `links`, `agent_session_id`, `wheel`; the replay writes no file.
++contract/snapshot-envelope/unreadable-snapshot · snapshot envelope · unreadable snapshot — A snapshot whose `v` is higher than the reader supports, or that fails to parse, is ignored and state is rebuilt by replaying `events.ndjson`, recovering only `links`, `agent_session_id`, `wheel`, `lineage`; the replay writes no file.
+ contract/snapshot-envelope/v · snapshot envelope · v — Read first: above 1 is unsupported whatever else the envelope holds, 1 must parse whole, anything else is unreadable; an unsupported or unreadable snapshot is ignored and the state rebuilt by replaying events.ndjson.
+@@ -847,2 +854,4 @@
+ contract/viola-cli-arguments/revive · viola CLI arguments · revive — viola revive takes <name> [--id <ID>] [--fork] [-- <child args>], or <name> --list, each with [--json].
++contract/viola-cli-arguments/run-parent · viola CLI arguments · run --parent — viola run --parent <NAME> declares the instance's parent; a parent equal to the instance's own name is a usage error, exit 2, before anything is read; with no --parent the inherited VIOLA_NAME is taken as parent only, dropped when it equals the own name.
++contract/viola-cli-arguments/run-role · viola CLI arguments · run --role — viola run --role <WORD> declares the instance's role, a code word.
+ contract/viola-cli-arguments/verify · viola CLI arguments · verify — viola verify takes [--record <DIR>] [-- <program> [args…]], the program defaulting to claude; a hidden --record-first-screens, absent from --help, is passed only by the live rig.
+@@ -1068,3 +1077,3 @@
+ decision/anyhow-at-bin-edge-only · anyhow at the binary edge only — anyhow error handling is confined to the edge of the viola binary.
+-decision/board-read-model-shape · Board read model is sync and Claude-free — The board read model is sync and std only, carries no Claude shape, and none of its types holds endpoint, pinned_bin, cwd, pid, started_at or links.
++decision/board-read-model-shape · Board read model is sync and Claude-free — The board read model is sync and std only, carries no Claude shape, and none of its types holds endpoint, pinned_bin, cwd, pid or started_at.
+ decision/cargo-deny-bans · cargo-deny supply-chain policy — cargo-deny checks advisories, licences and sources, and bans C dependencies, telemetry and listed features. · guard: deny-probes negative probe per ban with a clean control

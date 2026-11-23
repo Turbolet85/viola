@@ -37,7 +37,7 @@ _Extracted from `doc:architecture` §Conventions by `/andromeda-setup-project`. 
 
 ## CLI
 - Flags kebab-case long options (`--json`, `--file`, global `--home`); subcommands single lower-case words (`plugin install` the one two-word verb).
-- Arguments mirror channel params: `viola send <target>` (text from stdin or `--file`), `viola wait <target> [--after <cursor>] [--timeout-ms <n>]`, `viola last <target>`, `viola answer <target> <dialog_id>` (response JSON from stdin/`--file`), `viola pause <target>`, `viola release <target>` (a `--budget` flag is a usage error, exit 2), `viola link|unlink <driver> <driven>`; `viola revive <name> [--id <ID>] [--fork] [-- <child args>]` and `viola revive <name> --list` send no channel frame.
+- Arguments mirror channel params: `viola send <target>` (text from stdin or `--file`), `viola wait <target> [--after <cursor>] [--timeout-ms <n>]`, `viola last <target>`, `viola answer <target> <dialog_id>` (response JSON from stdin/`--file`), `viola pause <target>`, `viola release <target>` (a `--budget` flag is a usage error, exit 2), `viola link|unlink <driver> <driven>`; `viola revive <name> [--id <ID>] [--fork] [-- <child args>]` and `viola revive <name> --list` send no channel frame; `viola run --parent <NAME>` declares the instance's parent (one equal to its own name a usage error, exit 2, before anything is read; with no `--parent` an inherited `VIOLA_NAME` is taken as parent only, dropped when it equals the own name) and `viola run --role <WORD>` its role, a code word.
 - Human text by default, `--json` for agents; the CLI adds `from` from its own `VIOLA_NAME`.
 
 ## Configuration

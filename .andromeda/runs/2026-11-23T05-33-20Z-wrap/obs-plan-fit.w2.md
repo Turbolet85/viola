@@ -1,0 +1,2 @@
+@fit n=1 row=decision/inherited-name-default-parent sha=5541f4c515d2 v=not_master type=4
+why: The basis is a symbols list that only retells how run's lineage_of picks a parent (the flag, else the inherited VIOLA_NAME, dropped when equal to the own name) and states no reason or named threat, so the code holds it; that the instance never comes from VIOLA_NAME already stands in decision/instance-source-per-role.

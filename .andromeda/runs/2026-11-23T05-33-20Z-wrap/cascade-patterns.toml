@@ -1,0 +1,21 @@
+# main's own cascade patterns — the moved claims of this wrap, in the leaves' wording
+
+[[pattern]]
+id = 'm-start'
+regex = 'lines 1 and 2|then the agent.s session-start|wheel\{cause:start\}` → `session-start|then `session-start`'
+
+[[pattern]]
+id = 'm-replay'
+regex = 'recovers only `links`, `agent_session_id`, `wheel`|links, agent_session_id and wheel|only `links`, `agent_session_id` and `wheel`'
+
+[[pattern]]
+id = 'm-linkonly'
+regex = 'links print only|only in `link` / `unlink`|visible only in|no link column'
+
+[[pattern]]
+id = 'm-order'
+regex = 'ordered by name|rows are ordered'
+
+[[pattern]]
+id = 'm-board-links'
+regex = 'holds endpoint, pinned_bin, cwd, pid, started_at or links|or links\b'

@@ -1,0 +1,259 @@
+[
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "bdd77e5d",
+"ts": "2026-11-23T06:31:59Z",
+"argv": [
+"refine",
+"--dir",
+"viola-0.2.0",
+"--id",
+"v2-09",
+"--chunk",
+"2026-11-22-lineage-registry",
+"--text-file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/refine-v2-09.md",
+"--requirement-file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/requirement-v2-09.md",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 2,
+"stdout": [],
+"stderr": "refine --chunk: --requirement-file belong to the --unclaimed arm",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "bdd77e5d",
+"ts": "2026-11-23T06:32:08Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-22-lineage-registry",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-22-lineage-registry: 2 · to flip 2 · already verified 0 · below 0",
+"flipped v2-09 → verified — A session's declared parent and role (`viola run --parent`/`--role`, else the in… (1016 chars)",
+"flipped v2-10 → verified — Observed links appear apart from parent edges on every view that shows both, and… (665 chars)",
+"dry-run: nothing written",
+"version: verified 25/37"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v2-09",
+"chunk": "2026-11-22-lineage-registry",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/chaos_snapshot_replay.rs::e5_the_replay_reads_the_lineage_the_wrapper_wrote · src/cmd/run.rs::tests::start_state_w… (928 chars)",
+"acceptance": "A session's declared parent and role (`viola run --parent`/`--role`, else the inherited `VIOLA_NAME` as the parent) are … (1016 chars)",
+"notes_chars": 708
+},
+{
+"id": "v2-10",
+"chunk": "2026-11-22-lineage-registry",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cli_list.rs::list_links_block_shows_a_send_link_apart_from_the_parent_edge · crates/viola-state/src/board.rs::test… (442 chars)",
+"acceptance": "Observed links appear apart from parent edges on every view that shows both, and a link whose name is not a valid viola … (665 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v2-09",
+"chunk": "2026-11-22-lineage-registry",
+"status": "verified",
+"method": "integration",
+"ref": "tests/chaos_snapshot_replay.rs::e5_the_replay_reads_the_lineage_the_wrapper_wrote · src/cmd/run.rs::tests::start_state_w… (928 chars)",
+"acceptance": "A session's declared parent and role (`viola run --parent`/`--role`, else the inherited `VIOLA_NAME` as the parent) are … (1016 chars)",
+"notes_chars": 708
+},
+{
+"id": "v2-10",
+"chunk": "2026-11-22-lineage-registry",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_list.rs::list_links_block_shows_a_send_link_apart_from_the_parent_edge · crates/viola-state/src/board.rs::test… (442 chars)",
+"acceptance": "Observed links appear apart from parent edges on every view that shows both, and a link whose name is not a valid viola … (665 chars)",
+"notes_chars": 0
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "bdd77e5d",
+"ts": "2026-11-23T06:32:11Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-22-lineage-registry",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-22-lineage-registry: 2 · to flip 2 · already verified 0 · below 0",
+"flipped v2-09 → verified — A session's declared parent and role (`viola run --parent`/`--role`, else the in… (1016 chars)",
+"flipped v2-10 → verified — Observed links appear apart from parent edges on every view that shows both, and… (665 chars)",
+"landed, rendered ./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson · 2 entries changed",
+"version: verified 25/37"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson"
+],
+"before": [
+{
+"id": "v2-09",
+"chunk": "2026-11-22-lineage-registry",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/chaos_snapshot_replay.rs::e5_the_replay_reads_the_lineage_the_wrapper_wrote · src/cmd/run.rs::tests::start_state_w… (928 chars)",
+"acceptance": "A session's declared parent and role (`viola run --parent`/`--role`, else the inherited `VIOLA_NAME` as the parent) are … (1016 chars)",
+"notes_chars": 708
+},
+{
+"id": "v2-10",
+"chunk": "2026-11-22-lineage-registry",
+"status": "implemented",
+"method": "integration",
+"ref": "tests/cli_list.rs::list_links_block_shows_a_send_link_apart_from_the_parent_edge · crates/viola-state/src/board.rs::test… (442 chars)",
+"acceptance": "Observed links appear apart from parent edges on every view that shows both, and a link whose name is not a valid viola … (665 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v2-09",
+"chunk": "2026-11-22-lineage-registry",
+"status": "verified",
+"method": "integration",
+"ref": "tests/chaos_snapshot_replay.rs::e5_the_replay_reads_the_lineage_the_wrapper_wrote · src/cmd/run.rs::tests::start_state_w… (928 chars)",
+"acceptance": "A session's declared parent and role (`viola run --parent`/`--role`, else the inherited `VIOLA_NAME` as the parent) are … (1016 chars)",
+"notes_chars": 708
+},
+{
+"id": "v2-10",
+"chunk": "2026-11-22-lineage-registry",
+"status": "verified",
+"method": "integration",
+"ref": "tests/cli_list.rs::list_links_block_shows_a_send_link_apart_from_the_parent_edge · crates/viola-state/src/board.rs::test… (442 chars)",
+"acceptance": "Observed links appear apart from parent edges on every view that shows both, and a link whose name is not a valid viola … (665 chars)",
+"notes_chars": 0
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "bdd77e5d",
+"ts": "2026-11-23T06:32:18Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.2.0",
+"--id",
+"v2-09",
+"--text-file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/note-v2-09.md",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v2-09: +974 chars (total 1684) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v2-09",
+"chunk": "2026-11-22-lineage-registry",
+"status": "verified",
+"method": "integration",
+"ref": "tests/chaos_snapshot_replay.rs::e5_the_replay_reads_the_lineage_the_wrapper_wrote · src/cmd/run.rs::tests::start_state_w… (928 chars)",
+"acceptance": "A session's declared parent and role (`viola run --parent`/`--role`, else the inherited `VIOLA_NAME` as the parent) are … (1016 chars)",
+"notes_chars": 708
+},
+"after": {
+"id": "v2-09",
+"chunk": "2026-11-22-lineage-registry",
+"status": "verified",
+"method": "integration",
+"ref": "tests/chaos_snapshot_replay.rs::e5_the_replay_reads_the_lineage_the_wrapper_wrote · src/cmd/run.rs::tests::start_state_w… (928 chars)",
+"acceptance": "A session's declared parent and role (`viola run --parent`/`--role`, else the inherited `VIOLA_NAME` as the parent) are … (1016 chars)",
+"notes_chars": 1684
+}
+},
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "bdd77e5d",
+"ts": "2026-11-23T06:32:22Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.2.0",
+"--id",
+"v2-09",
+"--text-file",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap/note-v2-09.md",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v2-09: +974 chars (total 1684) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson"
+],
+"before": {
+"id": "v2-09",
+"chunk": "2026-11-22-lineage-registry",
+"status": "verified",
+"method": "integration",
+"ref": "tests/chaos_snapshot_replay.rs::e5_the_replay_reads_the_lineage_the_wrapper_wrote · src/cmd/run.rs::tests::start_state_w… (928 chars)",
+"acceptance": "A session's declared parent and role (`viola run --parent`/`--role`, else the inherited `VIOLA_NAME` as the parent) are … (1016 chars)",
+"notes_chars": 708
+},
+"after": {
+"id": "v2-09",
+"chunk": "2026-11-22-lineage-registry",
+"status": "verified",
+"method": "integration",
+"ref": "tests/chaos_snapshot_replay.rs::e5_the_replay_reads_the_lineage_the_wrapper_wrote · src/cmd/run.rs::tests::start_state_w… (928 chars)",
+"acceptance": "A session's declared parent and role (`viola run --parent`/`--role`, else the inherited `VIOLA_NAME` as the parent) are … (1016 chars)",
+"notes_chars": 1684
+}
+}
+]

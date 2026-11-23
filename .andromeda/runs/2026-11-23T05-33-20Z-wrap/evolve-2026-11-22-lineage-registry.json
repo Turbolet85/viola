@@ -1,0 +1,130 @@
+[
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "ed71f273",
+"ts": "2026-11-23T05:36:13Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 4128 · 2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"ts 2026-11-23T05:36:00Z · clock 2026-11-23T05:36:13Z · the builders' bound 2026-11-22T23:37:46Z (line 4078)",
+"ids 2026-11-23T05:36:00Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "ed71f273",
+"ts": "2026-11-23T06:13:29Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"7",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 7 record(s) in the store · tx 4159 · 2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"ts 2026-11-23T06:12:56Z · clock 2026-11-23T06:13:26Z · the builders' bound 2026-11-23T05:36:00Z (line 4079)",
+"ids 2026-11-23T06:12:56Z-a … 2026-11-23T06:12:56Z-g (7)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "ed71f273",
+"ts": "2026-11-23T06:15:36Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 4160 · 2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"ts 2026-11-23T06:15:30Z · clock 2026-11-23T06:15:36Z · the builders' bound 2026-11-23T06:12:56Z (line 4086)",
+"ids 2026-11-23T06:15:30Z-a … 2026-11-23T06:15:30Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "ed71f273",
+"ts": "2026-11-23T06:17:11Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-23T05-33-20Z-wrap",
+"--marker",
+"2026-11-22-lineage-registry"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 4163 · 2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson",
+"ts 2026-11-23T06:17:04Z · clock 2026-11-23T06:17:11Z · the builders' bound 2026-11-23T06:15:30Z (line 4088)",
+"ids 2026-11-23T06:17:04Z-a … 2026-11-23T06:17:04Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-22T22-07-04-2026-11-22-lineage-registry.ndjson"
+],
+"before": null,
+"after": null
+}
+]

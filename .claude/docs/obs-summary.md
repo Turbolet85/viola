@@ -56,7 +56,7 @@ The obs harness is **bound** to the test harness: tests owns the grepped fields 
 - NEVER call raw `tracing::*!` outside `viola_core::obs` — only `obs_event!`.
 - NEVER read the level from `RUST_LOG` / `EnvFilter`; `diagnostics_level` changes volume, never redaction.
 - NEVER use tracing-appender `non_blocking`, sentry, an OTLP exporter or a `/metrics` route.
-- NEVER log per heartbeat tick; NEVER log a peer the wrapper's `accept_loop` refuses by euid (Unix: dropped on the accept thread, before any frame, the client reading end-of-file); NEVER put a path or pid inside a `detail` code.
+- NEVER log per heartbeat tick; NEVER log a peer the wrapper's `accept_loop` refuses by euid (Unix: dropped on the accept thread, before any frame, the client reading end-of-file); NEVER put a path or pid inside a `detail` code; NEVER write a start's parent or role name into a process-log or detail line (they appear only in `events.ndjson`, the snapshot, the `viola list` board, `list --json` and the MCP `list` result).
 
 ## Critical decisions
 

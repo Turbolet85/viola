@@ -1,6 +1,0 @@
-@detector key=D-leaf-figures doc=arch|test-plan severity=warning
-- id: D-leaf-figures
-  doc: arch | test-plan
-  invariant: a leaf names a bound, count or version the code states by its constant or source, never its figure.
-  check: agent-read — every figure a leaf finding adds (a time bound, a count, a version) that a code constant states is drift; the finding names the constant instead.
-  severity: warning

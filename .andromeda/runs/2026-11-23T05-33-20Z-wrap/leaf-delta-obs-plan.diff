@@ -1,0 +1,22 @@
+--- a/.andromeda/obs-plan.md
++++ b/.andromeda/obs-plan.md
+@@ -285,3 +285,3 @@
+ contract/run-log/exit-code · run log line · exit_code — A required field on run's log lines.
+-contract/run-start-events/order · run start events in events.ndjson · order — A run start writes wheel{cause:"start"} before session-start; on a start whose folder-trust keys pass through the wrapper, wheel{human-input} also precedes session-start, and a later human key adds no wheel line, the wheel being already human.
++contract/run-start-events/order · run start events in events.ndjson · order — A run start writes wheel{cause:"start"} and then one lineage line before session-start; on a start whose folder-trust keys pass through the wrapper, wheel{human-input} also precedes session-start, and a later human key adds no wheel line, the wheel being already human.
+ contract/send-log-line/corr · Send log line · corr — On the wrapper's send lines corr is the send cursor, which joins send-issued, send-confirmed and send-refused (a refusal before send-issued carries the log's end offset); the CLI's and MCP's client-side send-refused lines carry no corr; on channel lines corr is the JSON-RPC id.
+@@ -429,2 +429,3 @@
+ decision/instance-check-before-role-file · Instance check before any role file — The frame verbs run the instance check on their named instance (the driven instance for link and unlink) before any role file opens.
++decision/lineage-line-untraced · Lineage line has no trace of its own — The lineage line written at every run and revive start is log-only product audit data: it wakes no wait and writes no process-log line, span or terminal byte of its own. · provisional
+ decision/link-methods-untraced · Explicit link methods open no span — The explicit link and unlink methods open no span and write no process-log line of their own; their channel lines hold no driver, driven or other param.
+@@ -444,3 +445,3 @@
+ decision/portable-pty-log-target-off · portable-pty log target OFF — The log target of portable-pty is OFF in the sink, and PTY failures are captured at the pty seam instead.
+-decision/product-order-from-events-log · Start product order read from the events log — The start product order, wheel{cause:"start"} before session-start{source:"hook"} with wheel{human-input} also before it where folder-trust keys pass through the wrapper, is verified from that start's own lines of the instance's events log, not duplicated into process logs.
++decision/product-order-from-events-log · Start product order read from the events log — The start product order, wheel{cause:"start"} then lineage before session-start{source:"hook"} with wheel{human-input} also before it where folder-trust keys pass through the wrapper, is verified from that start's own lines of the instance's events log, not duplicated into process logs.
+ decision/real-cli-verify-never-in-ci · Real-CLI verify never runs in CI — In CI verify runs only against the fake agent; the real-CLI verify runs only through the local live run, which refuses under CI.
+@@ -800,3 +801,4 @@
+ decision/fuzz-artifacts-need-synthetic-corpus · Fuzz artifacts need a synthetic corpus — Fuzz crash artifacts upload only while the committed fuzz corpus is synthetic; a non-synthetic corpus seed must first drop that upload.
+-decision/link-names-never-in-process-log · Link pair names never in a process log — link and unlink driver and driven names appear only in the wrapper's link and unlink event lines in events.ndjson, never in a process-log line; the channel pair logs the method, never the params. · guard: link_verbs_log_the_channel_pair_and_no_names
++decision/lineage-names-confined · Parent and role confined to product surfaces — A start's parent and role names appear only in events.ndjson, the snapshot, the viola list board, list --json and the MCP list result, each parent re-parsed as a viola name and each role as a code word and dropped otherwise, never in a process-log or detail line. · provisional
++decision/link-names-never-in-process-log · Link pair names never in a process log — link and unlink driver and driven names never appear in a process-log line; the channel pair logs the method, never the params. · guard: link_verbs_log_the_channel_pair_and_no_names
+ decision/mutants-out-never-uploaded · Mutation outputs never uploaded — mutants.out/ and the per-run archive of JUnit and outcomes files are never uploaded. · why: The outcomes file held absolute argv paths and the log folder held test output.

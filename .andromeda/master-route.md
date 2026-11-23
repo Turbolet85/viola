@@ -133,4 +133,4 @@
 2026-11-21-key-after-a-resize · complete · whether real claude on Linux loses a key typed right after a resize, read with no start first, measured on the operator's cap, fixed if it does · → chk:2026-11-21-key-after-a-resize
 2026-11-22-paste-write-bounded · complete · the wrapper's paste into the child's PTY ends within a compiled bound; a paste that cannot finish ends the send with a closed word, the wheel unmoved · → chk:2026-11-22-paste-write-bounded
 2026-11-22-epoch-4-cleanup · complete · the Epoch 4 audit's ranked defects mended, the chrono advisory re-measured · → chk:2026-11-22-epoch-4-cleanup
-2026-11-22-lineage-registry · pending · Lineage registry — a `lineage` event at launch, fleet trees on `list`, parent kept by `revive`, links drawn apart and name-checked · → chk:2026-11-22-lineage-registry
+2026-11-22-lineage-registry · complete · Lineage registry — a `lineage` event at launch, fleet trees on `list`, parent kept by `revive`, links drawn apart and name-checked · → chk:2026-11-22-lineage-registry
