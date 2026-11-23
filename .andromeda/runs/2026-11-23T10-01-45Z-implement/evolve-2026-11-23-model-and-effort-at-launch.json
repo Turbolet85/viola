@@ -1,0 +1,130 @@
+[
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-23T10:14:05Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-23T10-01-45Z-implement",
+"--marker",
+"2026-11-23-model-and-effort-at-launch"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) in the store · tx 4200 · 2026-11-23T06-49-49-2026-11-23-model-and-effort-at-launch.ndjson",
+"ts 2026-11-23T10:13:53Z · clock 2026-11-23T10:14:05Z · the builders' bound 2026-11-23T08:53:53Z (line 4106)",
+"ids 2026-11-23T10:13:53Z-a … 2026-11-23T10:13:53Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-23T06-49-49-2026-11-23-model-and-effort-at-launch.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-23T10:24:23Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-23T10-01-45Z-implement",
+"--marker",
+"2026-11-23-model-and-effort-at-launch"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 4202 · 2026-11-23T06-49-49-2026-11-23-model-and-effort-at-launch.ndjson",
+"ts 2026-11-23T10:24:12Z · clock 2026-11-23T10:24:23Z · the builders' bound 2026-11-23T10:13:53Z (line 4109)",
+"ids 2026-11-23T10:24:12Z-a … 2026-11-23T10:24:12Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-23T06-49-49-2026-11-23-model-and-effort-at-launch.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-23T10:25:23Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-23T10-01-45Z-implement",
+"--marker",
+"2026-11-23-model-and-effort-at-launch"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 4203 · 2026-11-23T06-49-49-2026-11-23-model-and-effort-at-launch.ndjson",
+"ts 2026-11-23T10:25:16Z · clock 2026-11-23T10:25:22Z · the builders' bound 2026-11-23T10:24:12Z (line 4111)",
+"ids 2026-11-23T10:25:16Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-23T06-49-49-2026-11-23-model-and-effort-at-launch.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-23T10:27:22Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-23T10-01-45Z-implement",
+"--marker",
+"2026-11-23-model-and-effort-at-launch"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 4205 · 2026-11-23T06-49-49-2026-11-23-model-and-effort-at-launch.ndjson",
+"ts 2026-11-23T10:27:15Z · clock 2026-11-23T10:27:22Z · the builders' bound 2026-11-23T10:25:16Z (line 4112)",
+"ids 2026-11-23T10:27:15Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-23T06-49-49-2026-11-23-model-and-effort-at-launch.ndjson"
+],
+"before": null,
+"after": null
+}
+]

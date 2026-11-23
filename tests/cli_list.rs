@@ -101,6 +101,7 @@ fn path1_list_shows_a_booted_wrapper(stamped_home: StampedHome) {
                 "name": "builder", "wrapped": true, "liveness": "live", "status": "unknown",
                 "wheel": "driver", "dialog_pending": false,
                 "cli_version": "2.1.328", "cli_verified": true,
+                "model": viola_agent_claude::DEFAULT_PAIR.0, "effort": viola_agent_claude::DEFAULT_PAIR.1,
             }],
             "skipped": {"unknown_kinds": 0, "unknown_fields": 0, "torn_lines": 0},
         }})
@@ -236,6 +237,8 @@ fn e5_list_reads_a_live_wrapper_through_the_replay(
         json!([{
             "name": "builder", "wrapped": true, "liveness": "live", "status": "unknown",
             "wheel": "driver", "dialog_pending": false,
+            "model": viola_agent_claude::DEFAULT_PAIR.0,
+            "effort": viola_agent_claude::DEFAULT_PAIR.1,
         }])
     );
     let recovered: Vec<Value> = diagnostics(&home, "cli-overseer.ndjson")
@@ -409,6 +412,7 @@ fn list_prints_planted_rows_as_unwrapped_rows(stamped_home: StampedHome) {
                 "name": "builder", "wrapped": true, "liveness": "live", "status": "unknown",
                 "wheel": "driver", "dialog_pending": false,
                 "cli_version": "2.1.328", "cli_verified": true,
+                "model": viola_agent_claude::DEFAULT_PAIR.0, "effort": viola_agent_claude::DEFAULT_PAIR.1,
             },
             {
                 "name": "0b7c9f4e-1d2a-4c3b-8e5f-6a7b8c9d0e1f", "wrapped": false,
@@ -420,6 +424,55 @@ fn list_prints_planted_rows_as_unwrapped_rows(stamped_home: StampedHome) {
             },
         ])
     );
+    wrapper.stop();
+}
+
+/// A wrapped row carries its recorded `model` and `effort` after `role`; an unwrapped row carries
+/// neither.
+#[rstest]
+fn list_json_carries_model_and_effort(stamped_home: StampedHome) {
+    let fixtures = support::home::workspace_path("fixtures/claude");
+    let fixtures = fixtures.to_str().expect("utf-8 path");
+    let wrapper = Wrapper::boot_flagged(
+        stamped_home,
+        "builder",
+        None,
+        &["--role", "builder", "--model", "haiku", "--effort", "low"],
+        None,
+        &["--fixtures", fixtures],
+    );
+    let home = wrapper.home().to_path_buf();
+    let bin = fake::claude_bin(
+        scratch(&wrapper),
+        "claude-planted",
+        None,
+        Some(PLANTED.as_bytes()),
+    );
+    let ran = viola_on(&bin, &home, &["list", "--json"], None, None);
+    let doc = document(&ran);
+    let items = doc["ok"]["items"].as_array().expect("items");
+    let wrapped = items
+        .iter()
+        .find(|i| i["name"] == "builder")
+        .expect("builder");
+    assert_eq!(
+        (&wrapped["model"], &wrapped["effort"]),
+        (&json!("haiku"), &json!("low"))
+    );
+    assert!(
+        ran.stdout
+            .contains(r#""role":"builder","model":"haiku","effort":"low"}"#),
+        "{}",
+        ran.stdout
+    );
+    let unwrapped: Vec<&Value> = items.iter().filter(|i| i["wrapped"] == false).collect();
+    assert_eq!(unwrapped.len(), 2, "{items:?}");
+    for item in unwrapped {
+        assert!(
+            item.get("model").is_none() && item.get("effort").is_none(),
+            "{item}"
+        );
+    }
     wrapper.stop();
 }
 
@@ -761,11 +814,13 @@ fn list_json_carries_parent_and_role(stamped_home: StampedHome) {
                     "wheel": "driver", "dialog_pending": false,
                     "cli_version": "2.1.328", "cli_verified": true,
                     "parent": "overseer", "role": "builder",
+                    "model": viola_agent_claude::DEFAULT_PAIR.0, "effort": viola_agent_claude::DEFAULT_PAIR.1,
                 },
                 {
                     "name": "overseer", "wrapped": true, "liveness": "live", "status": "unknown",
                     "wheel": "driver", "dialog_pending": false,
                     "cli_version": "2.1.328", "cli_verified": true,
+                    "model": viola_agent_claude::DEFAULT_PAIR.0, "effort": viola_agent_claude::DEFAULT_PAIR.1,
                 },
             ],
             "skipped": {"unknown_kinds": 0, "unknown_fields": 0, "torn_lines": 0},
@@ -789,7 +844,9 @@ fn list_json_carries_parent_and_role(stamped_home: StampedHome) {
             "cli_version",
             "cli_verified",
             "parent",
-            "role"
+            "role",
+            "model",
+            "effort"
         ]
     );
     assert_eq!(builder.stop().code(), Some(0));

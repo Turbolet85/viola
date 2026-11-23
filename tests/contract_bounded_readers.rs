@@ -78,6 +78,15 @@ const BOUNDARIES: &[Boundary] = &[
         witness: "read_hold_keeps_no_key_past_the_frame_cap",
     },
     Boundary {
+        boundary: "config.json default_model and default_effort",
+        file: "src/run/launch.rs",
+        needle: "Ok(file) => match file.take(MAX_FRAME).read_to_end(&mut bytes) {\n            Ok(_) => parse_default(&bytes),",
+        cap: "MAX_FRAME",
+        depth: DEFAULT_DEPTH,
+        types: "a model word and one of the five effort levels",
+        witness: "read_default_pair_keeps_no_key_past_the_frame_cap",
+    },
+    Boundary {
         boundary: "config.json verify_new_cli",
         file: "src/run/auto_verify.rs",
         needle: "Ok(file) => match file.take(MAX_FRAME).read_to_end(&mut bytes) {\n            Ok(_) => parse_key(&bytes),",

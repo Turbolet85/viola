@@ -72,11 +72,12 @@ pub enum EventKind {
     Unlink,
     DialogExpired,
     Lineage,
+    Launch,
 }
 
 impl EventKind {
     /// Every kind, in declaration order.
-    pub const ALL: [Self; 16] = [
+    pub const ALL: [Self; 17] = [
         Self::SessionStart,
         Self::PromptSubmitted,
         Self::TurnEnded,
@@ -93,6 +94,7 @@ impl EventKind {
         Self::Unlink,
         Self::DialogExpired,
         Self::Lineage,
+        Self::Launch,
     ];
 
     /// The kinds that end a `wait` (architecture §Standard Contracts); every other kind is
@@ -135,6 +137,7 @@ impl EventKind {
             Self::Link | Self::Unlink => &["driver", "driven"],
             Self::DialogExpired => &["dialog_id", "dialog_kind"],
             Self::Lineage => &["parent", "role"],
+            Self::Launch => &["model", "effort"],
         }
     }
 
@@ -156,6 +159,7 @@ impl EventKind {
             Self::Unlink => "unlink",
             Self::DialogExpired => "dialog-expired",
             Self::Lineage => "lineage",
+            Self::Launch => "launch",
         }
     }
 }
@@ -380,6 +384,18 @@ pub fn is_code_word(word: &str) -> bool {
             .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || *b == b'-')
 }
 
+/// A model word's shape: 1 to 64 bytes, a lowercase letter first, then lowercase letters, digits,
+/// `.` and `-` only, so an alias or a full model name passes and no control byte, space or path
+/// separator reaches a child's arguments.
+pub fn is_model_word(word: &str) -> bool {
+    let bytes = word.as_bytes();
+    bytes.len() <= 64
+        && bytes.first().is_some_and(u8::is_ascii_lowercase)
+        && bytes
+            .iter()
+            .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || *b == b'.' || *b == b'-')
+}
+
 fn is_valid_name(name: &str) -> bool {
     let bytes = name.as_bytes();
     let Some(first) = bytes.first() else {
@@ -566,10 +582,11 @@ mod tests {
             ]
         );
         assert!(!EventKind::WAIT_WAKE.contains(&EventKind::Lineage));
+        assert!(!EventKind::WAIT_WAKE.contains(&EventKind::Launch));
     }
 
     /// Architecture's per-kind `data` list, written out as the oracle, in declaration order.
-    const KIND_TABLE: [(EventKind, &str, &[&str]); 16] = [
+    const KIND_TABLE: [(EventKind, &str, &[&str]); 17] = [
         (
             EventKind::SessionStart,
             "session-start",
@@ -619,6 +636,7 @@ mod tests {
             &["dialog_id", "dialog_kind"],
         ),
         (EventKind::Lineage, "lineage", &["parent", "role"]),
+        (EventKind::Launch, "launch", &["model", "effort"]),
     ];
 
     #[test]
@@ -644,7 +662,7 @@ mod tests {
     }
 
     #[test]
-    fn kind_table_all_is_the_sixteen_kinds_in_declaration_order() {
+    fn kind_table_all_is_the_seventeen_kinds_in_declaration_order() {
         let all: Vec<&str> = EventKind::ALL.iter().map(|k| k.as_str()).collect();
         assert_eq!(
             all,
@@ -665,8 +683,30 @@ mod tests {
                 "unlink",
                 "dialog-expired",
                 "lineage",
+                "launch",
             ]
         );
+    }
+
+    #[test]
+    fn model_word_takes_the_closed_shape() {
+        let sixty_four = "m".repeat(64);
+        let sixty_five = "m".repeat(65);
+        for (word, accepted) in [
+            ("opus", true),
+            ("claude-opus-5-5", true),
+            ("claude-haiku-4.5", true),
+            (sixty_four.as_str(), true),
+            ("", false),
+            (sixty_five.as_str(), false),
+            ("Opus", false),
+            ("9x", false),
+            ("a b", false),
+            ("a/b", false),
+            ("a\u{7f}", false),
+        ] {
+            assert_eq!(is_model_word(word), accepted, "{word:?}");
+        }
     }
 
     #[test]

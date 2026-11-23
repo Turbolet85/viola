@@ -12,14 +12,14 @@ use std::time::SystemTime;
 use serde::Serialize;
 use serde_json::Value;
 use viola_core::obs::ObsEvent;
-use viola_core::{ViolaName, is_code_word, obs_event};
+use viola_core::{ViolaName, is_code_word, is_model_word, obs_event};
 
 use crate::StateError;
 use crate::events::{Skipped, read_from};
 use crate::heartbeat::beat_age;
 use crate::liveness::{Liveness, STALE_AFTER, classify, same_process};
 use crate::replay::{Recovered, read_snapshot_or_replay};
-use crate::snapshot::{InstanceSnapshot, Lineage, Wheel};
+use crate::snapshot::{InstanceSnapshot, Launch, Lineage, Wheel};
 use crate::strict::{Refused, check_instance, check_path, check_read};
 
 const INSTANCES: &str = "instances";
@@ -183,6 +183,12 @@ pub struct Item {
     pub parent: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub role: Option<String>,
+    /// The model the instance's last `launch` line recorded, kept only when it re-parses as a
+    /// model word.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub model: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub effort: Option<String>,
     /// The pending dialog's kind word, for the human row; no field of the document.
     #[serde(skip)]
     pub dialog_kind: Option<String>,
@@ -205,6 +211,8 @@ impl Item {
             cli_verified: None,
             parent: None,
             role: None,
+            model: None,
+            effort: None,
             dialog_kind: None,
             join: JoinKeys::default(),
         }
@@ -264,6 +272,21 @@ fn shown_lineage(name: &ViolaName, lineage: Option<&Lineage>) -> (Option<String>
     (parent, role)
 }
 
+/// `(model, effort)` as a row may show them: the model only when it is a model word, the effort
+/// only when it is a code word.
+fn shown_launch(launch: Option<&Launch>) -> (Option<String>, Option<String>) {
+    let Some(launch) = launch else {
+        return (None, None);
+    };
+    let model = Some(&launch.model)
+        .filter(|model| is_model_word(model))
+        .cloned();
+    let effort = Some(&launch.effort)
+        .filter(|effort| is_code_word(effort))
+        .cloned();
+    (model, effort)
+}
+
 /// The held links a listed row adds to the board: a pair whose `driver` or `driven` is no
 /// `ViolaName` is dropped, counted nowhere.
 fn add_links(board: &mut Vec<BoardLink>, links: &[Value]) {
@@ -287,6 +310,7 @@ fn add_links(board: &mut Vec<BoardLink>, links: &[Value]) {
 
 fn snapshot_item(name: &ViolaName, snapshot: &InstanceSnapshot, liveness: RowLiveness) -> Item {
     let (parent, role) = shown_lineage(name, snapshot.lineage.as_ref());
+    let (model, effort) = shown_launch(snapshot.launch.as_ref());
     Item {
         name: name.as_ref().to_owned(),
         wrapped: true,
@@ -298,6 +322,8 @@ fn snapshot_item(name: &ViolaName, snapshot: &InstanceSnapshot, liveness: RowLiv
         cli_verified: Some(snapshot.cli_verified),
         parent,
         role,
+        model,
+        effort,
         dialog_kind: snapshot.pending_dialog.as_ref().map(|d| d.kind.clone()),
         join: JoinKeys {
             child_pid: snapshot.child_pid,
@@ -346,6 +372,7 @@ pub fn read(scan: &Scan, now: SystemTime) -> Board {
             Ok(Recovered::Replayed { state, .. }) => {
                 if beat_age(dir, now).is_some_and(|age| age <= STALE_AFTER) {
                     let (parent, role) = shown_lineage(name, state.lineage.as_ref());
+                    let (model, effort) = shown_launch(state.launch.as_ref());
                     add_links(&mut board.links, &state.links);
                     board.items.push(Item {
                         name: name.as_ref().to_owned(),
@@ -358,6 +385,8 @@ pub fn read(scan: &Scan, now: SystemTime) -> Board {
                         cli_verified: None,
                         parent,
                         role,
+                        model,
+                        effort,
                         dialog_kind: None,
                         join: JoinKeys {
                             child_pid: None,
@@ -465,6 +494,7 @@ mod tests {
             cwd: Some("/work/secret-cwd".to_owned()),
             agent_session_id: None,
             lineage: None,
+            launch: None,
         }
     }
 
@@ -783,6 +813,8 @@ mod tests {
                     join: JoinKeys::default(),
                     parent: None,
                     role: None,
+                    model: None,
+                    effort: None,
                 }],
                 "{detail}"
             );
@@ -870,6 +902,8 @@ mod tests {
             join: JoinKeys::default(),
             parent: None,
             role: None,
+            model: None,
+            effort: None,
         };
         assert_eq!(
             serde_json::to_string(&none).expect("serialise"),
@@ -923,6 +957,51 @@ mod tests {
             every.ends_with(r#""cli_verified":true,"parent":"overseer"}"#),
             "{every}"
         );
+    }
+
+    fn with_launch(model: &str, effort: &str) -> InstanceSnapshot {
+        InstanceSnapshot {
+            launch: Some(Launch {
+                model: model.to_owned(),
+                effort: effort.to_owned(),
+            }),
+            ..with_lineage(None, Some("builder"))
+        }
+    }
+
+    #[test]
+    fn board_read_item_with_a_launch_pair_serialises_both() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = home(&tmp);
+        let dir = booted(&home, "builder", &with_launch("claude-haiku-4.5", "low"));
+        let board = read(&scanned(&home), beat_time(&dir));
+        assert_eq!(
+            serde_json::to_string(&board.items[0]).expect("serialise"),
+            r#"{"name":"builder","wrapped":true,"liveness":"live","status":"unknown","wheel":"driver","dialog_pending":false,"cli_version":"2.1.287","cli_verified":true,"role":"builder","model":"claude-haiku-4.5","effort":"low"}"#
+        );
+    }
+
+    /// A model that is no model word and an effort that is no code word are each dropped from the
+    /// row; the other half stands.
+    #[test]
+    fn board_read_drops_a_launch_word_that_does_not_parse() {
+        for (label, model, effort, shown) in [
+            ("bad-model", "Opus 5", "low", (None, Some("low"))),
+            ("bad-effort", "haiku", "Not A Word", (Some("haiku"), None)),
+            ("both-bad", "a/b", "", (None, None)),
+            ("good", "haiku", "max", (Some("haiku"), Some("max"))),
+        ] {
+            let tmp = tempfile::tempdir().expect("tempdir");
+            let home = home(&tmp);
+            let dir = booted(&home, "builder", &with_launch(model, effort));
+            let board = read(&scanned(&home), beat_time(&dir));
+            let item = &board.items[0];
+            assert_eq!(
+                (item.model.as_deref(), item.effort.as_deref()),
+                shown,
+                "{label}"
+            );
+        }
     }
 
     /// A parent that is no `ViolaName`, or the row's own name, and a role that is no code word,

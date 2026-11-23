@@ -552,6 +552,7 @@ mod tests {
                 cwd: None,
                 agent_session_id: None,
                 lineage: None,
+                launch: None,
             })
             .expect("snapshot");
         snapshots

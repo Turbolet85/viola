@@ -6,6 +6,7 @@ pub(crate) mod auto_verify;
 pub(crate) mod dialog;
 mod env;
 pub(crate) mod gate;
+pub(crate) mod launch;
 pub(crate) mod links;
 pub(crate) mod send;
 pub(crate) mod snapshot;
@@ -41,6 +42,7 @@ pub(crate) fn first() -> viola_state::snapshot::InstanceSnapshot {
         cwd: None,
         agent_session_id: None,
         lineage: None,
+        launch: None,
     }
 }
 
@@ -113,8 +115,8 @@ pub(crate) fn log_self_exit(exit_code: u8, detail: Option<&'static str>) {
 }
 
 /// What the child is started with beyond the inherited environment: the `VIOLA_*` names, the
-/// pinned dir first on `PATH`, and the plugin folder ahead of the caller's arguments (architecture
-/// §Occupied Resources → Environment variables).
+/// pinned dir first on `PATH`, and the plugin folder and the pair ahead of the caller's arguments
+/// (architecture §Occupied Resources → Environment variables).
 pub(crate) struct ChildLaunch {
     pub(crate) env_set: Vec<(OsString, OsString)>,
     pub(crate) args: Vec<OsString>,
@@ -126,6 +128,7 @@ pub(crate) fn child_launch(
     pinned: &Pinned,
     plugin_dir: &Path,
     inherited_path: Option<OsString>,
+    pair: &launch::Pair,
     user_args: &[OsString],
 ) -> ChildLaunch {
     let pinned_dir = pinned.path.parent().unwrap_or(&pinned.path).to_path_buf();
@@ -146,6 +149,7 @@ pub(crate) fn child_launch(
         OsString::from(PLUGIN_DIR_FLAG),
         plugin_dir.as_os_str().to_owned(),
     ];
+    args.extend(viola_agent_claude::launch_args(&pair.model, &pair.effort));
     args.extend_from_slice(user_args);
     ChildLaunch { env_set, args }
 }
@@ -170,6 +174,17 @@ mod tests {
             path_fwd: exe.to_string_lossy().replace('\\', "/"),
             path: exe.to_path_buf(),
         }
+    }
+
+    fn pair() -> launch::Pair {
+        launch::Pair {
+            model: "haiku".to_owned(),
+            effort: "low".to_owned(),
+        }
+    }
+
+    fn pair_words() -> [OsString; 4] {
+        ["--model", "haiku", "--effort", "low"].map(OsString::from)
     }
 
     fn env(launch: &ChildLaunch, key: &str) -> OsString {
@@ -199,6 +214,7 @@ mod tests {
             &pinned(&exe),
             &plugin_dir,
             Some(inherited),
+            &pair(),
             &user_args,
         );
         assert_eq!(env(&launch, "VIOLA_NAME"), "builder");
@@ -216,6 +232,10 @@ mod tests {
             [
                 OsString::from("--plugin-dir"),
                 plugin_dir.into_os_string(),
+                OsString::from("--model"),
+                OsString::from("haiku"),
+                OsString::from("--effort"),
+                OsString::from("low"),
                 OsString::from("--receipt"),
                 OsString::from("r"),
             ]
@@ -233,13 +253,13 @@ mod tests {
                 &pinned(&pin_dir.join("viola")),
                 Path::new("p"),
                 inherited,
+                &pair(),
                 &[],
             );
             assert_eq!(env(&launch, "PATH"), pin_dir.as_os_str());
-            assert_eq!(
-                launch.args,
-                [OsString::from("--plugin-dir"), OsString::from("p")]
-            );
+            let mut expected = vec![OsString::from("--plugin-dir"), OsString::from("p")];
+            expected.extend(pair_words());
+            assert_eq!(launch.args, expected);
         }
     }
 
@@ -259,13 +279,56 @@ mod tests {
                 &pinned(&exe),
                 Path::new("p"),
                 None,
+                &pair(),
                 &user_args,
             )
             .args;
             let mut expected = vec![OsString::from("--plugin-dir"), OsString::from("p")];
+            expected.extend(pair_words());
             expected.extend(user_args.iter().cloned());
             assert_eq!(args, expected);
             assert!(!args.iter().any(|a| a == "--settings"));
         }
+    }
+
+    /// The pair stands right after the plugin flag, ahead of every caller's word, a revive's
+    /// `--resume` among them.
+    #[test]
+    fn child_launch_hands_the_pair_after_the_plugin_flag() {
+        let name = ViolaName::try_new("builder".to_owned()).expect("valid");
+        let exe = std::env::temp_dir().join("bin").join("k").join("viola");
+        let user_args = [
+            OsString::from("--resume"),
+            OsString::from("id"),
+            OsString::from("--fork-session"),
+        ];
+        let args = child_launch(
+            &name,
+            Path::new("d"),
+            &pinned(&exe),
+            Path::new("p"),
+            None,
+            &launch::Pair {
+                model: "claude-opus-5-5".to_owned(),
+                effort: "xhigh".to_owned(),
+            },
+            &user_args,
+        )
+        .args;
+        assert_eq!(
+            args,
+            [
+                "--plugin-dir",
+                "p",
+                "--model",
+                "claude-opus-5-5",
+                "--effort",
+                "xhigh",
+                "--resume",
+                "id",
+                "--fork-session",
+            ]
+            .map(OsString::from)
+        );
     }
 }

@@ -43,15 +43,15 @@ fn commands(value: &Value, found: &mut Vec<String>) {
 
 #[rstest]
 fn path1_run_start_one_home_in_order(stamped_home: StampedHome) {
-    // 1. The start under an outer terminal: the wheel, the wrapper's lineage, then the hook's
-    // session-start, and the child spawned after the wheel's record.
+    // 1. The start under an outer terminal: the wheel, the wrapper's lineage and launch, then the
+    // hook's session-start, and the child spawned after the wheel's record.
     let wrapper = support::events::boot(stamped_home, None, &[]);
     let home = wrapper.home().to_path_buf();
     let dir = wrapper.instance_dir();
     let records = events(&dir);
     let kinds: Vec<(&Value, &Value)> = records
         .iter()
-        .take(3)
+        .take(4)
         .map(|l| (&l["kind"], &l["source"]))
         .collect();
     assert_eq!(
@@ -59,6 +59,7 @@ fn path1_run_start_one_home_in_order(stamped_home: StampedHome) {
         [
             (&json!("wheel"), &json!("wrapper")),
             (&json!("lineage"), &json!("wrapper")),
+            (&json!("launch"), &json!("wrapper")),
             (&json!("session-start"), &json!("hook")),
         ]
     );
@@ -161,4 +162,59 @@ fn path1_run_start_one_home_in_order(stamped_home: StampedHome) {
         assert_eq!(command, &pinned, "every hook runs the pinned copy");
     }
     assert_eq!(restarted.stop().code(), Some(0));
+}
+
+/// The pair the fake agent receipted at its start and the one `launch` line the start wrote.
+fn handed_and_recorded(wrapper: &Wrapper) -> ((Value, Value), Value) {
+    let receipt = fake::wait_for(&wrapper.receipt(), "the start receipt", |l| {
+        !of_kind(l, "start").is_empty()
+    });
+    let start = of_kind(&receipt, "start")[0];
+    let launches: Vec<Value> = events(&wrapper.instance_dir())
+        .into_iter()
+        .filter(|l| l["kind"] == "launch")
+        .collect();
+    assert_eq!(launches.len(), 1, "{launches:?}");
+    assert_eq!(launches[0]["source"], "wrapper");
+    (
+        (start["model"].clone(), start["effort"].clone()),
+        launches[0]["data"].clone(),
+    )
+}
+
+/// No flag and no config key: the child is handed the compiled default pair, and the `launch` line
+/// names it.
+#[rstest]
+fn path1_run_start_hands_the_default_pair(stamped_home: StampedHome) {
+    let wrapper = Wrapper::boot(stamped_home, "builder", None, &[]);
+    let (model, effort) = viola_agent_claude::DEFAULT_PAIR;
+    let (handed, recorded) = handed_and_recorded(&wrapper);
+    assert_eq!(handed, (json!(model), json!(effort)));
+    assert_eq!(recorded, json!({"model": model, "effort": effort}));
+    assert_eq!(wrapper.stop().code(), Some(0));
+}
+
+/// A given pair is handed and recorded; a given effort alone takes the default's model.
+#[rstest]
+fn path1_run_start_hands_the_given_pair(stamped_home: StampedHome) {
+    let wrapper = Wrapper::boot_flagged(
+        stamped_home,
+        "builder",
+        None,
+        &["--model", "haiku", "--effort", "low"],
+        None,
+        &[],
+    );
+    let (handed, recorded) = handed_and_recorded(&wrapper);
+    assert_eq!(handed, (json!("haiku"), json!("low")));
+    assert_eq!(recorded, json!({"model": "haiku", "effort": "low"}));
+    let (stopped, stamped) = wrapper.stop_keep();
+    assert_eq!(stopped.code(), Some(0));
+
+    let half = Wrapper::boot_flagged(stamped, "tester", None, &["--effort", "max"], None, &[]);
+    let (model, _) = viola_agent_claude::DEFAULT_PAIR;
+    let (handed, recorded) = handed_and_recorded(&half);
+    assert_eq!(handed, (json!(model), json!("max")));
+    assert_eq!(recorded, json!({"model": model, "effort": "max"}));
+    assert_eq!(half.stop().code(), Some(0));
 }

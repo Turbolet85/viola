@@ -187,6 +187,66 @@ fn run_with_a_bad_name_is_usage_and_creates_nothing(#[from(home)] tmp: TestHome)
     assert!(!home.exists());
 }
 
+/// `viola --home <home> run <words…>` on pipes, nothing on stdin: its exit and its stderr.
+fn run_usage(home: &Path, words: &[&str]) -> (Option<i32>, String, String) {
+    let out = support::tied::viola()
+        .arg("--home")
+        .arg(home)
+        .arg("run")
+        .args(words)
+        .env_remove("VIOLA_NAME")
+        .env_remove("VIOLA_DIR")
+        .env_remove("VIOLA_BIN")
+        .stdin(Stdio::null())
+        .output()
+        .expect("viola run");
+    (
+        out.status.code(),
+        String::from_utf8_lossy(&out.stdout).into_owned(),
+        String::from_utf8_lossy(&out.stderr).into_owned(),
+    )
+}
+
+#[rstest]
+fn run_with_a_bad_effort_is_usage(#[from(home)] tmp: TestHome) {
+    let home = tmp.path().to_path_buf();
+    for words in [
+        ["builder", "--effort", "huge", "--", FAKE],
+        ["builder", "--model", "Opus", "--", FAKE],
+    ] {
+        let (code, stdout, _) = run_usage(&home, &words);
+        assert_eq!(code, Some(2), "{words:?}");
+        assert!(stdout.is_empty(), "{words:?}");
+    }
+    assert!(!home.exists());
+}
+
+/// A model or an effort typed after `--`, spaced or in the `=` form: usage, nothing created, one
+/// fixed line naming viola's own two flags and none of the caller's words.
+#[rstest]
+fn run_with_a_pair_after_the_dashes_is_usage(#[from(home)] tmp: TestHome) {
+    let home = tmp.path().to_path_buf();
+    for after in [
+        &["--model", "zz-caller-word"][..],
+        &["--effort=low"],
+        &["--model=zz-caller-word"],
+    ] {
+        let mut words = vec!["builder", "--", FAKE];
+        words.extend_from_slice(after);
+        let (code, stdout, stderr) = run_usage(&home, &words);
+        assert_eq!(code, Some(2), "{after:?}");
+        assert!(stdout.is_empty(), "{after:?}");
+        assert!(
+            stderr.contains("'--model <MODEL>'") && stderr.contains("'--effort <EFFORT>'"),
+            "{stderr}"
+        );
+        for word in ["zz-caller-word", "=low", FAKE] {
+            assert!(!stderr.contains(word), "{word} echoed: {stderr}");
+        }
+    }
+    assert!(!home.exists());
+}
+
 #[rstest]
 fn run_with_a_missing_program_exits_1_with_internal_error(#[from(home)] tmp: TestHome) {
     let home = tmp.path().to_path_buf();

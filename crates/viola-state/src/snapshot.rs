@@ -66,6 +66,17 @@ pub struct InstanceSnapshot {
     /// read by no wheel, link, send or answer path.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub lineage: Option<Lineage>,
+    /// The `{model, effort}` the start's `launch` line recorded: the pair its child was handed,
+    /// handed again by `viola revive`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub launch: Option<Launch>,
+}
+
+/// The model and effort words a start handed its child.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct Launch {
+    pub model: String,
+    pub effort: String,
 }
 
 /// A start's self-reported parent and role, each absent when none was declared.
@@ -181,6 +192,7 @@ mod tests {
             cwd: None,
             agent_session_id: None,
             lineage: None,
+            launch: None,
         }
     }
 

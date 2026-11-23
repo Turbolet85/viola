@@ -214,7 +214,9 @@ fn fake_agent_receipt_env_holds_names_never_values() {
             "settings",
             "print",
             "pid",
-            "prompt"
+            "prompt",
+            "model",
+            "effort"
         ]
     );
     assert_eq!(start["cli_version"], fake::RECORDED_CLI_VERSION);

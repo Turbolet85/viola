@@ -153,6 +153,8 @@ mod tests {
                 join: JoinKeys::default(),
                 parent: None,
                 role: None,
+                model: None,
+                effort: None,
             }],
             skipped: SkippedTotal {
                 unknown_kinds: 1,
@@ -184,6 +186,18 @@ mod tests {
         assert_eq!(
             document(&board).to_string(),
             r#"{"v":1,"ok":{"items":[{"name":"builder","wrapped":true,"liveness":"live","status":"unknown","wheel":"driver","dialog_pending":false,"cli_version":"2.1.287","cli_verified":true,"parent":"overseer","role":"builder"}],"links":[{"driver":"tester","driven":"builder","since":"2026-11-22T01:02:03.000Z"}],"skipped":{"unknown_kinds":1,"unknown_fields":0,"torn_lines":2}}}"#
+        );
+    }
+
+    #[test]
+    fn list_document_carries_the_launch_pair() {
+        let mut board = board();
+        board.items[0].role = Some("builder".to_owned());
+        board.items[0].model = Some("haiku".to_owned());
+        board.items[0].effort = Some("low".to_owned());
+        assert_eq!(
+            document(&board).to_string(),
+            r#"{"v":1,"ok":{"items":[{"name":"builder","wrapped":true,"liveness":"live","status":"unknown","wheel":"driver","dialog_pending":false,"cli_version":"2.1.287","cli_verified":true,"role":"builder","model":"haiku","effort":"low"}],"skipped":{"unknown_kinds":1,"unknown_fields":0,"torn_lines":2}}}"#
         );
     }
 

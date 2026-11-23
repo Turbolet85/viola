@@ -1,24 +1,25 @@
 //! `viola revive <name>`: a dead instance restarted in the terminal the verb is typed in
-//! (architecture §Established Decisions [Session Liveness]). It replays no launch: the program is
-//! looked up again by name, the environment is this terminal's, and the child resumes the newest
-//! session the instance's log holds, in the directory the dead wrapper recorded. A session a live
-//! `claude` already holds is not resumed a second time, unless the revive forks it.
+//! (architecture §Established Decisions [Session Liveness]). It replays no launch spec: the program
+//! is looked up again by name, the environment is this terminal's, and the child resumes the newest
+//! session the instance's log holds, in the directory the dead wrapper recorded, on the model and
+//! effort the dead wrapper recorded unless the revive names its own. A session a live `claude`
+//! already holds is not resumed a second time, unless the revive forks it.
 
 use std::ffi::OsString;
 use std::path::{Path, PathBuf};
 use std::process::ExitCode;
 
 use serde_json::{Value, json};
-use viola_agent_claude::{PROGRAM, RESUME_FLAG, is_session_id, resume_args};
-use viola_core::ViolaName;
+use viola_agent_claude::{PROGRAM, RESUME_FLAG, is_effort_level, is_session_id, resume_args};
+use viola_core::{ViolaName, is_model_word};
 use viola_state::replay::{Recovered, SessionLink, read_snapshot_or_replay, session_chain};
-use viola_state::snapshot::Lineage;
+use viola_state::snapshot::{Launch as Pair, Lineage};
 use viola_state::strict::check_instance;
 
 use super::client;
 use super::run::{
-    Launch, Started, checked_exe, collision_check, open_wrapper_log, pump_child, refuse_tree,
-    refused, start,
+    Launch, Started, checked_exe, collision_check, open_wrapper_log, pair_after_dashes,
+    parse_effort, parse_model, pump_child, refuse_tree, refused, start,
 };
 use crate::human;
 
@@ -34,8 +35,14 @@ pub(crate) struct ReviveArgs {
     #[arg(long)]
     fork: bool,
     /// Print the instance's logged sessions, oldest first, and start nothing
-    #[arg(long, conflicts_with_all = ["id", "fork", "extra"])]
+    #[arg(long, conflicts_with_all = ["id", "fork", "extra", "model", "effort"])]
     pub(super) list: bool,
+    /// Resume on this model instead of the recorded one
+    #[arg(long, value_name = "MODEL", value_parser = parse_model)]
+    model: Option<String>,
+    /// Resume on this effort instead of the recorded one: low, medium, high, xhigh or max
+    #[arg(long, value_name = "EFFORT", value_parser = parse_effort)]
+    effort: Option<String>,
     /// Print one JSON document on stdout instead of the rows or a refusal's lines
     #[arg(long)]
     json: bool,
@@ -113,7 +120,17 @@ impl Refusal {
     }
 }
 
+/// The arguments clap cannot check alone: a model or an effort among the child's words is a usage
+/// error, as on `run`.
+fn checked(args: ReviveArgs) -> Result<ReviveArgs, clap::Error> {
+    if crate::run::launch::names_pair(&args.extra) {
+        return Err(pair_after_dashes());
+    }
+    Ok(args)
+}
+
 pub(crate) fn revive(home: &Path, args: ReviveArgs) -> anyhow::Result<ExitCode> {
+    let args = checked(args).unwrap_or_else(|usage| usage.exit());
     if args.list {
         return list(home, &args.name, args.json);
     }
@@ -230,6 +247,7 @@ fn preflight(home: &Path, args: ReviveArgs) -> anyhow::Result<Result<Launch, Sta
     };
     let mut child_args = resume_args(&id, args.fork);
     child_args.extend(args.extra);
+    let given = given_pair((args.model, args.effort), &recovered);
     Ok(Ok(Launch {
         name: args.name,
         program: OsString::from(PROGRAM),
@@ -237,7 +255,32 @@ fn preflight(home: &Path, args: ReviveArgs) -> anyhow::Result<Result<Launch, Sta
         spawn_dir,
         json,
         lineage: recorded_lineage(&recovered),
+        given,
     }))
+}
+
+/// The halves a revive hands its start: each override given, else the recorded half while it still
+/// parses; a half left missing is the current default's at the start.
+fn given_pair(
+    overrides: (Option<String>, Option<String>),
+    recovered: &Recovered,
+) -> (Option<String>, Option<String>) {
+    let recorded: Option<&Pair> = match recovered {
+        Recovered::Snapshot(snapshot) => snapshot.launch.as_ref(),
+        Recovered::Replayed { state, .. } => state.launch.as_ref(),
+        Recovered::Absent => None,
+    };
+    let model = overrides.0.or_else(|| {
+        recorded
+            .map(|pair| pair.model.clone())
+            .filter(|model| is_model_word(model))
+    });
+    let effort = overrides.1.or_else(|| {
+        recorded
+            .map(|pair| pair.effort.clone())
+            .filter(|effort| is_effort_level(effort))
+    });
+    (model, effort)
 }
 
 /// The lineage the dead wrapper recorded, kept as it was, a gone parent included; none from a
@@ -550,6 +593,7 @@ mod tests {
             cwd: cwd.map(|dir| dir.to_str().expect("utf-8").to_owned()),
             agent_session_id: None,
             lineage: None,
+            launch: None,
         }))
     }
 
@@ -669,11 +713,14 @@ mod tests {
     #[test]
     fn revive_args_take_a_name_an_id_the_fork_flag_and_the_words_after_the_dashes() {
         let args =
-            parse(&["builder", "--id", FIRST, "--fork", "--", "--model", "x"]).expect("parsed");
+            parse(&["builder", "--id", FIRST, "--fork", "--", "--verbose", "x"]).expect("parsed");
         assert_eq!(AsRef::<str>::as_ref(&args.name), "builder");
         assert_eq!(args.id.as_deref(), Some(FIRST));
         assert!(args.fork && !args.list);
-        assert_eq!(args.extra, [OsString::from("--model"), OsString::from("x")]);
+        assert_eq!(
+            args.extra,
+            [OsString::from("--verbose"), OsString::from("x")]
+        );
         let bare = parse(&["builder"]).expect("parsed");
         assert!(bare.id.is_none() && !bare.fork && !bare.list && bare.extra.is_empty());
         assert!(parse(&["builder", "--list"]).expect("parsed").list);
@@ -695,5 +742,64 @@ mod tests {
     #[case::no_name(&[], clap::error::ErrorKind::MissingRequiredArgument)]
     fn revive_args_refuse_as_usage(#[case] words: &[&str], #[case] kind: clap::error::ErrorKind) {
         assert_eq!(parse(words).err(), Some(kind));
+    }
+
+    fn checked_parse(words: &[&str]) -> Result<ReviveArgs, clap::error::ErrorKind> {
+        parse(words).and_then(|args| checked(args).map_err(|error| error.kind()))
+    }
+
+    #[rstest]
+    #[case::both(&["builder", "--model", "haiku", "--effort", "high"], Ok((Some("haiku"), Some("high"))))]
+    #[case::effort_alone(&["builder", "--effort", "max"], Ok((None, Some("max"))))]
+    #[case::neither(&["builder"], Ok((None, None)))]
+    #[case::bad_effort(&["builder", "--effort", "huge"], Err(clap::error::ErrorKind::ValueValidation))]
+    #[case::bad_model(&["builder", "--model", "a/b"], Err(clap::error::ErrorKind::ValueValidation))]
+    #[case::list_beside_model(&["builder", "--list", "--model", "haiku"], Err(clap::error::ErrorKind::ArgumentConflict))]
+    #[case::list_beside_effort(&["builder", "--list", "--effort", "low"], Err(clap::error::ErrorKind::ArgumentConflict))]
+    #[case::a_pair_after_the_dashes(&["builder", "--", "--effort=low"], Err(clap::error::ErrorKind::ArgumentConflict))]
+    #[case::a_model_after_the_dashes(&["builder", "--", "--model", "x"], Err(clap::error::ErrorKind::ArgumentConflict))]
+    fn revive_args_take_a_pair_override(
+        #[case] words: &[&str],
+        #[case] expected: Result<(Option<&str>, Option<&str>), clap::error::ErrorKind>,
+    ) {
+        let parsed = checked_parse(words).map(|args| (args.model, args.effort));
+        let expected =
+            expected.map(|(model, effort)| (model.map(str::to_owned), effort.map(str::to_owned)));
+        assert_eq!(parsed, expected);
+    }
+
+    fn launched(model: &str, effort: &str) -> Recovered {
+        let Recovered::Snapshot(mut snapshot) = snapshot(None) else {
+            unreachable!("a snapshot");
+        };
+        snapshot.launch = Some(Pair {
+            model: model.to_owned(),
+            effort: effort.to_owned(),
+        });
+        Recovered::Snapshot(snapshot)
+    }
+
+    #[test]
+    fn revive_given_pair_prefers_the_override_then_the_record() {
+        let some = |word: &str| Some(word.to_owned());
+        let recorded = launched("haiku", "low");
+        assert_eq!(
+            given_pair((None, None), &recorded),
+            (some("haiku"), some("low"))
+        );
+        assert_eq!(
+            given_pair((None, some("high")), &recorded),
+            (some("haiku"), some("high"))
+        );
+        assert_eq!(
+            given_pair((some("sonnet"), some("max")), &recorded),
+            (some("sonnet"), some("max"))
+        );
+        assert_eq!(
+            given_pair((None, None), &launched("Bad Model", "huge")),
+            (None, None)
+        );
+        assert_eq!(given_pair((None, None), &snapshot(None)), (None, None));
+        assert_eq!(given_pair((None, None), &Recovered::Absent), (None, None));
     }
 }

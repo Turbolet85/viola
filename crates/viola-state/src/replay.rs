@@ -11,7 +11,7 @@ use viola_core::{EventKind, ViolaName, obs_event};
 use crate::StateError;
 use crate::events::{Skipped, read_from};
 use crate::snapshot::{
-    InstanceSnapshot, Lineage, SNAPSHOT, SnapshotRead, Wheel, read_snapshot_classified,
+    InstanceSnapshot, Launch, Lineage, SNAPSHOT, SnapshotRead, Wheel, read_snapshot_classified,
 };
 
 /// What one pass over the log recovers. A field no line gave is `None`, never a default. `links`
@@ -26,6 +26,8 @@ pub struct Replayed {
     pub skipped: Skipped,
     /// The last `lineage` line's `{parent, role}`.
     pub lineage: Option<Lineage>,
+    /// The last `launch` line's `{model, effort}`.
+    pub launch: Option<Launch>,
 }
 
 /// Why the log was replayed in place of the snapshot.
@@ -57,6 +59,7 @@ pub fn replay(instance_dir: &Path) -> Result<Replayed, StateError> {
         let line = line?;
         apply_link_line(&mut replayed.links, &line.value);
         apply_lineage_line(&mut replayed.lineage, &line.value);
+        apply_launch_line(&mut replayed.launch, &line.value);
         let data = &line.value["data"];
         match line.value["kind"].as_str().and_then(EventKind::from_name) {
             Some(EventKind::Wheel) => replayed.wheel = holder(&data["holder"]),
@@ -110,6 +113,23 @@ pub fn apply_lineage_line(lineage: &mut Option<Lineage>, line: &Value) {
         parent: data["parent"].as_str().map(str::to_owned),
         role: data["role"].as_str().map(str::to_owned),
     });
+}
+
+/// One logged line applied to the held pair: a `launch` line replaces it whole when both its
+/// members are strings and clears it otherwise; a line of any other kind changes nothing. It writes
+/// nothing.
+pub fn apply_launch_line(launch: &mut Option<Launch>, line: &Value) {
+    if line["kind"].as_str().and_then(EventKind::from_name) != Some(EventKind::Launch) {
+        return;
+    }
+    let data = &line["data"];
+    *launch = match (data["model"].as_str(), data["effort"].as_str()) {
+        (Some(model), Some(effort)) => Some(Launch {
+            model: model.to_owned(),
+            effort: effort.to_owned(),
+        }),
+        _ => None,
+    };
 }
 
 /// One logged session: a `session-start` line that carries an id.
@@ -237,6 +257,7 @@ mod tests {
             cwd: None,
             agent_session_id: None,
             lineage: None,
+            launch: None,
         }
     }
 
@@ -277,6 +298,7 @@ mod tests {
             dialog_pending: false,
             skipped: NONE_SKIPPED,
             lineage: None,
+            launch: None,
         }
     }
 
@@ -306,6 +328,7 @@ mod tests {
                 dialog_pending: false,
                 skipped: NONE_SKIPPED,
                 lineage: None,
+                launch: None,
             }
         );
     }
@@ -329,6 +352,7 @@ mod tests {
                 dialog_pending: false,
                 skipped: NONE_SKIPPED,
                 lineage: None,
+                launch: None,
             }
         );
     }
@@ -362,6 +386,7 @@ mod tests {
             dialog_pending: false,
             skipped: NONE_SKIPPED,
             lineage: None,
+            launch: None,
         };
         let tmp = tempfile::tempdir().expect("tempdir");
         assert_eq!(replay(tmp.path()).expect("absent"), nothing);
@@ -395,6 +420,7 @@ mod tests {
                     torn_lines: 1,
                 },
                 lineage: None,
+                launch: None,
             }
         );
     }
@@ -751,6 +777,57 @@ mod tests {
         let mut none = None;
         apply_lineage_line(&mut none, &no_kind);
         assert_eq!(none, None);
+    }
+
+    fn launch(model: &str, effort: &str) -> Option<Launch> {
+        Some(Launch {
+            model: model.to_owned(),
+            effort: effort.to_owned(),
+        })
+    }
+
+    #[test]
+    fn launch_rule_the_last_line_wins() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        log(
+            tmp.path(),
+            &[
+                (
+                    EventKind::Launch,
+                    json!({"model": "haiku", "effort": "low"}),
+                ),
+                (
+                    EventKind::Wheel,
+                    json!({"holder": "human", "cause": "start"}),
+                ),
+                (
+                    EventKind::Launch,
+                    json!({"model": "sonnet", "effort": "high"}),
+                ),
+            ],
+        );
+        assert_eq!(
+            replay(tmp.path()).expect("replay").launch,
+            launch("sonnet", "high")
+        );
+        let mut held = launch("haiku", "low");
+        let other = json!({"ts": LATER, "kind": "lineage",
+            "data": {"model": "other", "effort": "other"}});
+        apply_launch_line(&mut held, &other);
+        assert_eq!(held, launch("haiku", "low"));
+    }
+
+    #[rstest]
+    #[case::numbers(json!({"model": 7, "effort": "low"}))]
+    #[case::an_object(json!({"model": "haiku", "effort": {"level": "low"}}))]
+    #[case::nulls(json!({"model": null, "effort": null}))]
+    #[case::absent(json!({}))]
+    fn launch_rule_a_line_with_a_non_string_member_reads_none(#[case] data: Value) {
+        let mut held = launch("haiku", "low");
+        let line = json!({"v": 1, "ts": FIRST, "instance": "builder", "kind": "launch",
+            "source": "wrapper", "data": data});
+        apply_launch_line(&mut held, &line);
+        assert_eq!(held, None);
     }
 
     fn link(cause: &str, id: &str) -> SessionLink {

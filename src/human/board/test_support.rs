@@ -25,5 +25,7 @@ pub(super) fn item(name: &str) -> Item {
         join: viola_state::board::JoinKeys::default(),
         parent: None,
         role: None,
+        model: None,
+        effort: None,
     }
 }

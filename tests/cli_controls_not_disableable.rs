@@ -433,7 +433,7 @@ fn setting_verify_new_cli_does_not_lift_the_unverified_gate(#[case] config: &str
 
 /// Every setting a run can carry, beside the case that tries it against a control. A literal
 /// table: the completeness case below fails on a flag, variable or key it does not name.
-const SETTINGS: [(&str, &str); 9] = [
+const SETTINGS: [(&str, &str); 11] = [
     ("--home", "setting_does_not_disable_the_home_check"),
     (
         "VIOLA_NAME",
@@ -457,6 +457,14 @@ const SETTINGS: [(&str, &str); 9] = [
     (
         "verify_new_cli",
         "setting_verify_new_cli_does_not_lift_the_unverified_gate",
+    ),
+    (
+        "default_model",
+        "setting_the_default_pair_does_not_disable_a_control",
+    ),
+    (
+        "default_effort",
+        "setting_the_default_pair_does_not_disable_a_control",
     ),
 ];
 
@@ -796,5 +804,94 @@ fn config_key_does_not_disable_the_identity_strip(#[case] config: &str) {
     );
     for (name, _) in FLOOR {
         assert!(!names.iter().any(|n| n == name), "{name} reached the child");
+    }
+}
+
+/// What one unstamped start under `config` (with `v` 1) and a floor name in its environment came
+/// to: the names the child received, the pair it was handed, the start's `config-json` rejections
+/// and the snapshot's `cli_verified`.
+struct PairStart {
+    names: Vec<String>,
+    handed: (Value, Value),
+    rejected: Vec<Value>,
+    cli_verified: Value,
+}
+
+fn pair_start_under(config: &str) -> PairStart {
+    let tmp = TestHome::new();
+    let home = tmp.path();
+    crate::support::home::private_dir(home, "home");
+    std::fs::write(home.join("config.json"), format!("{{\"v\":1,{config}}}")).expect("config");
+    let receipt = tmp.scratch().join("pair.receipt.ndjson");
+    let args: Vec<OsString> = vec![
+        "--home".into(),
+        home.into(),
+        "run".into(),
+        "builder".into(),
+        "--".into(),
+        support::fake::FAKE.into(),
+        "--receipt".into(),
+        receipt.clone().into(),
+    ];
+    let mut pty = OuterPty::spawn(Path::new(VIOLA), &args, &FLOOR);
+    let lines = support::fake::wait_for(&receipt, "env", |l| {
+        !support::fake::of_kind(l, "env").is_empty()
+    });
+    let snapshot = support::home::snapshot_data(&home.join("instances").join("builder"))
+        .expect("the snapshot");
+    pty.write(b"\x03");
+    assert_eq!(pty.wait_exit(EXIT_WITHIN), 0);
+    let start = support::fake::of_kind(&lines, "start")[0];
+    let names = support::fake::of_kind(&lines, "env")[0]["names"]
+        .as_array()
+        .expect("names")
+        .iter()
+        .map(|n| n.as_str().expect("name").to_owned())
+        .collect();
+    let rejected =
+        support::ndjson::read_lines(&home.join("diagnostics").join("run-builder.ndjson"))
+            .into_iter()
+            .filter(|l| l["event"] == "parse-rejected" && l["parser"] == "config-json")
+            .collect();
+    PairStart {
+        names,
+        handed: (start["model"].clone(), start["effort"].clone()),
+        rejected,
+        cli_verified: snapshot["cli_verified"].clone(),
+    }
+}
+
+/// `default_model` / `default_effort`, good or bad: the identity floor is stripped from the child
+/// and the unverified gate holds all the same; a bad value gives one `parse-rejected{config-json,
+/// malformed}` line and that half of the compiled default is handed.
+#[rstest]
+#[case::good(r#""default_model":"haiku","default_effort":"low""#, (Some("haiku"), Some("low")), 0)]
+#[case::a_bad_model(r#""default_model":"Opus Max""#, (None, None), 1)]
+#[case::a_bad_effort(r#""default_model":"haiku","default_effort":"off""#, (Some("haiku"), None), 1)]
+#[case::both_bad(r#""default_model":"a/b","default_effort":7"#, (None, None), 2)]
+fn setting_the_default_pair_does_not_disable_a_control(
+    #[case] config: &str,
+    #[case] pair: (Option<&str>, Option<&str>),
+    #[case] rejected: usize,
+) {
+    let start = pair_start_under(config);
+    for (name, _) in FLOOR {
+        assert!(
+            !start.names.iter().any(|n| n == name),
+            "{name} reached the child"
+        );
+    }
+    assert_eq!(start.cli_verified, false);
+    let (model, effort) = viola_agent_claude::DEFAULT_PAIR;
+    assert_eq!(
+        start.handed,
+        (
+            json!(pair.0.unwrap_or(model)),
+            json!(pair.1.unwrap_or(effort))
+        )
+    );
+    assert_eq!(start.rejected.len(), rejected, "{:?}", start.rejected);
+    for line in &start.rejected {
+        assert_eq!(line["detail"], "malformed");
     }
 }

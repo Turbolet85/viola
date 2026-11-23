@@ -30,12 +30,14 @@ const VIOLA_TARGETS: [&str; 8] = [
     "viola_hyprland",
 ];
 
-const CONFIG_KEYS: [&str; 5] = [
+const CONFIG_KEYS: [&str; 7] = [
     "v",
     "diagnostics_level",
     "claude_env_keep",
     "dialog_hold_s",
     "verify_new_cli",
+    "default_model",
+    "default_effort",
 ];
 
 static STARTED: OnceLock<Instant> = OnceLock::new();

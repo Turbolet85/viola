@@ -509,6 +509,7 @@ mod tests {
             cwd: dir.to_str().map(str::to_owned),
             agent_session_id: None,
             lineage: None,
+            launch: None,
         }
     }
 

@@ -53,7 +53,7 @@ fn offset(n: usize) -> u64 {
 }
 
 /// Architecture's per-kind `data` list, one literal body per kind holding every key of its row.
-fn every_kind() -> [(EventKind, &'static str, Value); 16] {
+fn every_kind() -> [(EventKind, &'static str, Value); 17] {
     [
         (
             EventKind::SessionStart,
@@ -129,6 +129,11 @@ fn every_kind() -> [(EventKind, &'static str, Value); 16] {
             "lineage",
             json!({"parent": "overseer", "role": "builder"}),
         ),
+        (
+            EventKind::Launch,
+            "launch",
+            json!({"model": "haiku", "effort": "low"}),
+        ),
     ]
 }
 
@@ -140,7 +145,7 @@ fn state_events_every_kind_round_trips_the_six_key_line() {
     }
     let bytes = log(tmp.path());
     let (lines, skipped) = read(tmp.path(), 0);
-    assert_eq!(lines.len(), 16);
+    assert_eq!(lines.len(), 17);
     for (line, (_, name, data)) in lines.iter().zip(every_kind()) {
         let keys: Vec<&str> = line
             .value

@@ -31,6 +31,7 @@ use crate::run::ChildLaunch;
 use crate::run::auto_verify::{self, Attempt, Outcome, auto_verify};
 use crate::run::dialog::DialogSlot;
 use crate::run::gate::{self, Tee};
+use crate::run::launch::Pair;
 use crate::run::links::LinkSet;
 use crate::run::send::{self, SendSlot};
 use crate::run::snapshot::Snapshots;
@@ -50,6 +51,12 @@ pub(crate) struct RunArgs {
     /// A word naming this session's role: [a-z0-9-], starting with a letter
     #[arg(long, value_name = "WORD", value_parser = parse_role)]
     role: Option<String>,
+    /// The model the session starts on: an alias or a full name; else the configured default
+    #[arg(long, value_name = "MODEL", value_parser = parse_model)]
+    model: Option<String>,
+    /// The effort the session starts on: low, medium, high, xhigh or max; else the configured default
+    #[arg(long, value_name = "EFFORT", value_parser = parse_effort)]
+    effort: Option<String>,
     /// The program to wrap and its arguments, after `--`
     #[arg(last = true, required = true)]
     program: Vec<OsString>,
@@ -63,13 +70,41 @@ fn parse_role(word: &str) -> Result<String, String> {
     }
 }
 
-/// The arguments clap cannot check alone: a `--parent` naming the session itself is a usage error.
+pub(super) fn parse_model(word: &str) -> Result<String, String> {
+    if viola_core::is_model_word(word) {
+        Ok(word.to_owned())
+    } else {
+        Err("a model is [a-z0-9.-], 1-64 characters, starting with a letter".to_owned())
+    }
+}
+
+pub(super) fn parse_effort(word: &str) -> Result<String, String> {
+    if viola_agent_claude::is_effort_level(word) {
+        Ok(word.to_owned())
+    } else {
+        Err("an effort is one of low, medium, high, xhigh, max".to_owned())
+    }
+}
+
+/// The usage error of a model or an effort typed after `--`: one fixed line, none of the words.
+pub(super) fn pair_after_dashes() -> clap::Error {
+    clap::Error::raw(
+        clap::error::ErrorKind::ArgumentConflict,
+        run::launch::PAIR_AFTER_DASHES,
+    )
+}
+
+/// The arguments clap cannot check alone: a `--parent` naming the session itself, and a model or
+/// an effort among the program's words, are usage errors.
 fn checked(args: RunArgs) -> Result<RunArgs, clap::Error> {
     if args.parent.as_ref() == Some(&args.name) {
         return Err(clap::Error::raw(
             clap::error::ErrorKind::ArgumentConflict,
             "the argument '--parent <NAME>' cannot name the session itself\n",
         ));
+    }
+    if run::launch::names_pair(&args.program) {
+        return Err(pair_after_dashes());
     }
     Ok(args)
 }
@@ -207,6 +242,8 @@ pub(super) struct Launch {
     pub(super) json: bool,
     /// The `{parent, role}` the start's `lineage` line records.
     pub(super) lineage: Lineage,
+    /// The `(model, effort)` halves the start was given; a missing half is the default's.
+    pub(super) given: (Option<String>, Option<String>),
 }
 
 pub(crate) fn run(home: &Path, args: RunArgs) -> anyhow::Result<ExitCode> {
@@ -230,6 +267,7 @@ pub(crate) fn run(home: &Path, args: RunArgs) -> anyhow::Result<ExitCode> {
         spawn_dir: std::env::current_dir()?,
         json: false,
         lineage,
+        given: (args.model, args.effort),
     };
     match start(home, &launch, &persistent, &exe)? {
         Started::Launched(launched) => pump_child(*launched),
@@ -374,6 +412,11 @@ pub(super) fn start(
     for rejection in rejections {
         obs::log_config_rejection(rejection);
     }
+    let (default, rejections) = run::launch::read_default(&home);
+    for rejection in rejections {
+        obs::log_config_rejection(rejection);
+    }
+    let pair = run::launch::resolve(launch.given.0.clone(), launch.given.1.clone(), default);
     let send = Arc::new(SendSlot::new(SystemClock, cli_verified, Arc::clone(&wheel)));
     // Rebuilt before the endpoint serves: the first `last` already sees the newest logged turn, the
     // first dialog takes an id past every logged one, and a pair the log holds is not linked again.
@@ -427,6 +470,7 @@ pub(super) fn start(
             spawn_dir: &launch.spawn_dir,
             links: links.current(),
             lineage: launch.lineage.clone(),
+            launch: pair.clone(),
         },
     )?;
     let child = run::child_launch(
@@ -435,6 +479,7 @@ pub(super) fn start(
         &pinned,
         &plugin_dir,
         std::env::var_os("PATH"),
+        &pair,
         &launch.args,
     );
     let spawned = spawn_child(
@@ -597,12 +642,13 @@ struct Recorded<'a> {
     spawn_dir: &'a Path,
     links: Vec<Value>,
     lineage: Lineage,
+    launch: Pair,
 }
 
 /// The first snapshot (with the endpoint, the version gate's reading, the restored link set, the
-/// child's spawn directory when it is valid UTF-8 and the launch's lineage), the heartbeat and its
-/// thread, then the start's `wheel` event and its `lineage` event; the returned guard keeps the
-/// heartbeat running.
+/// child's spawn directory when it is valid UTF-8, the launch's lineage and its pair), the
+/// heartbeat and its thread, then the start's `wheel` event, its `lineage` event and its `launch`
+/// event; the returned guard keeps the heartbeat running.
 fn start_state(
     name: &ViolaName,
     instance_dir: &Path,
@@ -628,6 +674,7 @@ fn start_state(
         cwd: recorded.spawn_dir.to_str().map(str::to_owned),
         agent_session_id: None,
         lineage: Some(recorded.lineage.clone()),
+        launch: Some(recorded.launch.clone()),
     };
     snapshots.init(snapshot.clone())?;
     touch_heartbeat(instance_dir)?;
@@ -638,6 +685,10 @@ fn start_state(
     let Lineage { parent, role } = recorded.lineage;
     let data = json!({"parent": parent, "role": role});
     let line = EventLine::new(name, EventKind::Lineage, Source::Wrapper, data, Utc::now());
+    append_event(instance_dir, &line)?;
+    let Pair { model, effort } = recorded.launch;
+    let data = json!({"model": model, "effort": effort});
+    let line = EventLine::new(name, EventKind::Launch, Source::Wrapper, data, Utc::now());
     append_event(instance_dir, &line)?;
     Ok((beat, snapshot))
 }
@@ -1306,6 +1357,15 @@ mod tests {
         spawn_dir: &Path,
         lineage: Lineage,
     ) -> InstanceSnapshot {
+        first_snapshot_with(instance_dir, spawn_dir, lineage, run::launch::compiled())
+    }
+
+    fn first_snapshot_with(
+        instance_dir: &Path,
+        spawn_dir: &Path,
+        lineage: Lineage,
+        launch: Pair,
+    ) -> InstanceSnapshot {
         let name = ViolaName::try_new("builder".to_owned()).expect("valid");
         let pinned = Pinned {
             key: "k".to_owned(),
@@ -1331,6 +1391,7 @@ mod tests {
                 spawn_dir,
                 links: links.current(),
                 lineage,
+                launch,
             },
         )
         .expect("the start state");
@@ -1367,7 +1428,7 @@ mod tests {
             .iter()
             .map(|e| e["kind"].clone())
             .collect();
-        assert_eq!(kinds, ["link", "wheel", "lineage"]);
+        assert_eq!(kinds, ["link", "wheel", "lineage", "launch"]);
     }
 
     /// The first snapshot records where the child is spawned, and the start event stands as it
@@ -1383,7 +1444,11 @@ mod tests {
             Some(spawn_dir.to_str().expect("utf-8").to_owned())
         );
         let events = events_in(&instance_dir);
-        let read: Vec<(&Value, &Value)> = events.iter().map(|e| (&e["kind"], &e["data"])).collect();
+        let read: Vec<(&Value, &Value)> = events
+            .iter()
+            .filter(|e| e["kind"] != "launch")
+            .map(|e| (&e["kind"], &e["data"]))
+            .collect();
         assert_eq!(
             read,
             [
@@ -1411,6 +1476,7 @@ mod tests {
         let events = events_in(&instance_dir);
         let read: Vec<(&Value, &Value, &Value)> = events
             .iter()
+            .filter(|e| e["kind"] != "launch")
             .map(|e| (&e["kind"], &e["source"], &e["data"]))
             .collect();
         assert_eq!(
@@ -1427,6 +1493,36 @@ mod tests {
                     &json!({"parent": "overseer", "role": "builder"})
                 ),
             ]
+        );
+    }
+
+    /// The snapshot holds the pair before the start's lines; the `launch` line, `source`
+    /// `wrapper`, follows the `lineage` line directly and names the pair handed.
+    #[test]
+    fn start_state_writes_the_launch_line_after_the_lineage_line() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let instance_dir = tmp.path().join("instance");
+        let pair = Pair {
+            model: "haiku".to_owned(),
+            effort: "low".to_owned(),
+        };
+        let snapshot =
+            first_snapshot_with(&instance_dir, tmp.path(), Lineage::default(), pair.clone());
+        assert_eq!(snapshot.launch, Some(pair));
+        let events = events_in(&instance_dir);
+        let read: Vec<(&Value, &Value)> =
+            events.iter().map(|e| (&e["kind"], &e["source"])).collect();
+        assert_eq!(
+            read,
+            [
+                (&json!("wheel"), &json!("wrapper")),
+                (&json!("lineage"), &json!("wrapper")),
+                (&json!("launch"), &json!("wrapper")),
+            ]
+        );
+        assert_eq!(
+            events[2]["data"],
+            json!({"model": "haiku", "effort": "low"})
         );
     }
 
@@ -1466,6 +1562,47 @@ mod tests {
         if let Err(kind) = parsed {
             let error = clap::Error::new(kind);
             assert_eq!(error.exit_code(), 2, "{kind:?}");
+        }
+    }
+
+    #[rstest::rstest]
+    #[case::both(&["builder", "--model", "haiku", "--effort", "low", "--", "claude"], Ok((Some("haiku"), Some("low"))))]
+    #[case::model_alone(&["builder", "--model", "claude-opus-5-5", "--", "claude"], Ok((Some("claude-opus-5-5"), None)))]
+    #[case::effort_alone(&["builder", "--effort", "xhigh", "--", "claude"], Ok((None, Some("xhigh"))))]
+    #[case::neither(&["builder", "--", "claude"], Ok((None, None)))]
+    #[case::bad_effort(&["builder", "--effort", "huge", "--", "claude"], Err(clap::error::ErrorKind::ValueValidation))]
+    #[case::bad_model(&["builder", "--model", "Opus", "--", "claude"], Err(clap::error::ErrorKind::ValueValidation))]
+    fn run_args_take_model_and_effort(
+        #[case] words: &[&str],
+        #[case] expected: Result<(Option<&str>, Option<&str>), clap::error::ErrorKind>,
+    ) {
+        let parsed = parse(words).map(|args| (args.model, args.effort));
+        let expected =
+            expected.map(|(model, effort)| (model.map(str::to_owned), effort.map(str::to_owned)));
+        assert_eq!(parsed, expected);
+        if let Err(kind) = parsed {
+            assert_eq!(clap::Error::new(kind).exit_code(), 2, "{kind:?}");
+        }
+    }
+
+    #[rstest::rstest]
+    #[case::spaced(&["builder", "--", "claude", "--model", "x"], false)]
+    #[case::effort_equals(&["builder", "--", "claude", "--effort=low"], false)]
+    #[case::model_equals(&["builder", "--model", "haiku", "--", "claude", "--model=x"], false)]
+    #[case::a_longer_word(&["builder", "--", "claude", "--modelx"], true)]
+    fn run_args_refuse_a_pair_in_the_callers_words(#[case] words: &[&str], #[case] passes: bool) {
+        assert_eq!(parse(words).is_ok(), passes, "{words:?}");
+        if !passes {
+            assert_eq!(
+                parse(words).err(),
+                Some(clap::error::ErrorKind::ArgumentConflict)
+            );
+            let line = pair_after_dashes().to_string();
+            assert!(line.contains("'--model <MODEL>'") && line.contains("'--effort <EFFORT>'"));
+            assert!(
+                !line.contains("--model=x") && !line.contains("claude"),
+                "{line}"
+            );
         }
     }
 
@@ -1540,6 +1677,7 @@ mod tests {
             spawn_dir: std::env::current_dir().expect("cwd"),
             json: false,
             lineage: Lineage::default(),
+            given: (None, None),
         };
         let exe = std::fs::read(std::env::current_exe().expect("exe")).expect("exe bytes");
         let (started, spans) =

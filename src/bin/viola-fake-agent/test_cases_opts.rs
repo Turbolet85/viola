@@ -114,6 +114,17 @@ fn opts_parse_reads_the_stop_reading_flag() {
 }
 
 #[test]
+fn opts_take_model_and_effort() {
+    let o = Opts::parse(&args(&["--model", "haiku", "--effort", "low", "--screens"]));
+    assert_eq!(
+        (o.model.as_deref(), o.effort.as_deref(), o.screens),
+        (Some("haiku"), Some("low"), true)
+    );
+    let bare = Opts::parse(&[]);
+    assert_eq!((bare.model, bare.effort), (None, None));
+}
+
+#[test]
 fn opts_parse_reads_the_trim_prompt_end_flag() {
     assert!(Opts::parse(&args(&["--trim-prompt-end"])).trim_prompt_end);
     assert!(!Opts::parse(&[]).trim_prompt_end, "off by default");

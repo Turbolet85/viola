@@ -165,11 +165,11 @@ fn hook_every_registered_event_lands_as_one_line_of_its_kind() {
         assert_eq!(receipt["stderr_len"], 0, "{receipt}");
         assert_eq!(receipt["stdout_hex"], "", "{receipt}");
     }
-    // The two start records, the eight hook lines, and the wheel the human's prompt took.
+    // The three start records, the eight hook lines, and the wheel the human's prompt took.
     let lines = wait_events(&wrapper.instance_dir(), "the hook events", |l| {
-        l.len() >= 11
+        l.len() >= 12
     });
-    assert_eq!(lines.len(), 11);
+    assert_eq!(lines.len(), 12);
     let hooked: Vec<&Value> = lines.iter().filter(|l| l["source"] == "hook").collect();
     assert_eq!(hooked.len(), 8);
     let wheels: Vec<&Value> = lines
@@ -672,8 +672,8 @@ fn hook_prompts_arrive_normalised_with_their_origin() {
         None,
         &["--fixtures", path_str(&fx), "--script", path_str(&steps)],
     );
-    // The two start records, the prompts, and the one wheel the first human prompt took.
-    let count = 3 + cases.len();
+    // The three start records, the prompts, and the one wheel the first human prompt took.
+    let count = 4 + cases.len();
     let lines = wait_events(&wrapper.instance_dir(), "the hook events", |l| {
         l.len() >= count
     });
@@ -724,12 +724,13 @@ fn hook_session_end_appends_directly_only_while_the_log_is_free() {
     let (stopped, stamped) = Wrapper::boot(stamped(), "builder", None, &[]).stop_keep();
     assert_eq!(stopped.code(), Some(0));
     let dir = stamped.home.path().join("instances").join("builder");
-    // The two start records, and the wheel the stop's Ctrl-C took, recorded before the exit.
+    // The three start records, and the wheel the stop's Ctrl-C took, recorded before the exit.
     let lines = events(&dir);
-    assert_eq!(lines.len(), 3);
+    assert_eq!(lines.len(), 4);
     assert_eq!(lines[1]["kind"], "lineage");
+    assert_eq!(lines[2]["kind"], "launch");
     assert_eq!(
-        lines[2]["data"],
+        lines[3]["data"],
         json!({"holder": "human", "cause": "human-input"})
     );
 
@@ -737,10 +738,10 @@ fn hook_session_end_appends_directly_only_while_the_log_is_free() {
     assert_eq!(out.status.code(), Some(0));
     assert!(out.stdout.is_empty() && out.stderr.is_empty());
     let lines = events(&dir);
-    assert_eq!(lines.len(), 4);
-    assert_eq!(lines[3]["kind"], "session-end");
-    assert_eq!(lines[3]["source"], "hook");
-    assert_eq!(lines[3]["data"], json!({}));
+    assert_eq!(lines.len(), 5);
+    assert_eq!(lines[4]["kind"], "session-end");
+    assert_eq!(lines[4]["source"], "hook");
+    assert_eq!(lines[4]["data"], json!({}));
 
     let lock = fs::OpenOptions::new()
         .write(true)
@@ -751,7 +752,7 @@ fn hook_session_end_appends_directly_only_while_the_log_is_free() {
     assert_eq!(out.status.code(), Some(0));
     assert!(out.stdout.is_empty() && out.stderr.is_empty());
     drop(lock);
-    assert_eq!(events(&dir).len(), 4, "a line landed past a held lock");
+    assert_eq!(events(&dir).len(), 5, "a line landed past a held lock");
     let role = support::ndjson::read_lines(
         &stamped
             .home

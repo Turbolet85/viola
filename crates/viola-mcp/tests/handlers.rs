@@ -116,6 +116,7 @@ fn record_live(instance: &Path, endpoint: String, pid: u32) {
         cwd: None,
         agent_session_id: None,
         lineage: None,
+        launch: None,
     };
     write_snapshot(instance, &snapshot).expect("snapshot");
     viola_state::heartbeat::touch_heartbeat(instance).expect("heartbeat");

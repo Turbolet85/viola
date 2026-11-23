@@ -188,3 +188,36 @@ fn e5_the_replay_reads_the_lineage_the_wrapper_wrote(stamped_home: StampedHome) 
     assert_eq!(item["role"], "builder");
     drop(stamped);
 }
+
+/// A child booted with a given pair, its wrapper killed, its snapshot cut short by the writer's own
+/// bytes: `viola list --json` reads the same `model` and `effort` back through the log replay.
+#[rstest]
+fn e5_the_replay_reads_the_launch_pair_the_wrapper_wrote(stamped_home: StampedHome) {
+    let wrapper = Wrapper::boot_flagged(
+        stamped_home,
+        "builder",
+        None,
+        &["--model", "haiku", "--effort", "low"],
+        None,
+        &[],
+    );
+    let dir = wrapper.instance_dir();
+    let recorded = snapshot_data(&dir).expect("the snapshot")["launch"].clone();
+    assert_eq!(
+        recorded,
+        serde_json::json!({"model": "haiku", "effort": "low"})
+    );
+    let stamped = wrapper.kill();
+    let home = stamped.home.path().to_path_buf();
+    fault(&dir, "cut");
+    assert!(age_beat(&dir, Duration::ZERO) <= STALE_AFTER);
+
+    let listed = viola(&home, &["list", "--json"], None, None);
+    assert_eq!(listed.code, Some(0), "stderr: {}", listed.stderr);
+    let doc: Value = serde_json::from_str(&listed.stdout).expect("one document");
+    let item = &doc["ok"]["items"][0];
+    assert!(item.get("cli_version").is_none(), "a replayed row: {item}");
+    assert_eq!(item["model"], "haiku");
+    assert_eq!(item["effort"], "low");
+    drop(stamped);
+}

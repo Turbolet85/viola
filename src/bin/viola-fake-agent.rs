@@ -148,6 +148,9 @@ struct Opts {
     start_screen: Option<String>,
     resume: Option<String>,
     fork_session: bool,
+    /// `--model <value>` / `--effort <value>` (argv only): the words a start handed, receipted.
+    model: Option<String>,
+    effort: Option<String>,
     transcript: bool,
     /// `--stop-crons <n>` (argv only, 0-4): every Stop fired carries `session_crons` as an array of
     /// `n` synthetic elements, each `{"synthetic":true}`; no recorded set holds a non-empty one.
@@ -207,6 +210,8 @@ impl Opts {
                 "--start-screen" => o.start_screen = value(),
                 "--resume" => o.resume = value(),
                 "--fork-session" => o.fork_session = true,
+                "--model" => o.model = value(),
+                "--effort" => o.effort = value(),
                 "--transcript" => o.transcript = true,
                 "--stop-crons" => {
                     o.stop_crons = value()
@@ -1056,6 +1061,8 @@ fn start_receipts(agent: &Agent) {
             "print": agent.opts.print.is_some(),
             "pid": std::process::id(),
             "prompt": agent.opts.print,
+            "model": agent.opts.model,
+            "effort": agent.opts.effort,
         }),
     );
     let cwd = std::env::current_dir().map(|d| d.to_string_lossy().into_owned());

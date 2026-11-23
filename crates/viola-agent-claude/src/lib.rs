@@ -156,6 +156,34 @@ pub fn resume_args(id: &str, fork: bool) -> Vec<OsString> {
     args
 }
 
+/// The flag that names the model a session starts on.
+pub const MODEL_FLAG: &str = "--model";
+
+/// The flag that names the effort level a session starts on.
+pub const EFFORT_FLAG: &str = "--effort";
+
+/// The effort levels `claude --help` lists for [`EFFORT_FLAG`], in its order (2.1.330).
+pub const EFFORT_LEVELS: [&str; 5] = ["low", "medium", "high", "xhigh", "max"];
+
+/// The compiled default pair, `(model, effort)`, handed when neither the start nor `config.json`
+/// names a half.
+pub const DEFAULT_PAIR: (&str, &str) = ("opus", "medium");
+
+/// Whether `word` is one of [`EFFORT_LEVELS`].
+pub fn is_effort_level(word: &str) -> bool {
+    EFFORT_LEVELS.contains(&word)
+}
+
+/// The child's arguments that name its model and effort: each flag, then its word as one element.
+pub fn launch_args(model: &str, effort: &str) -> Vec<OsString> {
+    vec![
+        OsString::from(MODEL_FLAG),
+        OsString::from(model),
+        OsString::from(EFFORT_FLAG),
+        OsString::from(effort),
+    ]
+}
+
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 const VERSION_TOKEN: &str = "@@VIOLA_VERSION@@";
 const BIN_TOKEN: &str = "@@VIOLA_BIN@@";
@@ -596,6 +624,33 @@ mod tests {
             ]
         );
         assert_eq!(PROGRAM, "claude");
+    }
+
+    #[test]
+    fn effort_levels_are_the_five_help_words() {
+        assert_eq!(EFFORT_LEVELS, ["low", "medium", "high", "xhigh", "max"]);
+        assert!(is_effort_level("xhigh"));
+        assert!(!is_effort_level("Medium"));
+        assert!(!is_effort_level(""));
+    }
+
+    #[test]
+    fn default_pair_is_the_operators_pair() {
+        assert_eq!(DEFAULT_PAIR, ("opus", "medium"));
+    }
+
+    #[test]
+    fn launch_args_are_the_model_then_the_effort() {
+        assert_eq!(
+            launch_args("haiku", "low"),
+            [
+                OsString::from("--model"),
+                OsString::from("haiku"),
+                OsString::from("--effort"),
+                OsString::from("low"),
+            ]
+        );
+        assert_eq!((MODEL_FLAG, EFFORT_FLAG), ("--model", "--effort"));
     }
 
     #[test]

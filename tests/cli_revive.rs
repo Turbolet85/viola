@@ -796,8 +796,8 @@ fn revive_keeps_the_recorded_parent_and_role(stamped_home: StampedHome) {
         .expect("the log")
         .map(|line| line.expect("a line").value)
         .collect();
-    let kinds: Vec<&Value> = revived.iter().take(2).map(|l| &l["kind"]).collect();
-    assert_eq!(kinds, ["wheel", "lineage"], "{revived:?}");
+    let kinds: Vec<&Value> = revived.iter().take(3).map(|l| &l["kind"]).collect();
+    assert_eq!(kinds, ["wheel", "lineage", "launch"], "{revived:?}");
     assert_eq!(revived[1]["source"], "wrapper");
     assert_eq!(
         revived[1]["data"],
@@ -822,6 +822,124 @@ fn revive_keeps_the_recorded_parent_and_role(stamped_home: StampedHome) {
             .is_some_and(|row| row.starts_with("builder  ")),
         "{}",
         human.stdout
+    );
+    assert_eq!(second.stop().code(), Some(0));
+}
+
+/// A first life launched with `flags` before its `--`, typed in a directory of the test's own and
+/// stopped: the home, that directory and the log's length.
+fn stopped_flagged_life(stamped: StampedHome, flags: &[&str]) -> (StampedHome, PathBuf, u64) {
+    let dir = made_dir(&stamped.home, "recorded");
+    let fixtures = workspace_path("fixtures/claude");
+    let fixtures = fixtures.to_str().expect("utf-8 path");
+    let first = Wrapper::boot_flagged(
+        stamped,
+        "builder",
+        Some(&dir),
+        flags,
+        None,
+        &["--fixtures", fixtures],
+    );
+    wait_events(&first.instance_dir(), "the session-start record", |l| {
+        l.iter().any(|e| e["kind"] == "session-start")
+    });
+    wait_session_start_hooks(&first.receipt(), 1);
+    let (stopped, stamped) = first.stop_keep();
+    assert_eq!(stopped.code(), Some(0));
+    let offset = fs::metadata(instance_dir(&stamped.home).join("events.ndjson"))
+        .expect("the log")
+        .len();
+    (stamped, dir, offset)
+}
+
+/// The pair the revived child receipted (the receipt's second `start`) and the revive's own
+/// `launch` line, read from the log past `offset`.
+fn revived_pair(wrapper: &Wrapper, offset: u64) -> ((Value, Value), Value) {
+    let receipt = fake::wait_for(&wrapper.receipt(), "the revived start receipt", |l| {
+        of_kind(l, "start").len() == 2
+    });
+    let start = of_kind(&receipt, "start")[1];
+    let log = wrapper.instance_dir();
+    let launches: Vec<Value> = viola_state::events::read_from(&log, offset)
+        .expect("the log")
+        .map(|line| line.expect("a line").value)
+        .filter(|line| line["kind"] == "launch")
+        .collect();
+    assert_eq!(launches.len(), 1, "{launches:?}");
+    (
+        (start["model"].clone(), start["effort"].clone()),
+        launches[0]["data"].clone(),
+    )
+}
+
+/// A first life started `--model haiku --effort low`, revived with no flag: the resumed child is
+/// handed the recorded pair beside `--resume`, and the revive's own `launch` line repeats it.
+#[rstest]
+fn revive_hands_the_recorded_pair(stamped_home: StampedHome) {
+    let (stamped, dir, offset) =
+        stopped_flagged_life(stamped_home, &["--model", "haiku", "--effort", "low"]);
+    let typed_in = made_dir(&stamped.home, "typed-in");
+    let second = Wrapper::revive(stamped, "builder", &typed_in, &dir, &[]);
+    let (handed, recorded) = revived_pair(&second, offset);
+    assert_eq!(handed, (Value::from("haiku"), Value::from("low")));
+    assert_eq!(
+        recorded,
+        serde_json::json!({"model": "haiku", "effort": "low"})
+    );
+    assert_eq!(second.stop().code(), Some(0));
+}
+
+/// `revive --effort high` over a life recorded `haiku` / `low`: the recorded model and the override
+/// effort are handed, and recorded in the revive's `launch` line.
+#[rstest]
+fn revive_override_is_handed_and_recorded(stamped_home: StampedHome) {
+    let (stamped, dir, offset) =
+        stopped_flagged_life(stamped_home, &["--model", "haiku", "--effort", "low"]);
+    let typed_in = made_dir(&stamped.home, "typed-in");
+    let second = Wrapper::revive(stamped, "builder", &typed_in, &dir, &["--effort", "high"]);
+    let (handed, recorded) = revived_pair(&second, offset);
+    assert_eq!(handed, (Value::from("haiku"), Value::from("high")));
+    assert_eq!(
+        recorded,
+        serde_json::json!({"model": "haiku", "effort": "high"})
+    );
+    assert_eq!(second.stop().code(), Some(0));
+}
+
+/// A recorded effort outside the five (planted in the snapshot the revive reads, and in a `launch`
+/// line after the first life's): the revive starts with no refusal, handing the recorded model and
+/// the default's effort.
+#[rstest]
+fn revive_a_recorded_word_that_no_longer_parses_takes_the_default_half(stamped_home: StampedHome) {
+    let (stamped, dir, _) =
+        stopped_flagged_life(stamped_home, &["--model", "haiku", "--effort", "low"]);
+    let log = instance_dir(&stamped.home);
+    let path = log.join("snapshot.json");
+    let mut envelope: Value =
+        serde_json::from_slice(&fs::read(&path).expect("the snapshot")).expect("json");
+    envelope["data"]["launch"]["effort"] = Value::from("huge");
+    fs::write(&path, serde_json::to_vec(&envelope).expect("json")).expect("planted");
+    let mut events_log = OpenOptions::new()
+        .append(true)
+        .open(log.join("events.ndjson"))
+        .expect("the log");
+    std::io::Write::write_all(
+        &mut events_log,
+        b"{\"v\":1,\"ts\":\"2026-11-23T00:00:00.000Z\",\"instance\":\"builder\",\"kind\":\"launch\",\"source\":\"wrapper\",\"data\":{\"model\":\"haiku\",\"effort\":\"huge\"}}\n",
+    )
+    .expect("planted line");
+    drop(events_log);
+    let offset = fs::metadata(log.join("events.ndjson"))
+        .expect("the log")
+        .len();
+    let typed_in = made_dir(&stamped.home, "typed-in");
+    let second = Wrapper::revive(stamped, "builder", &typed_in, &dir, &[]);
+    let (_, effort) = viola_agent_claude::DEFAULT_PAIR;
+    let (handed, recorded) = revived_pair(&second, offset);
+    assert_eq!(handed, (Value::from("haiku"), Value::from(effort)));
+    assert_eq!(
+        recorded,
+        serde_json::json!({"model": "haiku", "effort": effort})
     );
     assert_eq!(second.stop().code(), Some(0));
 }
