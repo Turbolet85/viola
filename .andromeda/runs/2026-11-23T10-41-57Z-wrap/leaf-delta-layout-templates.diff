@@ -1,0 +1,11 @@
+--- a/.andromeda/layout-templates.md
++++ b/.andromeda/layout-templates.md
+@@ -128,2 +128,3 @@
+ contract/run-revive-start/socket-dir-refused · viola run and viola revive starts · socket directory refused — Exit 1 before any snapshot, child or bind, stdout empty, directory left as found: `unable: the socket directory for <name> cannot be trusted` / `hint: viola's socket directory must be a directory you own, readable only by you; viola does not change its permissions`.
++contract/run-revive-usage/pair-after-dashes · viola run and viola revive usage · a launch pair after the dashes — A `--model` or `--effort`, or its equals form, among the words after the dashes of `viola run` or `viola revive` is a usage refusal, exit 2, one fixed stderr line naming `--model <MODEL>` and `--effort <EFFORT>` and echoing none of the caller's words.
+ contract/send-json/output · viola send --json · typed document — `--json` prints only the typed document (`ok` with `submitted_at` and `cursor`, `ok` with `confirmed:false` and `unconfirmable`, or `refusal` with `detail`) with the typed exit code, no glyph and no hint.
+@@ -188,3 +189,3 @@
+ contract/viola-revive/start-output · viola revive · passed start output — A `viola revive` start that passes its preflight prints nothing of its own while the resumed child holds the terminal, as `viola run`.
+-contract/viola-revive/usage · viola revive · usage — `viola revive <name> [--id <ID>] [--fork] [-- <child args>]` or `viola revive <name> --list`, each with `[--json]`; `--list` conflicts with `--id`, `--fork` and the trailing arguments.
++contract/viola-revive/usage · viola revive · usage — `viola revive <name> [--id <ID>] [--fork] [--model <MODEL>] [--effort <EFFORT>] [-- <child args>]` or `viola revive <name> --list`, each with `[--json]`; `--list` conflicts with `--id`, `--fork`, `--model`, `--effort` and the trailing arguments.
+ contract/viola-run/already-live · viola run start refusals · already live — Exit 1 with `unable: <name> is already live` on stderr and `hint: viola list` as the last stderr line; no paths, no pids.

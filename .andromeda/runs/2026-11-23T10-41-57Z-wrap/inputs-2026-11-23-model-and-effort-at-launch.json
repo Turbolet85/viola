@@ -1,0 +1,264 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T10:42:45Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-23-model-and-effort-at-launch",
+"--source",
+"../additional/viola-overseer/wrap-model-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the wrap directive: whose word each answer is, the rows to read against the build, the three carries, the last card",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T10-41-57Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I8 · copy no-repo · ../additional/viola-overseer/wrap-model-directive.md",
+"cite: inputs#I8"
+],
+"stderr": null,
+"wrote": [
+"inputs/I8-wrap-model-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I8",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-model-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "1fe0a33a65b1cc9371a3036e482c8c918284f851731a3fe86ad96d558e4e9103",
+"copy": "I8-wrap-model-directive.md.txt",
+"link": false,
+"read_at": "2026-11-23T10:42:44Z",
+"step": "wrap",
+"why": "the wrap directive: whose word each answer is, the rows to read against the build, the three carries, the last card"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T10:42:45Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-23-model-and-effort-at-launch",
+"--run-dir",
+".andromeda/runs/2026-11-23T10-41-57Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-model-directive.md",
+"I1 cited scope.md:50 · research.md:5 · research.md:7 · research.md:20 · plan.md:239 · plan.md:348 (in fence) · plan.md:486 · plan.md:511",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-model-p3.md",
+"I2 cited plan.md:8 · plan.md:15 · plan.md:42 · plan.md:52 · plan.md:123 · plan.md:239 · plan.md:486 · plan.md:492 · plan.md:493 · plan.md:496 · plan.md:497 · plan.md:532 · plan.md:544 · plan.md:552 · report.md:72 · report.md:76",
+"I3 n/a — a message has no live source · copy message · message: the session user at the P5 review of .andromeda/runs/2026-11-23T06-49-18Z-phase/p5-card-1.md",
+"I3 cited plan.md:103 · plan.md:443 · plan.md:514 · report.md:71 · report.md:78",
+"I4 n/a — a message has no live source · copy message · message: the session user, answering .andromeda/runs/2026-11-23T06-49-18Z-phase/p5-card-2.md",
+"I4 cited report.md:70",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/implement-model-directive.md",
+"I5 cited report.md:65 · report.md:168",
+"I6 n/a — a message has no live source · copy message · message: the operator (implement invocation args)",
+"I6 cited report.md:67",
+"I7 unchanged · copy no-repo · ../additional/viola-overseer/relay-model-implement-go.md",
+"I7 cited report.md:68 · report.md:110 · report.md:120 · report.md:131 · report.md:165 · report.md:168 · report.md:169 · report.md:170 · report.md:196",
+"I8 unchanged · copy no-repo · ../additional/viola-overseer/wrap-model-directive.md",
+"I8 UNCITED",
+"inputs: 8 entries — unchanged 5 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 8,
+"counts": {
+"unchanged": 5,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T11:18:13Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-23-model-and-effort-at-launch",
+"--message-file",
+".andromeda/runs/2026-11-23T10-41-57Z-wrap/relay-1.md",
+"--origin",
+"the overseer (session user), answering the wrap P2 halt dialog",
+"--kind",
+"relay",
+"--why",
+"the overseer confirms answer card Q1 (12 ops inside F2 / F6 head) and the conservative Q2 / Q3 provisional landing (W2, W3)",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T10-41-57Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I9 · copy message · message: the overseer (session user), answering the wrap P2 halt dialog",
+"cite: inputs#I9"
+],
+"stderr": null,
+"wrote": [
+"inputs/I9-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I9",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer (session user), answering the wrap P2 halt dialog",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "e74725b6351cd419d969fdf2345954ec72b48c58299fc11599a337413e346417",
+"copy": "I9-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-23T11:18:12Z",
+"step": "wrap",
+"why": "the overseer confirms answer card Q1 (12 ops inside F2 / F6 head) and the conservative Q2 / Q3 provisional landing (W2, W3)"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T11:27:07Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-23-model-and-effort-at-launch",
+"--message-file",
+".andromeda/runs/2026-11-23T10-41-57Z-wrap/relay-2.md",
+"--origin",
+"the overseer (session user), answering the wrap P5 route dialog",
+"--kind",
+"relay",
+"--why",
+"the overseer lands both carries with carry 3 re-worded (overseer measured), the tail unchanged, next «viola open»",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T10-41-57Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I10 · copy message · message: the overseer (session user), answering the wrap P5 route dialog",
+"cite: inputs#I10"
+],
+"stderr": null,
+"wrote": [
+"inputs/I10-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I10",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer (session user), answering the wrap P5 route dialog",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "73b23b72e8d94b5e2e9e2f45ff0829395e165a8152c9c8e01d4efb014c9323a0",
+"copy": "I10-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-23T11:27:07Z",
+"step": "wrap",
+"why": "the overseer lands both carries with carry 3 re-worded (overseer measured), the tail unchanged, next «viola open»"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T11:32:31Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-23-model-and-effort-at-launch",
+"--message-file",
+".andromeda/runs/2026-11-23T10-41-57Z-wrap/relay-3.md",
+"--origin",
+"the overseer (session user), answering the wrap P7 gate-red dialog",
+"--kind",
+"relay",
+"--why",
+"the overseer holds the light-gate re-run until /tmp headroom is freed; the red stays recorded with its cause",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T10-41-57Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I11 · copy message · message: the overseer (session user), answering the wrap P7 gate-red dialog",
+"cite: inputs#I11"
+],
+"stderr": null,
+"wrote": [
+"inputs/I11-relay-3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I11",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer (session user), answering the wrap P7 gate-red dialog",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "bd5083d80a5f1c10547eb30bf7370e3527e74597ce39dad4b6d925e7d34a7cf3",
+"copy": "I11-relay-3.md.txt",
+"link": false,
+"read_at": "2026-11-23T11:32:30Z",
+"step": "wrap",
+"why": "the overseer holds the light-gate re-run until /tmp headroom is freed; the red stays recorded with its cause"
+}
+}
+]

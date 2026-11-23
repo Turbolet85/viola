@@ -1,48 +1,48 @@
 # Session Handoff
 
-**Last Updated:** 2026-11-23T06:17:21Z
+**Last Updated:** 2026-11-23T11:27:39Z
 **Branch:** build/viola-0.2.0 · 0 ahead of origin/build/viola-0.2.0 as read at this wrap's Setup (this wrap's push lands its commit)
 **Status:** clean
-**Last Commit:** 2026-11-22-lineage-registry — the lineage registry: a `lineage` line at every start, fleet trees and a LINKS block on `list`
+**Last Commit:** 2026-11-23-model-and-effort-at-launch — model and effort at launch: every start hands a pair, recorded and handed again on revive
 
 ## Position
-- Done: 2026-11-22-lineage-registry — every `run` / `revive` start writes one `lineage {parent, role}` line after its
-  `wheel` line, mirrored in the snapshot and replayed; `viola run --parent` / `--role`, else the inherited `VIOLA_NAME`
-  as the parent only; `viola list` draws trees in NAME and a `-- LINKS --` block, `--json` / MCP `list` gain `parent`,
-  `role`, `links`; v2-09 and v2-10 verified. No live start, mutation or witness run was made.
-- Next: `/andromeda-phase` on «Model and effort at launch» (`chk-ruio4tl7`) — named, not started. The product re-pin
-  ran on 2026-11-22 by the overseer's relay (`inputs#I8` of this chunk: a live verify read 29 pass, 0 fail); its carry
-  `cry-fqwjpnqt` on «Version done-check» still stands — no letter let this wrap close it on a relay.
+- Done: 2026-11-23-model-and-effort-at-launch — `viola run` / `viola revive` take `--model` / `--effort`, else
+  `config.json` `default_model` / `default_effort`, else `DEFAULT_PAIR`; the pair is handed on the child's argv, written
+  as a `launch` line after `lineage`, kept in the snapshot, replayed, handed again on revive, and carried on
+  `list --json` / MCP `list`. The pair is handed, never verified: no live start, mutation or witness run was made.
+  No capability is claimed (v2-30 planned and unclaimed, coverage 25/37).
+- Next: `/andromeda-phase` on «`viola open`» (`chk-gvely5gr`), named, not started. Carry `cry-fqwjpnqt` on «Version
+  done-check» still stands. Before a build holding this chunk is pinned, the host launcher moves the pair to
+  `viola run --model … --effort …` (carry `cry-4gddmrco`).
 - Owed at the next 0-pending wrap: v2-28's requirement and acceptance texts, old beside new, in carry `cry-saswcxef` on
-  «The fleet on the founder's host» — `matrix.py refine --unclaimed` on the operator's own words (F9 and «Перенести в
-  v2-28»). v2-09's requirement line still holds the moved clause: `refine --chunk` refuses a requirement file (exit 2)
-  and no letter names that write for a claimed cap; its ledger note says so — owed with the v2-28 texts.
+  «The fleet on the founder's host» (`matrix.py refine --unclaimed`), with v2-09's moved clause, as before.
 
 ## Work done
-- Wrap `2026-11-23T05-33-20Z-wrap`: report closed (tx 4126–4127); 47 row operations landed over the seven masters
-  (tx 4131–4141), 7 fit `not_master`, three standing rows corrected shorter; 30 leaf findings (28 by the tool, 2 by
-  hand naming `EventKind::ALL`, tx 4157–4158), 4 held; route: 1 carry (tx 4162); no curation write.
+- Wrap `2026-11-23T10-41-57Z-wrap`: report closed (tx 4210–4211); 51 row operations landed over six masters
+  (tx 4215–4223), fit 51 `fits`, ~38 duplicate proposals kept to one home; 28 leaf findings applied; route: 2 carries
+  (tx 4244); curation: testing.md extended (tx 4241).
 
 ## Drift resolved
-- Answer card Q2 (11 rows inside the operator's own F1, F4, F5) confirmed by the overseer (`inputs#I7`); the six-column
-  rows say the columns, captions and slot order are unchanged; the tree's order is the board's own, a child sorting
-  before its parent drawn after it, under it.
-- Q1 — logged names crossing into MCP `list` (F6, a delegate's word): landed PROVISIONAL on its most conservative
-  option; `founder-forks.md` row W1 of `.andromeda/runs/2026-11-23T05-33-20Z-wrap/` holds it for the operator's word.
+- Answer card Q1 (12 rows inside the operator's own F2 and F6's head) was confirmed by the overseer (`inputs#I9`). It
+  lands PROVISIONAL as the confirm's word. `decision/revive-resumes-in-place` now reads «replays no launch spec but
+  the recorded model and effort».
+- Q2 (12 widenings on a delegate's word: the pair into `list --json` / MCP `list`, the `revive` override) and Q3 (a
+  third named exception that `shared-validators-in-core`'s cell cannot hold) landed PROVISIONAL. They are W2 and W3 in
+  `.andromeda/runs/2026-11-23T10-41-57Z-wrap/founder-forks.md`. W1 was neither widened nor answered.
+- Step 23: no row claims that a revive over a replayed snapshot hands the pair. The replay rows say the pair is
+  recovered. `decision/revive-refused-without-cwd` stands unmoved.
 
 ## Notes
-- **Founder forks:** W1 above, beside the Epoch 4 wrap's two rows in `.andromeda/runs/2026-11-22T19-49-19Z-wrap/founder-forks.md`.
+- **Founder forks:** W2 and W3 above, beside W1 (`.andromeda/runs/2026-11-23T05-33-20Z-wrap/founder-forks.md`) and the
+  Epoch 4 wrap's two rows (`.andromeda/runs/2026-11-22T19-49-19Z-wrap/founder-forks.md`).
 - **Sidecars:** UNRESOLVED supersedes stand as before (architecture 2, security-plan 3, test-plan 1; `sidecar.py summary`).
-- **Desk (no route entry):** the scratch clone `$TMPDIR/{scratchpad}/ctl-clone` (phase card 1 row 5), `target/pwb-xdg-3`,
-  `-4`, `-5` and the scratchpad runs `run1`–`run5` stand for removal by hand; the earlier desk list stands.
-- **Deferred learnings:** «A leaf names a time bound by its constant, never its figure» — recurrence-despite-learning,
-  recurred again (a leaf comparer proposed «16 kinds»; held). recurrence-despite-learning: testing.md 2026-10-04
-  (extended 2026-11-14, «find start-record counters by the counted literals, never by the kind's name») — the plan's
-  reader search keyed on `session-start` and missed six counters. Review with `/andromeda-wrap-session --review`.
+- **Desk (no route entry):** the earlier desk list stands (scratch clone `ctl-clone`, `target/pwb-xdg-3`, `-4`, `-5`,
+  the scratchpad runs `run1`–`run5`).
+- **Deferred learnings:** recurrence-despite-learning: testing.md 2026-10-04 (extended 2026-11-14, «find start-record
+  counters by the counted literals») recurred: two counters escaped the plan's sweep (an offset, a multi-line key
+  literal), 3 of 206 red at the first firing. Its facet was extended in place (2026-11-23). «A leaf names a time bound
+  by its constant, never its figure» stands as before. Review with `/andromeda-wrap-session --review`.
 - **Last failed command:** none.
 - **Disk:** read `df -h /home` and `target/` before a full rebuild.
-- **Host:** another project (escher) runs a mutation tier on this host — read `hostwatch.py read --from/--to` over a
-  gate's own window before reading any stall red. python `yaml` absent; PATH's claude 2.1.330, 2.1.328 by path.
-
-## Session End Status
-Completed normally at 2026-11-23 09:54:19
+- **Host:** another project (escher) runs a mutation tier on this host. Read `hostwatch.py read --from/--to` over a
+  gate's own window before reading any stall red. python `yaml` is absent; PATH's claude is 2.1.330, 2.1.328 by path.

@@ -1,0 +1,59 @@
+[
+{
+"tool": "gate",
+"v": "1.39",
+"sha8": "cb6114c9",
+"ts": "2026-11-23T10:44:18Z",
+"argv": [
+"census",
+"--comm",
+"viola",
+"--comm",
+"viola-fake-agent",
+"--comm",
+"cargo-nextest",
+"--args",
+"projects/viola/target",
+"--run-dir",
+".andromeda/runs/2026-11-23T10-41-57Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"census · ps · comm viola, viola-fake-agent, cargo-nextest · args projects/viola/target · own tree excluded: 8",
+"  229132 · ppid 229005 · viola · ~/.viola/bin/0.1.0-0fec169139cfeaaa/viola mcp",
+"  928223 · ppid 928191 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola run pulse-builder --dialog-timeout 3500 -- claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --settings {\"disableClaudeAiConnectors\":true,\"deniedMcpServers\":[{\"serverName\":\"houdini\"}]} --effort medium --model claude-opus-5-5 -n pulse-builder --resume 91b91aa4-5791-4fb1-8dad-76e351810f78",
+"  930002 · ppid 929980 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola run conductor-builder --dialog-timeout 3500 -- claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --settings {\"disableClaudeAiConnectors\":true,\"deniedMcpServers\":[{\"serverName\":\"houdini\"}]} --effort medium --model claude-opus-5-5 -n conductor-builder --resume 8f5cf694-4c2c-4aa4-a6c6-f5a286b914fc",
+"  965464 · ppid 965417 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola run escher-builder --dialog-timeout 3500 -- claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --settings {\"disableClaudeAiConnectors\":true,\"deniedMcpServers\":[{\"serverName\":\"houdini\"}]} --effort medium --model claude-opus-5-5 -n escher-builder --resume fdc0cdd1-d586-4740-9319-4d484219d3b1",
+"  2388680 · ppid 2388597 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola run andromeda-worker --dialog-timeout 3500 -- claude --plugin-dir ~/dev/projects/additional/viola-lab/prototype/plugin --settings {\"disableClaudeAiConnectors\":true,\"deniedMcpServers\":[{\"serverName\":\"houdini\"}]} --effort medium --model claude-opus-5-5 -n andromeda-worker",
+"  3183286 · ppid 3183285 · viola · ~/.local/viola-product/bin/viola wait viola-builder --after 28367394 --timeout-ms 3000000 --json",
+"  3200586 · ppid 3200585 · viola · ~/dev/projects/additional/viola-lab/prototype/target/debug/viola wait escher-builder --timeout 60",
+"census: 7 running"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"census": {
+"comm": [
+"viola",
+"viola-fake-agent",
+"cargo-nextest"
+],
+"args": [
+"projects/viola/target"
+],
+"running": [
+229132,
+928223,
+930002,
+965464,
+2388680,
+3183286,
+3200586
+]
+}
+}
+}
+]

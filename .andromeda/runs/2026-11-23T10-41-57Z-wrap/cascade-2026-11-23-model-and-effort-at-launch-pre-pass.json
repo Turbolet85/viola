@@ -1,0 +1,361 @@
+[
+{
+"tool": "cascade",
+"v": "1.37",
+"sha8": "63d45d09",
+"ts": "2026-11-23T10:43:21Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-23T10-41-57Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-23T10-41-57Z-wrap",
+"--marker",
+"2026-11-23-model-and-effort-at-launch"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline e3d1f18c (pre-pass — HEAD)",
+"kinds · control UNFIRED over the seven masters (bodies and sets) at e3d1f18c",
+"pair · control UNFIRED over the seven masters (bodies and sets) at e3d1f18c"
+],
+"stderr": "control: kinds, pair never fired over the seven masters' pre-pass text, bodies and sets (e3d1f18c) — no master holds them: re-fire with --pattern startrec --pattern cfgkeys --pattern listitem --pattern receipt --pattern bounded --pattern nolaunch --pattern revreplay --pattern flaglit; this refusal, the trail's record, is the basis of each named pattern's master zero",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.37",
+"sha8": "63d45d09",
+"ts": "2026-11-23T10:43:53Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-23T10-41-57Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-23T10-41-57Z-wrap",
+"--marker",
+"2026-11-23-model-and-effort-at-launch"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline e3d1f18c (pre-pass — HEAD)",
+"architecture · 42 rows over 1 files · new 0 · standing 42 · 8 patterns",
+"security-plan · 4 rows over 1 files · new 0 · standing 4 · 2 patterns",
+"test-plan · 18 rows over 1 files · new 0 · standing 18 · 5 patterns",
+"obs-plan · 8 rows over 1 files · new 0 · standing 8 · 3 patterns",
+"a11y-plan · 1 rows over 1 files · new 0 · standing 1 · 1 pattern",
+"by line · 0 lines · 0 offsets",
+"total (10 patterns) · 88 rows over 19 files",
+"per class · new 0/0 · standing 73/5 · leaf 13/12 · curation 2/2 · base 0/0",
+"rows 1/1 · .andromeda/runs/2026-11-23T10-41-57Z-wrap/sweep-pre-pass-1.1.txt · 111 lines · 12793 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-23T10-41-57Z-wrap/sweep-pre-pass-1.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "e3d1f18c21505d8446a560a5870bf922cb53176d",
+"how": "pre-pass — HEAD",
+"counts": {
+"kinds": {
+"new": 0,
+"standing": 16,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"startrec": {
+"new": 0,
+"standing": 4,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"cfgkeys": {
+"new": 0,
+"standing": 5,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"listitem": {
+"new": 0,
+"standing": 8,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"receipt": {
+"new": 0,
+"standing": 13,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"bounded": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 2,
+"base": 0
+},
+"nolaunch": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"revreplay": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"pair": {
+"new": 0,
+"standing": 22,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"flaglit": {
+"new": 0,
+"standing": 1,
+"leaf": 2,
+"curation": 0,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 42,
+"files": 1,
+"new": 0,
+"standing": 42,
+"patterns": 8
+},
+"security-plan": {
+"rows": 4,
+"files": 1,
+"new": 0,
+"standing": 4,
+"patterns": 2
+},
+"test-plan": {
+"rows": 18,
+"files": 1,
+"new": 0,
+"standing": 18,
+"patterns": 5
+},
+"obs-plan": {
+"rows": 8,
+"files": 1,
+"new": 0,
+"standing": 8,
+"patterns": 3
+},
+"a11y-plan": {
+"rows": 1,
+"files": 1,
+"new": 0,
+"standing": 1,
+"patterns": 1
+}
+},
+"per_master": {
+"kinds": {
+"architecture": 16
+},
+"startrec": {
+"test-plan": 2,
+"obs-plan": 2
+},
+"cfgkeys": {
+"architecture": 1,
+"security-plan": 1,
+"test-plan": 1,
+"obs-plan": 2
+},
+"listitem": {
+"architecture": 7,
+"test-plan": 1
+},
+"receipt": {
+"test-plan": 13
+},
+"bounded": {
+"architecture": 1,
+"test-plan": 1
+},
+"nolaunch": {
+"architecture": 1
+},
+"revreplay": {
+"architecture": 1
+},
+"pair": {
+"architecture": 14,
+"security-plan": 3,
+"obs-plan": 4,
+"a11y-plan": 1
+},
+"flaglit": {
+"architecture": 1
+}
+},
+"forms": {
+"startrec": [
+{
+"form": "bthree (start )?recordsb",
+"from": "3"
+}
+],
+"cfgkeys": [
+{
+"form": "bfive (known )?keysb",
+"from": "5"
+}
+]
+},
+"parts": [
+"sweep-pre-pass-1.1.txt"
+]
+}
+},
+{
+"tool": "cascade",
+"v": "1.37",
+"sha8": "63d45d09",
+"ts": "2026-11-23T10:44:44Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-23T10-41-57Z-wrap/report-patterns.toml",
+"--pattern",
+"reviveusage",
+"--pattern",
+"secsib",
+"--pattern",
+"snaprows",
+"--run-dir",
+".andromeda/runs/2026-11-23T10-41-57Z-wrap",
+"--marker",
+"2026-11-23-model-and-effort-at-launch"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline e3d1f18c (pre-pass — HEAD)",
+"architecture · 19 rows over 1 files · new 0 · standing 19 · 1 pattern",
+"security-plan · 5 rows over 1 files · new 0 · standing 5 · 1 pattern",
+"layout-templates · 1 rows over 1 files · new 0 · standing 1 · 1 pattern",
+"test-plan · 7 rows over 1 files · new 0 · standing 7 · 1 pattern",
+"obs-plan · 2 rows over 1 files · new 0 · standing 2 · 1 pattern",
+"by line · 0 lines · 0 offsets",
+"total (3 patterns) · 34 rows over 5 files",
+"per class · new 0/0 · standing 34/5 · leaf 0/0 · curation 0/0 · base 0/0",
+"rows 1/1 · .andromeda/runs/2026-11-23T10-41-57Z-wrap/sweep-pre-pass-2.1.txt · 41 lines · 4753 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-23T10-41-57Z-wrap/sweep-pre-pass-2.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "e3d1f18c21505d8446a560a5870bf922cb53176d",
+"how": "pre-pass — HEAD",
+"counts": {
+"reviveusage": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"secsib": {
+"new": 0,
+"standing": 5,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"snaprows": {
+"new": 0,
+"standing": 28,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 19,
+"files": 1,
+"new": 0,
+"standing": 19,
+"patterns": 1
+},
+"security-plan": {
+"rows": 5,
+"files": 1,
+"new": 0,
+"standing": 5,
+"patterns": 1
+},
+"layout-templates": {
+"rows": 1,
+"files": 1,
+"new": 0,
+"standing": 1,
+"patterns": 1
+},
+"test-plan": {
+"rows": 7,
+"files": 1,
+"new": 0,
+"standing": 7,
+"patterns": 1
+},
+"obs-plan": {
+"rows": 2,
+"files": 1,
+"new": 0,
+"standing": 2,
+"patterns": 1
+}
+},
+"per_master": {
+"reviveusage": {
+"layout-templates": 1
+},
+"secsib": {
+"security-plan": 5
+},
+"snaprows": {
+"architecture": 19,
+"test-plan": 7,
+"obs-plan": 2
+}
+},
+"forms": {},
+"parts": [
+"sweep-pre-pass-2.1.txt"
+]
+}
+}
+]

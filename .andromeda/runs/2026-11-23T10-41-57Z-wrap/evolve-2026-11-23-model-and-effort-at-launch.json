@@ -1,0 +1,130 @@
+[
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-23T10:45:53Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"/tmp/claude-1000/~-dev-projects-viola/95533279-92d7-4b03-8571-c03ce6d41a82/scratchpad/ev1.ndjson",
+"--run-dir",
+".andromeda/runs/2026-11-23T10-41-57Z-wrap",
+"--marker",
+"2026-11-23-model-and-effort-at-launch"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 4212 · 2026-11-23T06-49-49-2026-11-23-model-and-effort-at-launch.ndjson",
+"ts 2026-11-23T10:45:53Z · clock 2026-11-23T10:45:53Z · the builders' bound 2026-11-23T10:27:15Z (line 4113)",
+"ids 2026-11-23T10:45:53Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-23T06-49-49-2026-11-23-model-and-effort-at-launch.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-23T11:23:28Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"4",
+"--records-file",
+"/tmp/claude-1000/~-dev-projects-viola/95533279-92d7-4b03-8571-c03ce6d41a82/scratchpad/ev2.ndjson",
+"--run-dir",
+".andromeda/runs/2026-11-23T10-41-57Z-wrap",
+"--marker",
+"2026-11-23-model-and-effort-at-launch"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 4 record(s) in the store · tx 4240 · 2026-11-23T06-49-49-2026-11-23-model-and-effort-at-launch.ndjson",
+"ts 2026-11-23T11:23:27Z · clock 2026-11-23T11:23:27Z · the builders' bound 2026-11-23T10:45:53Z (line 4114)",
+"ids 2026-11-23T11:23:27Z-a … 2026-11-23T11:23:27Z-d (4)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-23T06-49-49-2026-11-23-model-and-effort-at-launch.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-23T11:25:54Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"/tmp/claude-1000/~-dev-projects-viola/95533279-92d7-4b03-8571-c03ce6d41a82/scratchpad/ev3.ndjson",
+"--run-dir",
+".andromeda/runs/2026-11-23T10-41-57Z-wrap",
+"--marker",
+"2026-11-23-model-and-effort-at-launch"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 4242 · 2026-11-23T06-49-49-2026-11-23-model-and-effort-at-launch.ndjson",
+"ts 2026-11-23T11:25:54Z · clock 2026-11-23T11:25:54Z · the builders' bound 2026-11-23T11:23:27Z (line 4118)",
+"ids 2026-11-23T11:25:54Z-a … 2026-11-23T11:25:54Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-23T06-49-49-2026-11-23-model-and-effort-at-launch.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-23T11:27:26Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"/tmp/claude-1000/~-dev-projects-viola/95533279-92d7-4b03-8571-c03ce6d41a82/scratchpad/ev4.ndjson",
+"--run-dir",
+".andromeda/runs/2026-11-23T10-41-57Z-wrap",
+"--marker",
+"2026-11-23-model-and-effort-at-launch"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 4245 · 2026-11-23T06-49-49-2026-11-23-model-and-effort-at-launch.ndjson",
+"ts 2026-11-23T11:27:25Z · clock 2026-11-23T11:27:26Z · the builders' bound 2026-11-23T11:25:54Z (line 4120)",
+"ids 2026-11-23T11:27:25Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-23T06-49-49-2026-11-23-model-and-effort-at-launch.ndjson"
+],
+"before": null,
+"after": null
+}
+]

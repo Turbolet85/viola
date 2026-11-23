@@ -1,4 +1,0 @@
-decision/run-lineage-flags-checked · as: keep the row as written and add `state: provisional` — the self-parent and name-parser exit 2 rest on the overseer's technical answer F8, a delegate's word
-decision/lineage-parent-authenticates-nothing · as: the rule says the parent is read as the parent only — never the instance, never an identity, never joined into a path — taken from --parent or else the inherited VIOLA_NAME and dropped when it is the instance's own name; it authenticates nothing; keep the guard; within the rule's bound
-decision/board-lineage-and-links-name-checked · as: keep the row as written and add `state: provisional` — the display filter counted nowhere is the overseer's technical answer F8, a delegate's word
-decision/lineage-from-real-snapshot-only · as: keep the row as written and add `state: provisional` — the revive keep with no refusal is the overseer's technical answer F7, a delegate's word

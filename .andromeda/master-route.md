@@ -134,4 +134,4 @@
 2026-11-22-paste-write-bounded · complete · the wrapper's paste into the child's PTY ends within a compiled bound; a paste that cannot finish ends the send with a closed word, the wheel unmoved · → chk:2026-11-22-paste-write-bounded
 2026-11-22-epoch-4-cleanup · complete · the Epoch 4 audit's ranked defects mended, the chrono advisory re-measured · → chk:2026-11-22-epoch-4-cleanup
 2026-11-22-lineage-registry · complete · Lineage registry — a `lineage` event at launch, fleet trees on `list`, parent kept by `revive`, links drawn apart and name-checked · → chk:2026-11-22-lineage-registry
-2026-11-23-model-and-effort-at-launch · pending · every start names its model and effort, viola's default otherwise; the pair recorded per instance and replayed on revive · → chk:2026-11-23-model-and-effort-at-launch
+2026-11-23-model-and-effort-at-launch · complete · every start names its model and effort, viola's default otherwise; the pair recorded per instance and replayed on revive · → chk:2026-11-23-model-and-effort-at-launch
