@@ -1,0 +1,222 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T13:36:55Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-23-seam-requests-for-viola-open",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-seam-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer phase directive for this take-up: facts measured 2026-11-23T13:32Z and 13 numbered items binding the phase",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-23T13-35-35Z-phase",
+"--marker",
+"2026-11-23-seam-requests-for-viola-open"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-seam-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-seam-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-seam-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "36cf45a70309c0018421982168742b8d6cc4a7c2a20ef86b327918058d017c23",
+"copy": "I1-phase-seam-directive.md.txt",
+"link": false,
+"read_at": "2026-11-23T13:36:54Z",
+"step": "phase:P1",
+"why": "the overseer phase directive for this take-up: facts measured 2026-11-23T13:32Z and 13 numbered items binding the phase"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T13:36:55Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-23-seam-requests-for-viola-open",
+"--source",
+".andromeda/runs/2026-11-23T12-02-15Z-phase/split-carry.md",
+"--kind",
+"relay",
+"--why",
+"the cancelled take-up measurements, sweep and forks",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-23T13-35-35Z-phase",
+"--marker",
+"2026-11-23-seam-requests-for-viola-open",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [],
+"stderr": "--source: absent — .andromeda/runs/2026-11-23T12-02-15Z-phase/split-carry.md",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T14:11:51Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-23-seam-requests-for-viola-open",
+"--run-dir",
+".andromeda/runs/2026-11-23T13-35-35Z-phase",
+"--marker",
+"2026-11-23-seam-requests-for-viola-open"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-seam-directive.md",
+"I1 cited scope.md:70 · research.md:7 · plan.md:29 · plan.md:165 · plan.md:262 (in fence) · plan.md:392 · plan.md:410",
+"inputs: 1 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T14:12:50Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-23-seam-requests-for-viola-open",
+"--run-dir",
+".andromeda/runs/2026-11-23T13-35-35Z-phase",
+"--marker",
+"2026-11-23-seam-requests-for-viola-open"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-seam-directive.md",
+"I1 cited scope.md:70 · research.md:7 · plan.md:29 · plan.md:165 · plan.md:270 (in fence) · plan.md:400 · plan.md:418",
+"inputs: 1 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T14:14:43Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-23-seam-requests-for-viola-open",
+"--message-file",
+".andromeda/runs/2026-11-23T13-35-35Z-phase/relay-1.md",
+"--origin",
+"the session user, this session (2026-11-23)",
+"--kind",
+"relay",
+"--why",
+"the P5 word yes on .andromeda/runs/2026-11-23T13-35-35Z-phase/p5-card-1.md, its Beyond-the-plan row included; authority the session user, not stated as the operator own word",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-23T13-35-35Z-phase",
+"--marker",
+"2026-11-23-seam-requests-for-viola-open"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the session user, this session (2026-11-23)",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the session user, this session (2026-11-23)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "14bf11e5de183bda4d2bb287be59907478655a48aaecf36859624d704aad6404",
+"copy": "I2-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-23T14:14:43Z",
+"step": "phase:P5",
+"why": "the P5 word yes on .andromeda/runs/2026-11-23T13-35-35Z-phase/p5-card-1.md, its Beyond-the-plan row included; authority the session user, not stated as the operator own word"
+}
+}
+]

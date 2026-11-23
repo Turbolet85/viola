@@ -37,6 +37,19 @@ pub struct Workspace {
     pub last_window: Option<Address>,
 }
 
+/// One monitor as `monitors` lists it. Only `id` is required; every string of the reply (its name,
+/// description, make, model, serial) is dropped.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct Monitor {
+    pub id: i64,
+    pub width: Option<i64>,
+    pub height: Option<i64>,
+    pub x: Option<i64>,
+    pub y: Option<i64>,
+    pub focused: Option<bool>,
+    pub active_workspace: Option<WorkspaceId>,
+}
+
 /// The compositor's release, read from `version`'s `tag` (`v<major>.<minor>.<patch>`).
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct HyprlandVersion {
@@ -79,6 +92,7 @@ pub enum Reply {
     Workspaces(Vec<Workspace>),
     Version(HyprlandVersion),
     Dispatched,
+    Monitors(Vec<Monitor>),
 }
 
 /// The reply to `request`, parsed by its own parser.
@@ -88,9 +102,10 @@ pub fn parse(request: &Request, bytes: &[u8]) -> Result<Reply, HyprlandError> {
         Request::ActiveWindow => parse_active_window(bytes).map(Reply::ActiveWindow),
         Request::Workspaces => parse_workspaces(bytes).map(Reply::Workspaces),
         Request::Version => parse_version(bytes).map(Reply::Version),
-        Request::FocusWindow(_) | Request::Workspace(_) => {
+        Request::FocusWindow(_) | Request::Workspace(_) | Request::MoveToWorkspace(..) => {
             parse_dispatch(bytes).map(|()| Reply::Dispatched)
         }
+        Request::Monitors => parse_monitors(bytes).map(Reply::Monitors),
     }
 }
 
@@ -130,6 +145,18 @@ pub fn parse_workspaces(bytes: &[u8]) -> Result<Vec<Workspace>, HyprlandError> {
         .iter()
         .filter_map(Value::as_object)
         .filter_map(workspace)
+        .collect())
+}
+
+/// `monitors`: one JSON array; an element that is no object or holds no integer id is stepped over.
+pub fn parse_monitors(bytes: &[u8]) -> Result<Vec<Monitor>, HyprlandError> {
+    let Value::Array(elements) = json(bytes)? else {
+        return Err(HyprlandError::Malformed);
+    };
+    Ok(elements
+        .iter()
+        .filter_map(Value::as_object)
+        .filter_map(monitor)
         .collect())
 }
 
@@ -207,6 +234,19 @@ fn workspace(fields: &Map<String, Value>) -> Option<Workspace> {
         monitor: fields.get("monitorID").and_then(Value::as_i64),
         windows: fields.get("windows").and_then(Value::as_u64),
         last_window: address(fields.get("lastwindow")),
+    })
+}
+
+fn monitor(fields: &Map<String, Value>) -> Option<Monitor> {
+    let int = |key: &str| fields.get(key).and_then(Value::as_i64);
+    Some(Monitor {
+        id: int("id")?,
+        width: int("width"),
+        height: int("height"),
+        x: int("x"),
+        y: int("y"),
+        focused: fields.get("focused").and_then(Value::as_bool),
+        active_workspace: workspace_id(fields.get("activeWorkspace").and_then(|w| w.get("id"))),
     })
 }
 
@@ -370,6 +410,129 @@ mod tests {
         assert!(!format!("{got:?}").contains("CANARY"));
     }
 
+    /// A monitor as 0.56.2 lists it, its text keys holding a canary the parse must drop.
+    fn monitor_row() -> Value {
+        json!({
+            "id": 1,
+            "name": "CANARY-NAME",
+            "description": "CANARY-DESCRIPTION",
+            "make": "CANARY-MAKE",
+            "model": "CANARY-MODEL",
+            "serial": "CANARY-SERIAL",
+            "width": 2560,
+            "height": 1440,
+            "physicalWidth": 600,
+            "refreshRate": 143.97,
+            "x": 1920,
+            "y": -40,
+            "activeWorkspace": {"id": 4, "name": "CANARY-WS"},
+            "specialWorkspace": {"id": 0, "name": ""},
+            "reserved": [0, 30, 0, 0],
+            "scale": 1.25,
+            "transform": 0,
+            "focused": true,
+            "dpmsStatus": true,
+            "vrr": false,
+            "disabled": false,
+            "currentFormat": "CANARY-FORMAT",
+            "availableModes": ["CANARY-MODE"],
+        })
+    }
+
+    fn parsed_monitor() -> Monitor {
+        Monitor {
+            id: 1,
+            width: Some(2560),
+            height: Some(1440),
+            x: Some(1920),
+            y: Some(-40),
+            focused: Some(true),
+            active_workspace: Some(WorkspaceId::new(4)),
+        }
+    }
+
+    #[test]
+    fn parse_monitors_takes_each_relied_field_and_drops_every_text() {
+        let monitors = parse_monitors(&bytes(&json!([monitor_row()]))).expect("monitors");
+        assert_eq!(monitors, [parsed_monitor()]);
+        assert!(!format!("{monitors:?}").contains("CANARY"));
+    }
+
+    #[test]
+    fn parse_monitors_steps_over_an_element_without_an_id() {
+        let mut no_id = monitor_row();
+        no_id.as_object_mut().expect("object").remove("id");
+        let mut text_id = monitor_row();
+        text_id["id"] = json!("1");
+        let mut float_id = monitor_row();
+        float_id["id"] = json!(1.5);
+        let doc = json!([no_id, text_id, float_id, "row", 1, null, monitor_row()]);
+        assert_eq!(parse_monitors(&bytes(&doc)), Ok(vec![parsed_monitor()]));
+    }
+
+    #[rstest]
+    #[case::width("width", json!("2560"))]
+    #[case::height("height", json!(1440.5))]
+    #[case::x("x", json!(null))]
+    #[case::y("y", json!([-40]))]
+    #[case::focused("focused", json!(1))]
+    #[case::active_workspace("activeWorkspace", json!(4))]
+    #[case::active_workspace_id_past_i32("activeWorkspace", json!({"id": 2_147_483_648_i64}))]
+    fn parse_monitors_reads_a_key_of_another_type_as_absent(
+        #[case] key: &str,
+        #[case] value: Value,
+    ) {
+        let mut doc = monitor_row();
+        doc[key] = value;
+        let monitor = parse_monitors(&bytes(&json!([doc]))).expect("monitors")[0].clone();
+        let want = Monitor {
+            width: (key != "width").then_some(2560),
+            height: (key != "height").then_some(1440),
+            x: (key != "x").then_some(1920),
+            y: (key != "y").then_some(-40),
+            focused: (key != "focused").then_some(true),
+            active_workspace: (key != "activeWorkspace").then(|| WorkspaceId::new(4)),
+            ..parsed_monitor()
+        };
+        assert_eq!(monitor, want);
+    }
+
+    #[rstest]
+    #[case::an_object(br#"{"id":1}"#.as_slice())]
+    #[case::null(b"null".as_slice())]
+    #[case::empty(b"".as_slice())]
+    #[case::not_json(b"HYPRLAND_INSTANCE_SIGNATURE not set".as_slice())]
+    #[case::cut_short(br#"[{"id":"#.as_slice())]
+    #[case::two_arrays(b"[][]".as_slice())]
+    fn parse_monitors_refuses_a_reply_that_is_no_array_as_malformed(#[case] reply: &[u8]) {
+        assert_eq!(parse_monitors(reply), Err(HyprlandError::Malformed));
+    }
+
+    #[test]
+    fn parse_monitors_takes_max_frame_bytes_and_refuses_one_more_as_oversize() {
+        let cap = usize::try_from(MAX_FRAME).expect("fits");
+        let mut doc = vec![b' '; cap];
+        doc[0] = b'[';
+        doc[cap - 1] = b']';
+        assert_eq!(parse_monitors(&doc), Ok(Vec::new()));
+        doc.push(b' ');
+        assert_eq!(parse_monitors(&doc), Err(HyprlandError::Oversize));
+    }
+
+    #[rstest]
+    #[case::ok(b"ok".as_slice(), Ok(Reply::Dispatched))]
+    #[case::ok_newline(b"ok\n".as_slice(), Ok(Reply::Dispatched))]
+    #[case::an_error(b"Invalid dispatcher".as_slice(), Err(HyprlandError::Refused))]
+    #[case::empty(b"".as_slice(), Err(HyprlandError::Refused))]
+    #[case::an_array(b"[]".as_slice(), Err(HyprlandError::Refused))]
+    fn parse_of_a_move_dispatch_takes_only_the_success_text(
+        #[case] reply: &[u8],
+        #[case] want: Result<Reply, HyprlandError>,
+    ) {
+        let request = Request::MoveToWorkspace(addr("0x55d4c1a2b3c0"), WorkspaceId::new(2));
+        assert_eq!(parse(&request, reply), want);
+    }
+
     #[rstest]
     #[case::measured("v0.56.2", Some((0, 56, 2)))]
     #[case::wide("v10.200.3000", Some((10, 200, 3000)))]
@@ -476,6 +639,7 @@ mod tests {
         assert_eq!(parse_workspaces(&over), Err(HyprlandError::Oversize));
         assert_eq!(parse_version(&over), Err(HyprlandError::Oversize));
         assert_eq!(parse_dispatch(&over), Err(HyprlandError::Oversize));
+        assert_eq!(parse_monitors(&over), Err(HyprlandError::Oversize));
     }
 
     #[test]
@@ -507,6 +671,14 @@ mod tests {
         );
         assert_eq!(parse(&Request::Workspace(id), b"ok"), Ok(Reply::Dispatched));
         assert_eq!(
+            parse(&Request::Monitors, b"[]"),
+            Ok(Reply::Monitors(Vec::new()))
+        );
+        assert_eq!(
+            parse(&Request::MoveToWorkspace(addr("0x1"), id), b"ok\n"),
+            Ok(Reply::Dispatched)
+        );
+        assert_eq!(
             parse(&Request::Workspace(id), b"[]"),
             Err(HyprlandError::Refused)
         );
@@ -528,6 +700,8 @@ mod tests {
             "version" => Request::Version,
             "focus-window" => Request::FocusWindow(addr("0x1")),
             "workspace" => Request::Workspace(WorkspaceId::new(1)),
+            "monitors" => Request::Monitors,
+            "move-to-workspace" => Request::MoveToWorkspace(addr("0x1"), WorkspaceId::new(1)),
             other => panic!("no request word {other}"),
         }
     }
@@ -570,7 +744,9 @@ mod tests {
         }
     }
 
-    const KEYS: [&str; 16] = [
+    const KEYS: [&str; 18] = [
+        "activeWorkspace",
+        "focused",
         "address",
         "pid",
         "workspace",
@@ -672,6 +848,27 @@ mod tests {
                     };
                     for workspace in &workspaces {
                         let id = Value::from(workspace.id.into_inner());
+                        prop_assert!(elements.iter().any(|e| e.get("id") == Some(&id)));
+                    }
+                }
+                Err(error) => {
+                    prop_assert_eq!(error, HyprlandError::Malformed);
+                    prop_assert!(!value.is_array());
+                }
+            }
+        }
+
+        #[test]
+        fn monitors_prop_parse_never_panics_and_takes_each_id_unchanged(doc in arbitrary_json()) {
+            let (text, value) = input(&doc);
+            match parse_monitors(text.as_bytes()) {
+                Ok(monitors) => {
+                    let Value::Array(elements) = &value else {
+                        return Err(TestCaseError::fail("monitors from a non-array"));
+                    };
+                    prop_assert!(monitors.len() <= elements.len());
+                    for monitor in &monitors {
+                        let id = Value::from(monitor.id);
                         prop_assert!(elements.iter().any(|e| e.get("id") == Some(&id)));
                     }
                 }

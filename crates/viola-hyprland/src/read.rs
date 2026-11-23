@@ -18,7 +18,7 @@ use viola_core::{MAX_FRAME, obs_event};
 use crate::reply::{self, Reply};
 use crate::{HyprlandError, Request};
 
-/// The bound on one reply: the version probe's 5 s, PROVISIONAL until a verb measures its own need.
+/// The bound on one reply: 5 s, settled (security-plan, the hyprctl read deadline).
 pub const HYPRCTL_DEADLINE: Duration = Duration::from_secs(5);
 const POLL: Duration = Duration::from_millis(10);
 /// How long the output may take to arrive after the child ended: a grandchild still holding the
@@ -352,5 +352,64 @@ mod tests {
         let proc = PathBuf::from(format!("/proc/{}", pid.trim()));
         assert!(!proc.exists(), "the child {} outlived the read", pid.trim());
         assert!(took < Duration::from_secs(7), "took {took:?}");
+    }
+
+    /// The public read waits out the settled deadline once: a latency in another process, which no
+    /// injected clock reaches.
+    #[test]
+    fn read_against_the_deadline_returns_unreachable_no_sooner_than_five_seconds() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let pid_file = tmp.path().join("pid");
+        let program = script(
+            tmp.path(),
+            "hyprctl",
+            &format!("echo $$ > '{}'; exec /bin/sleep 30", pid_file.display()),
+        );
+        let started = Instant::now();
+        let got = read(Some(&program), &Request::Clients, &[]);
+        let took = started.elapsed();
+        assert_eq!(got.reply, Err(HyprlandError::Unreachable));
+        assert_eq!(got.exit, None);
+        assert!(took >= Duration::from_secs(5), "took {took:?}");
+        assert!(took < Duration::from_secs(7), "took {took:?}");
+        let pid = std::fs::read_to_string(&pid_file).expect("the child wrote its pid");
+        let proc = PathBuf::from(format!("/proc/{}", pid.trim()));
+        assert!(!proc.exists(), "the child {} outlived the read", pid.trim());
+    }
+
+    /// A child that writes twice the cap and keeps running: the drain stops one byte past the cap
+    /// while the child still writes, and the read is refused whole.
+    #[test]
+    fn read_of_a_reply_twice_the_cap_keeps_one_byte_past_it_and_is_oversize() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let pid_file = tmp.path().join("pid");
+        let program = script(
+            tmp.path(),
+            "hyprctl",
+            &format!(
+                "echo $$ > '{}'; head -c {} /dev/zero; exec /bin/sleep 30",
+                pid_file.display(),
+                2 * MAX_FRAME
+            ),
+        );
+        let (got, lines) = capture(|| {
+            read_within(
+                Some(&program),
+                &Request::Clients,
+                &[],
+                Duration::from_millis(200),
+            )
+        });
+        assert_eq!(got.stdout.len() as u64, MAX_FRAME + 1);
+        assert_eq!(got.reply, Err(HyprlandError::Oversize));
+        let rejected: Vec<&Value> = lines
+            .iter()
+            .filter(|l| l["event"] == json!("parse-rejected"))
+            .collect();
+        assert_eq!(rejected.len(), 1, "{lines:?}");
+        assert_eq!(rejected[0]["detail"], json!("oversize"));
+        let pid = std::fs::read_to_string(&pid_file).expect("the child wrote its pid");
+        let proc = PathBuf::from(format!("/proc/{}", pid.trim()));
+        assert!(!proc.exists(), "the child {} outlived the read", pid.trim());
     }
 }

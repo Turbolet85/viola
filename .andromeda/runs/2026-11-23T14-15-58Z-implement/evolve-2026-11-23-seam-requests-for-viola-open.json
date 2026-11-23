@@ -1,0 +1,158 @@
+[
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-23T14:24:48Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-23T14-15-58Z-implement",
+"--marker",
+"2026-11-23-seam-requests-for-viola-open"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 4295 · 2026-11-23T13-36-47-2026-11-23-seam-requests-for-viola-open.ndjson",
+"ts 2026-11-23T14:24:38Z · clock 2026-11-23T14:24:48Z · the builders' bound 2026-11-23T14:15:01Z (line 4143)",
+"ids 2026-11-23T14:24:38Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-23T13-36-47-2026-11-23-seam-requests-for-viola-open.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-23T14:30:35Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-23T14-15-58Z-implement",
+"--marker",
+"2026-11-23-seam-requests-for-viola-open"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"REFUSED ts: 2026-11-23T14:41:30Z · 2026-11-23T14:41:30Z-a — later than the clock 2026-11-23T14:30:34Z"
+],
+"stderr": "refused — nothing written: 1 of 1 record(s) out of time; re-read `date -u`, re-letter the ids, re-fire",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-23T14:30:44Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-23T14-15-58Z-implement",
+"--marker",
+"2026-11-23-seam-requests-for-viola-open"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 4296 · 2026-11-23T13-36-47-2026-11-23-seam-requests-for-viola-open.ndjson",
+"ts 2026-11-23T14:30:34Z · clock 2026-11-23T14:30:44Z · the builders' bound 2026-11-23T14:24:38Z (line 4144)",
+"ids 2026-11-23T14:30:34Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-23T13-36-47-2026-11-23-seam-requests-for-viola-open.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-23T14:30:53Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-23T14-15-58Z-implement",
+"--marker",
+"2026-11-23-seam-requests-for-viola-open"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 4297 · 2026-11-23T13-36-47-2026-11-23-seam-requests-for-viola-open.ndjson",
+"ts 2026-11-23T14:30:53Z · clock 2026-11-23T14:30:53Z · the builders' bound 2026-11-23T14:30:34Z (line 4145)",
+"ids 2026-11-23T14:30:53Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-23T13-36-47-2026-11-23-seam-requests-for-viola-open.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-23T14:32:57Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-23T14-15-58Z-implement",
+"--marker",
+"2026-11-23-seam-requests-for-viola-open"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 4299 · 2026-11-23T13-36-47-2026-11-23-seam-requests-for-viola-open.ndjson",
+"ts 2026-11-23T14:32:57Z · clock 2026-11-23T14:32:57Z · the builders' bound 2026-11-23T14:30:53Z (line 4146)",
+"ids 2026-11-23T14:32:57Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-23T13-36-47-2026-11-23-seam-requests-for-viola-open.ndjson"
+],
+"before": null,
+"after": null
+}
+]

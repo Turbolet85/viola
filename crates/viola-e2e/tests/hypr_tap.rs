@@ -1,7 +1,8 @@
 //! The test-only `viola-hypr-tap` spawned as it runs, against a planted `#!/bin/sh` stub `hyprctl`
 //! that replays the committed `fixtures/hyprland/0.56.2/` replies (test-plan §7 Fixture hygiene;
-//! security-plan · the Hyprland recorder's string allowlist): `record` and `record-dispatch` each
-//! write their set, and every malformed argument form is refused exit 2 with nothing written. Every
+//! security-plan · the Hyprland recorder's string allowlist): `record`, `record-dispatch` and
+//! `record-monitors` each write their set, `record-move` moves the window of a planted stub terminal
+//! it started and ends it, and every malformed argument form is refused exit 2 with nothing written. Every
 //! child is owned and killed at a stated deadline; `HOME` is the case's own temp dir, so the scrub
 //! has a home and a user word to strip.
 
@@ -56,17 +57,69 @@ fn stub(dir: &Path) -> PathBuf {
         let stdout = doc["stdout"].as_str().expect("a recorded stdout");
         fs::write(dir.join(format!("reply-{word}")), stdout).expect("the reply file");
     }
-    let path = dir.join("hyprctl");
+    fs::write(dir.join("reply-monitors"), MONITORS).expect("the monitors reply");
     let body = format!(
-        "#!/bin/sh\ncase \"$1\" in\n  -j) cat '{}/reply-'\"$2\" ;;\n  dispatch) echo ok ;;\n  *) exit 1 ;;\nesac\n",
+        "case \"$1\" in\n  -j) cat '{}/reply-'\"$2\" ;;\n  dispatch) echo ok ;;\n  *) exit 1 ;;\nesac",
         dir.display()
     );
+    planted(dir, "hyprctl", &body)
+}
+
+/// A synthetic `monitors` reply, every string a host would print standing in it.
+const MONITORS: &str = r#"[{"id":0,"name":"DP-1","description":"a monitor","make":"a maker","model":"a model","serial":"0x1","width":2560,"height":1440,"x":0,"y":0,"focused":true,"activeWorkspace":{"id":1,"name":"1"}}]"#;
+
+/// A `#!/bin/sh` script planted 0700 in `dir`, every handle closed before any spawn.
+fn planted(dir: &Path, name: &str, body: &str) -> PathBuf {
+    let path = dir.join(name);
     let mut file = fs::File::create(&path).expect("create");
-    file.write_all(body.as_bytes()).expect("write");
+    file.write_all(format!("#!/bin/sh\n{body}\n").as_bytes())
+        .expect("write");
     file.sync_all().expect("sync");
     drop(file);
     fs::set_permissions(&path, fs::Permissions::from_mode(0o700)).expect("chmod");
     path
+}
+
+/// A stub terminal that writes its pid to `<dir>/terminal-pid` and sleeps as that same process.
+fn stub_terminal(dir: &Path) -> PathBuf {
+    let body = format!(
+        "echo $$ > '{}/terminal-pid'\nexec /bin/sleep 30",
+        dir.display()
+    );
+    planted(dir, "terminal", &body)
+}
+
+/// A stub `hyprctl` for `record-move`: `clients` names the stub terminal's pid on workspace 1 until a
+/// dispatch, on `moved_to` after it, and no window once the pid is gone; `with_window` false names
+/// no window of that pid at all.
+fn stub_move(dir: &Path, moved_to: i32, with_window: bool) -> PathBuf {
+    let version: Value = serde_json::from_slice(
+        &fs::read(fixtures().join("Version.recorded-1.json")).expect("a committed reply"),
+    )
+    .expect("a reply document");
+    fs::write(
+        dir.join("reply-version"),
+        version["stdout"].as_str().expect("a recorded stdout"),
+    )
+    .expect("the reply file");
+    let d = dir.display();
+    let clients = if with_window {
+        format!(
+            "pid=$(cat '{d}/terminal-pid' 2>/dev/null)\n      if [ -n \"$pid\" ] && [ -d \"/proc/$pid\" ]; then\n        ws=1; [ -f '{d}/moved' ] && ws=$(cat '{d}/moved')\n        printf '[{{\"address\":\"0x55d4c1a2b3c0\",\"pid\":%s,\"workspace\":{{\"id\":%s}}}}]' \"$pid\" \"$ws\"\n      else printf '[]'; fi"
+        )
+    } else {
+        "printf '[{\"address\":\"0x55d4c1a2b3c0\",\"pid\":1,\"workspace\":{\"id\":1}}]'".to_owned()
+    };
+    let body = format!(
+        "case \"$1 $2\" in\n  '-j version') cat '{d}/reply-version' ;;\n  '-j clients')\n      {clients} ;;\n  dispatch*) printf '%s' \"$2\" > '{d}/dispatched'; echo {moved_to} > '{d}/moved'; echo ok ;;\n  *) exit 1 ;;\nesac"
+    );
+    planted(dir, "hyprctl", &body)
+}
+
+/// Whether the stub terminal's recorded pid is gone from `/proc`.
+fn terminal_gone(dir: &Path) -> bool {
+    let pid = fs::read_to_string(dir.join("terminal-pid")).expect("the terminal wrote its pid");
+    !Path::new(&format!("/proc/{}", pid.trim())).exists()
 }
 
 /// `viola-hypr-tap <args>` with `HOME` set to `home`.
@@ -154,12 +207,134 @@ fn hypr_tap_record_dispatch_writes_the_focus_and_workspace_replies() {
     );
 }
 
+/// The names of the files written under `<out>/0.56.2/`, sorted.
+fn written(out: &Path) -> Vec<String> {
+    let mut names: Vec<String> = fs::read_dir(out.join(VERSION))
+        .expect("the set dir")
+        .map(|e| {
+            e.expect("an entry")
+                .file_name()
+                .into_string()
+                .expect("utf-8")
+        })
+        .collect();
+    names.sort();
+    names
+}
+
+fn strings<'a>(value: &'a Value, out: &mut Vec<&'a str>) {
+    match value {
+        Value::String(s) => out.push(s),
+        Value::Array(items) => items.iter().for_each(|v| strings(v, out)),
+        Value::Object(map) => map.values().for_each(|v| strings(v, out)),
+        _ => {}
+    }
+}
+
+#[test]
+fn hypr_tap_record_monitors_writes_the_monitors_reply_alone() {
+    let rig = Rig::new();
+    let out = rig.run(&[
+        "record-monitors",
+        "--program",
+        &rig.program,
+        "--out",
+        rig.out_arg(),
+    ]);
+    assert_eq!(out.status.code(), Some(0), "{:?}", out.stderr);
+    assert_eq!(written(&rig.out), ["Monitors.recorded-1.json"]);
+    let doc: Value = serde_json::from_slice(
+        &fs::read(rig.out.join(VERSION).join("Monitors.recorded-1.json")).expect("read"),
+    )
+    .expect("a fixture");
+    assert_eq!(doc["request"], "monitors");
+    assert_eq!(doc["args"], serde_json::json!(["-j", "monitors"]));
+    let reply: Value =
+        serde_json::from_str(doc["stdout"].as_str().expect("stdout text")).expect("a reply");
+    assert_eq!(reply[0]["id"], 0);
+    assert_eq!(reply[0]["width"], 2560);
+    let mut texts = Vec::new();
+    strings(&reply, &mut texts);
+    assert_eq!(texts.len(), 6, "{texts:?}");
+    assert!(
+        texts.iter().all(|t| *t == "viola fixture text"),
+        "{texts:?}"
+    );
+}
+
+#[test]
+fn hypr_tap_record_move_moves_the_window_of_its_own_terminal_and_ends_it() {
+    let rig = Rig::new();
+    let terminal = stub_terminal(rig.dir.path());
+    let program = stub_move(rig.dir.path(), 7, true);
+    let out = rig.run(&[
+        "record-move",
+        "--program",
+        program.to_str().expect("utf-8"),
+        "--terminal",
+        terminal.to_str().expect("utf-8"),
+        "--workspace",
+        "7",
+        "--out",
+        rig.out_arg(),
+    ]);
+    assert_eq!(out.status.code(), Some(0), "{:?}", out.stderr);
+    assert_eq!(written(&rig.out), ["MoveToWorkspace.recorded-1.json"]);
+    let doc: Value = serde_json::from_slice(
+        &fs::read(
+            rig.out
+                .join(VERSION)
+                .join("MoveToWorkspace.recorded-1.json"),
+        )
+        .expect("read"),
+    )
+    .expect("a fixture");
+    let move_arg = r#"hl.dsp.window.move({ workspace = 7, window = "address:0x55d4c1a2b3c0" })"#;
+    assert_eq!(
+        doc,
+        serde_json::json!({"v": 1, "hyprland": VERSION, "request": "move-to-workspace",
+                           "args": ["dispatch", move_arg], "exit": 0, "stdout": "ok\n"})
+    );
+    assert_eq!(
+        fs::read_to_string(rig.dir.path().join("dispatched")).expect("dispatched"),
+        move_arg
+    );
+    assert!(terminal_gone(rig.dir.path()));
+}
+
+#[test]
+fn hypr_tap_record_move_refuses_with_no_window_of_its_terminal_and_writes_nothing() {
+    let rig = Rig::new();
+    let terminal = stub_terminal(rig.dir.path());
+    let program = stub_move(rig.dir.path(), 7, false);
+    let out = rig.run(&[
+        "record-move",
+        "--program",
+        program.to_str().expect("utf-8"),
+        "--terminal",
+        terminal.to_str().expect("utf-8"),
+        "--workspace",
+        "7",
+        "--out",
+        rig.out_arg(),
+    ]);
+    assert_eq!(out.status.code(), Some(1));
+    assert_eq!(
+        String::from_utf8_lossy(&out.stderr),
+        "viola-hypr-tap: no-terminal-window\n"
+    );
+    assert_eq!(fs::read_dir(&rig.out).expect("the out dir").count(), 0);
+    assert!(!rig.dir.path().join("dispatched").exists());
+    assert!(terminal_gone(rig.dir.path()));
+}
+
 #[test]
 fn hypr_tap_refuses_each_malformed_argument_form_with_exit_2_and_writes_nothing() {
     let rig = Rig::new();
     let program = rig.program.as_str();
     let out = rig.out_arg();
-    let cases: [(&str, Vec<&str>); 6] = [
+    let terminal = "/usr/bin/foot";
+    let cases: [(&str, Vec<&str>); 9] = [
         (
             "--prog for --program",
             vec!["record", "--prog", program, "--out", out],
@@ -180,6 +355,46 @@ fn hypr_tap_refuses_each_malformed_argument_form_with_exit_2_and_writes_nothing(
         (
             "four arguments",
             vec!["record", "--program", program, "--out"],
+        ),
+        (
+            "a relative terminal",
+            vec![
+                "record-move",
+                "--program",
+                program,
+                "--terminal",
+                "foot",
+                "--workspace",
+                "2",
+                "--out",
+                out,
+            ],
+        ),
+        (
+            "a workspace that is no i32",
+            vec![
+                "record-move",
+                "--program",
+                program,
+                "--terminal",
+                terminal,
+                "--workspace",
+                "two",
+                "--out",
+                out,
+            ],
+        ),
+        (
+            "a missing --workspace",
+            vec![
+                "record-move",
+                "--program",
+                program,
+                "--terminal",
+                terminal,
+                "--out",
+                out,
+            ],
         ),
     ];
     for (label, args) in cases {

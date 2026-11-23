@@ -1,0 +1,11 @@
+{
+  "v": 1,
+  "hyprland": "0.56.2",
+  "request": "move-to-workspace",
+  "args": [
+    "dispatch",
+    "hl.dsp.window.move({ workspace = 1, window = \"address:0x555aa16bde50\" })"
+  ],
+  "exit": 0,
+  "stdout": "ok\n"
+}

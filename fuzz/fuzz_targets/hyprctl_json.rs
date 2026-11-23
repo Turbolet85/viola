@@ -22,6 +22,10 @@ fuzz_target!(|bytes: &[u8]| {
             }
         }
     }
+    if let Ok(monitors) = reply::parse_monitors(bytes) {
+        // Each kept monitor stood as an object holding its integer id: `{"id":0}` at the least.
+        assert!(monitors.len() * 8 <= bytes.len());
+    }
     if let Ok(version) = reply::parse_version(bytes) {
         let tag = format!("v{version}");
         assert_eq!(reply::HyprlandVersion::from_tag(&tag), Some(version));

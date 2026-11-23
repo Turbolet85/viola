@@ -7,9 +7,15 @@
 //!   environment (the `absent` variant: the reply with no instance named).
 //! - `record-dispatch --program <abs> --out <dir>`: `activewindow`, then a focus dispatch on that same
 //!   window and `workspace` on its own workspace: the desktop does not change.
+//! - `record-monitors --program <abs> --out <dir>`: one read-only `monitors` read, written alone.
+//! - `record-move --program <abs> --terminal <abs> --workspace <i32> --out <dir>`: the terminal
+//!   spawned directly, its own window found by its pid in `clients`, moved once to the workspace,
+//!   seen there, the terminal killed and reaped and its window seen gone; then the move written
+//!   alone. Every failure is a closed code on stderr, never an address, pid, title or path.
 //!
 //! Each reply keeps a string only where its key stands on the request's closed allowlist in the
-//! form the seam parses; every other string, at any depth, becomes the placeholder. The recording is
+//! form the seam parses (`monitors` keeps none, a dispatch only its success text); every other
+//! string, at any depth, becomes the placeholder. The recording is
 //! then scrubbed (home → `~`, the user word → `<user>`) and one still holding a home, an absolute
 //! path, the user word or an email is refused by file name and closed code, never by its content:
 //! nothing is written. Files are 0600 in a 0700 directory.
@@ -19,15 +25,28 @@ use std::fs::{self, OpenOptions};
 use std::io::Write as _;
 use std::os::unix::fs::{OpenOptionsExt as _, PermissionsExt as _};
 use std::path::{Path, PathBuf};
-use std::process::ExitCode;
+use std::process::{Child, Command, ExitCode, Stdio};
+use std::time::{Duration, Instant};
 
 use serde_json::{Value, json};
 use viola_agent_claude::ledger;
 use viola_hyprland::reply::DISPATCH_OK;
-use viola_hyprland::{HyprlandVersion, Read, Reply, Request, is_address, read};
+use viola_hyprland::{
+    HyprlandVersion, Read, Reply, Request, Window, WorkspaceId, is_address, read,
+};
 
-const USAGE: &str =
-    "usage: viola-hypr-tap record|record-dispatch --program <absolute hyprctl> --out <dir>";
+const USAGE: &str = "usage: viola-hypr-tap record|record-dispatch|record-monitors --program <absolute hyprctl> --out <dir> | record-move --program <absolute hyprctl> --terminal <absolute terminal> --workspace <i32> --out <dir>";
+/// The argv the terminal is started with: a window of its own, running only a sleep that ends it
+/// by itself should the tap die.
+const TERMINAL_ARGS: [&str; 4] = [
+    "--app-id=viola.hypr-tap",
+    "--title=viola-hypr-tap",
+    "/usr/bin/sleep",
+    "30",
+];
+/// How often, and for how long, `clients` is read for the terminal's window to stand or leave.
+const WINDOW_POLL: Duration = Duration::from_millis(100);
+const WINDOW_WAIT: Duration = Duration::from_secs(5);
 /// What every string off the allowlist is replaced with.
 const PLACEHOLDER: &str = "viola fixture text";
 /// The variable whose absence makes `hyprctl` name no instance.
@@ -35,25 +54,71 @@ const INSTANCE_VAR: &str = "HYPRLAND_INSTANCE_SIGNATURE";
 const RECORDED: &str = "recorded-1";
 const ABSENT: &str = "absent-1";
 
+enum Verb {
+    Record,
+    RecordDispatch,
+    RecordMonitors,
+    RecordMove {
+        terminal: PathBuf,
+        workspace: WorkspaceId,
+    },
+}
+
+/// The verb, the program and the out dir, or none for any other argument form.
+fn parse_args(args: &[String]) -> Option<(Verb, PathBuf, PathBuf)> {
+    let (verb, program, out) = match args {
+        [verb, p, program, o, out] if p == "--program" && o == "--out" => {
+            let verb = match verb.as_str() {
+                "record" => Verb::Record,
+                "record-dispatch" => Verb::RecordDispatch,
+                "record-monitors" => Verb::RecordMonitors,
+                _ => return None,
+            };
+            (verb, program, out)
+        }
+        [verb, p, program, t, terminal, w, workspace, o, out]
+            if verb == "record-move"
+                && p == "--program"
+                && t == "--terminal"
+                && w == "--workspace"
+                && o == "--out" =>
+        {
+            let terminal = PathBuf::from(terminal);
+            if !terminal.is_absolute() {
+                return None;
+            }
+            let workspace = WorkspaceId::new(workspace.parse::<i32>().ok()?);
+            (
+                Verb::RecordMove {
+                    terminal,
+                    workspace,
+                },
+                program,
+                out,
+            )
+        }
+        _ => return None,
+    };
+    let program = PathBuf::from(program);
+    program
+        .is_absolute()
+        .then(|| (verb, program, PathBuf::from(out)))
+}
+
 fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().skip(1).collect();
-    let parsed = match args.as_slice() {
-        [verb, p, program, o, out] if p == "--program" && o == "--out" => {
-            Some((verb.as_str(), PathBuf::from(program), PathBuf::from(out)))
-        }
-        _ => None,
-    };
-    let Some((verb, program, out)) = parsed.filter(|(_, program, _)| program.is_absolute()) else {
+    let Some((verb, program, out)) = parse_args(&args) else {
         eprintln!("{USAGE}");
         return ExitCode::from(2);
     };
     let recorded = match verb {
-        "record" => record(&program),
-        "record-dispatch" => record_dispatch(&program),
-        _ => {
-            eprintln!("{USAGE}");
-            return ExitCode::from(2);
-        }
+        Verb::Record => record(&program),
+        Verb::RecordDispatch => record_dispatch(&program),
+        Verb::RecordMonitors => record_monitors(&program),
+        Verb::RecordMove {
+            terminal,
+            workspace,
+        } => record_move(&program, &terminal, workspace),
     };
     let (version, files) = match recorded {
         Ok(recorded) => recorded,
@@ -121,6 +186,93 @@ fn record_dispatch(program: &Path) -> Result<(HyprlandVersion, Vec<Fixture>), &'
         files.push(fixture(version, &request, &got, RECORDED));
     }
     Ok((version, files))
+}
+
+fn record_monitors(program: &Path) -> Result<(HyprlandVersion, Vec<Fixture>), &'static str> {
+    let version = version_of(program)?;
+    let got = read(Some(program), &Request::Monitors, &[]);
+    Ok((
+        version,
+        vec![fixture(version, &Request::Monitors, &got, RECORDED)],
+    ))
+}
+
+/// The terminal the tap started, killed and reaped when it is ended or dropped.
+struct Terminal(Child);
+
+impl Terminal {
+    fn end(&mut self) {
+        let _ = self.0.kill();
+        let _ = self.0.wait();
+    }
+}
+
+impl Drop for Terminal {
+    fn drop(&mut self) {
+        self.end();
+    }
+}
+
+/// The windows `clients` lists, or none when the read gave no list.
+fn windows(program: &Path) -> Option<Vec<Window>> {
+    match read(Some(program), &Request::Clients, &[]).reply {
+        Ok(Reply::Clients(windows)) => Some(windows),
+        _ => None,
+    }
+}
+
+fn window_of(program: &Path, pid: u32) -> Option<Window> {
+    windows(program)?
+        .into_iter()
+        .find(|window| window.pid == Some(pid))
+}
+
+/// `probe` read every `WINDOW_POLL` until it gives a value, for at most `WINDOW_WAIT`.
+fn within<T>(mut probe: impl FnMut() -> Option<T>) -> Option<T> {
+    let until = Instant::now() + WINDOW_WAIT;
+    loop {
+        if let Some(found) = probe() {
+            return Some(found);
+        }
+        if Instant::now() >= until {
+            return None;
+        }
+        std::thread::sleep(WINDOW_POLL);
+    }
+}
+
+fn record_move(
+    program: &Path,
+    terminal: &Path,
+    workspace: WorkspaceId,
+) -> Result<(HyprlandVersion, Vec<Fixture>), &'static str> {
+    let version = version_of(program)?;
+    let child = Command::new(terminal)
+        .args(TERMINAL_ARGS)
+        .stdin(Stdio::null())
+        .stdout(Stdio::null())
+        .stderr(Stdio::null())
+        .spawn()
+        .map_err(|_| "no-terminal-window")?;
+    let mut terminal = Terminal(child);
+    let pid = terminal.0.id();
+    let window = within(|| window_of(program, pid)).ok_or("no-terminal-window")?;
+    let request = Request::MoveToWorkspace(window.address, workspace);
+    let got = read(Some(program), &request, &[]);
+    if !matches!(got.reply, Ok(Reply::Dispatched)) {
+        return Err("move-refused");
+    }
+    if window_of(program, pid).and_then(|w| w.workspace) != Some(workspace) {
+        return Err("move-unseen");
+    }
+    terminal.end();
+    let gone = || {
+        windows(program)
+            .filter(|all| all.iter().all(|w| w.pid != Some(pid)))
+            .map(|_| ())
+    };
+    within(gone).ok_or("window-left")?;
+    Ok((version, vec![fixture(version, &request, &got, RECORDED)]))
 }
 
 /// `FocusWindow` for `focus-window`: the fixture file stem of a request word.
@@ -267,7 +419,6 @@ fn write_set(dir: &Path, files: &[Fixture]) -> Result<(), String> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use viola_hyprland::WorkspaceId;
 
     fn kept(word: &str, doc: Value) -> Value {
         serde_json::from_str(&kept_stdout(word, doc.to_string().as_bytes())).expect("json")
@@ -353,6 +504,138 @@ mod tests {
     }
 
     #[test]
+    fn record_keeps_no_monitors_string() {
+        let monitors = kept(
+            "monitors",
+            json!([{
+                "id": 0,
+                "name": "DP-1",
+                "description": "a monitor",
+                "make": "a maker",
+                "model": "a model",
+                "serial": "0x1",
+                "width": 2560,
+                "focused": true,
+                "activeWorkspace": {"id": 4, "name": "4"},
+                "availableModes": ["2560x1440@60.00Hz"],
+            }]),
+        );
+        assert_eq!(
+            monitors,
+            json!([{
+                "id": 0,
+                "name": PLACEHOLDER,
+                "description": PLACEHOLDER,
+                "make": PLACEHOLDER,
+                "model": PLACEHOLDER,
+                "serial": PLACEHOLDER,
+                "width": 2560,
+                "focused": true,
+                "activeWorkspace": {"id": 4, "name": PLACEHOLDER},
+                "availableModes": [PLACEHOLDER],
+            }])
+        );
+    }
+
+    #[test]
+    fn record_keeps_a_move_reply_only_as_the_success_text() {
+        assert_eq!(kept_stdout("move-to-workspace", b"ok\n"), "ok\n");
+        assert_eq!(kept_stdout("move-to-workspace", b"ok"), "ok");
+        assert_eq!(
+            kept_stdout("move-to-workspace", b"Invalid dispatcher\n"),
+            PLACEHOLDER
+        );
+        assert_eq!(
+            kept("move-to-workspace", json!({"address": "0x1", "ok": "ok"})),
+            json!({"address": PLACEHOLDER, "ok": PLACEHOLDER})
+        );
+    }
+
+    #[test]
+    fn parse_args_takes_each_verb_form_and_refuses_every_other() {
+        let args = |line: &str| -> Vec<String> { line.split(' ').map(str::to_owned).collect() };
+        let verb = |line: &str| {
+            parse_args(&args(line)).map(|(verb, program, out)| {
+                let named = match verb {
+                    Verb::Record => "record".to_owned(),
+                    Verb::RecordDispatch => "record-dispatch".to_owned(),
+                    Verb::RecordMonitors => "record-monitors".to_owned(),
+                    Verb::RecordMove {
+                        terminal,
+                        workspace,
+                    } => format!(
+                        "record-move {} {}",
+                        terminal.display(),
+                        workspace.into_inner()
+                    ),
+                };
+                (named, program, out)
+            })
+        };
+        let p = || PathBuf::from("/usr/bin/hyprctl");
+        let o = || PathBuf::from("out");
+        for (label, line, want) in [
+            (
+                "record",
+                "record --program /usr/bin/hyprctl --out out",
+                Some(("record".to_owned(), p(), o())),
+            ),
+            (
+                "record-dispatch",
+                "record-dispatch --program /usr/bin/hyprctl --out out",
+                Some(("record-dispatch".to_owned(), p(), o())),
+            ),
+            (
+                "record-monitors",
+                "record-monitors --program /usr/bin/hyprctl --out out",
+                Some(("record-monitors".to_owned(), p(), o())),
+            ),
+            (
+                "record-move",
+                "record-move --program /usr/bin/hyprctl --terminal /usr/bin/foot --workspace -98 --out out",
+                Some(("record-move /usr/bin/foot -98".to_owned(), p(), o())),
+            ),
+            (
+                "record-move in the short form",
+                "record-move --program /usr/bin/hyprctl --out out",
+                None,
+            ),
+            (
+                "a relative terminal",
+                "record-move --program /usr/bin/hyprctl --terminal foot --workspace 2 --out out",
+                None,
+            ),
+            (
+                "a relative program",
+                "record-move --program hyprctl --terminal /usr/bin/foot --workspace 2 --out out",
+                None,
+            ),
+            (
+                "a workspace past i32",
+                "record-move --program /usr/bin/hyprctl --terminal /usr/bin/foot --workspace 2147483648 --out out",
+                None,
+            ),
+            (
+                "the long form for another verb",
+                "record --program /usr/bin/hyprctl --terminal /usr/bin/foot --workspace 2 --out out",
+                None,
+            ),
+            (
+                "--term for --terminal",
+                "record-move --program /usr/bin/hyprctl --term /usr/bin/foot --workspace 2 --out out",
+                None,
+            ),
+            (
+                "--ws for --workspace",
+                "record-move --program /usr/bin/hyprctl --terminal /usr/bin/foot --ws 2 --out out",
+                None,
+            ),
+        ] {
+            assert_eq!(verb(line), want, "{label}");
+        }
+    }
+
+    #[test]
     fn stem_is_the_pascal_case_of_each_request_word() {
         let stems: Vec<String> = viola_hyprland::WORDS.iter().map(|w| stem(w)).collect();
         assert_eq!(
@@ -363,7 +646,9 @@ mod tests {
                 "Workspaces",
                 "Version",
                 "FocusWindow",
-                "Workspace"
+                "Workspace",
+                "Monitors",
+                "MoveToWorkspace"
             ]
         );
     }

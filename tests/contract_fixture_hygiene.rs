@@ -522,6 +522,7 @@ fn on_allowlist(request: &str, key: &str, value: &str) -> bool {
         }
         ("workspaces", "lastwindow") => is_window_address(value),
         ("version", "tag") => is_version_tag(value),
+        ("monitors" | "move-to-workspace", _) => false,
         _ => false,
     }
 }
@@ -599,6 +600,8 @@ fn hyprland_check(request: &str, reply: &Value) -> Result<(), HyprlandViolation>
 #[case::no_active_window("active-window", json!({}))]
 #[case::workspaces("workspaces", json!([{"id": 1, "lastwindow": "0x1", "lastwindowtitle": "viola fixture text"}]))]
 #[case::version("version", json!({"tag": "v0.56.2", "branch": "viola fixture text", "flags": []}))]
+#[case::monitors("monitors", json!([{"id": 0, "name": "viola fixture text", "width": 2560,
+    "activeWorkspace": {"id": 1, "name": "viola fixture text"}, "focused": true}]))]
 fn planted_clean_hyprland_reply_passes(#[case] request: &str, #[case] reply: Value) {
     assert_eq!(hyprland_check(request, &reply), Ok(()));
 }
@@ -606,6 +609,7 @@ fn planted_clean_hyprland_reply_passes(#[case] request: &str, #[case] reply: Val
 #[rstest]
 #[case::success("focus-window", "ok\n")]
 #[case::success_bare("workspace", "ok")]
+#[case::move_success("move-to-workspace", "ok\n")]
 #[case::placeholder("version", "viola fixture text")]
 fn planted_clean_hyprland_text_reply_passes(#[case] request: &str, #[case] stdout: &str) {
     let doc = hyprland_reply(request, stdout);
@@ -620,6 +624,24 @@ fn planted_hyprland_title_is_rejected() {
     let reply = json!([{"address": "0x1", "title": "a window"}]);
     assert_eq!(
         hyprland_check("clients", &reply),
+        Err(HyprlandViolation::OffAllowlist)
+    );
+}
+
+#[test]
+fn planted_hyprland_monitors_name_is_rejected() {
+    let reply = json!([{"id": 0, "name": "DP-1", "width": 2560}]);
+    assert_eq!(
+        hyprland_check("monitors", &reply),
+        Err(HyprlandViolation::OffAllowlist)
+    );
+}
+
+#[test]
+fn planted_hyprland_move_reply_other_than_success_is_rejected() {
+    let doc = hyprland_reply("move-to-workspace", "Invalid dispatcher");
+    assert_eq!(
+        check_hyprland(doc.to_string().as_bytes(), None),
         Err(HyprlandViolation::OffAllowlist)
     );
 }
@@ -661,7 +683,7 @@ fn planted_hyprland_text_reply_other_than_success_is_rejected() {
 #[case::user_word(json!({"stdout": "made by plantuser"}), Violation::Username)]
 #[case::email(json!({"stdout": "a.b@example.com"}), Violation::Email)]
 #[case::wrong_version(json!({"v": 2}), Violation::Schema)]
-#[case::unknown_request(json!({"request": "monitors"}), Violation::Schema)]
+#[case::unknown_request(json!({"request": "exec"}), Violation::Schema)]
 #[case::version_not_digits(json!({"hyprland": "v0.56.2"}), Violation::Schema)]
 #[case::stdout_not_text(json!({"stdout": []}), Violation::Schema)]
 #[case::exit_not_a_number(json!({"exit": "0"}), Violation::Schema)]

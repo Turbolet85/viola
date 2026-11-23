@@ -12,7 +12,7 @@ pub mod read;
 pub mod reply;
 
 pub use read::{HYPRCTL_DEADLINE, Read, read};
-pub use reply::{HyprlandVersion, Reply, Window, Workspace};
+pub use reply::{HyprlandVersion, Monitor, Reply, Window, Workspace};
 
 /// The program viola spawns; the caller resolves it on `PATH` and passes the absolute path.
 pub const PROGRAM: &str = "hyprctl";
@@ -40,7 +40,7 @@ pub fn is_address(text: &str) -> bool {
             .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
 }
 
-/// The relied-on requests, closed: four queries and two dispatches.
+/// The relied-on requests, closed: five queries and three dispatches.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Request {
     Clients,
@@ -49,12 +49,16 @@ pub enum Request {
     Version,
     FocusWindow(Address),
     Workspace(WorkspaceId),
+    Monitors,
+    MoveToWorkspace(Address, WorkspaceId),
 }
 
 impl Request {
     /// The argv after the program, one element each; no element is built from a reply's text. A
     /// dispatch is one Lua dispatcher expression: 0.56.2 runs `dispatch <args>` as
-    /// `hl.dispatch(<args>)` (measured live), and only a closed `Address` or an integer enters it.
+    /// `hl.dispatch(<args>)` (measured live) — `hl.dsp.focus` on a window or a workspace, or the
+    /// window move `hl.dsp.window.move` of a window to a workspace — and only a closed `Address`
+    /// or an integer enters it.
     pub fn args(&self) -> Vec<OsString> {
         let words: Vec<String> = match self {
             Self::Clients => vec!["-j".into(), "clients".into()],
@@ -72,6 +76,15 @@ impl Request {
                 "dispatch".into(),
                 format!("hl.dsp.focus({{ workspace = {} }})", id.into_inner()),
             ],
+            Self::Monitors => vec!["-j".into(), "monitors".into()],
+            Self::MoveToWorkspace(address, id) => vec![
+                "dispatch".into(),
+                format!(
+                    "hl.dsp.window.move({{ workspace = {}, window = \"address:{}\" }})",
+                    id.into_inner(),
+                    address.as_ref()
+                ),
+            ],
         };
         words.into_iter().map(OsString::from).collect()
     }
@@ -85,23 +98,30 @@ impl Request {
             Self::Version => "version",
             Self::FocusWindow(_) => "focus-window",
             Self::Workspace(_) => "workspace",
+            Self::Monitors => "monitors",
+            Self::MoveToWorkspace(..) => "move-to-workspace",
         }
     }
 
     /// Whether this request changes the compositor's state rather than reading it.
     pub fn is_dispatch(&self) -> bool {
-        matches!(self, Self::FocusWindow(_) | Self::Workspace(_))
+        matches!(
+            self,
+            Self::FocusWindow(_) | Self::Workspace(_) | Self::MoveToWorkspace(..)
+        )
     }
 }
 
 /// Every request word, in declaration order.
-pub const WORDS: [&str; 6] = [
+pub const WORDS: [&str; 8] = [
     "clients",
     "active-window",
     "workspaces",
     "version",
     "focus-window",
     "workspace",
+    "monitors",
+    "move-to-workspace",
 ];
 
 /// Why a read gave no reply; each word is closed and each message fixed.
@@ -259,6 +279,17 @@ mod tests {
             argv(Request::Workspace(WorkspaceId::new(-98))),
             ["dispatch", "hl.dsp.focus({ workspace = -98 })"]
         );
+        assert_eq!(argv(Request::Monitors), ["-j", "monitors"]);
+        assert_eq!(
+            argv(Request::MoveToWorkspace(
+                address("0x55d4c1a2b3c0"),
+                WorkspaceId::new(-98)
+            )),
+            [
+                "dispatch",
+                r#"hl.dsp.window.move({ workspace = -98, window = "address:0x55d4c1a2b3c0" })"#
+            ]
+        );
     }
 
     #[test]
@@ -270,6 +301,8 @@ mod tests {
             Request::Version,
             Request::FocusWindow(address("0x1")),
             Request::Workspace(WorkspaceId::new(1)),
+            Request::Monitors,
+            Request::MoveToWorkspace(address("0x1"), WorkspaceId::new(1)),
         ];
         let words: Vec<&str> = requests.iter().map(Request::word).collect();
         assert_eq!(words, WORDS);
@@ -277,7 +310,10 @@ mod tests {
             assert!(viola_core::is_code_word(word), "{word}");
         }
         let dispatches: Vec<bool> = requests.iter().map(Request::is_dispatch).collect();
-        assert_eq!(dispatches, [false, false, false, false, true, true]);
+        assert_eq!(
+            dispatches,
+            [false, false, false, false, true, true, false, true]
+        );
     }
 
     #[test]

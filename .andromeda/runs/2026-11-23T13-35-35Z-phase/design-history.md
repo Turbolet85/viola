@@ -1,0 +1,20 @@
+@history_item n=1 marker=2026-10-05-real-cli-verify-probes
+**2026-10-05-real-cli-verify-probes** — turned verify's fixed exit-1 refusal `a recorded payload still holds a path or a username` into the named `a recorded fixture is not clean: <file> <code>` (a screen: `<file> row <n>[ seam] <code>`), with closed codes and never the content, on the founder's live ruling. This is the origin of contract/viola-verify-refusals/unclean-fixture. The new `monitors` and move-to-workspace fixtures under `fixtures/hyprland/<version>/` that `viola-hypr-tap` records must pass that screen (`home-path` · `absolute-path` · `username` · `email`). The reply text the parse drops, and the per-request keep-list, must keep a fixture free of those codes, and no new code may be added without a fork.
+
+@history_item n=2 marker=2026-09-28-capability-ledger-and-viola-verify
+**2026-09-28-capability-ledger-and-viola-verify** — first landed verify's exit-1 refusals, the recorded-payload screen among them (`a recorded payload still holds a path or a username`, each refusal with its own hint). This is the precedent the unclean-fixture row grew from: a recorded fixture is checked for host-identifying content before it counts, and a new class of recorded fixture (Hyprland replies) falls under the same rule.
+
+@history_item n=3 marker=2026-11-05-linux-only-code-and-ci
+**2026-11-05-linux-only-code-and-ci** — (the cli Platform narrowed) the Platform line became «Linux terminals (the core on any current distribution, CI on `ubuntu-latest`)», replacing Windows/macOS/Linux, on the founder's rulings of 2026-11-04. This is the origin of decision/linux-terminal-platform. The Hyprland seam is narrower than "any current distribution": the core must not come to depend on Hyprland, and CI on `ubuntu-latest` has no compositor. The seam's tests therefore run on the recorded fixtures replayed by the fake hyprctl, never on a live `hyprctl`.
+
+@history_item n=4 marker=2026-11-05-linux-only-code-and-ci
+**2026-11-05-linux-only-code-and-ci** — (the stale-row witness on the one CI runner) the CI matrix became `[ubuntu-latest]` alone, with the macOS leg retired and test gates made unconditional. Any witness this chunk adds (the timed read against `HYPRCTL_DEADLINE`, the drain-past-`MAX_FRAME` witness, the `monitors` and dispatch replay cases) must be green on that single runner, with no OS gate and no live window.
+
+@history_item n=5 marker=2026-11-05-linux-only-code-and-ci
+**2026-11-05-linux-only-code-and-ci** — (the .cmd/.bat refusal retired) verify's exit-1 refusals lost `the claude CLI is a .cmd or .bat script`, and verify's codes were pinned in `tests/cross_exit_causes.rs`. This shows verify's refusal list is closed and pinned by a test: the unclean-fixture refusal's codes must not grow quietly while new fixtures are being recorded.
+
+@history_item n=6 marker=2026-11-12T03-23-49-rows
+**2026-11-12T03-23-49-rows** — turned the master's text into rows (decision / contract / absence / name / overview), each verified against the code, with the fates set by the founder. Both picked rows (decision/linux-terminal-platform, contract/viola-verify-refusals/unclean-fixture) and the absences and names in the rows file come from this conversion. The verb list (`name/command/*`) is closed. This chunk adds no verb, and `open` belongs to «`viola open`», so the conversion gives no handle for this chunk to add.
+
+@history_item n=7 marker=2026-11-08T20-32-52-wrap
+**2026-11-08T20-32-52-wrap** — (version census 0.2.0: brand, surface and bans scoped to the CLI) every web and graphical surface leaves viola. The design direction is the one the CLI carries and the terminal fleet console inherits, and the spinner / live-redraw ban is scoped to a verb's output. This is the source of overview/brand-identity and absence/web-page-surface. A compositor seam that opens and moves terminal windows creates no graphical surface of viola's own: it stays a test/dev seam with no product caller here, and it prints no design wording.

@@ -209,8 +209,8 @@ const BOUNDARIES: &[Boundary] = &[
         needle: "let stdout = drain(child.stdout.take(), MAX_FRAME + 1);",
         cap: "MAX_FRAME + 1",
         depth: DEFAULT_DEPTH,
-        types: "closed Window, Workspace and HyprlandVersion, or the closed HyprlandError",
-        witness: "parse_clients_takes_max_frame_bytes_and_refuses_one_more_as_oversize",
+        types: "closed Window, Workspace, Monitor and HyprlandVersion, or the closed HyprlandError",
+        witness: "read_of_a_reply_twice_the_cap_keeps_one_byte_past_it_and_is_oversize",
     },
     Boundary {
         boundary: "verify hook captures",

@@ -102,6 +102,18 @@ fn request_of(doc: &Value) -> Request {
                 .expect("a workspace focus dispatch");
             Request::Workspace(WorkspaceId::new(id.parse().expect("an id")))
         }
+        "monitors" => Request::Monitors,
+        "move-to-workspace" => {
+            let (id, address) = args[1]
+                .strip_prefix("hl.dsp.window.move({ workspace = ")
+                .and_then(|rest| rest.strip_suffix(r#"" })"#))
+                .and_then(|rest| rest.split_once(r#", window = "address:"#))
+                .expect("a window move dispatch");
+            Request::MoveToWorkspace(
+                Address::try_new(address.to_owned()).expect("an address"),
+                WorkspaceId::new(id.parse().expect("an id")),
+            )
+        }
         other => panic!("no request word {other}"),
     }
 }
@@ -169,7 +181,11 @@ fn contract_hyprland_read_parses_every_recorded_reply_into_its_type() {
                         doc["hyprland"].as_str().expect("version")
                     ))
             }
-            (Request::FocusWindow(_) | Request::Workspace(_), Ok(Reply::Dispatched)) => true,
+            (
+                Request::FocusWindow(_) | Request::Workspace(_) | Request::MoveToWorkspace(..),
+                Ok(Reply::Dispatched),
+            ) => true,
+            (Request::Monitors, Ok(Reply::Monitors(monitors))) => !monitors.is_empty(),
             _ => false,
         };
         assert!(parsed, "{}: {reply:?}", path.display());
