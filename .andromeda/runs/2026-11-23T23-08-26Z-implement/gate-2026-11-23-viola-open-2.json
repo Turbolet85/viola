@@ -3508,5 +3508,51 @@
 },
 "indeterminate": 0
 }
+},
+{
+"tool": "gate",
+"v": "1.39",
+"sha8": "cb6114c9",
+"ts": "2026-11-23T23:48:58Z",
+"argv": [
+"census",
+"--args",
+"viola-e2e-home",
+"--args",
+"target/e2e-home",
+"--args",
+"viola-session",
+"--args",
+"viola-r2",
+"--args",
+"andromeda-control",
+"--run-dir",
+".andromeda/runs/2026-11-23T23-08-26Z-implement",
+"--marker",
+"2026-11-23-viola-open-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"census · ps · comm — · args viola-e2e-home, target/e2e-home, viola-session, viola-r2, andromeda-control · own tree excluded: 8",
+"census: none running"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"census": {
+"comm": [],
+"args": [
+"viola-e2e-home",
+"target/e2e-home",
+"viola-session",
+"viola-r2",
+"andromeda-control"
+],
+"running": []
+}
+}
 }
 ]
