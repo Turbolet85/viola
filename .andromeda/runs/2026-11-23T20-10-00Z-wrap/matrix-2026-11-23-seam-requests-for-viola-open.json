@@ -1,0 +1,53 @@
+[
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "afc8a3a0",
+"ts": "2026-11-23T20:40:02Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-23-seam-requests-for-viola-open",
+"--run-dir",
+".andromeda/runs/2026-11-23T20-10-00Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-11-23-seam-requests-for-viola-open)",
+"pool: unclaimed 10 [v2-07 v2-08 v2-11 v2-12 v2-13 v2-14 v2-15 v2-28 v2-30 v2-31]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "afc8a3a0",
+"ts": "2026-11-23T20:40:07Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-23-seam-requests-for-viola-open",
+"--run-dir",
+".andromeda/runs/2026-11-23T20-10-00Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-11-23-seam-requests-for-viola-open)",
+"pool: unclaimed 10 [v2-07 v2-08 v2-11 v2-12 v2-13 v2-14 v2-15 v2-28 v2-30 v2-31]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

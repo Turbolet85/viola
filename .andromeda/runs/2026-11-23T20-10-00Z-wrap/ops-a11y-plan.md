@@ -1,0 +1,2 @@
+@none
+reason: The chunk adds no interactive UI element and changes neither the a11y violation schema nor the obs log schema (fct-lhh72hqo: a11y n/a on every new surface). The one picked row, decision/no-unwarned-timeouts, stays true: the settled 5 s HYPRCTL_DEADLINE is a driver-side bound on a compositor read with no product caller, not a timeout a human meets (fct-tbmaklu4, fct-xaiu57oy). Per the P5 card (fct-qrunt2s3), the a11y time-bound row for it is carried to «viola open», the seam's first product caller. The task names no new fact.

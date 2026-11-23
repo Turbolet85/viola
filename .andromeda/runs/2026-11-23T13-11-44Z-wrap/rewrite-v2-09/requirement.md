@@ -1,1 +1,0 @@
-a declared parent and role are recorded once, at launch, as a `lineage` event in the instance's own event log (one writer, replayable); `list` shows the fleet as trees; a reused name never inherits an old parent; `revive` keeps the node's parent; a parent edge is a drawing label only and never changes the wheel, the links or who may `send`

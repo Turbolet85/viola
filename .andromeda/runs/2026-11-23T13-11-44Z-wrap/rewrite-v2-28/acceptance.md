@@ -1,1 +1,0 @@
-On the founder's Omarchy host the pair's whole fleet is started by viola, the overseers running wrapped with their parents declared, restored by viola after a reboot, and seen and driven from one console, with the three fleet scripts removed and nothing calling them; the founder confirms it.

@@ -1,0 +1,36 @@
+[[pattern]]
+id = 'seamreqs'
+regex = '\b(6|8) (closed )?(requests|request words|words)\b|closed (request )?set|\bWORDS\b|viola_hyprland::Request'
+
+[[pattern]]
+id = 'fixset'
+regex = '\b(7|8) (recorded )?(files|fixtures|replies|fixture files)\b|fixtures/hyprland'
+
+[[pattern]]
+id = 'schemaenum'
+regex = 'hyprland-fixture\.v1|request` enum|request enum'
+
+[[pattern]]
+id = 'witness'
+regex = 'parse_clients_takes_max_frame_bytes|read_of_a_reply_twice_the_cap|hyprctl reply'
+
+[[pattern]]
+id = 'deadline'
+regex = 'HYPRCTL_DEADLINE|hyprctl-read-deadline|read deadline'
+
+[[pattern]]
+id = 'dispatch'
+regex = 'hl\.dsp|movetoworkspace|move-to-workspace|hyprctl-direct-spawn'
+ignore_case = true
+
+[[pattern]]
+id = 'allowlist'
+regex = 'hyprland-recorder-string-allowlist|string allowlist|keep-list'
+
+[[pattern]]
+id = 'tapverbs'
+regex = 'viola-hypr-tap|record-monitors|record-move'
+
+[[pattern]]
+id = 'monitors'
+regex = 'Monitors\.recorded|`monitors`|parse_monitors'

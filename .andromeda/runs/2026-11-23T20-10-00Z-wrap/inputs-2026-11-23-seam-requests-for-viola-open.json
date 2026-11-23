@@ -1,0 +1,99 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T20:09:12Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-23-seam-requests-for-viola-open",
+"--source",
+"../additional/viola-overseer/wrap-seam-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer wrap directive: what followed the report (R1 green on the operator own word, host reboot), whose word each row rests on, the rows to read against the build, the four carries spent, the last card",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-23T20-10-00Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy no-repo · ../additional/viola-overseer/wrap-seam-directive.md",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-wrap-seam-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-seam-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "175429793fff93c58da632b4e7d78f6c1da312c452c64f075f685f38c45d5e60",
+"copy": "I5-wrap-seam-directive.md.txt",
+"link": false,
+"read_at": "2026-11-23T20:09:11Z",
+"step": "wrap",
+"why": "the overseer wrap directive: what followed the report (R1 green on the operator own word, host reboot), whose word each row rests on, the rows to read against the build, the four carries spent, the last card"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-23T20:09:16Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-23-seam-requests-for-viola-open",
+"--run-dir",
+".andromeda/runs/2026-11-23T20-10-00Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-seam-directive.md",
+"I1 cited scope.md:70 · research.md:7 · plan.md:29 · plan.md:165 · plan.md:270 (in fence) · plan.md:400 · plan.md:418 · report.md:50",
+"I2 n/a — a message has no live source · copy message · message: the session user, this session (2026-11-23)",
+"I2 cited report.md:50 · report.md:53",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/implement-seam-directive.md",
+"I3 cited report.md:51 · report.md:87 · report.md:110",
+"I4 n/a — a message has no live source · copy message · message: the overseer, relaying the operator own word «R1, workspace 1» typed 2026-11-23T18:17:06Z",
+"I4 UNCITED",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/wrap-seam-directive.md",
+"I5 UNCITED",
+"inputs: 5 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 5,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 2,
+"unparsed": 0
+}
+}
+]

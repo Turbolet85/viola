@@ -1,1 +1,0 @@
-on the founder's Omarchy host the pair's whole fleet (overseer1, the project overseers, their builders) is started by viola, restored by viola after a reboot, and seen and driven from one console; `vstart.sh`, `up.sh` and `pwait.sh` are retired because nothing calls them; every session, the overseers included, runs under viola with its parent declared

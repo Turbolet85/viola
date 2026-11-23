@@ -1,0 +1,2 @@
+@none
+reason: The chunk adds two requests to the Hyprland seam (`monitors`, `move-to-workspace`), their parsers, a schema enum widening, fixtures and verbs of the test-only `viola-hypr-tap`. The seam has no product caller, no viola verb output, refusal, hint, exit code, colour token or rendered UI element is added or changed (fct-y4jmpjio, fct-xaiu57oy, fct-lhh72hqo: tokens n/a), so every design-system row, the picker-marked ones included, reads as true as before.

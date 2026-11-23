@@ -1,0 +1,12 @@
+[[pattern]]
+id = 'dspfocus'
+regex = 'hl\.dsp\.focus'
+
+[[pattern]]
+id = 'deadlineprov'
+regex = 'HYPRCTL_DEADLINE|hyprctl[^.]{0,80}deadline'
+ignore_case = true
+
+[[pattern]]
+id = 'keepnone'
+regex = 'non-JSON reply|per-request (key )?(allowlist|keep-list)'

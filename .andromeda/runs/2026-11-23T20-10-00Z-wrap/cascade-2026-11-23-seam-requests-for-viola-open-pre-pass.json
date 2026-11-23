@@ -1,0 +1,213 @@
+[
+{
+"tool": "cascade",
+"v": "1.37",
+"sha8": "63d45d09",
+"ts": "2026-11-23T20:09:41Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-23T20-10-00Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-23T20-10-00Z-wrap",
+"--marker",
+"2026-11-23-seam-requests-for-viola-open"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline 092e5658 (pre-pass — HEAD)",
+"fixset · control UNFIRED over the seven masters (bodies and sets) at 092e5658",
+"schemaenum · control UNFIRED over the seven masters (bodies and sets) at 092e5658",
+"monitors · control UNFIRED over the seven masters (bodies and sets) at 092e5658"
+],
+"stderr": "control: fixset, schemaenum, monitors never fired over the seven masters' pre-pass text, bodies and sets (092e5658) — no master holds them: re-fire with --pattern seamreqs --pattern witness --pattern deadline --pattern dispatch --pattern allowlist --pattern tapverbs; this refusal, the trail's record, is the basis of each named pattern's master zero",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.37",
+"sha8": "63d45d09",
+"ts": "2026-11-23T20:09:50Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-23T20-10-00Z-wrap/report-patterns.toml",
+"--pattern",
+"seamreqs",
+"--pattern",
+"witness",
+"--pattern",
+"deadline",
+"--pattern",
+"dispatch",
+"--pattern",
+"allowlist",
+"--pattern",
+"tapverbs",
+"--run-dir",
+".andromeda/runs/2026-11-23T20-10-00Z-wrap",
+"--marker",
+"2026-11-23-seam-requests-for-viola-open"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 092e5658 (pre-pass — HEAD)",
+"architecture · 9 rows over 1 files · new 0 · standing 9 · 4 patterns",
+"security-plan · 8 rows over 1 files · new 0 · standing 8 · 5 patterns",
+"design-system · 16 rows over 1 files · new 0 · standing 16 · 1 pattern",
+"test-plan · 5 rows over 1 files · new 0 · standing 5 · 3 patterns",
+"obs-plan · 13 rows over 1 files · new 0 · standing 13 · 2 patterns",
+"a11y-plan · 9 rows over 1 files · new 0 · standing 9 · 1 pattern",
+"by line · 0 lines · 0 offsets",
+"total (6 patterns) · 77 rows over 16 files",
+"per class · new 0/0 · standing 60/6 · leaf 17/10 · curation 0/0 · base 0/0",
+"rows 1/1 · .andromeda/runs/2026-11-23T20-10-00Z-wrap/sweep-pre-pass-1.1.txt · 91 lines · 10881 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-23T20-10-00Z-wrap/sweep-pre-pass-1.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "092e56583b530c82d07ab492a97a6c8507281249",
+"how": "pre-pass — HEAD",
+"counts": {
+"seamreqs": {
+"new": 0,
+"standing": 43,
+"leaf": 5,
+"curation": 0,
+"base": 0
+},
+"witness": {
+"new": 0,
+"standing": 9,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"deadline": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"dispatch": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"allowlist": {
+"new": 0,
+"standing": 2,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"tapverbs": {
+"new": 0,
+"standing": 4,
+"leaf": 7,
+"curation": 0,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 9,
+"files": 1,
+"new": 0,
+"standing": 9,
+"patterns": 4
+},
+"security-plan": {
+"rows": 8,
+"files": 1,
+"new": 0,
+"standing": 8,
+"patterns": 5
+},
+"design-system": {
+"rows": 16,
+"files": 1,
+"new": 0,
+"standing": 16,
+"patterns": 1
+},
+"test-plan": {
+"rows": 5,
+"files": 1,
+"new": 0,
+"standing": 5,
+"patterns": 3
+},
+"obs-plan": {
+"rows": 13,
+"files": 1,
+"new": 0,
+"standing": 13,
+"patterns": 2
+},
+"a11y-plan": {
+"rows": 9,
+"files": 1,
+"new": 0,
+"standing": 9,
+"patterns": 1
+}
+},
+"per_master": {
+"seamreqs": {
+"architecture": 4,
+"security-plan": 4,
+"design-system": 16,
+"obs-plan": 10,
+"a11y-plan": 9
+},
+"witness": {
+"architecture": 3,
+"security-plan": 1,
+"test-plan": 2,
+"obs-plan": 3
+},
+"deadline": {
+"security-plan": 1
+},
+"dispatch": {
+"architecture": 1
+},
+"allowlist": {
+"security-plan": 1,
+"test-plan": 1
+},
+"tapverbs": {
+"architecture": 1,
+"security-plan": 1,
+"test-plan": 2
+}
+},
+"forms": {
+"seamreqs": [
+{
+"form": "b(six|eight) (closed )?(requests|request words|words)b",
+"from": "6 · 8"
+}
+]
+},
+"parts": [
+"sweep-pre-pass-1.1.txt"
+]
+}
+}
+]

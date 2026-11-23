@@ -1,0 +1,73 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "4158721f",
+"ts": "2026-11-23T20:41:34Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-23-seam-requests-for-viola-open",
+"--date",
+"2026-11-23",
+"--run-dir",
+".andromeda/runs/2026-11-23T20-10-00Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-ypbg67h6 strip CARRY: 425ch \"CARRY: the Hyprland seam's `exec` window\"",
+"pin cry-bcosdllb strip CARRY: 457ch \"CARRY: settle the PROVISIONAL `HYPRCTL_D\"",
+"pin cry-ejfh3wh6 strip CARRY: 633ch \"CARRY: the `hyprctl reply` Boundary row \"",
+"pin cry-q3ialp5i strip CARRY: 732ch \"CARRY: (the operator's own word F9 «Два \"",
+"pin next markerless chk-gvely5gr holds CARRY:×3",
+"2026-11-23-seam-requests-for-viola-open · strip 4 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-23-seam-requests-for-viola-open pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "4158721f",
+"ts": "2026-11-23T20:41:38Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-23-seam-requests-for-viola-open",
+"--date",
+"2026-11-23",
+"--run-dir",
+".andromeda/runs/2026-11-23T20-10-00Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-ypbg67h6 strip CARRY: 425ch \"CARRY: the Hyprland seam's `exec` window\"",
+"pin cry-bcosdllb strip CARRY: 457ch \"CARRY: settle the PROVISIONAL `HYPRCTL_D\"",
+"pin cry-ejfh3wh6 strip CARRY: 633ch \"CARRY: the `hyprctl reply` Boundary row \"",
+"pin cry-q3ialp5i strip CARRY: 732ch \"CARRY: (the operator's own word F9 «Два \"",
+"pin next markerless chk-gvely5gr holds CARRY:×3",
+"flip 2026-11-23-seam-requests-for-viola-open pending -> complete · tx 4328",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-23T13-36-47-2026-11-23-seam-requests-for-viola-open.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]
