@@ -1,0 +1,20 @@
+--- a/.andromeda/obs-plan.md
++++ b/.andromeda/obs-plan.md
+@@ -347,3 +347,3 @@
+ contract/strict-modes-refusal-exit/1 · strict-modes refusal exit codes · 1 — run, revive's start, verify and open exit 1 on a strict-modes refusal; revive and open under --json print the strict-modes-failed document.
+-contract/strict-modes-refusal-exit/21 · strict-modes refusal exit codes · 21 — The six frame verbs and link / unlink exit 21 on a strict-modes refusal, under --json with the instance-unreachable document carrying detail strict-modes-failed.
++contract/strict-modes-refusal-exit/21 · strict-modes refusal exit codes · 21 — The six frame verbs, link / unlink and focus exit 21 on a strict-modes refusal, under --json with the instance-unreachable document carrying detail strict-modes-failed.
+ ## obs-plan · 3-observability-harness-contract
+@@ -397,2 +397,3 @@
+ contract/claude-child-process-start/env-stripped-known · process-start line of the claude child · env_stripped_known — Reports the R8 environment strip on process-start{subject:"claude-child"} by variable names only, never values.
++contract/cli-log-file/focus · CLI process-log file · viola focus — Logs as cli into the named instance's cli-<name>.ndjson, a process-start and a closed-detail process-exit inside the cli.focus dispatch span, which carries no fields.
+ contract/cli-wait-last-connect/server-verify-failed · CLI wait / last connect refusal · server-verify-failed — A serving process that is not the recorded wrapper or runs under another euid ends the call before any frame with exit 21 and one WARN process-exit line (subject self, during connect) inside the dispatch span, and no channel-request line.
+@@ -625,2 +626,3 @@
+ contract/log-line/timestamp · every log line · timestamp — RFC 3339 UTC with milliseconds and Z.
++contract/process-exit-detail/exit-1-focus · process-exit detail · exit 1 from viola focus — viola focus ends exit 1 with one process-exit detail: window-not-found (no window of the session, nothing dispatched), unsupported (not on Hyprland, nothing spawned), unreachable (no compositor answering, provisional), or the hyprctl seam's oversize, malformed or refused.
+ contract/process-start-line/service-name · process-start line · service_name — A constant service name, emitted once on process-start rather than on every line.
+@@ -1043,3 +1045,3 @@
+ decision/hook-single-log-open · One config read and one log open per hook — A hook invocation makes one config.json read and exactly one log open, then only appends. · guard: SPINE_BOUND
+-decision/instance-check-before-log-init · Instance check before log init — Commands acting on an instance (revive's start arm, the hook arms, link, unlink, send, wait, last, answer, pause, release) run the instance strict-modes check before opening any log; a refusal opens and writes nothing and leaves modes as found. · why: Opening the role file narrows an existing home to 0700, so a check made after it passes a home at 0770. · except: The hook --capture arm runs ahead of the check.
++decision/instance-check-before-log-init · Instance check before log init — Commands acting on an instance (revive's start arm, the hook arms, link, unlink, send, wait, last, answer, pause, release, focus) run the instance strict-modes check before opening any log; a refusal opens and writes nothing and leaves modes as found. · why: Opening the role file narrows an existing home to 0700, so a check made after it passes a home at 0770. · except: The hook --capture arm runs ahead of the check.
+ decision/instance-source-per-role · Instance source fixed per role — run takes its own name argument, never an inherited VIOLA_NAME; hook and mcp take VIOLA_NAME only; cli verbs that act on an instance (send, wait, last, answer, pause, release, link, unlink) take the target argument; list, verify, plugin install and revive --list take the caller's VIOLA_NAME only. · why: A wrapper never writes into another instance's run log.

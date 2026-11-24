@@ -1,0 +1,1804 @@
+[
+{
+"tool": "fanout",
+"v": "52",
+"sha8": "ead517b0",
+"ts": "2026-11-24T03:11:10Z",
+"argv": [
+"render",
+"--batch",
+"task",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-24-viola-focus/report",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 7 (rowtask 7) · batch task · script ./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/task.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-task.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-task.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-task.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/layouts-task.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-task.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-task.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/a11y-task.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/task.workflow.js",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/task.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "52",
+"sha8": "ead517b0",
+"ts": "2026-11-24T03:12:39Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/task.manifest.json",
+"--before",
+"tree 12f637c01620923a5f0591aec5992bf2caf27120 index 9095cef53cc7736b74b491c344a0023b7a2c48ad head 69b5af501cda8b9724f55cb28275d244f737e66b",
+"--after",
+"tree 195614712875e9e8c495113deab6d9fae2c04002 index 9095cef53cc7736b74b491c344a0023b7a2c48ad head 69b5af501cda8b9724f55cb28275d244f737e66b",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch task · 7 agents · 7 with every named path · trails: .andromeda/runs/2026-11-24T03-08-15Z-wrap/rec-read-2026-11-24-viola-focus.ndjson",
+"[PATH_CHECK] PASS · index and head unchanged",
+"rowtask: 7 agents · 7 pass",
+"VERDICT: 7 of 7 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "task",
+"agents": {
+"arch-task": {
+"failed": {},
+"yes": null
+},
+"security-task": {
+"failed": {},
+"yes": null
+},
+"design-task": {
+"failed": {},
+"yes": null
+},
+"layouts-task": {
+"failed": {},
+"yes": null
+},
+"tests-task": {
+"failed": {},
+"yes": null
+},
+"obs-task": {
+"failed": {},
+"yes": null
+},
+"a11y-task": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/rec-read-2026-11-24-viola-focus.ndjson"
+],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "52",
+"sha8": "ead517b0",
+"ts": "2026-11-24T03:13:02Z",
+"argv": [
+"render",
+"--batch",
+"pick",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-24-viola-focus/report",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 106 (pick 106) · batch pick · script ./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/pick.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p1.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p1.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p2.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p3.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p3.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p4.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p4.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p5.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p5.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p6.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p6.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p7.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p7.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p8.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p8.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p9.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p9.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p10.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p10.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p11.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p11.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p1.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p1.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p2.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p3.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p3.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p4.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p4.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p5.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p5.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p6.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p6.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p7.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p7.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-pick-p1.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-pick-p1.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-pick-p2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-pick-p2.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-pick-p3.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-pick-p3.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-pick-p4.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-pick-p4.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/layouts-pick-p1.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/layouts-pick-p1.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/layouts-pick-p2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/layouts-pick-p2.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/layouts-pick-p3.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/layouts-pick-p3.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p1.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p1.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p2.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p3.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p3.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p4.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p4.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p5.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p5.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p6.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p6.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p7.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p7.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p8.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p8.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p9.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p9.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p10.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p10.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p11.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p11.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p12.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p12.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p13.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p13.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p14.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p14.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p1.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p1.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p2.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p3.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p3.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p4.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p4.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p5.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p5.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p6.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p6.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p7.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p7.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p8.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p8.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p9.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p9.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p10.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p10.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p11.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p11.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/a11y-pick-p1.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/a11y-pick-p1.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/a11y-pick-p2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/a11y-pick-p2.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/a11y-pick-p3.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/a11y-pick-p3.d2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/pick.workflow.js",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/pick.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "52",
+"sha8": "ead517b0",
+"ts": "2026-11-24T03:31:56Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/pick.manifest.json",
+"--before",
+"tree a90b7d341bed6380cc83e14f1d1fa33116fbf150 index 9095cef53cc7736b74b491c344a0023b7a2c48ad head 69b5af501cda8b9724f55cb28275d244f737e66b",
+"--after",
+"tree 872f4910b8d2d5831007da26f6b85b686e1c1e99 index 9095cef53cc7736b74b491c344a0023b7a2c48ad head 69b5af501cda8b9724f55cb28275d244f737e66b",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch pick · 106 agents · 106 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"pick: 106 agents · 106 pass · yes 451 of 4901 (draw 1 382 · draw 2 357 · one draw only 163)",
+"security-pick-p7 · [RETYPED] line 77: decision/server-verified-before-any-channel-frame is no row of the pack — read as decision/server-verified-before-any-frame, the pack's row 77",
+"tests-pick-p6 · [RETYPED] line 51: decision/hook-fails-open-silently is no row of the pack — read as decision/hook-fails-open, the pack's row 51",
+"tests-pick-p9 · [RETYPED] line 34: decision/synthetic-fixture-text-only is no row of the pack — read as decision/synthetic-fixture-text, the pack's row 34",
+"VERDICT: 106 of 106 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "pick",
+"agents": {
+"arch-pick-p1": {
+"failed": {},
+"yes": 3,
+"sha": "3d3837564bbf5fe46dc57a97b9ddeed6cc27c030c66420d3ff49c85282c48b5f"
+},
+"arch-pick-p1.d2": {
+"failed": {},
+"yes": 2,
+"sha": "375b870b5d752418abbbba430f24544d8628a662ce758f00a2fd91ca697fe90b"
+},
+"arch-pick-p2": {
+"failed": {},
+"yes": 4,
+"sha": "c91bcd6a35c263cd7e95b36536583c165d4bb57001868a7fc4a867c6857f770a"
+},
+"arch-pick-p2.d2": {
+"failed": {},
+"yes": 4,
+"sha": "45396ac4e5b339e6798fc09d8e40e934f2417dfbb3a839250c3f107fcb9a95e8"
+},
+"arch-pick-p3": {
+"failed": {},
+"yes": 1,
+"sha": "085fb45ec72e413a1cfdb526c691ed0afb0a96441f5b426ee8436a87ac08caae"
+},
+"arch-pick-p3.d2": {
+"failed": {},
+"yes": 3,
+"sha": "4a3d4b30da60eb8c0fd077f036f3c3c1ceb292a35fad5d7f52ecec86efe6f057"
+},
+"arch-pick-p4": {
+"failed": {},
+"yes": 18,
+"sha": "9f649570f195c3c1f8d7f9c02b32751dd097a88203b4fe096f8fdb6298283f13"
+},
+"arch-pick-p4.d2": {
+"failed": {},
+"yes": 18,
+"sha": "d54681f68e8c7a312f3b37831110b12be2dff26f043aa86cf5a5957f84d876d9"
+},
+"arch-pick-p5": {
+"failed": {},
+"yes": 1,
+"sha": "cc71f1c7632314fe79864739af6d27ac894f5d2c6f205be7345c68dee7769b3f"
+},
+"arch-pick-p5.d2": {
+"failed": {},
+"yes": 2,
+"sha": "f3f69485f4e03ed1046e164dab270739d9104a92f8f5750bd191b629022050cf"
+},
+"arch-pick-p6": {
+"failed": {},
+"yes": 4,
+"sha": "0bd013d0775bb77ea16f8e9664d6feaaf3578f3804b93d4fb9914d63a018db9b"
+},
+"arch-pick-p6.d2": {
+"failed": {},
+"yes": 1,
+"sha": "0cc8ea26dd4b71392096d0bdcf3da840e9b32b238e750a2f25481f0690c11871"
+},
+"arch-pick-p7": {
+"failed": {},
+"yes": 6,
+"sha": "f9d0efdd2dbfb76d1b745a45f7b2d1252c8287bf02af1c70e4944cceb8883865"
+},
+"arch-pick-p7.d2": {
+"failed": {},
+"yes": 7,
+"sha": "541c1657d6233bba57c41acc750628a127f985b51a0a12668d146dc91f29cdd0"
+},
+"arch-pick-p8": {
+"failed": {},
+"yes": 8,
+"sha": "2c74c81dc584058226d6190714e48eb679612eb08f840c0f3dda9aecb547e8f3"
+},
+"arch-pick-p8.d2": {
+"failed": {},
+"yes": 6,
+"sha": "cca745f1b55778e8ce33cb71f217283e644d154461ed845727915fc8553fd701"
+},
+"arch-pick-p9": {
+"failed": {},
+"yes": 5,
+"sha": "f56acdc2cb13825c7d0e950eeea199a8f26c5be5200860c1cf51678c33ce40d6"
+},
+"arch-pick-p9.d2": {
+"failed": {},
+"yes": 7,
+"sha": "c69db974026d2e11d0924ce5a7f64f9cd9d45d4f00458b68ba3f188d10736433"
+},
+"arch-pick-p10": {
+"failed": {},
+"yes": 2,
+"sha": "922063cfd0b172c9919ce57ea58c79345351ed5c358304e634f44daf96a2f549"
+},
+"arch-pick-p10.d2": {
+"failed": {},
+"yes": 1,
+"sha": "deadb19dae694f3faddb0d38eb42f4ea9cd3460b0aced93aaad9349e0aa8f171"
+},
+"arch-pick-p11": {
+"failed": {},
+"yes": 1,
+"sha": "63ca71139d68a32d77672f82480b9f4e92afa36eba42f7889cf55914c9647825"
+},
+"arch-pick-p11.d2": {
+"failed": {},
+"yes": 3,
+"sha": "0235a7aba931d3e374e982bc49add24a221c818e55459843f64f1cf5a500c095"
+},
+"security-pick-p1": {
+"failed": {},
+"yes": 2,
+"sha": "87bbc2cae5bf74c6f17478b8c8f9dd6ab3e74445b22f026397d365551665db4b"
+},
+"security-pick-p1.d2": {
+"failed": {},
+"yes": 4,
+"sha": "7006b17220a552a3cd295e52c6b318dcf76930c9eb1ac3b7168bf6fcca7a4e8e"
+},
+"security-pick-p2": {
+"failed": {},
+"yes": 19,
+"sha": "9b943739b9a3dc74b3b1bbabcc51efc536cf0f10f1c21898b1f00bd536a28af9"
+},
+"security-pick-p2.d2": {
+"failed": {},
+"yes": 13,
+"sha": "8e478bdacab069cfecff9abe23c7dcbb980b168708fabe9353bab19e290d4fb9"
+},
+"security-pick-p3": {
+"failed": {},
+"yes": 13,
+"sha": "9a314744eb8e4cbf320c584a5a7b7badf2a5dc1b97427550924b09334a1c2c1c"
+},
+"security-pick-p3.d2": {
+"failed": {},
+"yes": 1,
+"sha": "c2eebb0245152a9fb35f9e713fe570be9f151c7d175df8ae85988b4b5abb4ec8"
+},
+"security-pick-p4": {
+"failed": {},
+"yes": 1,
+"sha": "b20152591a2d6c8dc9eabb43a74a54e192dbb0ac0b95b0274391ae77015d9e67"
+},
+"security-pick-p4.d2": {
+"failed": {},
+"yes": 2,
+"sha": "daa7dfe29287e29697b499db00db28a1fe44d49c2fc30b824499e1ee80e7df59"
+},
+"security-pick-p5": {
+"failed": {},
+"yes": 1,
+"sha": "8acac2ab0da7426466ee2041d1f67c27e00db8b2a959bdffaad20ac7e9bcb62b"
+},
+"security-pick-p5.d2": {
+"failed": {},
+"yes": 1,
+"sha": "978148751dc9147445a8ff90b0a6bd58af3eb7378056a4273218de4b5e8cc502"
+},
+"security-pick-p6": {
+"failed": {},
+"yes": 6,
+"sha": "43e117080d79eed254a335c9631459b8faaab8bde598a6b33da1c67141f71fdc"
+},
+"security-pick-p6.d2": {
+"failed": {},
+"yes": 13,
+"sha": "ebbc8278d86f29368e1b13d04652df20483371931d1ace9619ca930a9fb0093f"
+},
+"security-pick-p7": {
+"failed": {},
+"yes": 3,
+"sha": "caa7ebd805b9ccc5024f8938aa299a5be948143e3e7c7ea3af70bddaeb661502"
+},
+"security-pick-p7.d2": {
+"failed": {},
+"yes": 1,
+"sha": "72cb413983f494d3a6f938efb21a6567810ae30565ea227f72035648aabab7f0"
+},
+"design-pick-p1": {
+"failed": {},
+"yes": 9,
+"sha": "5013184fab91492b2983fb2b872904a33648da6474e3ce0aa868e5ed294577b1"
+},
+"design-pick-p1.d2": {
+"failed": {},
+"yes": 10,
+"sha": "ac7bc798fd1597d597309e7ed53120cc23b9c9aaec408222bdc72cd7f4dbf8ab"
+},
+"design-pick-p2": {
+"failed": {},
+"yes": 33,
+"sha": "0c0de009d572831215f85801d780fc4a0b3abff89e972e77b4cedaad95fe5147"
+},
+"design-pick-p2.d2": {
+"failed": {},
+"yes": 34,
+"sha": "3bfaa6a824668932c90f379dc69375013e822967e85fc971f568e21bc5187b8d"
+},
+"design-pick-p3": {
+"failed": {},
+"yes": 17,
+"sha": "dbcbbd0276efc679aff9fdc85b1599f0b7d30bb7edd9912af6212e8f13ebddd8"
+},
+"design-pick-p3.d2": {
+"failed": {},
+"yes": 16,
+"sha": "bcf039a1799888d7d5cfc3edb1ba94ffad11046fd0d4cf086cf5df68b28b36bc"
+},
+"design-pick-p4": {
+"failed": {},
+"yes": 0,
+"sha": "cba611be2066ddf8c8caf9ee32a72a525d5d85986af67412d61dc03c1528a6cd"
+},
+"design-pick-p4.d2": {
+"failed": {},
+"yes": 0,
+"sha": "b0eefb4428c959239f162e3316998c3cc697cfba8d52d5753363a991607df0b5"
+},
+"layouts-pick-p1": {
+"failed": {},
+"yes": 29,
+"sha": "8a1043370fceceeb117661609c467aed40f4e5d4094300cf702b0fb6813064b7"
+},
+"layouts-pick-p1.d2": {
+"failed": {},
+"yes": 26,
+"sha": "fcf68b6b8cb92af0babcc49f167012f1f8f744fc76f29168a916dfee12ea3a6d"
+},
+"layouts-pick-p2": {
+"failed": {},
+"yes": 5,
+"sha": "260c75649e058b0c8d3cb71171e8bd8d9be65ae996b8c37c297c67742b3a4254"
+},
+"layouts-pick-p2.d2": {
+"failed": {},
+"yes": 5,
+"sha": "a850dcf593e4d9a32ee768e39e95728fcfb884bba8056b7a6a3b5e26a380e77a"
+},
+"layouts-pick-p3": {
+"failed": {},
+"yes": 1,
+"sha": "a670848db1cd6182e5c01ad79fee5a5d747d53b22c94e867ff4c1bebdb67a240"
+},
+"layouts-pick-p3.d2": {
+"failed": {},
+"yes": 1,
+"sha": "06510bd5ce4f0622888e046d25f938e265c0c6d696ba8719409f0b0bfed5a8a6"
+},
+"tests-pick-p1": {
+"failed": {},
+"yes": 2,
+"sha": "dc8c74468b4bf168c5e7c9ff19bff38edc6a8116167c9b5c62b4b1f39692cd0e"
+},
+"tests-pick-p1.d2": {
+"failed": {},
+"yes": 2,
+"sha": "7bd9a8ced00b4c1ef07760a2153cba8ee73eb3f5719e280e283309216992ae53"
+},
+"tests-pick-p2": {
+"failed": {},
+"yes": 4,
+"sha": "f90dbc5cd8147039554ef41657eff465dc208b8bff9057844f91e0c49c8ca132"
+},
+"tests-pick-p2.d2": {
+"failed": {},
+"yes": 10,
+"sha": "921bafa2c83835edeb5c76090e40a267404097d31e52b80ec18b9ef44cf6feee"
+},
+"tests-pick-p3": {
+"failed": {},
+"yes": 1,
+"sha": "b9a460cf52de71979081e1da24a966a3a16a86ef3df7205e487b85321331d154"
+},
+"tests-pick-p3.d2": {
+"failed": {},
+"yes": 2,
+"sha": "b54ab482c8e0009a6f40bc492b0a75f3537a77b5487e429c605d92bbe192f965"
+},
+"tests-pick-p4": {
+"failed": {},
+"yes": 3,
+"sha": "0291ab8e3e749a5a07457e20fb9266ccca8615d8d1979167114ba093b880ddec"
+},
+"tests-pick-p4.d2": {
+"failed": {},
+"yes": 3,
+"sha": "d4b38764af77d7aee02323f535a7863fb9e4bce7f55ccea5769cd4dfc3d61ab5"
+},
+"tests-pick-p5": {
+"failed": {},
+"yes": 18,
+"sha": "0be7561ed0c12cffa6dd2d8e6a8de0281e89774a48c1211975e7efb9180857ae"
+},
+"tests-pick-p5.d2": {
+"failed": {},
+"yes": 15,
+"sha": "fdfc3a57e4393d7e3ac87972131486b12b6781a9a956675e2365477e059a4c3c"
+},
+"tests-pick-p6": {
+"failed": {},
+"yes": 17,
+"sha": "9ec5ff0971c1567600e62972d9c7ac001d9f97005a34b9fbdcdf22aa276d4d21"
+},
+"tests-pick-p6.d2": {
+"failed": {},
+"yes": 4,
+"sha": "da8ef4ba2308f7fe6f6ebaa94c123dd322f61d8544d80e06056b74b211f054df"
+},
+"tests-pick-p7": {
+"failed": {},
+"yes": 16,
+"sha": "f91e18a34b3ff56d56dbcb071479679a04e0afd505d0da40c15c2a30b90c7f4b"
+},
+"tests-pick-p7.d2": {
+"failed": {},
+"yes": 6,
+"sha": "d24d705949e5c52153073df59366ca8e8021de82291d61ba65930c4aff98143c"
+},
+"tests-pick-p8": {
+"failed": {},
+"yes": 4,
+"sha": "0a3f25df03d797d2c5f7ea7ec334f21cd6be1f6239f2af5c1b3b365113652e66"
+},
+"tests-pick-p8.d2": {
+"failed": {},
+"yes": 5,
+"sha": "7aa48d71b0510d5e5ef13899148b8ba874ac6437ad6ec45b1ecf0ec9b5cd8d57"
+},
+"tests-pick-p9": {
+"failed": {},
+"yes": 2,
+"sha": "6e0b3c096945115666e220e9db1d17f450f2f811e000d5a16c86058adc892865"
+},
+"tests-pick-p9.d2": {
+"failed": {},
+"yes": 2,
+"sha": "649e2213f287b70bf9f0ebaa6acc8c658c280c8c2a9e78d6f8c70cbc8eb9a0c9"
+},
+"tests-pick-p10": {
+"failed": {},
+"yes": 3,
+"sha": "185fe4ac6d470a720c1f996304ad74db91dcc4dfdb27cb59231fddb6f0d1c237"
+},
+"tests-pick-p10.d2": {
+"failed": {},
+"yes": 2,
+"sha": "7a4465bfac7347cf8796ff3ba26d8e8a183b4b1ac4affa14f9e31be1e65433e9"
+},
+"tests-pick-p11": {
+"failed": {},
+"yes": 1,
+"sha": "c05183774310f30d363f77d221c8b892fc1d963f3c591710b04a1cd376479aa4"
+},
+"tests-pick-p11.d2": {
+"failed": {},
+"yes": 5,
+"sha": "bbfa421d8cb1903e235bf0aeeb41cfad5266aa6017e7dfb0c4e8af4d42d159cb"
+},
+"tests-pick-p12": {
+"failed": {},
+"yes": 2,
+"sha": "3f6d8e891ba3dffae65f72fc8f76b48caf63ba0c0b7ff4fb07d8b1ee00ea0a14"
+},
+"tests-pick-p12.d2": {
+"failed": {},
+"yes": 2,
+"sha": "a49c1ef59712e1496656bb69d931b30386318c24d77c1dba45c837948b44b18e"
+},
+"tests-pick-p13": {
+"failed": {},
+"yes": 0,
+"sha": "cecb8cf754e2769e4073bd43f563d6deeda3b9441c8e17857beb029e391c1dbc"
+},
+"tests-pick-p13.d2": {
+"failed": {},
+"yes": 0,
+"sha": "17689e2a64714e72ce336b8a554d7eb26f03ff630db4510174b3eb699a75db91"
+},
+"tests-pick-p14": {
+"failed": {},
+"yes": 1,
+"sha": "449205afb765787f5d917a91b035513a95eb74248ca9619dd6ba03bd4782368b"
+},
+"tests-pick-p14.d2": {
+"failed": {},
+"yes": 3,
+"sha": "4101b8c3b586e509945691287081849c413e532796d705ee8b0723c02202b150"
+},
+"obs-pick-p1": {
+"failed": {},
+"yes": 6,
+"sha": "83d79b3a47b470576b7759a0af79f1569017a1fff8d254904fc137f2df9ef711"
+},
+"obs-pick-p1.d2": {
+"failed": {},
+"yes": 6,
+"sha": "018b9ae853905db40e1f59a2c6a4d38ae541008582d7e1e9bbc30bd276690009"
+},
+"obs-pick-p2": {
+"failed": {},
+"yes": 2,
+"sha": "97451119cfb1596dec694b5ad7e12011cde340180e159259f6280cbbbb913293"
+},
+"obs-pick-p2.d2": {
+"failed": {},
+"yes": 1,
+"sha": "1c1c1e42d923776d2967df7dfe361e48eb6d4d777d727279f667b3ab98caf6da"
+},
+"obs-pick-p3": {
+"failed": {},
+"yes": 17,
+"sha": "5375906bc292f60c294d1d442ea238c7e7c6689c85bcf7bf9a38ca15c138ad93"
+},
+"obs-pick-p3.d2": {
+"failed": {},
+"yes": 18,
+"sha": "df0fa083a65a4868bdc287999ccf143d48430014888922b9dbbd3d339db8b39d"
+},
+"obs-pick-p4": {
+"failed": {},
+"yes": 11,
+"sha": "834529d5b0013d0b5ef070ad6aa83d2be0304ebb32277aef526ce312f7f09be7"
+},
+"obs-pick-p4.d2": {
+"failed": {},
+"yes": 11,
+"sha": "ddced8d34199cc95060338cb1a568286bfcba2472361050bdcb578ebeafaef13"
+},
+"obs-pick-p5": {
+"failed": {},
+"yes": 19,
+"sha": "753f7627238632e19e3d03cb03326a845a52690086d0f26fa7c85c45c2f3b6c8"
+},
+"obs-pick-p5.d2": {
+"failed": {},
+"yes": 15,
+"sha": "41ac3946a3d712e3c45da981ff56be4aff8a74b10b7f52e2c96cb10d674ba078"
+},
+"obs-pick-p6": {
+"failed": {},
+"yes": 3,
+"sha": "2d20e895c3f68d0599801f963cdde4ebcf025db58d9f3c47c0d7b3147521621c"
+},
+"obs-pick-p6.d2": {
+"failed": {},
+"yes": 2,
+"sha": "360f11c24ba1b0e9cf32afe973673305c3a01b851f4a2670ce425c778206581a"
+},
+"obs-pick-p7": {
+"failed": {},
+"yes": 3,
+"sha": "6696a464bbd0bc79cbdbf98a8880c70fb9edeaf2907bb938ba15b4fa7e04e82d"
+},
+"obs-pick-p7.d2": {
+"failed": {},
+"yes": 4,
+"sha": "0e7f99a46b281e88d96573fc8e3dfddcb9596bfc159258f80286cc4704b77ae2"
+},
+"obs-pick-p8": {
+"failed": {},
+"yes": 2,
+"sha": "a24dc228cef5419a6c3202ad1e4acde599c6d264659219cc6756fdb42ae2c30f"
+},
+"obs-pick-p8.d2": {
+"failed": {},
+"yes": 2,
+"sha": "69d91dca4cdf2f47a8863d2f62541a94795475ae1680464b44e64fd5d7261204"
+},
+"obs-pick-p9": {
+"failed": {},
+"yes": 4,
+"sha": "2bbc63667d915789c6e0b78bb11172b93482025ad6bad6ea6cfe01fbfcbd9465"
+},
+"obs-pick-p9.d2": {
+"failed": {},
+"yes": 7,
+"sha": "5aa056310b612e48ffe891b365d7dd28b2af767a4c6bafb828a535b9d0df0ff5"
+},
+"obs-pick-p10": {
+"failed": {},
+"yes": 2,
+"sha": "3395e5d04b279d11f0ea16c59699c2138a2ed832f688c157eb246766d46c7b38"
+},
+"obs-pick-p10.d2": {
+"failed": {},
+"yes": 2,
+"sha": "9dc9ccf570906e5e273a5ae7a043174f33ef1ee526eb30c131d8c49150e28ea3"
+},
+"obs-pick-p11": {
+"failed": {},
+"yes": 5,
+"sha": "58b504692b46e843818649b5f8e7f907c5f7782db95728dbc6213b983b960319"
+},
+"obs-pick-p11.d2": {
+"failed": {},
+"yes": 5,
+"sha": "dd05fa9aafddf29e073e1a112bb95c012c823dbb2e5a6520ffbbb8f1815c0b14"
+},
+"a11y-pick-p1": {
+"failed": {},
+"yes": 5,
+"sha": "ef50d581df6ffaf4767979e3d25988b2b8132c7a68fd24512ab3294f21d3f11e"
+},
+"a11y-pick-p1.d2": {
+"failed": {},
+"yes": 6,
+"sha": "c3b1214de683d1cd58340896d6a2a0a9bee6178d9e07f52aa4aa58251fc214ce"
+},
+"a11y-pick-p2": {
+"failed": {},
+"yes": 33,
+"sha": "7d6d8122e4d1b3291741f1c8018c9d3e09d2b7e9bc76b7b2ec1ac24ae440f1fa"
+},
+"a11y-pick-p2.d2": {
+"failed": {},
+"yes": 28,
+"sha": "b22c3139153326fc74ae52082eba828441118cb7ff5a37dc6053184eae932520"
+},
+"a11y-pick-p3": {
+"failed": {},
+"yes": 4,
+"sha": "97f9b551dc7ccca8273e8e715b815b8c4b7a4e174e317a90c70b13c244c0fb9f"
+},
+"a11y-pick-p3.d2": {
+"failed": {},
+"yes": 8,
+"sha": "3ad0561e25917bee4385cc4d0e002e534f78ae242fab28aaed0557e0b3687bda"
+}
+},
+"pick": {
+"draws": 2,
+"yes_d1": 382,
+"yes_d2": 357,
+"union": 451,
+"one_draw": 163
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": [
+"security-pick-p7 · [RETYPED] line 77: decision/server-verified-before-any-channel-frame is no row of the pack — read as decision/server-verified-before-any-frame, the pack's row 77",
+"tests-pick-p6 · [RETYPED] line 51: decision/hook-fails-open-silently is no row of the pack — read as decision/hook-fails-open, the pack's row 51",
+"tests-pick-p9 · [RETYPED] line 34: decision/synthetic-fixture-text-only is no row of the pack — read as decision/synthetic-fixture-text, the pack's row 34"
+]
+}
+},
+{
+"tool": "fanout",
+"v": "52",
+"sha8": "ead517b0",
+"ts": "2026-11-24T03:32:04Z",
+"argv": [
+"render",
+"--batch",
+"propose",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-24-viola-focus/report",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 7 (propose 7) · batch propose · script ./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/propose.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/ops-architecture.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/ops-security-plan.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/ops-design-system.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/ops-layout-templates.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/ops-test-plan.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/ops-obs-plan.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/ops-a11y-plan.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/propose.workflow.js",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/propose.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "52",
+"sha8": "ead517b0",
+"ts": "2026-11-24T03:34:38Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/propose.manifest.json",
+"--before",
+"tree d2e2180705b6a482510a3cb9c3a2c78652cd4e7b index 9095cef53cc7736b74b491c344a0023b7a2c48ad head 69b5af501cda8b9724f55cb28275d244f737e66b",
+"--after",
+"tree b00edbbd20e09506d70c9bacbf66cd0a3940960c index 9095cef53cc7736b74b491c344a0023b7a2c48ad head 69b5af501cda8b9724f55cb28275d244f737e66b",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch propose · 7 agents · 7 with every named path · trails: .andromeda/runs/2026-11-24T03-08-15Z-wrap/rec-read-2026-11-24-viola-focus.ndjson",
+"[PATH_CHECK] PASS · index and head unchanged",
+"propose: 7 agents · 7 pass",
+"VERDICT: 7 of 7 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "propose",
+"agents": {
+"ops-architecture": {
+"failed": {},
+"yes": null
+},
+"ops-security-plan": {
+"failed": {},
+"yes": null
+},
+"ops-design-system": {
+"failed": {},
+"yes": null
+},
+"ops-layout-templates": {
+"failed": {},
+"yes": null
+},
+"ops-test-plan": {
+"failed": {},
+"yes": null
+},
+"ops-obs-plan": {
+"failed": {},
+"yes": null
+},
+"ops-a11y-plan": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/rec-read-2026-11-24-viola-focus.ndjson"
+],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "52",
+"sha8": "ead517b0",
+"ts": "2026-11-24T03:38:10Z",
+"argv": [
+"render",
+"--batch",
+"fit",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-24-viola-focus/report",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 17 (fit 17) · batch fit · script ./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/fit.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/architecture-fit.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/architecture-fit.w2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/architecture-fit.w3.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/architecture-fit.w4.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/architecture-fit.w5.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-plan-fit.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-system-fit.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-system-fit.w2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-system-fit.w3.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-system-fit.w4.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-system-fit.w5.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/layout-templates-fit.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/layout-templates-fit.w2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/test-plan-fit.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-plan-fit.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-plan-fit.w2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/a11y-plan-fit.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/fit.workflow.js",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/fit.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "52",
+"sha8": "ead517b0",
+"ts": "2026-11-24T03:38:43Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/fit.manifest.json",
+"--before",
+"tree 0fa56934a331740995be38b10e9dd29fc50d44b8 index 9095cef53cc7736b74b491c344a0023b7a2c48ad head 69b5af501cda8b9724f55cb28275d244f737e66b",
+"--after",
+"tree 8e47dbe84d2a596f2c8baa4fe41eba49a745691c index 9095cef53cc7736b74b491c344a0023b7a2c48ad head 69b5af501cda8b9724f55cb28275d244f737e66b",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch fit · 17 agents · 17 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"fit: 17 agents · 17 pass",
+"VERDICT: 17 of 17 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "fit",
+"agents": {
+"architecture-fit": {
+"failed": {},
+"yes": null
+},
+"architecture-fit.w2": {
+"failed": {},
+"yes": null
+},
+"architecture-fit.w3": {
+"failed": {},
+"yes": null
+},
+"architecture-fit.w4": {
+"failed": {},
+"yes": null
+},
+"architecture-fit.w5": {
+"failed": {},
+"yes": null
+},
+"security-plan-fit": {
+"failed": {},
+"yes": null
+},
+"design-system-fit": {
+"failed": {},
+"yes": null
+},
+"design-system-fit.w2": {
+"failed": {},
+"yes": null
+},
+"design-system-fit.w3": {
+"failed": {},
+"yes": null
+},
+"design-system-fit.w4": {
+"failed": {},
+"yes": null
+},
+"design-system-fit.w5": {
+"failed": {},
+"yes": null
+},
+"layout-templates-fit": {
+"failed": {},
+"yes": null
+},
+"layout-templates-fit.w2": {
+"failed": {},
+"yes": null
+},
+"test-plan-fit": {
+"failed": {},
+"yes": null
+},
+"obs-plan-fit": {
+"failed": {},
+"yes": null
+},
+"obs-plan-fit.w2": {
+"failed": {},
+"yes": null
+},
+"a11y-plan-fit": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "52",
+"sha8": "ead517b0",
+"ts": "2026-11-24T03:44:05Z",
+"argv": [
+"render",
+"--batch",
+"fit",
+"--fresh",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-24-viola-focus/report",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [],
+"stderr": "batch fit: no agent — nothing under .andromeda/runs/2026-11-24T03-08-15Z-wrap derives one (the listings, the picks, the facts, the leaves set)",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "52",
+"sha8": "ead517b0",
+"ts": "2026-11-24T03:44:15Z",
+"argv": [
+"render",
+"--batch",
+"fit",
+"--fresh",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-24-viola-focus/report",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"RETIRE 145 file(s) of the earlier renders → .andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/dead-1/",
+"VERDICT: rendered 1 (fit 1) · batch fit · script ./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/fit.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-system-fit.w6.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/fit.workflow.js",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/fit.manifest.json"
+],
+"before": null,
+"after": null,
+"extra": {
+"sub": "render",
+"retired": [
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/a11y-pick-p1.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/a11y-pick-p1.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/a11y-pick-p2.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/a11y-pick-p2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/a11y-pick-p3.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/a11y-pick-p3.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/a11y-plan-fit.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/a11y-task.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p1.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p1.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p10.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p10.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p11.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p11.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p2.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p3.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p3.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p4.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p4.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p5.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p5.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p6.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p6.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p7.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p7.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p8.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p8.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p9.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-pick-p9.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/arch-task.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/architecture-fit.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/architecture-fit.w2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/architecture-fit.w3.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/architecture-fit.w4.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/architecture-fit.w5.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-pick-p1.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-pick-p1.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-pick-p2.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-pick-p2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-pick-p3.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-pick-p3.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-pick-p4.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-pick-p4.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-system-fit.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-system-fit.w2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-system-fit.w3.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-system-fit.w4.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-system-fit.w5.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-task.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/fit.manifest.json",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/fit.workflow.js",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/layout-templates-fit.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/layout-templates-fit.w2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/layouts-pick-p1.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/layouts-pick-p1.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/layouts-pick-p2.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/layouts-pick-p2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/layouts-pick-p3.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/layouts-pick-p3.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/layouts-task.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p1.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p1.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p10.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p10.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p11.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p11.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p2.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p3.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p3.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p4.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p4.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p5.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p5.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p6.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p6.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p7.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p7.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p8.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p8.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p9.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-pick-p9.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-plan-fit.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-plan-fit.w2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/obs-task.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/ops-a11y-plan.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/ops-architecture.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/ops-design-system.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/ops-layout-templates.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/ops-obs-plan.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/ops-security-plan.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/ops-test-plan.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/pick.manifest.json",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/pick.workflow.js",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/propose.manifest.json",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/propose.workflow.js",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p1.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p1.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p2.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p3.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p3.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p4.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p4.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p5.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p5.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p6.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p6.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p7.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-pick-p7.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-plan-fit.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-task.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/task.manifest.json",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/task.workflow.js",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/test-plan-fit.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p1.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p1.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p10.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p10.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p11.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p11.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p12.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p12.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p13.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p13.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p14.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p14.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p2.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p3.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p3.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p4.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p4.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p5.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p5.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p6.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p6.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p7.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p7.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p8.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p8.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p9.d2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-pick-p9.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/tests-task.md"
+]
+}
+},
+{
+"tool": "fanout",
+"v": "52",
+"sha8": "ead517b0",
+"ts": "2026-11-24T03:44:34Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/fit.manifest.json",
+"--before",
+"tree c837d1aad0219db7354a0609b0a830ed2e82a05e index 9095cef53cc7736b74b491c344a0023b7a2c48ad head 69b5af501cda8b9724f55cb28275d244f737e66b",
+"--after",
+"tree f861a8881ee9fd0cfa312fbe1dabba303dfbe2c0 index 9095cef53cc7736b74b491c344a0023b7a2c48ad head 69b5af501cda8b9724f55cb28275d244f737e66b",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch fit · 1 agents · 1 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"fit: 1 agents · 1 pass",
+"VERDICT: 1 of 1 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "fit",
+"agents": {
+"design-system-fit.w6": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "52",
+"sha8": "ead517b0",
+"ts": "2026-11-24T03:45:23Z",
+"argv": [
+"render",
+"--batch",
+"leaf",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-24-viola-focus/report",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"VERDICT: rendered 17 (leaf 17) · batch leaf · script ./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-architecture-1.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-architecture-2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-architecture-3.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-architecture-4.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-architecture+security-plan.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-masters.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-architecture+design-system+layout-templates.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-architecture+test-plan+obs-plan.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-security-plan-1.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-security-plan-2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-security-plan+obs-plan.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-design-system+layout-templates.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-test-plan-1.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-test-plan-2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-test-plan+obs-plan.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-obs-plan.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-a11y-plan.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf.workflow.js",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf.manifest.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "fanout",
+"v": "52",
+"sha8": "ead517b0",
+"ts": "2026-11-24T03:46:21Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf.manifest.json",
+"--before",
+"tree 56f46c632cb5596a92871518c1f80e70d658f559 index 9095cef53cc7736b74b491c344a0023b7a2c48ad head 69b5af501cda8b9724f55cb28275d244f737e66b",
+"--after",
+"tree 93a86ff01b1d25e2b77ec8508e9f240d6116d318 index 9095cef53cc7736b74b491c344a0023b7a2c48ad head 69b5af501cda8b9724f55cb28275d244f737e66b",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch leaf · 17 agents · 17 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"leaf: 17 agents · 17 pass",
+"VERDICT: 17 of 17 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "leaf",
+"agents": {
+"leaf-architecture-1": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture-2": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture-3": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture-4": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture+security-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-masters": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture+design-system+layout-templates": {
+"failed": {},
+"yes": null
+},
+"leaf-architecture+test-plan+obs-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-security-plan-1": {
+"failed": {},
+"yes": null
+},
+"leaf-security-plan-2": {
+"failed": {},
+"yes": null
+},
+"leaf-security-plan+obs-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-design-system+layout-templates": {
+"failed": {},
+"yes": null
+},
+"leaf-test-plan-1": {
+"failed": {},
+"yes": null
+},
+"leaf-test-plan-2": {
+"failed": {},
+"yes": null
+},
+"leaf-test-plan+obs-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-obs-plan": {
+"failed": {},
+"yes": null
+},
+"leaf-a11y-plan": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "52",
+"sha8": "ead517b0",
+"ts": "2026-11-24T03:47:12Z",
+"argv": [
+"render",
+"--batch",
+"fit",
+"--fresh",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-24-viola-focus/report",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"RETIRE 23 file(s) of the earlier renders → .andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/dead-2/",
+"VERDICT: rendered 1 (fit 1) · batch fit · script ./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/fit.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-plan-fit.w2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/fit.workflow.js",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/fit.manifest.json"
+],
+"before": null,
+"after": null,
+"extra": {
+"sub": "render",
+"retired": [
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/design-system-fit.w6.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/fit.manifest.json",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/fit.workflow.js",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-a11y-plan.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-architecture+design-system+layout-templates.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-architecture+security-plan.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-architecture+test-plan+obs-plan.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-architecture-1.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-architecture-2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-architecture-3.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-architecture-4.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-design-system+layout-templates.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-masters.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-obs-plan.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-security-plan+obs-plan.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-security-plan-1.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-security-plan-2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-test-plan+obs-plan.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-test-plan-1.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-test-plan-2.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf.manifest.json",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf.workflow.js",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/rows.html"
+]
+}
+},
+{
+"tool": "fanout",
+"v": "52",
+"sha8": "ead517b0",
+"ts": "2026-11-24T03:47:32Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/fit.manifest.json",
+"--before",
+"tree 1c3e15e0a85040f22ef7a01d4e0f72f65982f963 index 9095cef53cc7736b74b491c344a0023b7a2c48ad head 69b5af501cda8b9724f55cb28275d244f737e66b",
+"--after",
+"tree 41c426df301e30fd467d254db3c442258501f60f index 9095cef53cc7736b74b491c344a0023b7a2c48ad head 69b5af501cda8b9724f55cb28275d244f737e66b",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch fit · 1 agents · 1 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"fit: 1 agents · 1 pass",
+"VERDICT: 1 of 1 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "fit",
+"agents": {
+"security-plan-fit.w2": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "52",
+"sha8": "ead517b0",
+"ts": "2026-11-24T03:49:44Z",
+"argv": [
+"render",
+"--batch",
+"leaf",
+"--fresh",
+"--side",
+"wrap",
+"--skill-dir",
+"~/.claude/skills/andromeda-wrap-session",
+"--report",
+"doc:2026-11-24-viola-focus/report",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"RETIRE 3 file(s) of the earlier renders → .andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/dead-3/",
+"MOVE .andromeda/runs/2026-11-24T03-08-15Z-wrap/leaf-security-plan-1.md → .andromeda/runs/2026-11-24T03-08-15Z-wrap/.raw-leaf-security-plan-1.md",
+"MOVE .andromeda/runs/2026-11-24T03-08-15Z-wrap/leaf-security-plan-2.md → .andromeda/runs/2026-11-24T03-08-15Z-wrap/.raw-leaf-security-plan-2.md",
+"VERDICT: rendered 3 (leaf 3) · batch leaf · script ./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf.workflow.js"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-security-plan-1.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-security-plan-2.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf-security-plan-3.md",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf.workflow.js",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf.manifest.json"
+],
+"before": null,
+"after": null,
+"extra": {
+"sub": "render",
+"retired": [
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/fit.manifest.json",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/fit.workflow.js",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/security-plan-fit.w2.md"
+]
+}
+},
+{
+"tool": "fanout",
+"v": "52",
+"sha8": "ead517b0",
+"ts": "2026-11-24T03:50:18Z",
+"argv": [
+"check",
+"--manifest",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/prompts/leaf.manifest.json",
+"--before",
+"tree 0e83a8b6e64a2cb475ae7ed3845505778503d90b index 9095cef53cc7736b74b491c344a0023b7a2c48ad head 69b5af501cda8b9724f55cb28275d244f737e66b",
+"--after",
+"tree 8ac660dfb07f7ae5232ad12fbfd2d6d439ececda index 9095cef53cc7736b74b491c344a0023b7a2c48ad head 69b5af501cda8b9724f55cb28275d244f737e66b",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"batch leaf · 3 agents · 3 with every named path · trails: none",
+"[PATH_CHECK] PASS · index and head unchanged",
+"leaf: 3 agents · 3 pass",
+"VERDICT: 3 of 3 pass · failed: none"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "check",
+"batch": "leaf",
+"agents": {
+"leaf-security-plan-1": {
+"failed": {},
+"yes": null
+},
+"leaf-security-plan-2": {
+"failed": {},
+"yes": null
+},
+"leaf-security-plan-3": {
+"failed": {},
+"yes": null
+}
+},
+"stray": [],
+"closing_tags": [],
+"trails": [],
+"harness": [],
+"notes": []
+}
+},
+{
+"tool": "fanout",
+"v": "52",
+"sha8": "ead517b0",
+"ts": "2026-11-24T03:50:47Z",
+"argv": [
+"census",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"task · 7 agents · first try 7 (rowtask 7/7) · wall 89 s",
+"pick · 106 agents · first try 106 (pick 106/106) · wall 1134 s",
+"propose · 7 agents · first try 7 (propose 7/7) · wall 154 s",
+"fit · 19 agents · first try 19 (fit 19/19) · wall 72 s · in 3 waves",
+"leaf · 18 agents · first try 18 (leaf 18/18) · wall 92 s · in 2 waves",
+"tally: 7 master(s) · entities 4901 · classify-yes 451 · one-draw-yes 163 · standing 0 · draws-dead 0 · batches-on-one 0 · draws 2",
+"fit: 51 operation(s) judged · fit-rejected 4",
+"cascade-sample.txt: absent",
+"SIGNALS: [\"agents-rowtask:7\", \"first-rowtask:7\", \"wall-task:89\", \"agents-pick:106\", \"first-pick:106\", \"wall-pick:1134\", \"agents-propose:7\", \"first-propose:7\", \"wall-propose:154\", \"agents-fit:19\", \"first-fit:19\", \"wall-fit:72\", \"agents-leaf:18\", \"first-leaf:18\", \"wall-leaf:92\", \"unchecked:0\", \"entities:4901\", \"classify-yes:451\", \"one-draw-yes:163\", \"standing:0\", \"draws-dead:0\", \"batches-on-one:0\", \"draws:2\", \"fit-rejected:4\"]",
+"VERDICT: 24 signals · 5 batch(es) · trail .andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-2026-11-24-viola-focus.json"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"sub": "census",
+"signals": [
+"agents-rowtask:7",
+"first-rowtask:7",
+"wall-task:89",
+"agents-pick:106",
+"first-pick:106",
+"wall-pick:1134",
+"agents-propose:7",
+"first-propose:7",
+"wall-propose:154",
+"agents-fit:19",
+"first-fit:19",
+"wall-fit:72",
+"agents-leaf:18",
+"first-leaf:18",
+"wall-leaf:92",
+"unchecked:0",
+"entities:4901",
+"classify-yes:451",
+"one-draw-yes:163",
+"standing:0",
+"draws-dead:0",
+"batches-on-one:0",
+"draws:2",
+"fit-rejected:4"
+]
+}
+}
+]

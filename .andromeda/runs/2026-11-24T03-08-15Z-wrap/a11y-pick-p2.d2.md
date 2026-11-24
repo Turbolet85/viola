@@ -1,0 +1,98 @@
+@pick n=1 row=contract/viola-wait/timed-out v=no
+@pick n=2 row=contract/viola-verify/interrupted-pair v=no
+@pick n=3 row=contract/viola-link-line/time v=no
+@pick n=4 row=contract/start-json-refusal/document v=no
+@pick n=5 row=contract/start-holder-refusal/stale-heartbeat v=no
+@pick n=6 row=contract/start-holder-refusal/already-live v=no
+@pick n=7 row=contract/send-refusal/no-prompt-submitted v=no
+@pick n=8 row=contract/send-refusal/input-not-ready v=no
+@pick n=9 row=contract/mcp-wait-tool/timeout-ms v=no
+@pick n=10 row=contract/json-fault/internal-error v=no
+@pick n=11 row=contract/instance-unreachable-json/document v=yes mode=add-to fact=F2
+@pick n=12 row=contract/instance-unreachable-detail/unwrapped-name v=yes mode=add-to fact=F2
+@pick n=13 row=contract/instance-unreachable-detail/strict-modes-failed v=yes mode=add-to fact=F2
+@pick n=14 row=contract/instance-unreachable-detail/socket-dir-refused v=yes mode=stale
+@pick n=15 row=contract/instance-unreachable-detail/server-verify-failed v=no
+@pick n=16 row=contract/instance-unreachable-detail/instance-dead v=yes mode=add-to fact=F2
+@pick n=17 row=contract/instance-unreachable-detail/endpoint-lost v=no
+@pick n=18 row=contract/instance-unreachable-detail/call-deadline v=no
+@pick n=19 row=contract/human-fault-line/wrapper-fault v=no
+@pick n=20 row=contract/fault-body/message v=no
+@pick n=21 row=contract/event-line/dialog-expired v=no
+@pick n=22 row=contract/config-json/dialog-hold-s v=no
+@pick n=23 row=contract/code-word/format v=no
+@pick n=24 row=contract/cli-refusal/stderr-layout v=yes mode=add-to fact=F1
+@pick n=25 row=contract/cli-fixed-message/form v=yes mode=add-to fact=F1
+@pick n=26 row=contract/cli-exit-codes/21 v=yes mode=stale
+@pick n=27 row=contract/cli-exit-codes/20 v=no
+@pick n=28 row=contract/cli-exit-codes/2 v=no
+@pick n=29 row=contract/cli-exit-codes/14 v=no
+@pick n=30 row=contract/cli-exit-codes/13 v=no
+@pick n=31 row=contract/cli-exit-codes/11 v=no
+@pick n=32 row=decision/unstattable-home-is-strict-modes-refusal v=yes mode=add-to fact=F2
+@pick n=33 row=decision/unlisted-code-words-stay-visible v=no
+@pick n=34 row=decision/unknown-refusal-has-no-hint v=no
+@pick n=35 row=decision/time-bounds-fall-on-the-driver v=yes mode=contradict
+@pick n=36 row=decision/thiserror-messages-interpolate-nothing v=no
+@pick n=37 row=decision/strict-modes-refusal-before-any-write v=yes mode=add-to fact=F2
+@pick n=38 row=decision/start-verify-stop-grace-off-the-human v=no
+@pick n=39 row=decision/socket-dir-refusal-before-any-frame v=yes mode=stale
+@pick n=40 row=decision/printed-names-are-parsed-arguments v=no
+@pick n=41 row=decision/peer-replies-screened-to-code-words v=yes mode=add-to fact=F1
+@pick n=42 row=decision/one-hint-per-code v=yes mode=add-to fact=F1
+@pick n=43 row=decision/no-hint-names-release v=no
+@pick n=44 row=decision/link-result-lines-one-write-no-sgr v=no
+@pick n=45 row=decision/link-pair-validated-by-wrapper v=no
+@pick n=46 row=decision/json-one-document-no-hint v=yes mode=add-to fact=F1
+@pick n=47 row=decision/json-failure-documents-are-clean v=yes mode=add-to fact=F1
+@pick n=48 row=decision/fixed-cli-strings-pinned-by-literal v=yes mode=add-to fact=F1
+@pick n=49 row=decision/faults-carry-no-hint v=no
+@pick n=50 row=decision/error-word-detail-hint v=no
+@pick n=51 row=decision/error-bodies-have-writer-and-witness v=yes mode=add-to fact=F1
+@pick n=52 row=decision/dialog-hold-bounds-the-driver v=no
+@pick n=53 row=decision/client-euid-refusal-test-strategy v=no
+@pick n=54 row=decision/claude-agents-read-fails-open v=no
+@pick n=55 row=contract/viola-list-caption/order v=no
+@pick n=56 row=contract/cli-refusal/unknown-refusal v=no
+@pick n=57 row=contract/cli-refusal/json v=yes mode=add-to fact=F1
+@pick n=58 row=contract/cli-refusal/fault v=no
+@pick n=59 row=contract/cli-refusal/exit-code v=yes mode=add-to fact=F1
+@pick n=60 row=decision/time-bounds-never-on-human v=yes mode=contradict
+@pick n=61 row=decision/refusal-layout-literal-pins v=yes mode=add-to fact=F1
+@pick n=62 row=decision/reason-code-beside-unable v=yes mode=add-to fact=F1
+@pick n=63 row=decision/no-reading-level-gate v=no
+@pick n=64 row=decision/no-bare-error-text v=no
+@pick n=65 row=decision/fixed-copy-from-design v=yes mode=add-to fact=F1
+@pick n=66 row=decision/fixed-cli-strings-pinned v=yes mode=add-to fact=F1
+@pick n=67 row=decision/wrapped-tui-reads-as-unwrapped v=no
+@pick n=68 row=decision/screen-reader-target-tui v=no
+@pick n=69 row=decision/screen-reader-target-cli v=no
+@pick n=70 row=contract/viola-list-stale-row/escape-sequences v=no
+@pick n=71 row=decision/unwrapped-name-truncation v=no
+@pick n=72 row=decision/state-carried-by-printed-word v=no
+@pick n=73 row=decision/colour-decision-inputs v=no
+@pick n=74 row=decision/unable-fail-never-coloured v=no
+@pick n=75 row=decision/name-truncation v=no
+@pick n=76 row=decision/name-bold-sgr v=no
+@pick n=77 row=decision/dialog-amber-sgr v=no
+@pick n=78 row=decision/tui-terminal-belongs-to-child v=no
+@pick n=79 row=decision/cli-no-interactive-input v=no
+@pick n=80 row=contract/viola-list-board/caption v=no
+@pick n=81 row=contract/cli-help/usage-line v=yes mode=add-to fact=F4
+@pick n=82 row=contract/cli-help/served-verbs-only v=yes mode=add-to fact=F4
+@pick n=83 row=contract/cli-help/handoff-row v=no
+@pick n=84 row=contract/cli-exit-codes/10 v=no
+@pick n=85 row=decision/sgr-beside-its-word v=no
+@pick n=86 row=decision/no-sgr-off-terminal v=no
+@pick n=87 row=decision/linear-static-cli-output v=no
+@pick n=88 row=decision/control-bytes-escaped v=no
+@pick n=89 row=decision/wheel-ignores-terminal-events v=yes mode=stale
+@pick n=90 row=decision/tui-boundary-only v=no
+@pick n=91 row=decision/stale-row-dim v=no
+@pick n=92 row=decision/send-refused-while-human-typing v=no
+@pick n=93 row=decision/portable-pty-outer-pty-driver v=no
+@pick n=94 row=decision/no-terminal-conformance-claim v=no
+@pick n=95 row=decision/linear-static-output v=no
+@pick n=96 row=decision/cli-structural-landmark-equivalents v=no
+@pick n=97 row=decision/cli-output-discipline-assertion-tools v=no
+@pick n=98 row=decision/c0-c1-escaped v=no

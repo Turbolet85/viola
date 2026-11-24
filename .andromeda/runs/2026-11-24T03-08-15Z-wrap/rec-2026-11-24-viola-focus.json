@@ -1,0 +1,1767 @@
+[
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:10:35Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-24-viola-focus",
+"--section-file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-24-viola-focus/report rev 3 · 10 new · 0 revised · 0 retired · 45 kept · tx 4459"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:10:35Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-24-viola-focus",
+"--section-file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-24-viola-focus/report rev 4 · 76 new · 0 revised · 0 retired · 55 kept · tx 4460"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:11:01Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/cites-land-2026-11-24-viola-focus.ndjson",
+"--base",
+"081d4604340b7c470d104a47ff47458034c22592",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:11:05Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/cites-land-2026-11-24-viola-focus.ndjson",
+"--base",
+"081d4604340b7c470d104a47ff47458034c22592",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 4462"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:12:44Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 1020 · packs 11 · pack 100 · 292898 B",
+"security-plan: rows 653 · packs 7 · pack 100 · 202702 B",
+"design-system: rows 336 · packs 4 · pack 100 · 82309 B",
+"layout-templates: rows 231 · packs 3 · pack 100 · 56610 B",
+"test-plan: rows 1377 · packs 14 · pack 100 · 377260 B",
+"obs-plan: rows 1046 · packs 11 · pack 100 · 289952 B",
+"a11y-plan: rows 238 · packs 3 · pack 100 · 68872 B",
+"rows-packs: 7 master(s) · 4901 row(s) · 53 pack(s) · 2 draw(s) a pack · pin 4462"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:31:59Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 1020 · packs 11 · picked 67 (40 by every draw) · standing 0 · 236869 B · Established Decisions: by boundary, the rest under `also here:`",
+"security-plan: rows 653 · packs 7 · picked 57 (23 by every draw) · standing 0 · 161177 B",
+"design-system: rows 336 · packs 4 · picked 63 (56 by every draw) · standing 0 · 58577 B",
+"layout-templates: rows 231 · packs 3 · picked 35 (32 by every draw) · standing 0 · 50901 B",
+"test-plan: rows 1377 · packs 14 · picked 92 (43 by every draw) · standing 0 · 283161 B",
+"obs-plan: rows 1046 · packs 11 · picked 85 (62 by every draw) · standing 0 · 215758 B",
+"a11y-plan: rows 238 · packs 3 · picked 52 (32 by every draw) · standing 0 · 55634 B",
+"rows-union: 7 master(s) · picked 451 of 4901 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/arch-rows.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/arch-standing.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/security-rows.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/security-standing.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/design-rows.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/design-standing.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/layouts-rows.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/tests-rows.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/tests-standing.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/obs-rows.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/obs-standing.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:42:01Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/cli-verbs/focus · rejected",
+"contract/viola-focus-exit-codes/1 · rejected",
+"contract/viola-focus-exit-codes/21 · rejected",
+"decision/focus-window-by-ancestry · rejected",
+"decision/focus-is-caller-side · rejected",
+"fit: fits 11 · not_master 0 · stands 0",
+"## 2026-11-24-viola-focus — Conventions: 2 row(s)\n**Section:** Conventions\n**Change:** ~ contract/cli-exit-codes/1 · promise: was «Internal error, and the start, revive-preflight, open and verify refusals, a refused home-tree check or socket directory of the start among them, each an unable and hint pair on stderr with no path, or under --json one refusal document.»; now «Internal error, and the start, revive-preflight, open, focus and verify refusals, a refused home-tree check or socket directory of the start among them, each an unable and hint pair on stderr with no path, or under --json one refusal document.»\n~ contract/cli-exit-21/strict-modes-failed · promise: was «A refused strict-modes check of send, wait, last, answer, pause or release exits 21: human mode prints the unable: / hint: pair, --json exactly {\"v\":1,\"error\":\"instance-unreachable\",\"detail\":\"strict-modes-failed\"} with stderr empty; nothing under the home is opened and no line is written.»; now «A refused strict-modes check of send, wait, last, answer, pause, release or focus exits 21: human mode prints the unable: / hint: pair, --json exactly {\"v\":1,\"error\":\"instance-unreachable\",\"detail\":\"strict-modes-failed\"} with stderr empty; nothing under the home is opened and no line is written.»\n**Why:** contract/cli-exit-codes/1: viola focus adds six exit-1 refusals, each a fixed pair or one --json refusal document, so the exit-1 promise must name focus among the verbs that refuse with it. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\ncontract/cli-exit-21/strict-modes-failed: viola focus runs the strict-modes check before any log and exits 21 strict-modes-failed on a refusal, so the verbs this promise binds now include focus. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"## 2026-11-24-viola-focus — Occupied Resources: 7 row(s) (1 of 2)\n**Section:** Occupied Resources\n**Change:** ~ contract/diagnostics-role-files/cli-name · promise: was «The CLI verbs' lines, <name> being the target instance for the frame verbs and the caller's VIOLA_NAME for list, verify, revive --list and plugin install.»; now «The CLI verbs' lines, <name> being the target instance for the frame verbs and focus and the caller's VIOLA_NAME for list, verify, revive --list and plugin install.»\n+ name/command/focus — focus\n+ contract/process-exit-detail/window-not-found — process-exit detail enum · window-not-found\n+ contract/process-exit-detail/unsupported — process-exit detail enum · unsupported\n+ contract/process-exit-detail/unreachable — process-exit detail enum · unreachable\n+ contract/process-exit-detail/oversize — process-exit detail enum · oversize\n+ contract/process-exit-detail/malformed — process-exit detail enum · malformed\n**Why:** contract/diagnostics-role-files/cli-name: viola focus logs as the cli role into cli-<name>.ndjson under span cli.focus, so the role file's naming promise must cover focus. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\nname/command/focus: The chunk occupies the CLI subcommand name focus, which the register of occupied command names lacks. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\ncontract/process-exit-detail/window-not-found: The diagnostics schema's process-exit detail enum gains this word for focus, and the register of its words lacks it. — on delegate the viola overseer, 2026-11-24 (inputs#I7, forks F-A and F-C, PROVISIONAL), PROVISIONAL\ncontract/process-exit-detail/unsupported: The diagnostics schema's process-exit detail enum gains this word for focus, and the register of its words lacks it. — on delegate the viola overseer, 2026-11-24 (inputs#I7, forks F-A, F-C and F-E, PROVISIONAL), PROVISIONAL\ncontract/process-exit-detail/unreachable: The diagnostics schema's process-exit detail enum gains this word for focus, and the register of its words lacks it. — on delegate the viola overseer, 2026-11-24 (inputs#I7, forks F-A, F-C and F-E, PROVISIONAL), PROVISIONAL\ncontract/process-exit-detail/oversize: The diagnostics schema's process-exit detail enum gains this word for focus, and the register of its words lacks it. — on delegate the viola overseer, 2026-11-24 (inputs#I7, forks F-A and F-C, PROVISIONAL), PROVISIONAL\ncontract/process-exit-detail/malformed: The diagnostics schema's process-exit detail enum gains this word for focus, and the register of its words lacks it. — on delegate the viola overseer, 2026-11-24 (inputs#I7, forks F-A and F-C, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"## 2026-11-24-viola-focus — Occupied Resources: 1 row(s) (2 of 2)\n**Section:** Occupied Resources\n**Change:** + contract/process-exit-detail/refused — process-exit detail enum · refused\n**Why:** contract/process-exit-detail/refused: The diagnostics schema's process-exit detail enum gains this word for focus, and the register of its words lacks it. — on delegate the viola overseer, 2026-11-24 (inputs#I7, forks F-A and F-C, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"## 2026-11-24-viola-focus — Established Decisions: 1 row(s)\n**Section:** Established Decisions\n**Change:** + decision/focus-has-no-driver-form — Focus has no driver-facing form\n**Why:** decision/focus-has-no-driver-form: The chunk leaves a driver-facing focus out on fork F-A's provisional arm, a decision on the driver's surface that no row states. — resolved (Q1), PROVISIONAL: delegate the viola overseer, 2026-11-24: both land with state provisional on fork F-A arm 1, the conservative arm; the operator's own word owed in his Epoch 5 batch (escalation-card.md)\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"patterns: none: 3 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 11 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:42:07Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/cli-verbs/focus · rejected",
+"contract/viola-focus-exit-codes/1 · rejected",
+"contract/viola-focus-exit-codes/21 · rejected",
+"decision/focus-window-by-ancestry · rejected",
+"decision/focus-is-caller-side · rejected",
+"fit: fits 11 · not_master 0 · stands 0",
+"landed tx 4463 · 11 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:42:07Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/focus-liveness-before-hyprctl · rejected",
+"decision/focus-refusals-fixed-closed-codes · rejected",
+"decision/focus-human-cli-only · rejected",
+"decision/focus-seam-calls-bounded · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"## 2026-11-24-viola-focus — Threat Model Summary: 2 row(s)\n**Section:** Threat Model Summary\n**Change:** ~ decision/state-tree-strict-modes-before-use · rule: was «run, revive's start, open and verify hold the home tree to the strict-modes check before their first read or open under the home and before any log opens; a refusal exits 1.»; now «run, revive's start, open, verify and focus hold the home tree to the strict-modes check before their first read or open under the home and before any log opens; a refusal exits 1, and focus's exits 21 strict-modes-failed.»\n~ contract/cli-exit-codes/21 · promise: was «A frame verb refused because the instance failed the strict-modes check.»; now «A frame verb, or viola focus, refused because the instance failed the strict-modes check.»\n**Why:** decision/state-tree-strict-modes-before-use: viola focus is a new verb that holds the home tree to the strict-modes check before any log opens, refusing with exit 21 rather than 1, so the row's list of verbs and its exit must name it. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\ncontract/cli-exit-codes/21: viola focus opens no frame yet exits 21 on a strict-modes refusal, so exit 21 is no longer a frame verb's alone. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"## 2026-11-24-viola-focus — Data Protection: 1 row(s)\n**Section:** Data Protection\n**Change:** + decision/focus-ancestor-walk-in-memory — Focus's ancestor walk held in memory\n**Why:** decision/focus-ancestor-walk-in-memory: viola focus adds a second ancestor walk beside open's, and its bound and its never being written are a decision the next verb reading ancestry must respect. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"## 2026-11-24-viola-focus — Authentication & Authorization: 1 row(s)\n**Section:** Authentication & Authorization\n**Change:** + decision/focus-raises-only-ancestry-windows — Focus raises only a window of the session's ancestry\n**Why:** decision/focus-raises-only-ancestry-windows: viola focus is the first product verb to dispatch a focus to the compositor, and which window it may raise is the security decision that bounds it. — resolved (Q1), PROVISIONAL: delegate the viola overseer, 2026-11-24: both land with state provisional on fork F-A arm 1, the conservative arm; the operator's own word owed in his Epoch 5 batch (escalation-card.md)\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 4 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:42:08Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-focus-refusals/socket-dir · rejected",
+"decision/focus-raises-only-its-session-window · rejected",
+"decision/focus-human-verb-only · rejected",
+"fit: fits 14 · not_master 0 · stands 0",
+"## 2026-11-24-viola-focus — Surface: cli: 6 row(s) (1 of 2)\n**Section:** Surface: cli\n**Change:** ~ contract/cli-refusal-line/fixed-unable-form · promise: was «The exit-1 refusals of `run`, `revive`, `open` and `verify` and the exit-21 strict-modes refusals of `list`, `link`, `unlink`, `send`, `wait`, `last`, `answer`, `pause` and `release` print the fixed `unable: <text>` form.»; now «The exit-1 refusals of `run`, `revive`, `open`, `focus` and `verify` and the exit-21 strict-modes refusals of `list`, `link`, `unlink`, `send`, `wait`, `last`, `answer`, `pause` and `release` print the fixed `unable: <text>` form.»\n~ contract/help-output/verb-groups · promise: was «`viola --help` lists the served verbs as `board: list` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: open, run, revive, verify, plugin install`, then `Options:`.»; now «`viola --help` lists the served verbs as `board: list, focus` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: open, run, revive, verify, plugin install`, then `Options:`.»\n+ name/command/focus — focus\n+ contract/cli-verb-output/focus — CLI verb output · viola focus\n+ contract/viola-focus-exit-1-codes/window-not-found — viola focus exit-1 codes · window-not-found\n+ contract/viola-focus-exit-1-codes/unsupported — viola focus exit-1 codes · unsupported\n**Why:** contract/cli-refusal-line/fixed-unable-form: `viola focus`'s exit-1 refusals print a fixed unable/hint pair, so the closed list of fixed-form verbs must name focus. — on delegate the viola overseer, 2026-11-24 (inputs#I7, forks F-A and F-C, PROVISIONAL), PROVISIONAL\ncontract/help-output/verb-groups: The help template's board row moved from `list` to `list, focus` (PROVISIONAL, F-B), so the stated help wording must follow. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-B, PROVISIONAL), PROVISIONAL\nname/command/focus: The command name `focus` is now occupied by the new `viola focus <name> [--json]` verb, a board verb beside `list`. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\ncontract/cli-verb-output/focus: `viola focus` adds a new success output wording that no master states. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\ncontract/viola-focus-exit-1-codes/window-not-found: `viola focus` adds a closed set of exit-1 refusal codes, one contract row an item. — on delegate the viola overseer, 2026-11-24 (inputs#I7, forks F-A and F-C, PROVISIONAL), PROVISIONAL\ncontract/viola-focus-exit-1-codes/unsupported: `viola focus` adds a closed set of exit-1 refusal codes, one contract row an item. — on delegate the viola overseer, 2026-11-24 (inputs#I7, forks F-A, F-C and F-E, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"## 2026-11-24-viola-focus — Surface: cli: 5 row(s) (2 of 2)\n**Section:** Surface: cli\n**Change:** + contract/viola-focus-exit-1-codes/unreachable — viola focus exit-1 codes · unreachable\n+ contract/viola-focus-exit-1-codes/oversize — viola focus exit-1 codes · oversize\n+ contract/viola-focus-exit-1-codes/malformed — viola focus exit-1 codes · malformed\n+ contract/viola-focus-exit-1-codes/refused — viola focus exit-1 codes · refused\n+ contract/viola-focus-refusals/exit-21 — viola focus refusals · exit 21\n**Why:** contract/viola-focus-exit-1-codes/unreachable: `viola focus` adds a closed set of exit-1 refusal codes, one contract row an item. — on delegate the viola overseer, 2026-11-24 (inputs#I7, forks F-A, F-C and F-E, PROVISIONAL), PROVISIONAL\ncontract/viola-focus-exit-1-codes/oversize: `viola focus` adds a closed set of exit-1 refusal codes, one contract row an item. — on delegate the viola overseer, 2026-11-24 (inputs#I7, forks F-A and F-C, PROVISIONAL), PROVISIONAL\ncontract/viola-focus-exit-1-codes/malformed: `viola focus` adds a closed set of exit-1 refusal codes, one contract row an item. — on delegate the viola overseer, 2026-11-24 (inputs#I7, forks F-A and F-C, PROVISIONAL), PROVISIONAL\ncontract/viola-focus-exit-1-codes/refused: `viola focus` adds a closed set of exit-1 refusal codes, one contract row an item. — on delegate the viola overseer, 2026-11-24 (inputs#I7, forks F-A and F-C, PROVISIONAL), PROVISIONAL\ncontract/viola-focus-refusals/exit-21: `viola focus` adds exit-21 refusals made before any compositor read, a promise at the CLI boundary no row states for this verb. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"## 2026-11-24-viola-focus — Surface: cli: 3 row(s)\n**Section:** Surface: cli\n**Change:** ~ contract/cli-stderr/fixed-message-refusal · promise: was «The exit-1 refusals of `viola run`, `revive`, `open` and `verify`, `viola list`'s exit-21 strict-modes refusal, and the exit-21 strict-modes refusals of `link`, `unlink`, `send`, `wait`, `last`, `answer`, `pause` and `release` use `unable: <text>`.»; now «The exit-1 refusals of `viola run`, `revive`, `open`, `focus` and `verify`, `viola list`'s exit-21 strict-modes refusal, and the exit-21 strict-modes refusals of `link`, `unlink`, `send`, `wait`, `last`, `answer`, `pause` and `release` use `unable: <text>`.»\n~ contract/viola-help/verb-groups · promise: was «`viola --help` lists the served verbs only, grouped `board: list` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: open, run, revive, verify, plugin install`, then `Options:`.»; now «`viola --help` lists the served verbs only, grouped `board: list, focus` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: open, run, revive, verify, plugin install`, then `Options:`.»\n~ contract/exit-21-json-cause/strict-modes-failed · promise: was «The `list`, `link`, `unlink` and `plugin install` refusals and the six frame verbs' strict-modes refusals read `strict-modes-failed`.»; now «The `list`, `link`, `unlink`, `focus` and `plugin install` refusals and the six frame verbs' strict-modes refusals read `strict-modes-failed`.»\n**Why:** contract/cli-stderr/fixed-message-refusal: `viola focus`'s exit-1 refusals use the fixed unable/hint form, so the closed list of fixed-message verbs must name focus. — on delegate the viola overseer, 2026-11-24 (inputs#I7, forks F-A and F-C, PROVISIONAL), PROVISIONAL\ncontract/viola-help/verb-groups: The help template's board row moved from `list` to `list, focus` (PROVISIONAL, F-B), so the stated help wording must follow. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-B, PROVISIONAL), PROVISIONAL\ncontract/exit-21-json-cause/strict-modes-failed: `viola focus` refuses a home or instance failing strict modes with exit 21 `strict-modes-failed`, so the closed list of verbs reading that cause must name focus. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"patterns: none: 5 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 14 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:42:08Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-focus-output/focused · rejected",
+"contract/viola-focus-json/refusal-document · rejected",
+"decision/focus-pairs-planning-forms · rejected",
+"contract/viola-focus/exit-21-order · rejected",
+"contract/viola-focus-refusals/unsupported · rejected",
+"contract/viola-focus-refusals/window-not-found · rejected",
+"absence/mcp-window-focus · rejected",
+"contract/viola-help/board-row · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"## 2026-11-24-viola-focus — Surface: cli: 3 row(s)\n**Section:** Surface: cli\n**Change:** ~ contract/cli-verbs/help · promise: was «The grouped verb table with the served verbs only: the board, traffic, wheel, handoff and setup rows, `handoff:` holding link, unlink and `setup:` holding open, run, revive, verify and plugin install.»; now «The grouped verb table with the served verbs only: the board, traffic, wheel, handoff and setup rows, `board:` holding list and focus, `handoff:` holding link, unlink and `setup:` holding open, run, revive, verify and plugin install.»\n~ contract/cli-exit-codes/21 · promise: was «`unable  instance-unreachable`; for `viola list`, `viola plugin install` and the frame verbs' strict-modes refusal the fixed state pair instead.»; now «`unable  instance-unreachable`; for `viola list`, `viola plugin install` and the strict-modes refusal of the frame verbs and `viola focus` the fixed state pair instead.»\n+ contract/cli-verbs/focus — CLI verbs · viola focus <name>\n**Why:** contract/cli-verbs/help: The board group of viola --help now holds focus beside list, so the help verb row must say what the board row holds. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-B, PROVISIONAL), PROVISIONAL\ncontract/cli-exit-codes/21: viola focus now exits 21 for a name not live and for a home or instance failing strict modes, so the exit-21 row must name focus among the verbs whose strict-modes refusal prints the fixed state pair. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\ncontract/cli-verbs/focus: The chunk adds the viola focus verb, a new user-facing CLI surface the verb list must describe. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 3 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:42:08Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/focus-names-no-window · rejected",
+"decision/focus-ancestry-walk-unlogged · rejected",
+"decision/focus-no-product-event · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"## 2026-11-24-viola-focus — 4. Span / Trace Coverage: 1 row(s)\n**Section:** 4. Span / Trace Coverage\n**Change:** + contract/cli-log-file/focus — CLI process-log file · viola focus\n**Why:** contract/cli-log-file/focus: The chunk adds the viola focus verb, instrumented under the manual span cli.focus into the cli role file (provisional on fork F-A), and obs-plan holds a cli-log-file row per such verb beside open's. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"## 2026-11-24-viola-focus — 6. Log Coverage: 1 row(s)\n**Section:** 6. Log Coverage\n**Change:** + contract/process-exit-detail/exit-1-focus — process-exit detail · exit 1 from viola focus\n**Why:** contract/process-exit-detail/exit-1-focus: The diag-line schema's process-exit detail enum gains focus's six exit-1 words, and the standing exit-1 row would pass its bound and its no-child-started clause does not hold where focus has spawned hyprctl. — on delegate the viola overseer, 2026-11-24 (inputs#I7, forks F-A, F-C and F-E, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"## 2026-11-24-viola-focus — 3. Observability Harness Contract: 1 row(s)\n**Section:** 3. Observability Harness Contract\n**Change:** ~ decision/instance-check-before-log-init · rule: was «Commands acting on an instance (revive's start arm, the hook arms, link, unlink, send, wait, last, answer, pause, release) run the instance strict-modes check before opening any log; a refusal opens and writes nothing and leaves modes as found.»; now «Commands acting on an instance (revive's start arm, the hook arms, link, unlink, send, wait, last, answer, pause, release, focus) run the instance strict-modes check before opening any log; a refusal opens and writes nothing and leaves modes as found.»\n**Why:** decision/instance-check-before-log-init: viola focus runs the home and instance strict-modes check before any log line and refuses with exit 21, so the list of commands checking before log init must name it. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"## 2026-11-24-viola-focus — 2. Telemetry Strategy: 1 row(s)\n**Section:** 2. Telemetry Strategy\n**Change:** ~ contract/strict-modes-refusal-exit/21 · promise: was «The six frame verbs and link / unlink exit 21 on a strict-modes refusal, under --json with the instance-unreachable document carrying detail strict-modes-failed.»; now «The six frame verbs, link / unlink and focus exit 21 on a strict-modes refusal, under --json with the instance-unreachable document carrying detail strict-modes-failed.»\n**Why:** contract/strict-modes-refusal-exit/21: viola focus exits 21 with strict-modes-failed for a home or instance failing strict modes, so the list of verbs taking exit 21 on that refusal must name it. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 4 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:42:09Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/fake-hyprctl-receipt/hyprctl-asked · rejected",
+"decision/focus-raises-only-ancestry-window · rejected",
+"contract/viola-focus-exit/window-not-found · rejected",
+"contract/viola-focus-exit/unsupported · rejected",
+"contract/viola-focus-exit/unreachable · rejected",
+"contract/viola-focus-exit/oversize · rejected",
+"contract/viola-focus-exit/malformed · rejected",
+"contract/viola-focus-exit/refused · rejected",
+"contract/viola-focus-exit/not-live · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"## 2026-11-24-viola-focus — 6. E2E Test Strategy: 2 row(s)\n**Section:** 6. E2E Test Strategy\n**Change:** ~ decision/strict-modes-before-any-log · rule: was «Frame verbs, link verbs and starts take the strict-modes check before opening any log, so a widened state is refused with no frame, no line and its mode read back as found.»; now «Frame verbs, link verbs, starts and viola focus take the strict-modes check before opening any log, so a widened state is refused with no frame, no line and its mode read back as found.»\n+ decision/window-raise-proven-live — Real window raise proven only by the gated live reading R3\n**Why:** decision/strict-modes-before-any-log: The new viola focus verb takes the strict-modes check before any log and refuses a widened home there, so the rule's list of verbs bound by it must name focus. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\ndecision/window-raise-proven-live: The chunk adds R3 as a gated live reading of focus with a rehearse form that never counts as live, standing on fork F-D's provisional arm, and no row says what proves a real raise. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-D, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"## 2026-11-24-viola-focus — 5. Integration Test Strategy: 1 row(s)\n**Section:** 5. Integration Test Strategy\n**Change:** ~ contract/strict-modes-refusal/no-line · promise: was «A refused check at run, viola revive, viola verify, the frame verbs, the hook and the MCP frame tools writes no line.»; now «A refused check at run, viola revive, viola verify, viola focus, the frame verbs, the hook and the MCP frame tools writes no line.»\n**Why:** contract/strict-modes-refusal/no-line: viola focus refuses a home or instance failing strict modes before any log is opened, so it is a further surface whose refused check writes no line. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 3 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:42:09Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-focus-refusal/pair · rejected",
+"contract/viola-focus-json-refusal/document · rejected",
+"contract/viola-focus-json-refusal/window-not-found · rejected",
+"contract/viola-focus-json-refusal/unsupported · rejected",
+"contract/viola-focus-json-refusal/unreachable · rejected",
+"contract/viola-focus-json-refusal/oversize · rejected",
+"contract/viola-focus-json-refusal/malformed · rejected",
+"contract/viola-focus-json-refusal/refused · rejected",
+"contract/viola-focus/result-line · rejected",
+"contract/viola-focus/json-ok · rejected",
+"contract/cli-help/board-row · rejected",
+"decision/focus-off-hyprland-refuses · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-24-viola-focus — 8. Cognitive Accessibility: 2 row(s)\n**Section:** 8. Cognitive Accessibility\n**Change:** ~ decision/strict-modes-refusal-before-any-write · rule: was «A home or instance failing the strict-modes check is refused first, before any log opens, frame is sent or child starts, with no line written: exit 21 for frame verbs and link/unlink, exit 1 for run, revive's start and verify.»; now «A home or instance failing the strict-modes check is refused first, before any log opens, frame is sent or child starts, with no line written: exit 21 for frame verbs, link/unlink and focus, exit 1 for run, revive's start and verify.»\n~ contract/cli-exit-codes/21 · promise: was «instance-unreachable: the frame verb was refused before reaching the instance, the cause in detail.»; now «instance-unreachable: a frame verb, or viola focus before any compositor read, was refused before reaching the instance, the cause in detail.»\n**Why:** decision/strict-modes-refusal-before-any-write: viola focus now refuses a home or instance failing strict modes with exit 21 before any log, so the row's list of exit-21 verbs must name focus. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\ncontract/cli-exit-codes/21: viola focus, which is no frame verb, now exits 21 for instance-dead, unwrapped-name and strict-modes-failed before any hyprctl read, so the promise that names only frame verbs is incomplete. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:42:09Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/focus-is-caller-side · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-24-viola-focus — Conventions: 1 row(s)\n**Section:** Conventions\n**Change:** + contract/cli-verbs/focus — CLI verbs · focus\n**Why:** contract/cli-verbs/focus: A new CLI verb with a closed argument set lands; its output wording has its home in design-system's contract/cli-verb-output/focus, so this row states the argument form alone, as its siblings do. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:42:09Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-main-design-system.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-24-viola-focus — Surface: cli: 1 row(s)\n**Section:** Surface: cli\n**Change:** ~ contract/cli-exit-codes/1 · promise: was «`error: internal error` (fixed; no chain, paths or hint), or a fixed `unable:` refusal of `run`, `revive`, `open` or `verify` with its hint; `--json` only for `revive`'s shared-start refusals, `open`'s refusals and the catch site's `{\"v\":1,\"error\":\"internal-error\",\"detail\":null}`, stderr empty.»; now «`error: internal error` (fixed; no chain, path or hint) or a fixed `unable:` refusal of `run`, `revive`, `open`, `focus` or `verify` and its hint; `--json` only for revive's shared-start, open's and focus's refusals and the catch site's `{\"v\":1,\"error\":\"internal-error\",\"detail\":null}`; stderr empty.»\n**Why:** contract/cli-exit-codes/1: viola focus adds six exit-1 refusals, each a fixed unable/hint pair or one --json document, so the exit-1 row's closed verb lists must name focus (the plan's expected amendment). — on delegate the viola overseer, 2026-11-24 (inputs#I7, forks F-A and F-C, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:42:15Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/focus-liveness-before-hyprctl · rejected",
+"decision/focus-refusals-fixed-closed-codes · rejected",
+"decision/focus-human-cli-only · rejected",
+"decision/focus-seam-calls-bounded · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"landed tx 4464 · 4 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:42:16Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-focus-refusals/socket-dir · rejected",
+"decision/focus-raises-only-its-session-window · rejected",
+"decision/focus-human-verb-only · rejected",
+"fit: fits 14 · not_master 0 · stands 0",
+"landed tx 4465 · 14 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:42:16Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-focus-output/focused · rejected",
+"contract/viola-focus-json/refusal-document · rejected",
+"decision/focus-pairs-planning-forms · rejected",
+"contract/viola-focus/exit-21-order · rejected",
+"contract/viola-focus-refusals/unsupported · rejected",
+"contract/viola-focus-refusals/window-not-found · rejected",
+"absence/mcp-window-focus · rejected",
+"contract/viola-help/board-row · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"landed tx 4466 · 3 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:42:16Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/focus-names-no-window · rejected",
+"decision/focus-ancestry-walk-unlogged · rejected",
+"decision/focus-no-product-event · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"landed tx 4467 · 4 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:42:17Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/fake-hyprctl-receipt/hyprctl-asked · rejected",
+"decision/focus-raises-only-ancestry-window · rejected",
+"contract/viola-focus-exit/window-not-found · rejected",
+"contract/viola-focus-exit/unsupported · rejected",
+"contract/viola-focus-exit/unreachable · rejected",
+"contract/viola-focus-exit/oversize · rejected",
+"contract/viola-focus-exit/malformed · rejected",
+"contract/viola-focus-exit/refused · rejected",
+"contract/viola-focus-exit/not-live · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"landed tx 4468 · 3 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:42:17Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-focus-refusal/pair · rejected",
+"contract/viola-focus-json-refusal/document · rejected",
+"contract/viola-focus-json-refusal/window-not-found · rejected",
+"contract/viola-focus-json-refusal/unsupported · rejected",
+"contract/viola-focus-json-refusal/unreachable · rejected",
+"contract/viola-focus-json-refusal/oversize · rejected",
+"contract/viola-focus-json-refusal/malformed · rejected",
+"contract/viola-focus-json-refusal/refused · rejected",
+"contract/viola-focus/result-line · rejected",
+"contract/viola-focus/json-ok · rejected",
+"contract/cli-help/board-row · rejected",
+"decision/focus-off-hyprland-refuses · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 4469 · 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:42:17Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/focus-is-caller-side · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 4470 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:42:18Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-main-design-system.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 4471 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:44:37Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-main-design-system.2.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-24-viola-focus — Surface: cli: 1 row(s)\n**Section:** Surface: cli\n**Change:** ~ contract/cli-refusal-line/fixed-unable-form · promise: was «The exit-1 refusals of `run`, `revive`, `open`, `focus` and `verify` and the exit-21 strict-modes refusals of `list`, `link`, `unlink`, `send`, `wait`, `last`, `answer`, `pause` and `release` print the fixed `unable: <text>` form.»; now «The exit-1 refusals of `run`, `revive`, `open`, `focus` and `verify` and the exit-21 strict-modes refusals of `list`, `link`, `unlink`, `focus`, `send`, `wait`, `last`, `answer`, `pause` and `release` print the fixed `unable: <text>` form.»\n**Why:** contract/cli-refusal-line/fixed-unable-form: viola focus's exit-21 strict-modes refusal prints the fixed state pair too (layout-templates contract/cli-exit-codes/21 as landed this wrap), so the row's exit-21 list must name focus beside its exit-1 list. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"## 2026-11-24-viola-focus — Surface: cli: 1 row(s)\n**Section:** Surface: cli\n**Change:** ~ contract/cli-stderr/fixed-message-refusal · promise: was «The exit-1 refusals of `viola run`, `revive`, `open`, `focus` and `verify`, `viola list`'s exit-21 strict-modes refusal, and the exit-21 strict-modes refusals of `link`, `unlink`, `send`, `wait`, `last`, `answer`, `pause` and `release` use `unable: <text>`.»; now «The exit-1 refusals of `viola run`, `revive`, `open`, `focus` and `verify`, `viola list`'s exit-21 strict-modes refusal, and the exit-21 strict-modes refusals of `link`, `unlink`, `focus`, `send`, `wait`, `last`, `answer`, `pause` and `release` use `unable: <text>`.»\n**Why:** contract/cli-stderr/fixed-message-refusal: viola focus's exit-21 strict-modes refusal uses the fixed unable form too, so the row's exit-21 list must name focus beside its exit-1 list. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:44:41Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-main-design-system.2.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 4472 · 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:47:35Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-24-viola-focus — Error Handling: 1 row(s)\n**Section:** Error Handling\n**Change:** ~ decision/cli-frame-verbs-strict-modes-first · rule: was «CLI send, wait, last, answer, pause, release, link and unlink run the instance strict-modes check before any frame; a refusal exits 21, opens nothing under the home and writes no line.»; now «CLI send, wait, last, answer, pause, release, link, unlink and focus run the instance strict-modes check before any frame or compositor read; a refusal exits 21, opens nothing under the home and writes no line.»\n**Why:** decision/cli-frame-verbs-strict-modes-first: viola focus runs the same instance check through client::refuse_untrusted (src/cmd/focus.rs, the report's Symbols / APIs) and refuses exit 21 strict-modes-failed before any log, so the row naming the verbs that check the instance first must name it. — on delegate the viola overseer, 2026-11-24 (inputs#I7, fork F-A, PROVISIONAL), PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:47:35Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-main-security-plan.2.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-24-viola-focus — Threat Model Summary: 1 row(s)\n**Section:** Threat Model Summary\n**Change:** ~ decision/state-tree-strict-modes-before-use · rule: was «run, revive's start, open, verify and focus hold the home tree to the strict-modes check before their first read or open under the home and before any log opens; a refusal exits 1, and focus's exits 21 strict-modes-failed.»; now «run, revive's start, open and verify hold the home tree to the strict-modes check before their first read or open under the home and before any log opens; a refusal exits 1.»\n**Why:** decision/state-tree-strict-modes-before-use: the row as set at tx 4464 names focus among the home-tree verbs, but focus runs the instance check (client::refuse_untrusted, check_instance) and not check_home_tree, so the row is false for it; its instance check stands on decision/cli-frame-verbs-strict-modes-first.\n**Ref:** .andromeda/runs/2026-11-24T03-08-15Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:47:39Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 4473 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:47:39Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/ops-main-security-plan.2.md",
+"--results",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 4474 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:49:23Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/conventions.md",
+"--file",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/staged-leaf-.claude__docs__conventions.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/conventions.md rev 25 · 0 new · 2 revised · 0 retired · tx 4475"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+"./.claude/docs/conventions.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:49:23Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-mcp.md",
+"--file",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/staged-leaf-.claude__docs__services__viola-mcp.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-mcp.md rev 7 · 0 new · 1 revised · 0 retired · tx 4476"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+"./.claude/docs/services/viola-mcp.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:49:24Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-state.md",
+"--file",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/staged-leaf-.claude__docs__services__viola-state.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-state.md rev 14 · 0 new · 1 revised · 0 retired · tx 4477"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+"./.claude/docs/services/viola-state.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:49:24Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/stack.md",
+"--file",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/staged-leaf-.claude__docs__stack.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/stack.md rev 15 · 0 new · 1 revised · 0 retired · tx 4478"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+"./.claude/docs/stack.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:49:25Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola.md",
+"--file",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/staged-leaf-.claude__docs__services__viola.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola.md rev 31 · 0 new · 1 revised · 0 retired · tx 4479"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+"./.claude/docs/services/viola.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:49:25Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/frontend.md",
+"--file",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/staged-leaf-.claude__rules__frontend.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/frontend.md rev 15 · 0 new · 2 revised · 0 retired · tx 4480"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+"./.claude/rules/frontend.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:49:26Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/api.md",
+"--file",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/staged-leaf-.claude__rules__api.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/api.md rev 19 · 0 new · 2 revised · 0 retired · tx 4481"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+"./.claude/rules/api.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:49:26Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/commands.md",
+"--file",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/staged-leaf-.claude__docs__commands.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/commands.md rev 32 · 0 new · 1 revised · 0 retired · tx 4482"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+"./.claude/docs/commands.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:49:27Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/design-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/staged-leaf-.claude__docs__design-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/design-summary.md rev 22 · 0 new · 2 revised · 0 retired · tx 4483"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+"./.claude/docs/design-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:49:27Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/obs-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/staged-leaf-.claude__docs__obs-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/obs-summary.md rev 20 · 0 new · 3 revised · 0 retired · tx 4484"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+"./.claude/docs/obs-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:49:28Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/security-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/staged-leaf-.claude__docs__security-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 45 · 0 new · 1 revised · 0 retired · tx 4485"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:49:28Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/security.md",
+"--file",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/staged-leaf-.claude__rules__security.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/security.md rev 48 · 0 new · 1 revised · 0 retired · tx 4486"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+"./.claude/rules/security.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:49:29Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/tests-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/staged-leaf-.claude__docs__tests-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/tests-summary.md rev 44 · 0 new · 1 revised · 0 retired · tx 4487"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+"./.claude/docs/tests-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:49:30Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/observability.md",
+"--file",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/staged-leaf-.claude__rules__observability.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/observability.md rev 27 · 0 new · 4 revised · 0 retired · tx 4488"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+"./.claude/rules/observability.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:50:22Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/security-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/staged-leaf-.claude__docs__security-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 46 · 0 new · 1 revised · 0 retired · tx 4489"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:50:23Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/api.md",
+"--file",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/staged-leaf-.claude__rules__api.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/api.md rev 20 · 0 new · 1 revised · 0 retired · tx 4490"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+"./.claude/rules/api.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:50:24Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/security.md",
+"--file",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap/staged-leaf-.claude__rules__security.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/security.md rev 49 · 0 new · 1 revised · 0 retired · tx 4491"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+"./.claude/rules/security.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:55:21Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--marker",
+"2026-11-24-viola-focus"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 4496 · run-5hjlxx3d … run-5hjlxx3d"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T03:58:33Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-24-viola-focus",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 14 file(s) of 2026-11-24-viola-focus"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

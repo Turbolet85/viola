@@ -1,0 +1,59 @@
+[
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "afc8a3a0",
+"ts": "2026-11-24T03:58:21Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-24-viola-focus",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--gated",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-24-viola-focus: 1 · to flip 0 · already verified 0 · below 0 · gated held 1",
+"gated v2-11 (planned) — held below verified — R3, viola focus once on a hand-started session and once on a… (156 chars)",
+"nothing to write — 1 gated cap(s) held below verified, 0 already verified",
+"version: verified 26/37"
+],
+"stderr": null,
+"wrote": [],
+"before": [],
+"after": []
+},
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "afc8a3a0",
+"ts": "2026-11-24T03:58:24Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-24-viola-focus",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap",
+"--gated"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-24-viola-focus: 1 · to flip 0 · already verified 0 · below 0 · gated held 1",
+"gated v2-11 (planned) — held below verified — R3, viola focus once on a hand-started session and once on a… (156 chars)",
+"nothing to write — 1 gated cap(s) held below verified, 0 already verified",
+"version: verified 26/37"
+],
+"stderr": null,
+"wrote": [],
+"before": [],
+"after": []
+}
+]

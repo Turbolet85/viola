@@ -1,0 +1,103 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T03:08:33Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-24-viola-focus",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-focus-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the wrap directive for chunk 2026-11-24-viola-focus: v2-11 stays claimed GATED, every fork row lands PROVISIONAL on the delegate overseer word, the operator away",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy no-repo · ../additional/viola-overseer/wrap-focus-directive.md",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-wrap-focus-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-focus-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "c55a9e85336726b5fc99a5559e8bfa17625dc62e40ccfcc653362151d8c5944d",
+"copy": "I7-wrap-focus-directive.md.txt",
+"link": false,
+"read_at": "2026-11-24T03:08:31Z",
+"step": "wrap",
+"why": "the wrap directive for chunk 2026-11-24-viola-focus: v2-11 stays claimed GATED, every fork row lands PROVISIONAL on the delegate overseer word, the operator away"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T03:08:49Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-24-viola-focus",
+"--run-dir",
+".andromeda/runs/2026-11-24T03-08-15Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-focus-directive.md",
+"I1 cited scope.md:11 · research.md:7 · research.md:54 · plan.md:10 · plan.md:239 · plan.md:324 (in fence) · plan.md:461",
+"I2 n/a — a message has no live source · copy message · message: the overseer, this session, 2026-11-24",
+"I2 cited scope.md:11 · research.md:7 · plan.md:10 · plan.md:238 · plan.md:461",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-focus-p5-review.md",
+"I3 cited plan.md:13 · plan.md:175 · plan.md:176 · plan.md:196 · plan.md:461 · plan.md:469 · plan.md:471 · plan.md:473 · report.md:57 · report.md:63",
+"I4 n/a — a message has no live source · copy message · message: the overseer, this session, 2026-11-24, as delegate for the operator",
+"I4 cited report.md:57",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/implement-focus-directive.md",
+"I5 cited report.md:54 · report.md:114 · report.md:157",
+"I6 n/a — a message has no live source · copy message · message: the Viola overseer, in this session",
+"I6 cited report.md:55 · report.md:114",
+"I7 unchanged · copy no-repo · ../additional/viola-overseer/wrap-focus-directive.md",
+"I7 UNCITED",
+"inputs: 7 entries — unchanged 4 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 4,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 1,
+"unparsed": 0
+}
+}
+]

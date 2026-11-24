@@ -1,0 +1,50 @@
+--- a/.andromeda/design-system.md
++++ b/.andromeda/design-system.md
+@@ -129,3 +129,3 @@
+ contract/cli-exit-codes/0 · CLI exit codes · 0 — No stderr first word (TTY context lines only); the result line goes to stdout; under `--json` the document `{"v":1,"ok":{…}}`.
+-contract/cli-exit-codes/1 · CLI exit codes · 1 — `error: internal error` (fixed; no chain, paths or hint), or a fixed `unable:` refusal of `run`, `revive`, `open` or `verify` with its hint; `--json` only for `revive`'s shared-start refusals, `open`'s refusals and the catch site's `{"v":1,"error":"internal-error","detail":null}`, stderr empty.
++contract/cli-exit-codes/1 · CLI exit codes · 1 — `error: internal error` (fixed; no chain, path or hint) or a fixed `unable:` refusal of `run`, `revive`, `open`, `focus` or `verify` and its hint; `--json` only for revive's shared-start, open's and focus's refusals and the catch site's `{"v":1,"error":"internal-error","detail":null}`; stderr empty.
+ contract/cli-exit-codes/10-14 · CLI exit codes · 10 to 14 — An `unable` refusal with its reason; a refusal object under `--json`; 11 is retired (was `budget-paused`) and never reused.
+@@ -136,3 +136,3 @@
+ contract/cli-message-escaping/json · CLI message-mode escaping · --json — `--json` output stays serde-escaped.
+-contract/cli-refusal-line/fixed-unable-form · CLI refusal line · fixed unable form — The exit-1 refusals of `run`, `revive`, `open` and `verify` and the exit-21 strict-modes refusals of `list`, `link`, `unlink`, `send`, `wait`, `last`, `answer`, `pause` and `release` print the fixed `unable: <text>` form.
++contract/cli-refusal-line/fixed-unable-form · CLI refusal line · fixed unable form — The exit-1 refusals of `run`, `revive`, `open`, `focus` and `verify` and the exit-21 strict-modes refusals of `list`, `link`, `unlink`, `focus`, `send`, `wait`, `last`, `answer`, `pause` and `release` print the fixed `unable: <text>` form.
+ contract/cli-refusal-line/hint · CLI refusal line · hint — A refusal is followed directly by one `hint:` line per reason, detail or cause.
+@@ -146,2 +146,3 @@
+ contract/cli-verb-output/answer · CLI verb output · viola answer — `viola answer <name> <id>` prints `answered  <name>  dialog <id>`, or `unable  <name>  not-delivered  unknown-dialog`.
++contract/cli-verb-output/focus · CLI verb output · viola focus — `viola focus <name>` prints `<name>  focused` on stdout, or under `--json` `{"v":1,"ok":{"name":"<name>"}}`; no window address, pid or workspace is ever printed or logged.
+ contract/cli-verb-output/link · CLI verb output · viola link — `viola link <a> <b>` prints `link    <a> -> <b>  since <time>`, or `link    <a> -> <b>  already linked` for an existing pair.
+@@ -157,3 +158,3 @@
+ contract/exit-21-cause/unwrapped-name · exit 21 cause · unwrapped-name — One of the closed set of causes named in exit 21's `detail`.
+-contract/help-output/verb-groups · viola --help output · verb groups — `viola --help` lists the served verbs as `board: list` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: open, run, revive, verify, plugin install`, then `Options:`.
++contract/help-output/verb-groups · viola --help output · verb groups — `viola --help` lists the served verbs as `board: list, focus` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: open, run, revive, verify, plugin install`, then `Options:`.
+ contract/hook-verb/exit-code · The hook verb · exit code — `hook` always exits 0.
+@@ -184,2 +185,9 @@
+ contract/strict-modes-refusal/json-document · Instance strict-modes refusal · --json document — Under `--json` the refusal prints the `instance-unreachable` document with `detail` `strict-modes-failed`, and stderr stays empty.
++contract/viola-focus-exit-1-codes/malformed · viola focus exit-1 codes · malformed — `malformed` is one of the six closed exit-1 codes of `viola focus`: under `--json` `{"v":1,"error":"malformed","detail":null}`, in human mode its fixed `unable:` / `hint:` pair.
++contract/viola-focus-exit-1-codes/oversize · viola focus exit-1 codes · oversize — `oversize` is one of the six closed exit-1 codes of `viola focus`: under `--json` `{"v":1,"error":"oversize","detail":null}`, in human mode its fixed `unable:` / `hint:` pair.
++contract/viola-focus-exit-1-codes/refused · viola focus exit-1 codes · refused — `refused` is one of the six closed exit-1 codes of `viola focus`: under `--json` `{"v":1,"error":"refused","detail":null}`, in human mode its fixed `unable:` / `hint:` pair.
++contract/viola-focus-exit-1-codes/unreachable · viola focus exit-1 codes · unreachable — `unreachable` is one of the six closed exit-1 codes of `viola focus`: under `--json` `{"v":1,"error":"unreachable","detail":null}`, in human mode its fixed `unable:` / `hint:` pair.
++contract/viola-focus-exit-1-codes/unsupported · viola focus exit-1 codes · unsupported — `unsupported` is one of the six closed exit-1 codes of `viola focus`: under `--json` `{"v":1,"error":"unsupported","detail":null}`, in human mode its fixed `unable:` / `hint:` pair.
++contract/viola-focus-exit-1-codes/window-not-found · viola focus exit-1 codes · window-not-found — `window-not-found` is one of the six closed exit-1 codes of `viola focus`: under `--json` `{"v":1,"error":"window-not-found","detail":null}`, in human mode its fixed `unable:` / `hint:` pair, nothing dispatched.
++contract/viola-focus-refusals/exit-21 · viola focus refusals · exit 21 — `viola focus` exits 21 with `instance-dead` or `unwrapped-name` for a name not live, and with `strict-modes-failed` for a home or instance failing strict modes, each before any compositor read.
+ contract/viola-last-output/header · viola last output · header — `last` prints `last  <name>  <kind> <time>` on stderr, TTY only.
+@@ -209,2 +217,3 @@
+ name/command/answer — answer
++name/command/focus — focus
+ name/command/hook — hook
+@@ -248,3 +257,3 @@
+ contract/cli-stderr/error-line · CLI stderr · error line — Errors print on stderr as `error: …`.
+-contract/cli-stderr/fixed-message-refusal · CLI stderr · fixed message form — The exit-1 refusals of `viola run`, `revive`, `open` and `verify`, `viola list`'s exit-21 strict-modes refusal, and the exit-21 strict-modes refusals of `link`, `unlink`, `send`, `wait`, `last`, `answer`, `pause` and `release` use `unable: <text>`.
++contract/cli-stderr/fixed-message-refusal · CLI stderr · fixed message form — The exit-1 refusals of `viola run`, `revive`, `open`, `focus` and `verify`, `viola list`'s exit-21 strict-modes refusal, and the exit-21 strict-modes refusals of `link`, `unlink`, `focus`, `send`, `wait`, `last`, `answer`, `pause` and `release` use `unable: <text>`.
+ contract/cli-stderr/hint-line · CLI stderr · hint line — Each refusal's `hint:` line follows it directly on stderr.
+@@ -255,3 +264,3 @@
+ contract/exit-21-json-cause/socket-dir-refused · exit 21 --json causes · socket-dir-refused — `socket-dir-refused` is one of the six closed causes of exit 21's `--json` document.
+-contract/exit-21-json-cause/strict-modes-failed · exit 21 --json causes · strict-modes-failed — The `list`, `link`, `unlink` and `plugin install` refusals and the six frame verbs' strict-modes refusals read `strict-modes-failed`.
++contract/exit-21-json-cause/strict-modes-failed · exit 21 --json causes · strict-modes-failed — The `list`, `link`, `unlink`, `focus` and `plugin install` refusals and the six frame verbs' strict-modes refusals read `strict-modes-failed`.
+ contract/exit-21-json-cause/unwrapped-name · exit 21 --json causes · unwrapped-name — With no live endpoint, a frame verb whose instance directory, read after the strict-modes check, is absent or a regular file reads `unwrapped-name`; a symbolic link in its place is refused by the strict-modes check and reads `strict-modes-failed`.
+@@ -286,3 +295,3 @@
+ contract/strict-modes/home-under-regular-file · strict-modes refusals · home under a regular file — A home under a regular file cannot be read and is a strict-modes refusal, not the catch-site line: `verify` prints the home-state pair (exit 1), the frame verbs the instance-state pair (exit 21).
+-contract/viola-help/verb-groups · viola --help · verb groups — `viola --help` lists the served verbs only, grouped `board: list` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: open, run, revive, verify, plugin install`, then `Options:`.
++contract/viola-help/verb-groups · viola --help · verb groups — `viola --help` lists the served verbs only, grouped `board: list, focus` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: open, run, revive, verify, plugin install`, then `Options:`.
+ contract/viola-link-json/ok · viola link --json · ok — Exit 0 prints `{"v":1,"ok":{"since":<ts>,"already_linked":<bool>}}`, `<ts>` the time the wrapper recorded the link.

@@ -1,1 +1,0 @@
-The host is quiet for viola: the neighbour stopped its heavy runs at 2026-11-24T02:46:08Z and holds until this chunk pre-CI commit. Read hostwatch.py read --from 2026-11-24T02:46:08Z --to now and df -m /tmp first, then run entries 10-12, the report, and the operator pass WITHOUT the build entry and R3, as the directive says; say «pre-CI commit made» in your end line.

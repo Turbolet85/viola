@@ -1,0 +1,100 @@
+@pick n=1 row=decision/claude-env-strip v=no
+@pick n=2 row=decision/cli-log-only-under-viola-name v=yes mode=add-to fact=F1
+@pick n=3 row=decision/cli-manual-dispatch-span v=yes mode=add-to fact=F1
+@pick n=4 row=decision/clients-screen-peer-replies-to-code-words v=no
+@pick n=5 row=decision/dialog-hook-fails-open v=no
+@pick n=6 row=decision/dialog-hook-invoked-after-response v=no
+@pick n=7 row=decision/disconnect-logged-by-client v=no
+@pick n=8 row=decision/error-chain-in-detail-log-only v=no
+@pick n=9 row=decision/expired-dialog-renders-for-human v=no
+@pick n=10 row=decision/hidden-capture-arms-uninstrumented v=yes mode=add-to fact=F4
+@pick n=11 row=decision/home-tree-check-before-start-log v=no
+@pick n=12 row=decision/hook-always-exits-zero v=no
+@pick n=13 row=decision/hook-capture-arms-unlogged v=no
+@pick n=14 row=decision/hook-refused-instance-silent v=no
+@pick n=15 row=decision/identity-floor-always-stripped v=no
+@pick n=16 row=decision/implicit-link-on-send-and-answer v=no
+@pick n=17 row=decision/implicit-link-untraced v=no
+@pick n=18 row=decision/instance-check-before-role-file v=no
+@pick n=19 row=decision/launch-line-untraced v=no
+@pick n=20 row=decision/lineage-line-untraced v=no
+@pick n=21 row=decision/link-methods-untraced v=no
+@pick n=22 row=decision/link-names-not-in-process-log v=no
+@pick n=23 row=decision/manual-readiness-gate-span v=no
+@pick n=24 row=decision/mcp-explicit-log-writer v=no
+@pick n=25 row=decision/no-dialog-content-in-logs v=no
+@pick n=26 row=decision/no-last-assistant-message v=no
+@pick n=27 row=decision/no-obs-gate-on-verify-lines v=no
+@pick n=28 row=decision/no-params-in-channel-lines v=no
+@pick n=29 row=decision/no-paths-in-run-spans v=no
+@pick n=30 row=decision/no-raw-snapshot-reads v=yes mode=stale
+@pick n=31 row=decision/no-text-in-telemetry v=no
+@pick n=32 row=decision/no-typed-keys-in-telemetry v=no
+@pick n=33 row=decision/peer-euid-must-match v=no
+@pick n=34 row=decision/pinned-copy-never-replaced v=no
+@pick n=35 row=decision/portable-pty-log-target-off v=no
+@pick n=36 row=decision/product-order-from-events-log v=no
+@pick n=37 row=decision/real-cli-verify-never-in-ci v=no
+@pick n=38 row=decision/refused-check-writes-no-line v=yes mode=stale
+@pick n=39 row=decision/refused-home-tree-writes-no-line v=no
+@pick n=40 row=decision/release-from-driver-refused v=no
+@pick n=41 row=decision/replayed-snapshot-unreachable v=yes mode=stale
+@pick n=42 row=decision/revive-start-logs-as-run v=no
+@pick n=43 row=decision/rmcp-tracing-target-off v=no
+@pick n=44 row=decision/second-dialog-gets-null v=no
+@pick n=45 row=decision/send-cut-mark-uninstrumented v=yes mode=add-to fact=F4
+@pick n=46 row=decision/send-line-correlation v=no
+@pick n=47 row=decision/server-refusal-inside-root-span v=no
+@pick n=48 row=decision/socket-dir-check-changes-no-mode v=no
+@pick n=49 row=decision/socket-dir-refusal-inside-root-span v=no
+@pick n=50 row=decision/transcript-echo-read-uninstrumented v=yes mode=add-to fact=F4
+@pick n=51 row=decision/unreadable-ledger-means-unverified v=no
+@pick n=52 row=decision/verify-lines-carry-no-content v=no
+@pick n=53 row=decision/verify-server-before-frame v=no
+@pick n=54 row=decision/verify-sole-stamps-writer v=no
+@pick n=55 row=decision/wheel-typed-mark-uninstrumented v=yes mode=add-to fact=F4
+@pick n=56 row=decision/window-line-untraced v=yes mode=add-to fact=F4
+@pick n=57 row=contract/answer-link-record/failure v=no
+@pick n=58 row=contract/answer-refusal/not-delivered v=no
+@pick n=59 row=contract/answer-refusal/unverified-cli v=no
+@pick n=60 row=contract/channel-lines/fields v=no
+@pick n=61 row=contract/claude-child-process-log/handle-wait-exit v=no
+@pick n=62 row=contract/claude-child-process-start/env-fields v=no
+@pick n=63 row=contract/cli-exit-21/endpoint-lost v=yes mode=add-to fact=F1
+@pick n=64 row=contract/cli-exit-21/instance-dead v=yes mode=add-to fact=F1
+@pick n=65 row=contract/cli-exit-21/server-verify-failed v=yes mode=add-to fact=F1
+@pick n=66 row=contract/cli-exit-21/socket-dir-refused v=yes mode=add-to fact=F1
+@pick n=67 row=contract/cli-exit-21/unwrapped-name v=yes mode=add-to fact=F1
+@pick n=68 row=contract/cli-exit/1-internal-error v=no
+@pick n=69 row=contract/cli-exit/20-wrapper-fault v=no
+@pick n=70 row=contract/cli-log-file/open v=yes mode=add-to fact=F1
+@pick n=71 row=contract/cli-stderr/internal-error v=no
+@pick n=72 row=contract/cli-stderr/refusal-pair v=yes mode=stale
+@pick n=73 row=contract/config-json/dialog-hold-s v=no
+@pick n=74 row=contract/confirm-window-close/clear v=no
+@pick n=75 row=contract/confirm-window-close/compact v=no
+@pick n=76 row=contract/confirm-window-close/context v=no
+@pick n=77 row=contract/confirm-window-close/failed-snapshot-write v=no
+@pick n=78 row=contract/confirm-window-close/ordinary-send v=no
+@pick n=79 row=contract/confirmed-send-spans/span-chain v=no
+@pick n=80 row=contract/diag-line-schema/os v=no
+@pick n=81 row=contract/diag-line-schema/pty-backend v=no
+@pick n=82 row=contract/dialog-log-fields/dialog-answered v=no
+@pick n=83 row=contract/dialog-log-fields/dialog-raised v=no
+@pick n=84 row=contract/dialog-log-fields/hook-lines v=no
+@pick n=85 row=contract/dialog-spans/span-chain v=no
+@pick n=86 row=contract/events-log/dialog-expired v=no
+@pick n=87 row=contract/events-log/link v=no
+@pick n=88 row=contract/events-log/link-before-send-issued v=no
+@pick n=89 row=contract/events-log/unlink v=no
+@pick n=90 row=contract/hook-decision-detail/socket-dir-refused v=no
+@pick n=91 row=contract/hook-decision/deadline-hit v=no
+@pick n=92 row=contract/hook-spans/span-chain v=no
+@pick n=93 row=contract/instance-unreachable-json/strict-modes-failed v=yes mode=stale
+@pick n=94 row=contract/link-methods/invalid-params v=no
+@pick n=95 row=contract/mcp-instance-unreachable/server-verify-failed v=no
+@pick n=96 row=contract/mcp-instance-unreachable/socket-dir-refused v=no
+@pick n=97 row=contract/mcp-instance-unreachable/strict-modes-failed v=no
+@pick n=98 row=contract/mcp-refusal-text/instance-unreachable v=no
+@pick n=99 row=contract/mcp-spans/mcp-tool-call v=no
+@pick n=100 row=contract/no-endpoint-instance/classification v=yes mode=stale
