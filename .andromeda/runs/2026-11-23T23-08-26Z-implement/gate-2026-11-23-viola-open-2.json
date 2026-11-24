@@ -3554,5 +3554,48 @@
 "running": []
 }
 }
+},
+{
+"tool": "gate",
+"v": "1.39",
+"sha8": "cb6114c9",
+"ts": "2026-11-24T00:07:39Z",
+"argv": [
+"census",
+"--args",
+"viola-r2",
+"--args",
+"viola.parent",
+"--args",
+"viola.child",
+"--run-dir",
+".andromeda/runs/2026-11-23T23-08-26Z-implement",
+"--marker",
+"2026-11-23-viola-open-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"census · ps · comm — · args viola-r2, viola.parent, viola.child · own tree excluded: 8",
+"  1263371 · ppid 5937 · bash · /usr/bin/bash -c source ~/.claude/shell-snapshots/snapshot-bash-1795464345837-c0n2yi.sh 2>/dev/null || true && \\builtin shopt -u extglob 2>/dev/null || true && { \\builtin unalias -- 'which'; \\builtin unset -f -- 'which'; } >/dev/null 2>&1 || true && { \\builtin unalias -- 'unsetenv'; \\builtin unset -f -- 'unsetenv'; } >/dev/null 2>&1 || true && eval 'sh pwait.sh viola-builder --after 29568710; P=$HOME/.local/viola-product/bin/viola; $P list | sed -n 3p; $P last viola-builder; date -u +%FT%TZ; hyprctl -j clients | python3 -c \"import json,sys; print([c['\"'\"'class'\"'\"'] for c in json.load(sys.stdin) if c['\"'\"'class'\"'\"'].startswith('\"'\"'viola.'\"'\"') ])\"; cat ~/dev/projects/viola/.andromeda/cache/chunks/2026-11-23-viola-open-2/evidence/r2.md; pgrep -af '\"'\"'viola-r2'\"'\"' | head' < /dev/null && pwd -P >| /tmp/claude-12e9-cwd",
+"census: 1 running"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"census": {
+"comm": [],
+"args": [
+"viola-r2",
+"viola.parent",
+"viola.child"
+],
+"running": [
+1263371
+]
+}
+}
 }
 ]
