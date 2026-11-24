@@ -1,0 +1,23 @@
+--- a/.andromeda/layout-templates.md
++++ b/.andromeda/layout-templates.md
+@@ -82,5 +82,6 @@
+ contract/cli-token-rendering/spacing · CLI token rendering · Spacing — The column gutter is two spaces on the terminal grid; inside one field ` - ` is the separator.
+-contract/cli-verbs/help · CLI verbs · viola --help — The grouped verb table with the served verbs only: the board, traffic, wheel, handoff and setup rows, `handoff:` holding link, unlink and `setup:` holding plugin install.
++contract/cli-verbs/help · CLI verbs · viola --help — The grouped verb table with the served verbs only: the board, traffic, wheel, handoff and setup rows, `handoff:` holding link, unlink and `setup:` holding open, run, revive, verify and plugin install.
+ contract/cli-verbs/last · CLI verbs · viola last <target> — Returns the last assistant message, with no spinner.
+ contract/cli-verbs/list · CLI verbs · viola list — The board: every session as one strip row, with the BAY context header.
++contract/cli-verbs/open · CLI verbs · viola open <name> — Starts a wrapped claude session in a new foot terminal window beside its parent; its flags are a closed allowlist (--parent, --role overseer|builder|worker, --cwd, --workspace, --model, --effort, --json), the only words allowed after `--` are `claude` alone, and no shell runs.
+ contract/cli-verbs/plugin-install · CLI verbs · viola plugin install — Writes an MCP-only local marketplace under `<home>/marketplace/` with no hooks, prints the two `claude plugin` commands that add it, and spawns no claude.
+@@ -136,3 +137,3 @@
+ contract/viola-help/usage-line · viola --help output · usage line — `viola --help` and `viola help` print exactly `Usage: viola [--home <dir>] <verb> [args]` as the first line, then a blank line.
+-contract/viola-help/verb-groups · viola --help output · verb group rows — Five rows `board:    list`, `traffic:  send, wait, last, answer`, `wheel:    pause, release`, `handoff:  link, unlink`, `setup:    run, revive, verify, plugin install`, served verbs only, plain ASCII, then a blank line, `Options:` and clap's options; no about line and no clap `Commands:` list.
++contract/viola-help/verb-groups · viola --help output · verb group rows — Five rows `board:    list`, `traffic:  send, wait, last, answer`, `wheel:    pause, release`, `handoff:  link, unlink`, `setup:    open, run, revive, verify, plugin install`, served verbs only, plain ASCII, then a blank line, `Options:` and clap's options; no about line and no clap `Commands:` list.
+ contract/viola-last-output/message · viola last output · message — The last assistant message prints on stdout with C0/C1 escaped, after a `last  <name>  <kind> <ts>` header on stderr on a TTY only; a null message prints `no message` on stderr.
+@@ -161,2 +162,3 @@
+ contract/viola-list/unwrapped-separator · viola list · rack separator — `-- UNWRAPPED - READ-ONLY --` on its own line before the unwrapped rows, written only when unwrapped rows exist; the wrapped rack is always first, with no separator.
++contract/viola-open/parent-default · viola open · --parent default — The parent defaults to the calling agent's own ViolaName, recorded with origin `agent`; from a plain shell there is no parent and the origin is `cli`.
+ contract/viola-plugin-install/bare-plugin · viola plugin install · bare viola plugin — `viola plugin` alone is a clap usage error, exit 2; clap serves its own `viola plugin help [install]`.
+@@ -185,2 +187,3 @@
+ contract/viola-revive/malformed-id · viola revive · malformed --id — A malformed `--id` is clap's usage error, exit 2.
++contract/viola-revive/no-window · viola revive · window placement — viola revive never places a window.
+ contract/viola-revive/preflight-order · viola revive start · preflight order — The start reads its preflight in a fixed order: the holder, the logged session, session-live, then the recorded directory.

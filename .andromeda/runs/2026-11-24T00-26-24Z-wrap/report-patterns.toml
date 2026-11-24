@@ -1,0 +1,71 @@
+[[pattern]]
+id = 'EVK'
+regex = '17 (event |normalised )?kinds|18 (event |normalised )?kinds|EventKind|\[Self; 1[78]\]|normalised event kinds|normalised-event-kinds'
+
+[[pattern]]
+id = 'DSUB'
+regex = '\$defs\.subject|subject enum|subjects? .terminal.|diag-line\.v1|9 subjects|10 subjects'
+
+[[pattern]]
+id = 'PEXD'
+regex = 'process-exit[^.\n]{0,60}detail|detail enum|19 details|21 details'
+
+[[pattern]]
+id = 'HELP'
+regex = 'setup:|verb-groups|verb-table|revive, verify, plugin install'
+
+[[pattern]]
+id = 'XCAU'
+regex = 'cross_exit_causes|CAUSES'
+
+[[pattern]]
+id = 'CEB'
+regex = 'contract_error_bodies|CLI_DOCUMENTS|NOT_ERROR_BODIES'
+
+[[pattern]]
+id = 'SEAM'
+regex = 'no product caller|no verb calls|product callers?|first product caller'
+
+[[pattern]]
+id = 'OBS'
+regex = 'viola-core/src/obs\.rs|obs\.rs'
+
+[[pattern]]
+id = 'RSO'
+regex = 'run-start-order|run-start-events|after the trust step|trust step'
+
+[[pattern]]
+id = 'REPLAY'
+regex = 'snapshot-replay|unreadable-snapshot|Recovered::Replayed|read_snapshot_or_replay'
+
+[[pattern]]
+id = 'SNAP'
+regex = 'instance-snapshot|wrapper-event-appends|viola open|viola-state → viola-hyprland|name/command'
+
+[[pattern]]
+id = 'WID'
+regex = '--origin|--place|ancestors\(|origin\?|window\?|boundary widening'
+
+[[pattern]]
+id = 'SEC'
+regex = 'closed allowlist|allowlist|no shell'
+
+[[pattern]]
+id = 'EXIT1'
+regex = 'cli-exit-codes|terminal-not-found|not-live'
+
+[[pattern]]
+id = 'LISTJ'
+regex = 'viola-list-json|list --json'
+
+[[pattern]]
+id = 'SPAN'
+regex = 'run-start-spans|span-chain|run\.window|cli\.open'
+
+[[pattern]]
+id = 'A11Y'
+regex = 'time-bound|HYPRCTL_DEADLINE|OPEN_LIVE_BOUND|WINDOW_WAIT'
+
+[[pattern]]
+id = 'BOARD'
+regex = 'claude agents --json|agents-probe|private (Claude |CLI )?config|real config'

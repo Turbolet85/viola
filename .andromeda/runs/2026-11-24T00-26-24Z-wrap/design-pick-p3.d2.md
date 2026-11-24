@@ -1,0 +1,98 @@
+@pick n=1 row=contract/viola-verify-output/summary-line v=no
+@pick n=2 row=contract/viola-verify-output/help v=no
+@pick n=3 row=contract/viola-verify-output/fail-word v=no
+@pick n=4 row=contract/viola-unlink-json/ok v=no
+@pick n=5 row=contract/viola-run-start-refusals/stale-heartbeat v=yes mode=add-to fact=F2
+@pick n=6 row=contract/viola-run-start-refusals/squatted-name v=no
+@pick n=7 row=contract/viola-run-start-refusals/socket-dir v=no
+@pick n=8 row=contract/viola-run-start-refusals/pinned-hash-mismatch v=yes mode=add-to fact=F2
+@pick n=9 row=contract/viola-run-start-refusals/home-tree-check v=yes mode=add-to fact=F6
+@pick n=10 row=contract/viola-run-start-refusals/already-live v=yes mode=add-to fact=F2
+@pick n=11 row=contract/viola-revive-refusals/strict-modes-no-log v=yes mode=add-to fact=F6
+@pick n=12 row=contract/viola-revive-refusals/socket-dir v=no
+@pick n=13 row=contract/viola-revive-refusals/session-live v=no
+@pick n=14 row=contract/viola-revive-refusals/order v=no
+@pick n=15 row=contract/viola-revive-refusals/no-such-id v=no
+@pick n=16 row=contract/viola-revive-refusals/no-session v=no
+@pick n=17 row=contract/viola-revive-refusals/home-tree-check v=yes mode=add-to fact=F6
+@pick n=18 row=contract/viola-revive-refusals/cwd-missing v=no
+@pick n=19 row=contract/viola-revive-output/list-line v=no
+@pick n=20 row=contract/viola-revive-output/list-json v=no
+@pick n=21 row=contract/viola-revive-output/after-child-start v=no
+@pick n=22 row=contract/viola-revive-json-codes/strict-modes-failed v=yes mode=add-to fact=F6
+@pick n=23 row=contract/viola-revive-json-codes/stale-heartbeat v=yes mode=add-to fact=F2
+@pick n=24 row=contract/viola-revive-json-codes/squatted-name v=no
+@pick n=25 row=contract/viola-revive-json-codes/socket-dir-refused v=no
+@pick n=26 row=contract/viola-revive-json-codes/session-live v=no
+@pick n=27 row=contract/viola-revive-json-codes/pinned-hash-mismatch v=yes mode=add-to fact=F2
+@pick n=28 row=contract/viola-revive-json-codes/no-session v=no
+@pick n=29 row=contract/viola-revive-json-codes/internal-error v=yes mode=add-to fact=F2
+@pick n=30 row=contract/viola-revive-json-codes/cwd-missing v=no
+@pick n=31 row=contract/viola-revive-json-codes/already-live v=yes mode=add-to fact=F2
+@pick n=32 row=contract/viola-list-board/unwrapped-separator v=yes mode=add-to fact=F8
+@pick n=33 row=contract/viola-list-board/unwrapped-row v=yes mode=add-to fact=F8
+@pick n=34 row=contract/viola-list-board/uncoloured-lines v=yes mode=add-to fact=F8
+@pick n=35 row=contract/viola-list-board/strict-modes-scan v=yes mode=add-to fact=F8
+@pick n=36 row=contract/viola-list-board/strict-modes-refusal v=yes mode=add-to fact=F6
+@pick n=37 row=contract/viola-list-board/status v=yes mode=add-to fact=F8
+@pick n=38 row=contract/viola-list-board/skip-counts v=yes mode=add-to fact=F8
+@pick n=39 row=contract/viola-list-board/row-escaping v=yes mode=add-to fact=F8
+@pick n=40 row=contract/viola-list-board/name-cut v=yes mode=add-to fact=F8
+@pick n=41 row=contract/viola-list-board/name-column-width v=yes mode=add-to fact=F8
+@pick n=42 row=contract/viola-list-board/json-refusal v=yes mode=add-to fact=F8
+@pick n=43 row=contract/viola-list-board/failed-agents-read v=yes mode=add-to fact=F8
+@pick n=44 row=contract/viola-list-board/empty-board v=yes mode=add-to fact=F8
+@pick n=45 row=contract/viola-list-board/colour-spans v=yes mode=add-to fact=F8
+@pick n=46 row=contract/viola-link-output/unlink-not-held v=no
+@pick n=47 row=contract/viola-link-output/since v=no
+@pick n=48 row=contract/viola-link-output/result-line v=no
+@pick n=49 row=contract/viola-link-output/repeat-link v=no
+@pick n=50 row=contract/viola-link-output/refused-pair v=no
+@pick n=51 row=contract/viola-link-output/printed-names v=no
+@pick n=52 row=contract/viola-link-json/ok v=no
+@pick n=53 row=contract/viola-help/verb-groups v=yes mode=stale
+@pick n=54 row=contract/strict-modes/home-under-regular-file v=yes mode=add-to fact=F6
+@pick n=55 row=contract/refusal-hints/unwrapped-name v=yes mode=add-to fact=F5
+@pick n=56 row=contract/refusal-hints/unverified-cli v=yes mode=add-to fact=F5
+@pick n=57 row=contract/refusal-hints/socket-dir v=yes mode=add-to fact=F5
+@pick n=58 row=contract/refusal-hints/server-verify v=yes mode=add-to fact=F5
+@pick n=59 row=contract/refusal-hints/refusal-line v=yes mode=add-to fact=F5
+@pick n=60 row=contract/refusal-hints/not-running v=yes mode=add-to fact=F5
+@pick n=61 row=contract/refusal-hints/not-delivered-unknown-dialog v=yes mode=add-to fact=F5
+@pick n=62 row=contract/refusal-hints/not-delivered-turn-running v=yes mode=add-to fact=F5
+@pick n=63 row=contract/refusal-hints/not-delivered-paste-cut v=yes mode=add-to fact=F5
+@pick n=64 row=contract/refusal-hints/not-delivered-no-prompt-submitted v=yes mode=add-to fact=F5
+@pick n=65 row=contract/refusal-hints/not-delivered-input-not-ready v=yes mode=add-to fact=F5
+@pick n=66 row=contract/refusal-hints/not-delivered-empty-text v=yes mode=add-to fact=F5
+@pick n=67 row=contract/refusal-hints/not-delivered-control-character v=yes mode=add-to fact=F5
+@pick n=68 row=contract/refusal-hints/human-typing v=yes mode=add-to fact=F5
+@pick n=69 row=contract/refusal-hints/endpoint-lost v=yes mode=add-to fact=F5
+@pick n=70 row=contract/peer-reply-screening/unlisted-code-word v=no
+@pick n=71 row=contract/peer-reply-screening/string-detail-not-code-word v=no
+@pick n=72 row=contract/peer-reply-screening/refusal-not-code-word v=no
+@pick n=73 row=contract/peer-reply-screening/non-string-detail v=no
+@pick n=74 row=contract/peer-reply-screening/code-word v=no
+@pick n=75 row=contract/log-detail-codes/socket-dir-refused v=yes mode=add-to fact=F5
+@pick n=76 row=contract/log-detail-codes/server-verify-failed v=yes mode=add-to fact=F5
+@pick n=77 row=contract/human-tables/width-source v=no
+@pick n=78 row=contract/human-tables/name-truncation v=no
+@pick n=79 row=contract/frame-verb-refusals/strict-modes v=yes mode=add-to fact=F6
+@pick n=80 row=contract/frame-verb-refusals/socket-dir v=no
+@pick n=81 row=contract/fixed-refusal-pairs/instance-state v=no
+@pick n=82 row=contract/fixed-refusal-pairs/home-state v=no
+@pick n=83 row=contract/exit-21-json-cause/unwrapped-name v=no
+@pick n=84 row=contract/exit-21-json-cause/strict-modes-failed v=yes mode=add-to fact=F6
+@pick n=85 row=contract/exit-21-json-cause/socket-dir-refused v=no
+@pick n=86 row=contract/exit-21-json-cause/server-verify-failed v=no
+@pick n=87 row=contract/exit-21-json-cause/instance-dead v=no
+@pick n=88 row=contract/exit-21-json-cause/endpoint-lost v=no
+@pick n=89 row=contract/cli-stderr/refusal-line v=no
+@pick n=90 row=contract/cli-stderr/hint-line v=yes mode=add-to fact=F5
+@pick n=91 row=contract/cli-stderr/fixed-message-refusal v=yes mode=add-to fact=F2
+@pick n=92 row=contract/cli-stderr/error-line v=no
+@pick n=93 row=contract/cli-stderr/context-lines v=no
+@pick n=94 row=contract/cli-exit-codes/14 v=no
+@pick n=95 row=contract/cli-exit-codes/13 v=no
+@pick n=96 row=contract/cli-exit-codes/12 v=no
+@pick n=97 row=contract/cli-exit-codes/11 v=no
+@pick n=98 row=contract/cli-exit-codes/10 v=no

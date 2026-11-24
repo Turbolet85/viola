@@ -1,0 +1,64 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "4158721f",
+"ts": "2026-11-24T01:19:10Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--date",
+"2026-11-24",
+"--to",
+"gated",
+"--run-dir",
+".andromeda/runs/2026-11-24T00-26-24Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would flip 2026-11-23-viola-open-2 pending -> gated"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "4158721f",
+"ts": "2026-11-24T01:19:14Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--date",
+"2026-11-24",
+"--to",
+"gated",
+"--run-dir",
+".andromeda/runs/2026-11-24T00-26-24Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip 2026-11-23-viola-open-2 pending -> gated · tx 4423"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-23T21-25-56-2026-11-23-viola-open-2.ndjson",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

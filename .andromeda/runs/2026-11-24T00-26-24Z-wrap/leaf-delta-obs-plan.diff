@@ -1,0 +1,42 @@
+--- a/.andromeda/obs-plan.md
++++ b/.andromeda/obs-plan.md
+@@ -264,3 +264,3 @@
+ contract/process-log-corr/send-refused · Process log corr by event · send-refused — corr is the send cursor.
+-contract/process-log/child-and-probe-lifecycle · Process log · child and probe lifecycle — process-start and process-exit are logged for the claude child, for the claude agents --json and --version probes, and for verify's print-mode sender.
++contract/process-log/child-and-probe-lifecycle · Process log · child and probe lifecycle — process-start and process-exit are logged for the claude child, for the claude agents --json and --version probes, for verify's print-mode sender, and for the terminal viola open spawns.
+ contract/process-log/corr · Process log line · corr — Copied unchanged as a JSON number or string, never renamed.
+@@ -286,2 +286,3 @@
+ contract/run-start-events/order · run start events in events.ndjson · order — A run start writes wheel{cause:"start"}, then one lineage line, then one launch line before session-start; on a start whose folder-trust keys pass through the wrapper, wheel{human-input} also precedes session-start, and a later human key adds no wheel line, the wheel being already human.
++contract/run-start-events/window-line · run start events in events.ndjson · window line — A start made under --origin writes one window line {address, workspace, placement, origin} with source wrapper after its launch line.
+ contract/send-log-line/corr · Send log line · corr — On the wrapper's send lines corr is the send cursor, which joins send-issued, send-confirmed and send-refused (a refusal before send-issued carries the log's end offset); the CLI's and MCP's client-side send-refused lines carry no corr; on channel lines corr is the JSON-RPC id.
+@@ -345,3 +346,3 @@
+ contract/socket-dir-refused-exit/codes · socket-dir-refused exit codes · socket-dir-refused — A refused socket directory logs detail socket-dir-refused with no path, pid or uid, and exits 21 at the eight CLI frame verbs and 1 at run and revive's start.
+-contract/strict-modes-refusal-exit/1 · strict-modes refusal exit codes · 1 — run, revive's start and verify exit 1 on a strict-modes refusal; revive under --json prints the strict-modes-failed document.
++contract/strict-modes-refusal-exit/1 · strict-modes refusal exit codes · 1 — run, revive's start, verify and open exit 1 on a strict-modes refusal; revive and open under --json print the strict-modes-failed document.
+ contract/strict-modes-refusal-exit/21 · strict-modes refusal exit codes · 21 — The six frame verbs and link / unlink exit 21 on a strict-modes refusal, under --json with the instance-unreachable document carrying detail strict-modes-failed.
+@@ -466,2 +467,3 @@
+ decision/wheel-typed-mark-uninstrumented · Wheel typed mark and wakes count uninstrumented — The stdin typed mark and the held scheduled-wakes count are in-memory wrapper state that open no span and write no line of their own, and carry no key and no prompt text.
++decision/window-line-untraced · Window line has no trace of its own — The window line a start under --origin writes after its launch line is log-only product audit data: it wakes no wait, opens no span and is never copied into a process-log line. · provisional
+ contract/answer-link-record/failure · wrapper answer handling · failed link record — A link record that fails answers -32603: the answer is not taken, the dialog stays held and no dialog-answered line is written.
+@@ -479,2 +481,3 @@
+ contract/cli-exit/20-wrapper-fault · send.client process-exit · 20 wrapper-fault — Exit 20 carries detail wrapper-fault.
++contract/cli-log-file/open · CLI process-log file · viola open — Logs as cli into the opened instance's cli-<name>.ndjson, its work inside the cli.open dispatch span.
+ contract/cli-stderr/internal-error · CLI stderr · internal fault message — An internal fault prints exactly "error: internal error".
+@@ -533,2 +536,3 @@
+ contract/run-span-attributes/run-version-gate · viola run start span attributes · run.version_gate — run.version_gate carries cli_version and cli_verified.
++contract/run-span-attributes/run-window · viola run start span attributes · run.window — run.window carries the field outcome alone, never an address, pid or workspace.
+ contract/run-span-attributes/state-snapshot-write · viola run start span attributes · state.snapshot_write — state.snapshot_write carries v.
+@@ -540,3 +544,3 @@
+ contract/run-start-spans/run-start-close · viola run start spans · run.start close — run.start closes when pty.spawn returns.
+-contract/run-start-spans/span-chain · viola run start spans · span chain — run.start (INTERNAL, root) › state.snapshot_recover › run.collision_check › run.pin_copy › run.version_gate › channel.bind › state.snapshot_write › state.heartbeat_start › pty.spawn (CLIENT).
++contract/run-start-spans/span-chain · viola run start spans · span chain — run.start (INTERNAL, root) › state.snapshot_recover › run.collision_check › run.pin_copy › run.version_gate › channel.bind › state.snapshot_write › state.heartbeat_start › pty.spawn (CLIENT); under --origin, run.window follows the trust step, before state.snapshot_write.
+ contract/send-log-fields/channel-request · confirmed send log fields · channel-request — channel-request{corr:<id>, conn, method, sender}.
+@@ -653,2 +657,3 @@
+ contract/diag-subject/self · diag-line subject enum · self — One value of the closed subject enum of the diag-line schema.
++contract/diag-subject/terminal · diag-line subject enum · terminal — Subject of the process-start and process-exit pair of the foot terminal window that viola open spawns, written into the cli role file of the opened name.
+ contract/diag-subject/verify-probe · diag-line subject enum · verify-probe — Subject of the process-start and process-exit pair of the print-mode probe of viola verify.
+@@ -673,3 +678,3 @@
+ contract/parse-rejected/mcp-stdin-oversize · parse-rejected diagnostic line · parser mcp-stdin, detail oversize — Written at WARN into mcp.ndjson once per session, after the session ends, only when the stdin reader cut a line past MAX_FRAME, with count 1; the line holds no byte of the cut line.
+-contract/process-exit-detail/exit-1 · process-exit detail · exit 1 — already-live, stale-heartbeat, squatted-name, pinned-hash-mismatch, internal-error, socket-dir-refused, and from revive's preflight no-session, session-live, cwd-missing; each one process-exit line with no child started.
++contract/process-exit-detail/exit-1 · process-exit detail · exit 1 — already-live, stale-heartbeat, squatted-name, pinned-hash-mismatch, internal-error, socket-dir-refused, from revive's preflight no-session, session-live, cwd-missing, and from viola open terminal-not-found and not-live; each one process-exit line with no child started, bar not-live's terminal.
+ contract/process-exit-detail/exit-20 · process-exit detail · exit 20 — wrapper-fault.

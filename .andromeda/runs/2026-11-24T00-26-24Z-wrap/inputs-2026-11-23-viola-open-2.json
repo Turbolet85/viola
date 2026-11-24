@@ -1,0 +1,160 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T00:27:01Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-open-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer wrap directive for this chunk: v2-08 to verify, v2-07 stays claimed gated, R2 red first=parent-not-live with the cap unspent, the operator away",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T00-26-24Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I9 · copy no-repo · ../additional/viola-overseer/wrap-open-directive.md",
+"cite: inputs#I9"
+],
+"stderr": null,
+"wrote": [
+"inputs/I9-wrap-open-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I9",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-open-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "f85ddcc269107f48630efa92c2327b25d5d4e57114006a56ba38f8136e56e201",
+"copy": "I9-wrap-open-directive.md.txt",
+"link": false,
+"read_at": "2026-11-24T00:27:00Z",
+"step": "wrap",
+"why": "the overseer wrap directive for this chunk: v2-08 to verify, v2-07 stays claimed gated, R2 red first=parent-not-live with the cap unspent, the operator away"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T00:27:01Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--run-dir",
+".andromeda/runs/2026-11-24T00-26-24Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-open2-directive.md",
+"I1 cited scope.md:100 · research.md:9 · plan.md:19 · plan.md:267 · plan.md:371 (in fence) · plan.md:567 · report.md:84",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-open2-p3.md",
+"I2 cited plan.md:12 · plan.md:14",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-open-r2.md",
+"I3 cited scope.md:57 · research.md:126 · plan.md:18 · plan.md:213 · plan.md:499 (in fence) · plan.md:567",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/relay-open2-w.md",
+"I4 cited scope.md:63 · plan.md:15 · plan.md:614",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/relay-open2-p5-review.md",
+"I5 cited plan.md:188 · plan.md:200 · plan.md:213 · plan.md:483 (in fence) · plan.md:490 (in fence)",
+"I6 unchanged · copy no-repo · ../additional/viola-overseer/implement-open-directive.md",
+"I6 cited report.md:85",
+"I7 unchanged · copy no-repo · ../additional/viola-overseer/relay-open2-r2-script.md",
+"I7 UNCITED",
+"I8 unchanged · copy no-repo · ../additional/viola-overseer/relay-open2-r2-red.md",
+"I8 UNCITED",
+"I9 unchanged · copy no-repo · ../additional/viola-overseer/wrap-open-directive.md",
+"I9 UNCITED",
+"inputs: 9 entries — unchanged 9 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 3 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 9,
+"counts": {
+"unchanged": 9,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 3,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T01:12:59Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--message-file",
+".andromeda/runs/2026-11-24T00-26-24Z-wrap/relay-1.md",
+"--origin",
+"delegate overseer, 2026-11-24T01:12:39Z",
+"--kind",
+"relay",
+"--why",
+"the route dialog answers: carries confirmed, the board-read carry placed on The fleet on the founder host (PROVISIONAL), viola focus named next",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T00-26-24Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I10 · copy message · message: delegate overseer, 2026-11-24T01:12:39Z",
+"cite: inputs#I10"
+],
+"stderr": null,
+"wrote": [
+"inputs/I10-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I10",
+"kind": "relay",
+"repo": null,
+"path": "message: delegate overseer, 2026-11-24T01:12:39Z",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "ac7ef64853b17879b664fb8a9536d9cff65ada9d1d3d5d6f1fd42d56af4ff3cb",
+"copy": "I10-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-24T01:12:58Z",
+"step": "wrap",
+"why": "the route dialog answers: carries confirmed, the board-read carry placed on The fleet on the founder host (PROVISIONAL), viola focus named next"
+}
+}
+]
