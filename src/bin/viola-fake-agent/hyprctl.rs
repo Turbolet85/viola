@@ -2,6 +2,9 @@
 //! request from the recorded set beside it (no env var and no option selects it).
 
 use super::*;
+use std::ffi::OsStr;
+
+use viola_hyprland::{Address, Request, WorkspaceId};
 
 /// The file name that turns the fake agent into the fake `hyprctl`.
 pub(super) const HYPRCTL: &str = "hyprctl";
@@ -15,6 +18,10 @@ const HYPRCTL_MODE: &str = "hyprctl-mode";
 const ABSENT_VARIANT: &str = ".absent-1.json";
 /// The address `terminal` mode lists the stand-in's window at: the recorded move fixture's.
 pub(super) const TERMINAL_ADDRESS: &str = "0x555aa16bde50";
+/// The workspace `terminal` mode lists the stand-in's window on.
+const TERMINAL_WORKSPACE: i32 = 2;
+/// Beside the executable: each `dispatch` argv it was asked, one JSON array line each.
+pub(super) const HYPRCTL_ASKED: &str = "hyprctl-asked";
 
 /// Whether this process was started under the file name `hyprctl`.
 pub(super) fn is_hyprctl() -> bool {
@@ -30,15 +37,35 @@ pub(super) fn hyprctl(args: &[String]) -> ExitCode {
     let mode = dir
         .as_deref()
         .and_then(|d| fs::read_to_string(d.join(HYPRCTL_MODE)).ok());
+    if let Some(dir) = dir.as_deref() {
+        receipt(dir, args);
+    }
     let (out, code) = hyprctl_output(mode.as_deref().map(str::trim), dir.as_deref(), args);
     let mut stdout = std::io::stdout().lock();
     let _ = stdout.write_all(&out).and_then(|()| stdout.flush());
     ExitCode::from(code)
 }
 
+/// A `dispatch` argv appended to [`HYPRCTL_ASKED`] beside the executable, one line in one write;
+/// any other argv leaves no line.
+pub(super) fn receipt(dir: &Path, args: &[String]) {
+    if args.first().map(String::as_str) != Some("dispatch") {
+        return;
+    }
+    if let Ok(mut file) = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(dir.join(HYPRCTL_ASKED))
+    {
+        let _ = file.write_all(format!("{}\n", json!(args)).as_bytes());
+    }
+}
+
 /// `oversize`: one byte past the frame cap; `malformed`: a text that is not JSON; `absent`: the
-/// set's recorded no-instance reply; anything else: the recorded fixture whose `args` are `args`,
-/// its `stdout` unchanged and its `exit`. An argv no fixture holds prints nothing and exits 1.
+/// set's recorded no-instance reply; `terminal`: the stand-in's window in `clients`, and the two
+/// focus dispatches on that window and its workspace answered as the recorded focus fixtures are;
+/// anything else: the recorded fixture whose `args` are `args`, its `stdout` unchanged and its
+/// `exit`. An argv no fixture holds prints nothing and exits 1.
 pub(super) fn hyprctl_output(
     mode: Option<&str>,
     dir: Option<&Path>,
@@ -52,11 +79,28 @@ pub(super) fn hyprctl_output(
         Some("malformed") => Some((b"viola fixture text\n".to_vec(), 0)),
         Some("absent") => recorded(dir, |name, _| name.ends_with(ABSENT_VARIANT)),
         Some("terminal") if args == ["-j", "clients"] => Some((terminal_clients(dir), 0)),
+        Some("terminal") if focus_of_terminal(args).is_some() => {
+            let file = focus_of_terminal(args).unwrap_or_default();
+            recorded(dir, |name, _| name == file)
+        }
         _ => recorded(dir, |name, doc| {
             !name.ends_with(ABSENT_VARIANT) && doc["args"] == json!(args)
         }),
     }
     .unwrap_or((Vec::new(), 1))
+}
+
+/// The recorded fixture whose reply a focus dispatch on the stand-in's window or workspace takes.
+fn focus_of_terminal(args: &[String]) -> Option<&'static str> {
+    let window = Request::FocusWindow(Address::try_new(TERMINAL_ADDRESS.to_owned()).ok()?);
+    let workspace = Request::Workspace(WorkspaceId::new(TERMINAL_WORKSPACE));
+    [
+        (window, "FocusWindow.recorded-1.json"),
+        (workspace, "Workspace.recorded-1.json"),
+    ]
+    .into_iter()
+    .find(|(request, _)| request.args().iter().eq(args.iter().map(OsStr::new)))
+    .map(|(_, file)| file)
 }
 
 /// One synthetic client on the stand-in `foot`'s pid, the fields the seam's parse reads; `[]`
@@ -67,7 +111,7 @@ fn terminal_clients(dir: Option<&Path>) -> Vec<u8> {
         .and_then(|text| text.trim().parse::<u32>().ok());
     let clients = match pid {
         Some(pid) => json!([{"address": TERMINAL_ADDRESS, "pid": pid,
-            "workspace": {"id": 2, "name": "2"}}]),
+            "workspace": {"id": TERMINAL_WORKSPACE, "name": TERMINAL_WORKSPACE.to_string()}}]),
         None => json!([]),
     };
     format!("{clients}\n").into_bytes()

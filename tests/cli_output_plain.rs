@@ -55,7 +55,7 @@ fn sgr_attributes_reads_bold_and_underline_but_not_colour_values() {
 const HELP: &str = concat!(
     "Usage: viola [--home <dir>] <verb> [args]\n",
     "\n",
-    "board:    list\n",
+    "board:    list, focus\n",
     "traffic:  send, wait, last, answer\n",
     "wheel:    pause, release\n",
     "handoff:  link, unlink\n",
@@ -81,6 +81,7 @@ fn help_is_the_grouped_verb_table() {
 fn help_lists_only_served_verbs() {
     let served = [
         "list",
+        "focus",
         "send",
         "wait",
         "last",

@@ -92,10 +92,85 @@ pub(crate) fn not_live_pair(name: &str) -> (String, String) {
     )
 }
 
+/// `viola focus`'s refusal pair for its closed exit-1 `code`: no window found, or the Hyprland
+/// seam's own word. Plain ASCII, naming only the parsed `name`.
+pub(crate) fn focus_pair(code: &str, name: &str) -> Option<(String, String)> {
+    let (unable, hint) = match code {
+        "window-not-found" => (
+            format!("no window of {name} was found"),
+            format!("start {name} in its own terminal window, or open it with viola open"),
+        ),
+        "unsupported" => (
+            "no hyprctl on PATH".to_owned(),
+            "viola focus moves windows on Hyprland; run it in a Hyprland session".to_owned(),
+        ),
+        "unreachable" => (
+            "Hyprland did not answer".to_owned(),
+            "run hyprctl version to check the compositor answers".to_owned(),
+        ),
+        "oversize" => (
+            "Hyprland's reply passed viola's frame cap".to_owned(),
+            "viola reads no reply past its frame cap; nothing was focused".to_owned(),
+        ),
+        "malformed" => (
+            "Hyprland's reply was not understood".to_owned(),
+            "check that hyprctl matches the running Hyprland".to_owned(),
+        ),
+        "refused" => (
+            format!("Hyprland refused to focus {name}'s window"),
+            format!("the window may have closed; viola list shows {name}"),
+        ),
+        _ => return None,
+    };
+    Some((unable, hint))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
     use rstest::rstest;
+
+    #[test]
+    fn focus_pairs_are_the_fixed_lines() {
+        let pair = |code| focus_pair(code, "builder").expect("a pair");
+        let want = [
+            (
+                "window-not-found",
+                "no window of builder was found",
+                "start builder in its own terminal window, or open it with viola open",
+            ),
+            (
+                "unsupported",
+                "no hyprctl on PATH",
+                "viola focus moves windows on Hyprland; run it in a Hyprland session",
+            ),
+            (
+                "unreachable",
+                "Hyprland did not answer",
+                "run hyprctl version to check the compositor answers",
+            ),
+            (
+                "oversize",
+                "Hyprland's reply passed viola's frame cap",
+                "viola reads no reply past its frame cap; nothing was focused",
+            ),
+            (
+                "malformed",
+                "Hyprland's reply was not understood",
+                "check that hyprctl matches the running Hyprland",
+            ),
+            (
+                "refused",
+                "Hyprland refused to focus builder's window",
+                "the window may have closed; viola list shows builder",
+            ),
+        ];
+        for (code, unable, hint) in want {
+            assert_eq!(pair(code), (unable.to_owned(), hint.to_owned()), "{code}");
+            assert!(unable.is_ascii() && hint.is_ascii(), "{code}");
+        }
+        assert_eq!(focus_pair("other", "builder"), None);
+    }
 
     #[test]
     fn open_pairs_are_the_fixed_lines() {

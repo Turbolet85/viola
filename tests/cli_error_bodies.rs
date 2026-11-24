@@ -176,6 +176,12 @@ fn cli_error_documents_hold_no_path_or_upstream_text(stamped_home: StampedHome) 
             UNWRAPPED_NAME,
         ),
         row(
+            "focus, no wrapper",
+            &["focus", "builder", "--json"],
+            21,
+            UNWRAPPED_NAME,
+        ),
+        row(
             "revive, no session",
             &["revive", "builder", "--json"],
             1,
@@ -334,6 +340,13 @@ fn cli_error_documents_of_a_loosened_socket_directory_hold_no_path_or_upstream_t
             &["unlink", "overseer", "builder", "--json"],
             21,
             REFUSED,
+        ),
+        // focus connects to no socket: past the live read, its PATH holds no hyprctl.
+        row(
+            "focus, a loosened directory",
+            &["focus", "builder", "--json"],
+            1,
+            "{\"v\":1,\"error\":\"unsupported\",\"detail\":null}\n",
         ),
     ];
     for row in &rows {

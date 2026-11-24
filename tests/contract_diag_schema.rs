@@ -231,6 +231,26 @@ fn diag_line_schema_takes_the_open_exit_details(#[case] detail: &str, #[case] va
     assert_eq!(validator.is_valid(&exit), valid, "{exit}");
 }
 
+/// `viola focus`'s six exit-1 causes are `process-exit` details of the catalog; a detail outside
+/// it is still refused.
+#[rstest]
+#[case::window_not_found("window-not-found", true)]
+#[case::unsupported("unsupported", true)]
+#[case::unreachable("unreachable", true)]
+#[case::oversize("oversize", true)]
+#[case::malformed("malformed", true)]
+#[case::refused("refused", true)]
+#[case::unknown("not-focused", false)]
+fn diag_line_schema_takes_the_focus_exit_details(#[case] detail: &str, #[case] valid: bool) {
+    let validator = jsonschema::validator_for(&line_schema()).expect("valid schema");
+    let exit = json!({
+        "timestamp": "2026-11-24T03:12:07.412Z", "level": "ERROR", "target": "viola::run",
+        "message": "process-exit", "event": "process-exit", "process": "cli",
+        "instance": "child", "subject": "self", "exit_code": 1, "detail": detail, "duration_ms": 12
+    });
+    assert_eq!(validator.is_valid(&exit), valid, "{exit}");
+}
+
 /// A replayed snapshot's `state-recovered` line, with and without the scanned instance: `scanned`
 /// is a `ViolaName` or absent, never a path or a literal null.
 #[rstest]

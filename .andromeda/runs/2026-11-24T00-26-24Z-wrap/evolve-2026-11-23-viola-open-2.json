@@ -126,5 +126,37 @@
 ],
 "before": null,
 "after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-24T01:19:41Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-24T00-26-24Z-wrap",
+"--marker",
+"2026-11-23-viola-open-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 4424 · 2026-11-23T21-25-56-2026-11-23-viola-open-2.ndjson",
+"ts 2026-11-24T01:19:32Z · clock 2026-11-24T01:19:41Z · the builders' bound 2026-11-24T01:13:17Z (line 4185)",
+"ids 2026-11-24T01:19:32Z-a … 2026-11-24T01:19:32Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-23T21-25-56-2026-11-23-viola-open-2.ndjson"
+],
+"before": null,
+"after": null
 }
 ]

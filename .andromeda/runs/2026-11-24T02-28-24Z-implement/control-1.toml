@@ -1,0 +1,40 @@
+[[control]]
+id = 'focus-reuse'
+entry = 4
+guard = 'the chain membership test on the recorded arm of client_of: a recorded address is taken whatever pid holds it'
+case = 'focus_client_skips_a_recorded_address_outside_the_ancestry'
+
+[[control.edit]]
+path = 'src/cmd/focus.rs'
+old = '''        && let Some(window) = windows
+            .iter()
+            .filter(owned)
+            .find(|window| &window.address == recorded)'''
+new = '''        && let Some(window) = windows
+            .iter()
+            .find(|window| &window.address == recorded)'''
+
+[[control]]
+id = 'focus-order'
+entry = 4
+guard = 'the Workspace dispatch before FocusWindow: the window is focused with no workspace shown first'
+case = 'focus_dispatches_the_workspace_then_the_window'
+
+[[control.edit]]
+path = 'src/cmd/focus.rs'
+old = '''    if let Some(id) = client.workspace.filter(|id| id.into_inner() >= 1) {
+        dispatched(read(&Request::Workspace(id)))?;
+    }
+'''
+new = ''
+
+[[control]]
+id = 'focus-no-client'
+entry = 4
+guard = 'the early return on no client: with none found the first listed window is taken and focused'
+case = 'focus_with_no_client_is_window_not_found_and_dispatches_nothing'
+
+[[control.edit]]
+path = 'src/cmd/focus.rs'
+old = '''    let Some(client) = found else {'''
+new = '''    let Some(client) = found.or(windows.first()) else {'''

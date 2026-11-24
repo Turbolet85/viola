@@ -1,5 +1,6 @@
 mod answer;
 mod client;
+mod focus;
 mod hook;
 mod last;
 mod link;
@@ -32,7 +33,7 @@ use crate::obs::DetailSink;
 const HELP_TEMPLATE: &str = "\
 {usage-heading} {usage}
 
-board:    list
+board:    list, focus
 traffic:  send, wait, last, answer
 wheel:    pause, release
 handoff:  link, unlink
@@ -75,6 +76,8 @@ enum Command {
     Answer(answer::AnswerArgs),
     /// Show every wrapped session: its liveness, wheel, dialog and CLI
     List(list::ListArgs),
+    /// Bring the named session's window forward and show its workspace on Hyprland
+    Focus(focus::FocusArgs),
     /// Take the named instance's wheel for the human without a keystroke
     Pause(pause::PauseArgs),
     /// Hand the named instance's wheel back to the driver: the human's verb, refused to a driver
@@ -179,6 +182,11 @@ pub(crate) fn dispatch(cli: Cli) -> Result<ExitCode, Failure> {
                 process: ObsProcess::Cli,
             });
             list::list(&home, &args).map_err(|error| Failure { error, sink })
+        }
+        Command::Focus(args) => {
+            let home = resolved_home(cli.home)?;
+            let sink = cli_sink(&home, &args.name);
+            focus::focus(&home, &args).map_err(|error| Failure { error, sink })
         }
         Command::Pause(args) => {
             let home = resolved_home(cli.home)?;

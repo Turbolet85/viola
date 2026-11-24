@@ -39,8 +39,57 @@ const SEND_REFUSAL: &str =
     r#"client::document(&json!({"v": 1, "refusal": reason, "detail": detail}));"#;
 
 const OPEN_REFUSED: &str = "client::refused_document(detail);";
+const FOCUS_REFUSED: &str = "client::refused_document(code);";
 
 const CLI_DOCUMENTS: &[Body] = &[
+    Body {
+        code: "window-not-found",
+        detail: "null",
+        exit: Some(1),
+        file: "src/cmd/focus.rs",
+        needle: FOCUS_REFUSED,
+        witness: "focus_with_no_window_of_its_session_is_window_not_found",
+    },
+    Body {
+        code: "unsupported",
+        detail: "null",
+        exit: Some(1),
+        file: "src/cmd/focus.rs",
+        needle: FOCUS_REFUSED,
+        witness: "focus_json_documents_are_one_document_each",
+    },
+    Body {
+        code: "unreachable",
+        detail: "null",
+        exit: Some(1),
+        file: "src/cmd/focus.rs",
+        needle: FOCUS_REFUSED,
+        witness: "focus_json_documents_are_one_document_each",
+    },
+    Body {
+        code: "oversize",
+        detail: "null",
+        exit: Some(1),
+        file: "src/cmd/focus.rs",
+        needle: FOCUS_REFUSED,
+        witness: "focus_json_documents_are_one_document_each",
+    },
+    Body {
+        code: "malformed",
+        detail: "null",
+        exit: Some(1),
+        file: "src/cmd/focus.rs",
+        needle: FOCUS_REFUSED,
+        witness: "focus_json_documents_are_one_document_each",
+    },
+    Body {
+        code: "refused",
+        detail: "null",
+        exit: Some(1),
+        file: "src/cmd/focus.rs",
+        needle: FOCUS_REFUSED,
+        witness: "focus_maps_each_seam_word_to_its_code",
+    },
     Body {
         code: "strict-modes-failed",
         detail: "null",

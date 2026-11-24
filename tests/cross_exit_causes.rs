@@ -67,6 +67,14 @@ const UNCLEAN_FIXTURE: &str = "record with a viola home under your user home";
 const INTERRUPTED: &str = "run viola verify again to stamp this CLI";
 const TERMINAL_NOT_FOUND: &str = "install foot, the terminal viola open starts";
 const NOT_LIVE: &str = "the window stays open; viola list shows builder once it is live";
+const WINDOW_NOT_FOUND: &str =
+    "start builder in its own terminal window, or open it with viola open";
+const FOCUS_UNSUPPORTED: &str =
+    "viola focus moves windows on Hyprland; run it in a Hyprland session";
+const FOCUS_UNREACHABLE: &str = "run hyprctl version to check the compositor answers";
+const FOCUS_OVERSIZE: &str = "viola reads no reply past its frame cap; nothing was focused";
+const FOCUS_MALFORMED: &str = "check that hyprctl matches the running Hyprland";
+const FOCUS_REFUSED: &str = "the window may have closed; viola list shows builder";
 
 /// A code, its exit, and a hint it ends with: `None` where the cause has none.
 type Cause = (&'static str, u8, Option<&'static str>);
@@ -97,6 +105,12 @@ const CAUSES: &[Cause] = &[
     ("interrupted", 1, Some(INTERRUPTED)),
     ("terminal-not-found", 1, Some(TERMINAL_NOT_FOUND)),
     ("not-live", 1, Some(NOT_LIVE)),
+    ("window-not-found", 1, Some(WINDOW_NOT_FOUND)),
+    ("unsupported", 1, Some(FOCUS_UNSUPPORTED)),
+    ("unreachable", 1, Some(FOCUS_UNREACHABLE)),
+    ("oversize", 1, Some(FOCUS_OVERSIZE)),
+    ("malformed", 1, Some(FOCUS_MALFORMED)),
+    ("refused", 1, Some(FOCUS_REFUSED)),
 ];
 
 const UNVERIFIED_CLI: &str = "run viola verify for this CLI version";

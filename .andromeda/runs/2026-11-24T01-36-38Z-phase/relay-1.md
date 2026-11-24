@@ -1,0 +1,1 @@
+Proceed. Take up the route head `viola focus` (chk-fw7hhw4r) under the directive you just read, ~/dev/projects/additional/viola-overseer/phase-focus-directive.md: snap it; the operator is away, raise no dialog for him, write his forks to founder-forks.md; no live start, no window, no dispatch, no key in this phase.

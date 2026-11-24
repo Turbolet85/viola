@@ -629,3 +629,73 @@ fn receiver_reads_no_inbox_without_the_accept_settings() {
         );
     }
 }
+
+/// `terminal` mode answers the window focus on the stand-in's address and the workspace focus on
+/// its workspace with the recorded focus fixtures' replies; the same dispatches on any other
+/// window or workspace stay unanswered.
+#[test]
+fn hyprctl_terminal_mode_answers_the_focus_dispatches_on_its_own_window() {
+    use super::hyprctl::{TERMINAL_ADDRESS, hyprctl_output};
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let set = tmp.path().join("hyprctl-set");
+    fs::create_dir_all(&set).expect("set");
+    for file in ["FocusWindow.recorded-1.json", "Workspace.recorded-1.json"] {
+        let fixture = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("fixtures/hyprland/0.56.2")
+            .join(file);
+        fs::copy(&fixture, set.join(file)).expect("the focus fixture");
+    }
+    let dir = Some(tmp.path());
+    let window = |at: &str| {
+        args(&[
+            "dispatch",
+            &format!("hl.dsp.focus({{ window = \"address:{at}\" }})"),
+        ])
+    };
+    let workspace = |n: i32| args(&["dispatch", &format!("hl.dsp.focus({{ workspace = {n} }})")]);
+    let ok = (b"ok\n".to_vec(), 0);
+    assert_eq!(
+        hyprctl_output(Some("terminal"), dir, &window(TERMINAL_ADDRESS)),
+        ok
+    );
+    assert_eq!(hyprctl_output(Some("terminal"), dir, &workspace(2)), ok);
+    assert_eq!(
+        hyprctl_output(Some("terminal"), dir, &workspace(3)),
+        (Vec::new(), 1)
+    );
+    assert_eq!(
+        hyprctl_output(Some("terminal"), dir, &window("0x1")),
+        (Vec::new(), 1)
+    );
+    assert_eq!(
+        hyprctl_output(Some("terminal"), dir, &window("0x555a9c521790")),
+        ok,
+        "the recorded fixture's own argv still replays"
+    );
+    assert_eq!(
+        hyprctl_output(None, dir, &window(TERMINAL_ADDRESS)),
+        (Vec::new(), 1)
+    );
+}
+
+/// Each `dispatch` argv the fake is asked is one JSON array line of `hyprctl-asked`, in order;
+/// a query leaves no line.
+#[test]
+fn hyprctl_receipts_each_dispatch_argv_it_was_asked() {
+    use super::hyprctl::{HYPRCTL_ASKED, receipt};
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let first = args(&["dispatch", "hl.dsp.focus({ workspace = 2 })"]);
+    let second = args(&["dispatch", "hl.dsp.focus({ window = \"address:0x1\" })"]);
+    receipt(tmp.path(), &args(&["-j", "clients"]));
+    assert!(!tmp.path().join(HYPRCTL_ASKED).exists());
+    receipt(tmp.path(), &first);
+    receipt(tmp.path(), &args(&["-j", "activewindow"]));
+    receipt(tmp.path(), &second);
+    let text = fs::read_to_string(tmp.path().join(HYPRCTL_ASKED)).expect("the receipt");
+    let lines: Vec<Vec<String>> = text
+        .lines()
+        .map(|line| serde_json::from_str(line).expect("one array per line"))
+        .collect();
+    assert_eq!(lines, [first, second]);
+    assert!(text.ends_with('\n'));
+}
