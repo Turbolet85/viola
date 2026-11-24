@@ -10,6 +10,7 @@ pub(crate) mod launch;
 pub(crate) mod links;
 pub(crate) mod send;
 pub(crate) mod snapshot;
+pub(crate) mod switch;
 pub(crate) mod version_gate;
 pub(crate) mod wait;
 pub(crate) mod wheel;

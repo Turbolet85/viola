@@ -121,7 +121,7 @@ fn send_through(
     let confirms = classify(text, slot.cli_verified);
     {
         let mut flight = slot.flight();
-        if flight.send.is_some() || slot.wheel.turn_running() {
+        if flight.send.is_some() || flight.switching() || slot.wheel.turn_running() {
             drop(flight);
             return ctx.not_delivered(None, NotDelivered::TurnRunning);
         }

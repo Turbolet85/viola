@@ -1,6 +1,7 @@
 //! The one send in flight, the hook tap that claims its line, and its window.
 
 use super::*;
+use viola_state::liveness::process_start_time;
 
 /// How often the waiting handler re-reads the clock against the window.
 const STEP: Duration = Duration::from_millis(20);
@@ -28,9 +29,57 @@ pub(super) struct Flight {
     /// Set at a cut paste to the wheel's key count then: until a later key moves the count, or a
     /// prompt or a session edge clears it, every send is refused `paste-cut`. In memory only.
     pub(super) cut_at: Option<u64>,
+    /// Set by a switch from its respawn request; see [`SwitchMark`]. In memory only.
+    switch: Option<SwitchMark>,
+}
+
+/// A switch of the session `id`: until the new child's `session-start` no send is issued, and
+/// after it the old child's late `session-end` of that id is screened once.
+struct SwitchMark {
+    id: String,
+    child_pid: Option<u32>,
+    started: bool,
+    /// No `session-end` of the id has come since the request: the old child's may still come.
+    screening: bool,
 }
 
 impl Flight {
+    /// A switch stands between its respawn request and the new child's `session-start`.
+    pub(super) fn switching(&self) -> bool {
+        self.switch.as_ref().is_some_and(|mark| !mark.started)
+    }
+
+    /// Whether `line` is the old child's late `session-end`, to be dropped: one carrying the
+    /// switched id, after the new child's `session-start`, while the new child runs. A
+    /// `session-end` of the id before that start is the old child's own, appended as any is.
+    fn screened(&mut self, line: &EventLine) -> bool {
+        let Some(mark) = self.switch.as_mut() else {
+            return false;
+        };
+        match line.kind {
+            EventKind::SessionStart if !mark.started => {
+                mark.started = true;
+                if !mark.screening {
+                    self.switch = None;
+                }
+                false
+            }
+            EventKind::SessionStart => {
+                self.switch = None;
+                false
+            }
+            EventKind::SessionEnd if line.data["agent_session_id"] == mark.id.as_str() => {
+                let late = mark.started && mark.child_pid.and_then(process_start_time).is_some();
+                mark.screening = false;
+                if mark.started {
+                    self.switch = None;
+                }
+                late
+            }
+            _ => false,
+        }
+    }
+
     /// Whether a prompt with the submitted `text` is the in-flight send's (the typed text or its
     /// CLI-trimmed form, `is_submitted_form`): it is then claimed, and only
     /// [`SendSlot::settle`] resolves it. A send that waits for a post-condition, or for nothing,
@@ -127,6 +176,42 @@ impl SendSlot {
 
     pub(super) fn flight(&self) -> MutexGuard<'_, Flight> {
         self.flight.lock().unwrap_or_else(PoisonError::into_inner)
+    }
+
+    /// A switch's start, under the flight guard a send's own reads take: `decide` reads whether a
+    /// send or another switch stands, and its `Ok` id arms the switch mark before the guard is let
+    /// go, so no send passes its rung while the child is replaced.
+    pub(crate) fn begin_switch<R>(
+        &self,
+        decide: impl FnOnce(bool) -> Result<String, R>,
+    ) -> Result<String, R> {
+        let mut flight = self.flight();
+        let busy = flight.send.is_some() || flight.switch.is_some();
+        let id = decide(busy)?;
+        flight.switch = Some(SwitchMark {
+            id: id.clone(),
+            child_pid: None,
+            started: false,
+            screening: true,
+        });
+        Ok(id)
+    }
+
+    /// The new child the switch's respawn started.
+    pub(crate) fn switched_to(&self, child_pid: Option<u32>) {
+        if let Some(mark) = self.flight().switch.as_mut() {
+            mark.child_pid = child_pid;
+        }
+    }
+
+    /// A switch that replaced no child: its mark is cleared.
+    pub(crate) fn end_switch(&self) {
+        self.flight().switch = None;
+    }
+
+    #[cfg(test)]
+    pub(crate) fn flight_switching(&self) -> bool {
+        self.flight().switch.is_some()
     }
 
     /// The claimed line was appended at `ts`, or (`None`) was not, and the send waits on.
@@ -232,6 +317,9 @@ pub(crate) fn append_hook_event(
     // before anything is typed or began after the text went in. Flight before `held`, as in `send`.
     let claimed = {
         let mut flight = slot.flight();
+        if flight.screened(&line) {
+            return Ok(());
+        }
         let prompt = line.kind == EventKind::PromptSubmitted
             && line.data["text"]
                 .as_str()

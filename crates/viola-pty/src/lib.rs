@@ -13,7 +13,9 @@ use portable_pty::{Child, CommandBuilder, MasterPty, PtySize, native_pty_system}
 
 mod pump;
 
-pub use pump::{PasteHandle, PumpEnd, pump, pump_with_paste};
+pub use pump::{
+    PasteHandle, PumpEnd, RESPAWN_REAP_BOUND, Respawn, RespawnHandle, pump, pump_with_paste,
+};
 
 /// The pseudo-terminal this process uses.
 pub fn pty_backend() -> &'static str {

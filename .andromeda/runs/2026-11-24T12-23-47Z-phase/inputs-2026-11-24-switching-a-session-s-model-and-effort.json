@@ -1,0 +1,340 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T12:25:13Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-24-switching-a-session-s-model-and-effort",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-switch-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer's phase directive for this head: scope, P3 measurements, forks priced his or technical, the away form, nothing live",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-24T12-23-47Z-phase",
+"--marker",
+"2026-11-24-switching-a-session-s-model-and-effort"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-switch-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-switch-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-switch-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "96195c94a07aec66701727c303c36104b0bf224d09b5ed28907fbe68936e49dd",
+"copy": "I1-phase-switch-directive.md.txt",
+"link": false,
+"read_at": "2026-11-24T12:25:05Z",
+"step": "phase:P1",
+"why": "the overseer's phase directive for this head: scope, P3 measurements, forks priced his or technical, the away form, nothing live"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T12:25:13Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-24-switching-a-session-s-model-and-effort",
+"--message-file",
+".andromeda/runs/2026-11-24T12-23-47Z-phase/relay-1.md",
+"--origin",
+"the session invoker (the overseer), 2026-11-24T12:2xZ",
+"--kind",
+"relay",
+"--why",
+"the take-up word: proceed under the directive, no dialog for the operator, forks to founder-forks.md, nothing live",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-24T12-23-47Z-phase",
+"--marker",
+"2026-11-24-switching-a-session-s-model-and-effort",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 2,
+"stdout": [],
+"stderr": "--origin: 12:2xZ is not a time anyone read — a placeholder stands where a digit would",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T12:25:23Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-24-switching-a-session-s-model-and-effort",
+"--message-file",
+".andromeda/runs/2026-11-24T12-23-47Z-phase/relay-1.md",
+"--origin",
+"the session invoker (the overseer), the /andromeda-phase arguments",
+"--kind",
+"relay",
+"--why",
+"the take-up word: proceed under the directive, no dialog for the operator, forks to founder-forks.md, nothing live",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-24T12-23-47Z-phase",
+"--marker",
+"2026-11-24-switching-a-session-s-model-and-effort"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the session invoker (the overseer), the /andromeda-phase arguments",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the session invoker (the overseer), the /andromeda-phase arguments",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "b3d44327c0288d87784c738108920966268f6766e1075bbbf13953d5f0a2902c",
+"copy": "I2-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-24T12:25:16Z",
+"step": "phase:P1",
+"why": "the take-up word: proceed under the directive, no dialog for the operator, forks to founder-forks.md, nothing live"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T13:07:02Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-24-switching-a-session-s-model-and-effort",
+"--run-dir",
+".andromeda/runs/2026-11-24T12-23-47Z-phase",
+"--marker",
+"2026-11-24-switching-a-session-s-model-and-effort"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-switch-directive.md",
+"I1 cited scope.md:59 · research.md:7 · research.md:44 · plan.md:163 · plan.md:167 · plan.md:239 (in fence) · plan.md:398",
+"I2 n/a — a message has no live source · copy message · message: the session invoker (the overseer), the /andromeda-phase arguments",
+"I2 cited scope.md:59 · research.md:7",
+"inputs: 2 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T13:08:56Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-24-switching-a-session-s-model-and-effort",
+"--message-file",
+".andromeda/runs/2026-11-24T12-23-47Z-phase/relay-2.md",
+"--origin",
+"delegate overseer, the review word on p5-card-1",
+"--kind",
+"relay",
+"--why",
+"review of card 1: F2 and F4 as proposed (delegate technical word); F6 is the founder's fork, 10 s PROVISIONAL; the code-graph query of the pump callers recorded now",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-24T12-23-47Z-phase",
+"--marker",
+"2026-11-24-switching-a-session-s-model-and-effort"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: delegate overseer, the review word on p5-card-1",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: delegate overseer, the review word on p5-card-1",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "e8affa3d1125947f7736c1809c6bf835ec88d7a27d9b4557bee45181c9acf7d8",
+"copy": "I3-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-24T13:08:55Z",
+"step": "phase:P5",
+"why": "review of card 1: F2 and F4 as proposed (delegate technical word); F6 is the founder's fork, 10 s PROVISIONAL; the code-graph query of the pump callers recorded now"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T13:12:37Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-24-switching-a-session-s-model-and-effort",
+"--run-dir",
+".andromeda/runs/2026-11-24T12-23-47Z-phase",
+"--marker",
+"2026-11-24-switching-a-session-s-model-and-effort"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-switch-directive.md",
+"I1 cited scope.md:59 · research.md:7 · research.md:49 · plan.md:183 · plan.md:187 · plan.md:259 (in fence) · plan.md:457",
+"I2 n/a — a message has no live source · copy message · message: the session invoker (the overseer), the /andromeda-phase arguments",
+"I2 cited scope.md:59 · research.md:7",
+"I3 n/a — a message has no live source · copy message · message: delegate overseer, the review word on p5-card-1",
+"I3 cited research.md:35 · plan.md:29 · plan.md:30 · plan.md:387 · plan.md:457",
+"inputs: 3 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T13:13:53Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-24-switching-a-session-s-model-and-effort",
+"--message-file",
+".andromeda/runs/2026-11-24T12-23-47Z-phase/relay-3.md",
+"--origin",
+"delegate overseer, the word on p5-card-2",
+"--kind",
+"relay",
+"--why",
+"the P5 word on .andromeda/runs/2026-11-24T12-23-47Z-phase/p5-card-2.md (delegate overseer): yes; its Beyond-the-plan rows 1-4 approved, the founder's forks PROVISIONAL",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-24T12-23-47Z-phase",
+"--marker",
+"2026-11-24-switching-a-session-s-model-and-effort"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: delegate overseer, the word on p5-card-2",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: delegate overseer, the word on p5-card-2",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "21b67229f703acbb5d52b0b4fc9d87b68446f94eb50f6f4ebcd2775f539154b3",
+"copy": "I4-relay-3.md.txt",
+"link": false,
+"read_at": "2026-11-24T13:13:53Z",
+"step": "phase:P5",
+"why": "the P5 word on .andromeda/runs/2026-11-24T12-23-47Z-phase/p5-card-2.md (delegate overseer): yes; its Beyond-the-plan rows 1-4 approved, the founder's forks PROVISIONAL"
+}
+}
+]

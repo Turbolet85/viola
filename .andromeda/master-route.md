@@ -140,3 +140,4 @@
 2026-11-24-viola-focus · gated · `viola focus` — a session's window raised and its workspace shown through Hyprland, by recorded identity or ancestry; a named refusal otherwise · → chk:2026-11-24-viola-focus
 2026-11-24-viola-up · gated · `viola up` — the fleet re-opened after a reboot through `revive`, parents first, live ones skipped, one line per instance · → chk:2026-11-24-viola-up
 2026-11-24-viola-adopt · gated · `viola adopt` — a plain `claude` session, by session-shaped id, resumed under viola with an operator-given name and parent; the live-elsewhere refusal guards it · → chk:2026-11-24-viola-adopt
+2026-11-24-switching-a-session-s-model-and-effort · pending · a running session switched to a given model and effort, recorded so a resume replays the new pair; nothing written to the user's own settings · → chk:2026-11-24-switching-a-session-s-model-and-effort

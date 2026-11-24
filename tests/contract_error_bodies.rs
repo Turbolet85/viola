@@ -380,6 +380,30 @@ const CLI_DOCUMENTS: &[Body] = &[
         witness: "send_window_no_prompt_submitted_refuses_and_logs",
     },
     Body {
+        code: "human-typing",
+        detail: "null or manual-pause",
+        exit: Some(10),
+        file: "src/cmd/switch.rs",
+        needle: SEND_REFUSAL,
+        witness: "switch_while_the_human_types_is_refused_human_typing",
+    },
+    Body {
+        code: "unverified-cli",
+        detail: "null",
+        exit: Some(12),
+        file: "src/cmd/switch.rs",
+        needle: SEND_REFUSAL,
+        witness: "switch_refusal_order_cases",
+    },
+    Body {
+        code: "not-delivered",
+        detail: "turn-running, dialog-pending, no-session, child-not-ended, resume-failed",
+        exit: Some(13),
+        file: "src/cmd/switch.rs",
+        needle: SEND_REFUSAL,
+        witness: "switch_mid_turn_is_refused_turn_running",
+    },
+    Body {
         code: "unknown",
         detail: "a code word or null",
         exit: Some(14),
@@ -500,8 +524,8 @@ const CHANNEL_FAULTS: &[(ProtocolError, &str, &str)] = &[
     ),
 ];
 
-/// The nine served methods and the one notification these faults answer across.
-const CHANNEL_METHODS: [&str; 10] = [
+/// The ten served methods and the one notification these faults answer across.
+const CHANNEL_METHODS: [&str; 11] = [
     "send",
     "wait",
     "last",
@@ -510,6 +534,7 @@ const CHANNEL_METHODS: [&str; 10] = [
     "release",
     "link",
     "unlink",
+    "switch",
     "hook.dialog",
     "hook.event",
 ];

@@ -1,0 +1,92 @@
+[
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T13:32:12Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"scope-record",
+"--owner",
+"chk:2026-11-24-switching-a-session-s-model-and-effort",
+"--file",
+".andromeda/cache/docs/2026-11-24-switching-a-session-s-model-and-effort/scope-record.md",
+"--run-dir",
+".andromeda/runs/2026-11-24T13-15-06Z-implement",
+"--marker",
+"2026-11-24-switching-a-session-s-model-and-effort"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-24-switching-a-session-s-model-and-effort/scope-record rev 1 · 6 new · 0 revised · 0 retired · 0 kept · tx 4773"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T12-24-44-2026-11-24-switching-a-session-s-model-and-effort.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T13:38:57Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-24-switching-a-session-s-model-and-effort",
+"--file",
+".andromeda/cache/docs/2026-11-24-switching-a-session-s-model-and-effort/report.md",
+"--run-dir",
+".andromeda/runs/2026-11-24T13-15-06Z-implement",
+"--marker",
+"2026-11-24-switching-a-session-s-model-and-effort"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-24-switching-a-session-s-model-and-effort/report rev 1 · 38 new · 0 revised · 0 retired · 0 kept · tx 4777"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T12-24-44-2026-11-24-switching-a-session-s-model-and-effort.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T13:39:11Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-24-switching-a-session-s-model-and-effort",
+"--run-dir",
+".andromeda/runs/2026-11-24T13-15-06Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-24-switching-a-session-s-model-and-effort · 4 new · 0 changed · 0 gone · 6 kept · tx 4779"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T12-24-44-2026-11-24-switching-a-session-s-model-and-effort.ndjson"
+],
+"before": null,
+"after": null
+}
+]

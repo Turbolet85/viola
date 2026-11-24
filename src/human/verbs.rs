@@ -1,4 +1,4 @@
-//! The lines of a taken `answer`, `pause`, `release`, `link` and `unlink`, and of a written
+//! The lines of a taken `answer`, `pause`, `release`, `link`, `unlink` and `switch`, and of a written
 //! `plugin install`.
 
 use std::io::{self, Write};
@@ -10,6 +10,16 @@ use super::escape::escape_message;
 /// `answered  <name>  dialog <id>`: an `answer` the wrapper took, on stdout.
 pub(crate) fn write_answered(out: &mut impl Write, name: &str, dialog_id: u64) -> io::Result<()> {
     out.write_all(format!("answered  {name}  dialog {dialog_id}\n").as_bytes())
+}
+
+/// `<name>  switched  <model> <effort>`: a `switch` the wrapper made, on stdout.
+pub(crate) fn write_switched(
+    out: &mut impl Write,
+    name: &str,
+    model: &str,
+    effort: &str,
+) -> io::Result<()> {
+    out.write_all(format!("{name}  switched  {model} {effort}\n").as_bytes())
 }
 
 /// `<name>  wheel human  manual-pause  I have control`: a `pause` the wrapper took, on stdout.

@@ -156,6 +156,7 @@ impl Run {
                 Size::DEFAULT,
                 &mut || None,
                 &typed,
+                &viola_pty::RespawnHandle::default(),
             )
             .ok()
         });

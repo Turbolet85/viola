@@ -9,7 +9,7 @@ use std::sync::{Arc, Mutex, MutexGuard, PoisonError};
 use std::thread::JoinHandle;
 use std::time::{Duration, Instant};
 
-use crate::{Exit, ExitSource, Pty, PtyError, Size};
+use crate::{Exit, ExitSource, Pty, PtyError, Size, SpawnSpec};
 
 const TICK: Duration = Duration::from_millis(20);
 const RESIZE_EVERY: Duration = Duration::from_millis(250);
@@ -33,7 +33,8 @@ pub enum PumpEnd {
 }
 
 enum Worker {
-    OutputDone,
+    /// The output copy of the child of that generation ended.
+    OutputDone(u64),
     Panicked,
 }
 
@@ -225,9 +226,15 @@ fn put(to: &mut dyn Write, bytes: &[u8]) -> io::Result<()> {
 
 /// The PTY writer thread's body: the jobs in arrival order until the pump stops it. A failed write
 /// ends no job but its own.
-fn write_jobs(mut to: Box<dyn Write + Send>, jobs: &Receiver<Job>, stop: &AtomicBool) {
+fn write_jobs(mut to: Box<dyn Write + Send>, jobs: &Mutex<Receiver<Job>>, stop: &AtomicBool) {
     while !stop.load(Ordering::SeqCst) {
-        match jobs.recv_timeout(TICK) {
+        // The lock is held for one wait only: a writer left detached on a child that takes no bytes
+        // never keeps the queue from the next child's writer.
+        let next = jobs
+            .lock()
+            .unwrap_or_else(PoisonError::into_inner)
+            .recv_timeout(TICK);
+        match next {
             Ok(Job::Human(bytes)) => {
                 let _ = put(&mut *to, &bytes);
             }
@@ -278,6 +285,62 @@ fn write_paste(
     }
 }
 
+/// How long a respawn waits for the current child to exit after its kill; past it the child is
+/// left running and nothing is spawned.
+pub const RESPAWN_REAP_BOUND: Duration = Duration::from_secs(10);
+
+/// What a respawn request came to.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Respawn {
+    /// The child before exited with `exit`; the new one runs under the same host input and output.
+    Respawned { exit: Exit, child_pid: Option<u32> },
+    /// The child had not exited within [`RESPAWN_REAP_BOUND`] of its kill: nothing was spawned,
+    /// and the pump goes on with it.
+    NotEnded,
+    /// The child exited but the new one could not be started: the pump then ends with that exit.
+    SpawnFailed,
+}
+
+struct RespawnRequest {
+    spec: SpawnSpec,
+    between: Box<dyn FnOnce() + Send>,
+    reply: SyncSender<Respawn>,
+}
+
+type Requests = Option<Sender<RespawnRequest>>;
+
+/// The way to ask a running pump to end its child and start another in its place, under the same
+/// host input, output and write queue.
+#[derive(Clone, Default)]
+pub struct RespawnHandle(Arc<Mutex<Requests>>);
+
+impl RespawnHandle {
+    fn lock(&self) -> MutexGuard<'_, Requests> {
+        self.0.lock().unwrap_or_else(PoisonError::into_inner)
+    }
+
+    /// Kills the pump's current child, reaps it within [`RESPAWN_REAP_BOUND`], runs `between`
+    /// once it has exited, then spawns `spec` (at the host's current size) in its place. `NoInput`
+    /// when no pump runs, or when the pump ends before it takes the request.
+    pub fn respawn(
+        &self,
+        spec: SpawnSpec,
+        between: impl FnOnce() + Send + 'static,
+    ) -> Result<Respawn, PtyError> {
+        let requests = self.lock().clone().ok_or(PtyError::NoInput)?;
+        let (reply, answer) = mpsc::sync_channel(1);
+        requests
+            .send(RespawnRequest {
+                spec,
+                between: Box::new(between),
+                reply,
+            })
+            .map_err(|_| PtyError::NoInput)?;
+        drop(requests);
+        answer.recv().map_err(|_| PtyError::NoInput)
+    }
+}
+
 /// Pumps `input` into the child and the child's output into `output`, forwards host size changes,
 /// and returns when the child exits (read on the handle) or a pump thread panics (the child is
 /// then killed). Each pump thread body runs inside `catch_unwind`. `spawned` is the size the PTY
@@ -297,10 +360,13 @@ pub fn pump(
         spawned,
         host_size,
         &PasteHandle::default(),
+        &RespawnHandle::default(),
     )
 }
 
-/// [`pump`], with the child's input also reachable through `paste` while the pump runs.
+/// [`pump`], with the child's input also reachable through `paste` while the pump runs, and the
+/// child replaceable through `respawn`. `pty` is the first child only: a child spawned on a
+/// respawn is the pump's own, and the end returned is the last child's.
 pub fn pump_with_paste(
     pty: &mut dyn Pty,
     input: Box<dyn Read + Send>,
@@ -308,31 +374,168 @@ pub fn pump_with_paste(
     spawned: Size,
     host_size: &mut dyn FnMut() -> Option<Size>,
     paste: &PasteHandle,
+    respawn: &RespawnHandle,
 ) -> Result<PumpEnd, PtyError> {
-    let reader = pty.reader()?;
-    let writer = pty.writer()?;
+    let mut spawn =
+        |spec: &SpawnSpec| -> Result<Box<dyn Pty>, PtyError> { Ok(Box::new(crate::spawn(spec)?)) };
+    let mut now = Instant::now;
+    pump_seamed(
+        pty,
+        Ends {
+            input,
+            output,
+            spawned,
+            host_size,
+        },
+        paste,
+        respawn,
+        Seams {
+            spawn: &mut spawn,
+            now: &mut now,
+        },
+    )
+}
+
+/// What the pump copies between, handed over once.
+struct Ends<'a> {
+    input: Box<dyn Read + Send>,
+    output: Box<dyn Write + Send>,
+    spawned: Size,
+    host_size: &'a mut dyn FnMut() -> Option<Size>,
+}
+
+/// A child a respawn started.
+type Spawned = Result<Box<dyn Pty>, PtyError>;
+
+/// How a respawn starts a child and reads the time: the real ones in [`pump_with_paste`].
+struct Seams<'a> {
+    spawn: &'a mut dyn FnMut(&SpawnSpec) -> Spawned,
+    now: &'a mut dyn FnMut() -> Instant,
+}
+
+fn pump_seamed(
+    pty: &mut dyn Pty,
+    ends: Ends<'_>,
+    paste: &PasteHandle,
+    respawn: &RespawnHandle,
+    seams: Seams<'_>,
+) -> Result<PumpEnd, PtyError> {
+    let Ends {
+        input,
+        output,
+        spawned,
+        host_size,
+    } = ends;
     let (tx, rx) = mpsc::channel();
     let (jobs_tx, jobs) = mpsc::sync_channel(QUEUE);
-    let stop = Arc::new(AtomicBool::new(false));
-    let stopped = Arc::clone(&stop);
-    let writing = spawn_worker(tx.clone(), None, move || {
-        write_jobs(writer, &jobs, &stopped);
-    });
+    let jobs = Arc::new(Mutex::new(jobs));
+    let output = SharedOutput(Arc::new(Mutex::new(output)));
+    let attached = attach(pty, 0, &output, &jobs, &tx)?;
     // The writer stays reachable past input EOF, so a paste still reaches the child once viola's
     // own stdin has ended; it is released only once the pump returns.
     *paste.lock() = Some(jobs_tx.clone());
-    let end = pump_open(
-        pty, reader, input, output, spawned, host_size, jobs_tx, tx, &rx,
-    );
+    let (requests_tx, requests) = mpsc::channel();
+    *respawn.lock() = Some(requests_tx);
+    let human = HumanInput(jobs_tx);
+    let _input = spawn_worker(tx.clone(), None, move || copy(input, human));
+    let mut pumping = Pumping {
+        current: Current::First(pty),
+        attached,
+        output,
+        jobs,
+        tx,
+        rx,
+        requests,
+        seams,
+    };
+    let end = pumping.run(spawned, host_size);
+    *respawn.lock() = None;
+    let Attached { stop, writing, .. } = pumping.attached;
     end_writer(paste, &stop, writing);
     end
 }
 
+/// The host output, shared by each child's output copy thread in turn.
+#[derive(Clone)]
+struct SharedOutput(Arc<Mutex<Box<dyn Write + Send>>>);
+
+impl Write for SharedOutput {
+    fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
+        self.0
+            .lock()
+            .unwrap_or_else(PoisonError::into_inner)
+            .write(buf)
+    }
+
+    fn flush(&mut self) -> io::Result<()> {
+        self.0
+            .lock()
+            .unwrap_or_else(PoisonError::into_inner)
+            .flush()
+    }
+}
+
+/// The child the pump drives: the caller's first, then one a respawn started.
+enum Current<'a> {
+    First(&'a mut dyn Pty),
+    Owned(Box<dyn Pty>),
+}
+
+impl Current<'_> {
+    fn pty(&mut self) -> &mut dyn Pty {
+        match self {
+            Self::First(pty) => &mut **pty,
+            Self::Owned(pty) => pty.as_mut(),
+        }
+    }
+}
+
+/// One child's own copy threads: its output copy, tagged with its generation, and its writer.
+struct Attached {
+    generation: u64,
+    stop: Arc<AtomicBool>,
+    writing: Option<JoinHandle<()>>,
+}
+
+fn attach(
+    pty: &mut dyn Pty,
+    generation: u64,
+    output: &SharedOutput,
+    jobs: &Arc<Mutex<Receiver<Job>>>,
+    tx: &Sender<Worker>,
+) -> Result<Attached, PtyError> {
+    let reader = pty.reader()?;
+    let writer = pty.writer()?;
+    let stop = Arc::new(AtomicBool::new(false));
+    let (stopped, queue) = (Arc::clone(&stop), Arc::clone(jobs));
+    let writing = spawn_worker(tx.clone(), None, move || {
+        write_jobs(writer, &queue, &stopped);
+    });
+    let out = output.clone();
+    spawn_worker(
+        tx.clone(),
+        Some(Worker::OutputDone(generation)),
+        move || copy(reader, out),
+    );
+    Ok(Attached {
+        generation,
+        stop,
+        writing: Some(writing),
+    })
+}
+
 /// Stops the writer thread and waits for it within `KILL_WAIT`; a writer blocked past it on a
 /// PTY that still takes no bytes is left detached.
-fn end_writer(paste: &PasteHandle, stop: &AtomicBool, writing: JoinHandle<()>) {
+fn end_writer(paste: &PasteHandle, stop: &AtomicBool, writing: Option<JoinHandle<()>>) {
     *paste.lock() = None;
+    stop_writer(stop, writing);
+}
+
+fn stop_writer(stop: &AtomicBool, writing: Option<JoinHandle<()>>) {
     stop.store(true, Ordering::SeqCst);
+    let Some(writing) = writing else {
+        return;
+    };
     let deadline = Instant::now() + KILL_WAIT;
     while !writing.is_finished() {
         if Instant::now() >= deadline {
@@ -343,63 +546,168 @@ fn end_writer(paste: &PasteHandle, stop: &AtomicBool, writing: JoinHandle<()>) {
     let _ = writing.join();
 }
 
-#[expect(
-    clippy::too_many_arguments,
-    reason = "the pump's own state, handed over once from pump_with_paste"
-)]
-fn pump_open(
-    pty: &mut dyn Pty,
-    reader: Box<dyn Read + Send>,
-    input: Box<dyn Read + Send>,
-    output: Box<dyn Write + Send>,
-    spawned: Size,
-    host_size: &mut dyn FnMut() -> Option<Size>,
-    human: SyncSender<Job>,
+struct Pumping<'a, 's> {
+    current: Current<'a>,
+    attached: Attached,
+    output: SharedOutput,
+    jobs: Arc<Mutex<Receiver<Job>>>,
     tx: Sender<Worker>,
-    rx: &Receiver<Worker>,
-) -> Result<PumpEnd, PtyError> {
-    let _output = spawn_worker(tx.clone(), Some(Worker::OutputDone), move || {
-        copy(reader, output);
-    });
-    let human = HumanInput(human);
-    let _input = spawn_worker(tx, None, move || copy(input, human));
-    let mut last = Some(spawned);
-    let mut next_resize = Instant::now() + RESIZE_EVERY;
-    let mut output_done = false;
-    loop {
-        if let Some(code) = pty.try_wait()? {
-            pty.close();
-            if !output_done {
-                drain(rx);
+    rx: Receiver<Worker>,
+    requests: Receiver<RespawnRequest>,
+    seams: Seams<'s>,
+}
+
+/// Where the pump stands after a respawn request.
+enum Swap {
+    Swapped,
+    Kept,
+    Ended(Exit),
+}
+
+impl Pumping<'_, '_> {
+    fn run(
+        &mut self,
+        spawned: Size,
+        host_size: &mut dyn FnMut() -> Option<Size>,
+    ) -> Result<PumpEnd, PtyError> {
+        let mut last = Some(spawned);
+        let mut next_resize = Instant::now() + RESIZE_EVERY;
+        let mut output_done = false;
+        loop {
+            let standing = self.requests.try_recv().ok();
+            let request = match standing {
+                Some(request) => Some(request),
+                None => match self.current.pty().try_wait()? {
+                    // A request that came in with the exit is served before the pump ends.
+                    Some(code) => match self.requests.try_recv() {
+                        Ok(request) => Some(request),
+                        Err(_) => {
+                            self.current.pty().close();
+                            if !output_done {
+                                drain(&self.rx, self.attached.generation);
+                            }
+                            return Ok(PumpEnd::Exited(Exit {
+                                code: Some(code),
+                                source: ExitSource::HandleWait,
+                            }));
+                        }
+                    },
+                    None => None,
+                },
+            };
+            if let Some(request) = request {
+                match self.respawn(request, &mut last, host_size)? {
+                    Swap::Swapped => output_done = false,
+                    Swap::Kept => {}
+                    Swap::Ended(exit) => return Ok(PumpEnd::Exited(exit)),
+                }
             }
-            return Ok(PumpEnd::Exited(Exit {
-                code: Some(code),
-                source: ExitSource::HandleWait,
-            }));
-        }
-        match rx.recv_timeout(TICK) {
-            Ok(Worker::Panicked) => return Ok(PumpEnd::WorkerPanicked(kill_and_reap(pty)?)),
-            Ok(Worker::OutputDone) => output_done = true,
-            Err(RecvTimeoutError::Timeout) => {}
-            Err(RecvTimeoutError::Disconnected) => std::thread::sleep(TICK),
-        }
-        if Instant::now() >= next_resize {
-            next_resize = Instant::now() + RESIZE_EVERY;
-            let now = host_size();
-            if let Some(size) = now.filter(|s| Some(*s) != last) {
-                pty.resize(size)?;
-                last = now;
+            match self.rx.recv_timeout(TICK) {
+                Ok(Worker::Panicked) => {
+                    return Ok(PumpEnd::WorkerPanicked(kill_and_reap(self.current.pty())?));
+                }
+                Ok(Worker::OutputDone(generation)) => {
+                    output_done |= generation == self.attached.generation;
+                }
+                Err(RecvTimeoutError::Timeout) => {}
+                Err(RecvTimeoutError::Disconnected) => std::thread::sleep(TICK),
+            }
+            if Instant::now() >= next_resize {
+                next_resize = Instant::now() + RESIZE_EVERY;
+                let now = host_size();
+                if let Some(size) = now.filter(|s| Some(*s) != last) {
+                    self.current.pty().resize(size)?;
+                    last = now;
+                }
             }
         }
     }
+
+    /// Ends the current child and, once it has exited, starts the request's in its place.
+    fn respawn(
+        &mut self,
+        request: RespawnRequest,
+        last: &mut Option<Size>,
+        host_size: &mut dyn FnMut() -> Option<Size>,
+    ) -> Result<Swap, PtyError> {
+        let RespawnRequest {
+            mut spec,
+            between,
+            reply,
+        } = request;
+        let pty = self.current.pty();
+        // A child that has already exited refuses the signal; the reap reads its exit all the same.
+        let _ = pty.kill();
+        let Some(code) = reap_within(pty, RESPAWN_REAP_BOUND, &mut *self.seams.now)? else {
+            let _ = reply.send(Respawn::NotEnded);
+            return Ok(Swap::Kept);
+        };
+        let exit = Exit {
+            code: Some(code),
+            source: ExitSource::KillFallback,
+        };
+        pty.close();
+        drain(&self.rx, self.attached.generation);
+        stop_writer(&self.attached.stop, self.attached.writing.take());
+        between();
+        if let Some(size) = host_size().or(*last) {
+            spec.size = size;
+            *last = Some(size);
+        }
+        let Ok(mut child) = (self.seams.spawn)(&spec) else {
+            let _ = reply.send(Respawn::SpawnFailed);
+            return Ok(Swap::Ended(exit));
+        };
+        let generation = self.attached.generation + 1;
+        let attached = match attach(
+            child.as_mut(),
+            generation,
+            &self.output,
+            &self.jobs,
+            &self.tx,
+        ) {
+            Ok(attached) => attached,
+            Err(_) => {
+                let _ = kill_and_reap(child.as_mut());
+                let _ = reply.send(Respawn::SpawnFailed);
+                return Ok(Swap::Ended(exit));
+            }
+        };
+        let child_pid = child.child_pid();
+        self.current = Current::Owned(child);
+        self.attached = attached;
+        let _ = reply.send(Respawn::Respawned { exit, child_pid });
+        Ok(Swap::Swapped)
+    }
 }
 
-fn drain(rx: &Receiver<Worker>) {
+/// The child's exit code once it has exited, read within `bound` of the call on `now`'s clock;
+/// `None` past it.
+fn reap_within(
+    pty: &mut dyn Pty,
+    bound: Duration,
+    now: &mut dyn FnMut() -> Instant,
+) -> Result<Option<u32>, PtyError> {
+    let deadline = now() + bound;
+    loop {
+        if let Some(code) = pty.try_wait()? {
+            return Ok(Some(code));
+        }
+        if now() >= deadline {
+            return Ok(None);
+        }
+        std::thread::sleep(TICK);
+    }
+}
+
+/// Waits within `DRAIN_WITHIN` for the output copy of `generation` to end.
+fn drain(rx: &Receiver<Worker>, generation: u64) {
     let deadline = Instant::now() + DRAIN_WITHIN;
     while let Some(left) = deadline.checked_duration_since(Instant::now()) {
         match rx.recv_timeout(left) {
-            Ok(Worker::OutputDone) | Err(_) => return,
-            Ok(Worker::Panicked) => {}
+            Ok(Worker::OutputDone(done)) if done == generation => return,
+            Err(_) => return,
+            Ok(Worker::OutputDone(_) | Worker::Panicked) => {}
         }
     }
 }
@@ -844,7 +1152,11 @@ mod tests {
         });
         let (ended_tx, ended) = mpsc::channel();
         let helper = std::thread::spawn(move || {
-            end_writer(&PasteHandle::default(), &AtomicBool::new(false), writing);
+            end_writer(
+                &PasteHandle::default(),
+                &AtomicBool::new(false),
+                Some(writing),
+            );
             let _ = ended_tx.send(());
         });
         let returned = ended.recv_timeout(KILL_WAIT + Duration::from_secs(1));
@@ -1168,6 +1480,7 @@ mod tests {
                 Size::DEFAULT,
                 &mut no_size,
                 &handle,
+                &RespawnHandle::default(),
             )
             .expect("pump")
         });
@@ -1418,5 +1731,246 @@ mod tests {
         stop.store(true, Ordering::SeqCst);
         drop(keys);
         pump.join().expect("pump");
+    }
+
+    /// A child that is killed once through the seam and exits with `code` on the `polls`-th look
+    /// after the kill.
+    fn killable(code: u32, polls: usize) -> MockPty {
+        let mut pty = MockPty::new();
+        pty.expect_reader().returning(|| Ok(Box::new(NeverEof)));
+        pty.expect_writer().returning(|| Ok(Box::new(io::sink())));
+        let killed = Arc::new(AtomicBool::new(false));
+        let seen = Arc::clone(&killed);
+        let looks = AtomicUsize::new(0);
+        pty.expect_try_wait().returning(move || {
+            Ok(
+                (seen.load(Ordering::SeqCst) && looks.fetch_add(1, Ordering::SeqCst) + 1 >= polls)
+                    .then_some(code),
+            )
+        });
+        pty.expect_kill().times(1).returning(move || {
+            killed.store(true, Ordering::SeqCst);
+            Ok(())
+        });
+        pty.expect_close().return_const(());
+        pty
+    }
+
+    const HOST: Size = Size {
+        cols: 100,
+        rows: 30,
+    };
+
+    fn next_spec() -> SpawnSpec {
+        SpawnSpec {
+            program: "next-child".into(),
+            args: Vec::new(),
+            cwd: ".".into(),
+            env_set: Vec::new(),
+            env_remove: Vec::new(),
+            size: Size::DEFAULT,
+        }
+    }
+
+    /// One respawn asked of `handle` from its own thread once the pump has opened it: the reply,
+    /// and whether `between` ran before it.
+    fn ask_respawn(handle: &RespawnHandle) -> std::thread::JoinHandle<(Respawn, bool)> {
+        let handle = handle.clone();
+        std::thread::spawn(move || {
+            let ran = Arc::new(AtomicBool::new(false));
+            let deadline = Instant::now() + WAIT;
+            loop {
+                let mark = Arc::clone(&ran);
+                match handle.respawn(next_spec(), move || mark.store(true, Ordering::SeqCst)) {
+                    Err(PtyError::NoInput) if Instant::now() < deadline => {
+                        std::thread::yield_now();
+                    }
+                    other => return (other.expect("a reply"), ran.load(Ordering::SeqCst)),
+                }
+            }
+        })
+    }
+
+    /// The pump over `first` on its own thread. A respawn takes `next` (none: a failed spawn) and
+    /// records the size it was asked at; `step` makes the respawn's clock move by that much on
+    /// each look.
+    fn seamed(
+        mut first: MockPty,
+        mut next: Option<MockPty>,
+        step: Option<Duration>,
+        handle: &RespawnHandle,
+        keys: Receiver<Vec<u8>>,
+        asked_at: Arc<Mutex<Option<Size>>>,
+    ) -> std::thread::JoinHandle<PumpEnd> {
+        let handle = handle.clone();
+        std::thread::spawn(move || {
+            let mut spawn = move |spec: &SpawnSpec| -> Result<Box<dyn Pty>, PtyError> {
+                *asked_at.lock().expect("asked") = Some(spec.size);
+                match next.take() {
+                    Some(child) => Ok(Box::new(child)),
+                    None => Err(PtyError::Spawn(Box::new(io::Error::other("no child")))),
+                }
+            };
+            let base = Instant::now();
+            let mut looks = 0u32;
+            let mut now = move || match step {
+                Some(step) => {
+                    looks += 1;
+                    base + step * looks
+                }
+                None => Instant::now(),
+            };
+            let mut sizes = || Some(HOST);
+            let (read_tx, _) = mpsc::channel();
+            pump_seamed(
+                &mut first,
+                Ends {
+                    input: Box::new(Keys(keys, read_tx)),
+                    output: Box::new(io::sink()),
+                    spawned: HOST,
+                    host_size: &mut sizes,
+                },
+                &PasteHandle::default(),
+                &handle,
+                Seams {
+                    spawn: &mut spawn,
+                    now: &mut now,
+                },
+            )
+            .expect("pump")
+        })
+    }
+
+    #[test]
+    fn respawn_swaps_the_child_and_the_pump_continues() {
+        let written = Arc::new(Mutex::new(Vec::new()));
+        let stop = Arc::new(AtomicBool::new(false));
+        let mut second = MockPty::new();
+        second.expect_reader().returning(|| Ok(Box::new(NeverEof)));
+        let into = Arc::clone(&written);
+        second
+            .expect_writer()
+            .return_once(move || Ok(Box::new(SharedVec(into))));
+        let stopped = Arc::clone(&stop);
+        second
+            .expect_try_wait()
+            .returning(move || Ok(stopped.load(Ordering::SeqCst).then_some(7)));
+        second.expect_child_pid().return_const(Some(42));
+        second.expect_kill().never();
+        second.expect_close().return_const(());
+        let handle = RespawnHandle::default();
+        let (keys, keys_rx) = mpsc::channel();
+        let asked_at = Arc::default();
+        let pump = seamed(
+            killable(0, 1),
+            Some(second),
+            None,
+            &handle,
+            keys_rx,
+            Arc::clone(&asked_at),
+        );
+        let (reply, between) = ask_respawn(&handle).join().expect("asker");
+        assert_eq!(
+            reply,
+            Respawn::Respawned {
+                exit: Exit {
+                    code: Some(0),
+                    source: ExitSource::KillFallback
+                },
+                child_pid: Some(42)
+            }
+        );
+        assert!(between, "between did not run before the reply");
+        assert_eq!(*asked_at.lock().expect("asked"), Some(HOST));
+        keys.send(b"k".to_vec()).expect("key");
+        within("the key at the new child", || {
+            written.lock().expect("written").as_slice() == b"k"
+        });
+        assert!(!pump.is_finished(), "the pump ended with the first child");
+        stop.store(true, Ordering::SeqCst);
+        drop(keys);
+        assert_eq!(
+            pump.join().expect("pump"),
+            PumpEnd::Exited(Exit {
+                code: Some(7),
+                source: ExitSource::HandleWait
+            })
+        );
+    }
+
+    #[test]
+    fn respawn_of_a_child_ignoring_the_signal_reads_not_ended() {
+        let handle = RespawnHandle::default();
+        let (keys, keys_rx) = mpsc::channel();
+        let asked_at = Arc::default();
+        // One second a look: the bound passes on the eleventh look, the child ends on the fortieth.
+        let pump = seamed(
+            killable(5, 40),
+            None,
+            Some(Duration::from_secs(1)),
+            &handle,
+            keys_rx,
+            Arc::clone(&asked_at),
+        );
+        let (reply, between) = ask_respawn(&handle).join().expect("asker");
+        assert_eq!(reply, Respawn::NotEnded);
+        assert!(!between, "between ran for a child that had not ended");
+        assert_eq!(
+            *asked_at.lock().expect("asked"),
+            None,
+            "a child was spawned"
+        );
+        drop(keys);
+        assert_eq!(
+            pump.join().expect("pump"),
+            PumpEnd::Exited(Exit {
+                code: Some(5),
+                source: ExitSource::HandleWait
+            })
+        );
+    }
+
+    #[test]
+    fn respawn_whose_spawn_fails_ends_the_pump_with_the_old_exit() {
+        let handle = RespawnHandle::default();
+        let (keys, keys_rx) = mpsc::channel();
+        let asked_at = Arc::default();
+        let pump = seamed(
+            killable(0, 1),
+            None,
+            None,
+            &handle,
+            keys_rx,
+            Arc::clone(&asked_at),
+        );
+        let (reply, between) = ask_respawn(&handle).join().expect("asker");
+        assert_eq!(reply, Respawn::SpawnFailed);
+        assert!(between, "between did not run before the spawn");
+        drop(keys);
+        assert_eq!(
+            pump.join().expect("pump"),
+            PumpEnd::Exited(Exit {
+                code: Some(0),
+                source: ExitSource::KillFallback
+            })
+        );
+    }
+
+    #[test]
+    fn respawn_without_a_running_pump_is_no_input() {
+        let outcome = RespawnHandle::default().respawn(next_spec(), || {});
+        assert!(matches!(outcome, Err(PtyError::NoInput)), "{outcome:?}");
+    }
+
+    struct SharedVec(Arc<Mutex<Vec<u8>>>);
+
+    impl Write for SharedVec {
+        fn write(&mut self, b: &[u8]) -> io::Result<usize> {
+            self.0.lock().expect("vec").extend_from_slice(b);
+            Ok(b.len())
+        }
+        fn flush(&mut self) -> io::Result<()> {
+            Ok(())
+        }
     }
 }

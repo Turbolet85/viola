@@ -119,10 +119,23 @@ const CAUSES: &[Cause] = &[
 ];
 
 const UNVERIFIED_CLI: &str = "run viola verify for this CLI version";
+const DIALOG_PENDING: &str = "builder has a dialog pending; answer it, then switch again";
+const SWITCH_NO_SESSION: &str =
+    "builder has no session to resume yet; switch again once it has started";
+const CHILD_NOT_ENDED: &str =
+    "builder's claude did not end in time; a human must look at the session before switching again";
+const RESUME_FAILED: &str =
+    "builder's session could not be resumed; viola revive builder resumes it on the new pair";
 
 /// The driver refusals' own codes beside the exit-21 and exit-1 table, their hints read by the
-/// same two checks.
-const REFUSALS: &[Cause] = &[("unverified-cli", 12, Some(UNVERIFIED_CLI))];
+/// same two checks: `switch`'s `not-delivered` details among them.
+const REFUSALS: &[Cause] = &[
+    ("unverified-cli", 12, Some(UNVERIFIED_CLI)),
+    ("dialog-pending", 13, Some(DIALOG_PENDING)),
+    ("no-session", 13, Some(SWITCH_NO_SESSION)),
+    ("child-not-ended", 13, Some(CHILD_NOT_ENDED)),
+    ("resume-failed", 13, Some(RESUME_FAILED)),
+];
 
 fn every_cause() -> Vec<Cause> {
     [CAUSES, REFUSALS].concat()

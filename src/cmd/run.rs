@@ -16,7 +16,7 @@ use viola_agent_claude::trust::StartWord;
 use viola_channel::{Call, ChannelError, Dispatch, ProtocolError, Server, Serving};
 use viola_core::obs::{ObsEvent, ObsProcess};
 use viola_core::{EventKind, SystemClock, TurnEndCause, ViolaName, WheelCause, obs_event};
-use viola_pty::{HostTerminal, PasteHandle, PortablePty, PumpEnd, Size, SpawnSpec};
+use viola_pty::{HostTerminal, PasteHandle, PortablePty, PumpEnd, RespawnHandle, Size, SpawnSpec};
 use viola_state::events::{EventLine, Source, append_event};
 use viola_state::fs::{FILE_MODE, create_private_dir, replace_private_shared};
 use viola_state::heartbeat::{Heartbeat, beat_age, touch_heartbeat};
@@ -35,6 +35,7 @@ use crate::run::launch::Pair;
 use crate::run::links::LinkSet;
 use crate::run::send::{self, SendSlot};
 use crate::run::snapshot::Snapshots;
+use crate::run::switch::{ChildPlan, SwitchSlot};
 use crate::run::version_gate::{Gate, version_gate};
 use crate::run::wait::WaitFeed;
 use crate::run::wheel::{Observed, Recorder, WheelSlot};
@@ -161,7 +162,7 @@ fn hold_pump_start() {
 }
 
 /// The wrapper's answers: `send`, `wait`, `last`, `hook.dialog`, `answer`, `pause`, `release`,
-/// `link`, `unlink`, and the `hook.event` notification, which appends its event; every other method
+/// `link`, `unlink`, `switch`, and the `hook.event` notification, which appends its event; every other method
 /// is `-32601`.
 pub(crate) struct Methods {
     name: ViolaName,
@@ -171,6 +172,7 @@ pub(crate) struct Methods {
     dialogs: Arc<DialogSlot>,
     wheel: Arc<WheelSlot>,
     links: Arc<LinkSet>,
+    switch: Arc<SwitchSlot>,
 }
 
 /// The kinds a hook may hand the wrapper.
@@ -243,6 +245,7 @@ impl Dispatch for Methods {
             "release" => self.wheel.release(call),
             "link" => self.links.link(call.params),
             "unlink" => self.links.unlink(call.params),
+            "switch" => self.switch.switch(call),
             _ => self.dispatch(call.method, call.params),
         }
     }
@@ -361,6 +364,7 @@ pub(super) struct Launched {
     cli_verified: bool,
     send: Arc<SendSlot>,
     wheel: Arc<WheelSlot>,
+    switch: Arc<SwitchSlot>,
     _beat: Heartbeat,
     _serving: Serving,
 }
@@ -486,6 +490,23 @@ pub(super) fn start(
         snapshots: Arc::clone(&snapshots),
         dialogs: Arc::clone(&dialogs),
     });
+    let switch = Arc::new(SwitchSlot::new(
+        name.clone(),
+        instance_dir.clone(),
+        Arc::clone(&send),
+        Arc::clone(&wheel),
+        Arc::clone(&snapshots),
+        ChildPlan {
+            program: program.clone(),
+            cwd: launch.spawn_dir.clone(),
+            pinned: pinned.clone(),
+            plugin_dir: plugin_dir.clone(),
+            path: std::env::var_os("PATH"),
+            strip: strip.clone(),
+            cli_version: gate.cli_version.clone(),
+            cli_verified,
+        },
+    ));
     let serving = server.serve(Arc::new(Methods {
         name: name.clone(),
         instance_dir: instance_dir.clone(),
@@ -494,6 +515,7 @@ pub(super) fn start(
         dialogs,
         wheel: Arc::clone(&wheel),
         links: Arc::clone(&links),
+        switch: Arc::clone(&switch),
     }));
     let (beat, snapshot) = start_state(
         name,
@@ -535,6 +557,7 @@ pub(super) fn start(
         cli_verified,
         send,
         wheel,
+        switch,
         _beat: beat,
         _serving: serving,
     })))
@@ -802,6 +825,7 @@ pub(super) fn pump_child(launched: Launched) -> anyhow::Result<ExitCode> {
         cli_verified,
         send,
         wheel,
+        switch,
         _beat,
         _serving,
     } = launched;
@@ -812,6 +836,11 @@ pub(super) fn pump_child(launched: Launched) -> anyhow::Result<ExitCode> {
     let paste = PasteHandle::default();
     let typed = paste.clone();
     send.attach(Box::new(move |text| typed.paste(text, PASTE_BOUND)), gate);
+    let respawn = RespawnHandle::default();
+    let respawning = respawn.clone();
+    switch.respawn_with(Box::new(move |spec, between| {
+        respawning.respawn(spec, between)
+    }));
     let sizes = feed.clone();
     let mut host_size = move || {
         let size = viola_pty::host_size();
@@ -827,6 +856,7 @@ pub(super) fn pump_child(launched: Launched) -> anyhow::Result<ExitCode> {
         size,
         &mut host_size,
         &paste,
+        &respawn,
     );
     // Before the terminal leaves raw mode: a key pressed while the last moves are recorded is a
     // byte, never a signal that ends the wrapper mid-exit.
@@ -970,7 +1000,28 @@ mod tests {
         let links = Arc::new(LinkSet::new(
             name.clone(),
             instance_dir.to_path_buf(),
+            Arc::clone(&snapshots),
+        ));
+        let switch = Arc::new(SwitchSlot::new(
+            name.clone(),
+            instance_dir.to_path_buf(),
+            Arc::clone(&send),
+            Arc::clone(&wheel),
             snapshots,
+            ChildPlan {
+                program: PathBuf::from("/bin/true"),
+                cwd: instance_dir.to_path_buf(),
+                pinned: viola_state::pin::Pinned {
+                    key: "k".to_owned(),
+                    path: instance_dir.join("viola"),
+                    path_fwd: "b".to_owned(),
+                },
+                plugin_dir: instance_dir.join("plugin"),
+                path: None,
+                strip: StripPlan::default(),
+                cli_version: None,
+                cli_verified: false,
+            },
         ));
         Methods {
             name,
@@ -980,6 +1031,7 @@ mod tests {
             dialogs: Arc::new(dialogs),
             wheel,
             links,
+            switch,
         }
     }
 

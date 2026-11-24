@@ -14,6 +14,7 @@ mod release;
 mod revive;
 mod run;
 mod send;
+mod switch;
 mod unlink;
 mod up;
 mod verify;
@@ -39,7 +40,7 @@ board:    list, focus
 traffic:  send, wait, last, answer
 wheel:    pause, release
 handoff:  link, unlink
-setup:    open, run, revive, adopt, up, verify, plugin install
+setup:    open, run, revive, adopt, up, switch, verify, plugin install
 
 Options:
 {options}";
@@ -72,6 +73,8 @@ enum Command {
     Adopt(adopt::AdoptArgs),
     /// Re-open, after a reboot, every instance that was live before it, parents first
     Up(up::UpArgs),
+    /// Move the named running session to another model and effort, resuming it in its terminal
+    Switch(switch::SwitchArgs),
     /// Type a prompt into the named instance and read it back; the text comes from stdin or --file
     Send(send::SendArgs),
     /// Wait for the named instance's next turn end, dialog or session end at or after a cursor
@@ -178,6 +181,11 @@ pub(crate) fn dispatch(cli: Cli) -> Result<ExitCode, Failure> {
                 process: ObsProcess::Cli,
             });
             up::up(&home, &args).map_err(|error| Failure { error, sink })
+        }
+        Command::Switch(args) => {
+            let home = resolved_home(cli.home)?;
+            let sink = cli_sink(&home, &args.name);
+            switch::switch(&home, &args).map_err(|error| Failure { error, sink })
         }
         Command::Send(args) => {
             let home = resolved_home(cli.home)?;

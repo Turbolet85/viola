@@ -59,7 +59,7 @@ const HELP: &str = concat!(
     "traffic:  send, wait, last, answer\n",
     "wheel:    pause, release\n",
     "handoff:  link, unlink\n",
-    "setup:    open, run, revive, adopt, up, verify, plugin install\n",
+    "setup:    open, run, revive, adopt, up, switch, verify, plugin install\n",
     "\n",
     "Options:\n",
     "      --home <HOME>  The viola home (default: <user home>/.viola)\n",
@@ -95,6 +95,7 @@ fn help_lists_only_served_verbs() {
         "revive",
         "adopt",
         "up",
+        "switch",
         "verify",
         "plugin install",
     ];

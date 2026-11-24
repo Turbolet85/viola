@@ -334,7 +334,7 @@ fn version_label(sender: &str) -> Option<&str> {
 }
 
 /// The closed method list (architecture §Standard Contracts); a peer's other text never reaches a log.
-const METHODS: [&str; 10] = [
+const METHODS: [&str; 11] = [
     "send",
     "wait",
     "last",
@@ -343,6 +343,7 @@ const METHODS: [&str; 10] = [
     "release",
     "link",
     "unlink",
+    "switch",
     "hook.dialog",
     "hook.event",
 ];
@@ -957,6 +958,7 @@ mod tests {
     fn method_label_is_the_closed_list() {
         assert_eq!(method_label("hook.dialog"), Some("hook.dialog"));
         assert_eq!(method_label("unlink"), Some("unlink"));
+        assert_eq!(method_label("switch"), Some("switch"));
         assert_eq!(method_label("Send"), None);
         assert_eq!(method_label(""), None);
     }

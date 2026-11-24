@@ -55,6 +55,16 @@ pub(crate) fn send_hint(name: &str, cause: &str) -> Option<String> {
             format!("{name} did not submit the prompt; check it, then send again")
         }
         "turn-running" => format!("a turn is running; viola wait {name} first"),
+        "dialog-pending" => format!("{name} has a dialog pending; answer it, then switch again"),
+        "no-session" => {
+            format!("{name} has no session to resume yet; switch again once it has started")
+        }
+        "child-not-ended" => format!(
+            "{name}'s claude did not end in time; a human must look at the session before switching again"
+        ),
+        "resume-failed" => format!(
+            "{name}'s session could not be resumed; viola revive {name} resumes it on the new pair"
+        ),
         "paste-cut" => format!(
             "{name} did not take the whole text in time; a human must look at the session before the next send"
         ),
@@ -264,6 +274,22 @@ mod tests {
         "the human has the wheel; send again after the human hands it back"
     )]
     #[case::unverified_cli("unverified-cli", "run viola verify for this CLI version")]
+    #[case::dialog_pending(
+        "dialog-pending",
+        "builder has a dialog pending; answer it, then switch again"
+    )]
+    #[case::no_session(
+        "no-session",
+        "builder has no session to resume yet; switch again once it has started"
+    )]
+    #[case::child_not_ended(
+        "child-not-ended",
+        "builder's claude did not end in time; a human must look at the session before switching again"
+    )]
+    #[case::resume_failed(
+        "resume-failed",
+        "builder's session could not be resumed; viola revive builder resumes it on the new pair"
+    )]
     fn send_hint_is_the_design_string(#[case] cause: &str, #[case] hint: &str) {
         assert_eq!(send_hint("builder", cause).as_deref(), Some(hint));
     }
@@ -295,6 +321,10 @@ mod tests {
             "unverified-cli",
             "not-delivered",
             "unknown",
+            "dialog-pending",
+            "no-session",
+            "child-not-ended",
+            "resume-failed",
         ];
         let mut hints: Vec<String> = causes
             .iter()

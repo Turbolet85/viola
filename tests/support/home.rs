@@ -902,6 +902,29 @@ impl Wrapper {
         args: &[&str],
         extra: &[&str],
     ) -> Self {
+        Self::adopt_with(stamped, name, dir, args, extra, None)
+    }
+
+    /// `adopt` as the user whose home directory is `user_home` (`HOME` on the wrapper alone).
+    pub fn adopt_as_user(
+        stamped: StampedHome,
+        name: &str,
+        dir: &Path,
+        args: &[&str],
+        extra: &[&str],
+        user_home: &Path,
+    ) -> Self {
+        Self::adopt_with(stamped, name, dir, args, extra, Some(user_home))
+    }
+
+    fn adopt_with(
+        stamped: StampedHome,
+        name: &str,
+        dir: &Path,
+        args: &[&str],
+        extra: &[&str],
+        user_home: Option<&Path>,
+    ) -> Self {
         let home = stamped.home.path().to_path_buf();
         let scratch = stamped.home.scratch().to_path_buf();
         let bin = claude_dir(&scratch);
@@ -916,8 +939,11 @@ impl Wrapper {
         argv.extend(args.iter().map(OsString::from));
         let path = path_with(&bin);
         let before = Starts::read(&home, name);
-        let user = unmade_user_home(&home);
-        let user = user.to_str().expect("utf-8 user home");
+        let unmade = unmade_user_home(&home);
+        let user = user_home
+            .unwrap_or(&unmade)
+            .to_str()
+            .expect("utf-8 user home");
         let pty = OuterPty::spawn_without(
             Path::new(VIOLA),
             &argv,
