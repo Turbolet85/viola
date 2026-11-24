@@ -1,0 +1,115 @@
+[
+{
+"tool": "cascade",
+"v": "1.37",
+"sha8": "63d45d09",
+"ts": "2026-11-24T08:40:11Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-24T08-39-30Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-24T08-39-30Z-wrap",
+"--marker",
+"2026-11-23-viola-open-2"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline fa69be5f (pre-pass — HEAD)",
+"provisional · control UNFIRED over the seven masters (bodies and sets) at fa69be5f",
+"carries · control UNFIRED over the seven masters (bodies and sets) at fa69be5f"
+],
+"stderr": "control: provisional, carries never fired over the seven masters' pre-pass text, bodies and sets (fa69be5f) — no master holds them: re-fire with --pattern unlocked --pattern r2-gate; this refusal, the trail's record, is the basis of each named pattern's master zero",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.37",
+"sha8": "63d45d09",
+"ts": "2026-11-24T08:40:18Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-24T08-39-30Z-wrap/report-patterns.toml",
+"--pattern",
+"unlocked",
+"--pattern",
+"r2-gate",
+"--run-dir",
+".andromeda/runs/2026-11-24T08-39-30Z-wrap",
+"--marker",
+"2026-11-23-viola-open-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline fa69be5f (pre-pass — HEAD)",
+"security-plan · 1 rows over 1 files · new 0 · standing 1 · 1 pattern",
+"test-plan · 1 rows over 1 files · new 0 · standing 1 · 1 pattern",
+"by line · 0 lines · 0 offsets",
+"total (2 patterns) · 4 rows over 4 files",
+"per class · new 0/0 · standing 2/2 · leaf 2/2 · curation 0/0 · base 0/0",
+"rows 1/1 · .andromeda/runs/2026-11-24T08-39-30Z-wrap/sweep-pre-pass-1.1.txt · 9 lines · 820 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-24T08-39-30Z-wrap/sweep-pre-pass-1.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "fa69be5fa57e3448f5d702a545efd08ce4d8b6f1",
+"how": "pre-pass — HEAD",
+"counts": {
+"unlocked": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"r2-gate": {
+"new": 0,
+"standing": 1,
+"leaf": 2,
+"curation": 0,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"security-plan": {
+"rows": 1,
+"files": 1,
+"new": 0,
+"standing": 1,
+"patterns": 1
+},
+"test-plan": {
+"rows": 1,
+"files": 1,
+"new": 0,
+"standing": 1,
+"patterns": 1
+}
+},
+"per_master": {
+"unlocked": {
+"security-plan": 1
+},
+"r2-gate": {
+"test-plan": 1
+}
+},
+"forms": {},
+"parts": [
+"sweep-pre-pass-1.1.txt"
+]
+}
+}
+]

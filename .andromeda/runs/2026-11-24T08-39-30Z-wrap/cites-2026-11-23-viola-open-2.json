@@ -1,0 +1,211 @@
+[
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "5fadec18",
+"ts": "2026-11-24T08:39:55Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-24T08-39-30Z-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-24T08-39-30Z-wrap",
+"--marker",
+"2026-11-23-viola-open-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: fa69be5f — gated: no pre-CI commit after the gated flip 081d4604",
+"new text: 0 file(s) · 0 new · 0 added range(s) · 0 line(s) · 0 block(s) → .andromeda/runs/2026-11-24T08-39-30Z-wrap/new-text.md (6 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-24T08-39-30Z-wrap/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "fa69be5fa57e3448f5d702a545efd08ce4d8b6f1",
+"counts": {
+"files": 0,
+"new": 0,
+"ranges": 0,
+"lines": 0,
+"blocks": 0
+},
+"out": ".andromeda/runs/2026-11-24T08-39-30Z-wrap/new-text.md",
+"state": "written",
+"lines": 6
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "5fadec18",
+"ts": "2026-11-24T08:41:36Z",
+"argv": [
+"apply",
+"--dry-run",
+"--run-dir",
+".andromeda/runs/2026-11-24T08-39-30Z-wrap",
+"--marker",
+"2026-11-23-viola-open-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: fa69be5f — the previous sweep (2026-11-24T07-06-28Z-wrap)",
+"masters: rows — a row holds no citation",
+"sites 1 (bare \":digits\" 139) over 56 file(s) · unmoved 0 · moved 0 · stretched 0 · changed 0",
+"out-of-range 0 · unresolved 0 · new 1 · repointed 0 · hand 0 · held 0 · INDETERMINATE 0 · listed, not written 0",
+"rows: 0 owed a read — the cites batch reads them from this call's trail record",
+"dry-run · would land 0 fact(s) · 0 edge(s)",
+"dry-run: 0 citation(s) in 0 file(s) — nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"mode": "sweep",
+"base": "fa69be5fa57e3448f5d702a545efd08ce4d8b6f1",
+"counts": {
+"unmoved": 0,
+"moved": 0,
+"stretched": 0,
+"changed": 0,
+"out-of-range": 0,
+"unresolved": 0,
+"new": 1,
+"repointed": 0,
+"hand": 0,
+"INDETERMINATE": 0,
+"held": 0,
+"listed": 0
+},
+"rows": [],
+"applied": false,
+"owed": []
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "5fadec18",
+"ts": "2026-11-24T08:41:45Z",
+"argv": [
+"apply",
+"--run-dir",
+".andromeda/runs/2026-11-24T08-39-30Z-wrap",
+"--marker",
+"2026-11-23-viola-open-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: fa69be5f — the previous sweep (2026-11-24T07-06-28Z-wrap)",
+"masters: rows — a row holds no citation",
+"sites 1 (bare \":digits\" 139) over 56 file(s) · unmoved 0 · moved 0 · stretched 0 · changed 0",
+"out-of-range 0 · unresolved 0 · new 1 · repointed 0 · hand 0 · held 0 · INDETERMINATE 0 · listed, not written 0",
+"rows: 0 owed a read — the cites batch reads them from this call's trail record",
+"landed 0 fact(s) · 0 edge(s) · tx 4654",
+"re-pointed 0 citation(s) in 0 file(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"mode": "sweep",
+"base": "fa69be5fa57e3448f5d702a545efd08ce4d8b6f1",
+"counts": {
+"unmoved": 0,
+"moved": 0,
+"stretched": 0,
+"changed": 0,
+"out-of-range": 0,
+"unresolved": 0,
+"new": 1,
+"repointed": 0,
+"hand": 0,
+"INDETERMINATE": 0,
+"held": 0,
+"listed": 0
+},
+"rows": [],
+"applied": true,
+"owed": []
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "5fadec18",
+"ts": "2026-11-24T08:41:47Z",
+"argv": [
+"dispositions",
+"--write",
+"--run-dir",
+".andromeda/runs/2026-11-24T08-39-30Z-wrap",
+"--marker",
+"2026-11-23-viola-open-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dispositions: 0 row(s) · ",
+".andromeda/runs/2026-11-24T08-39-30Z-wrap/citation-dispositions.md (1 lines) · written",
+"hand re-points: 0 written in 0 file(s) · 0 already written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-24T08-39-30Z-wrap/citation-dispositions.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"rows": 0,
+"tally": {},
+"state": "written"
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "5fadec18",
+"ts": "2026-11-24T09:01:04Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-24T08-39-30Z-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-24T08-39-30Z-wrap",
+"--marker",
+"2026-11-23-viola-open-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: fa69be5f — gated: no pre-CI commit after the gated flip 081d4604",
+"new text: 0 file(s) · 0 new · 0 added range(s) · 0 line(s) · 0 block(s) → .andromeda/runs/2026-11-24T08-39-30Z-wrap/new-text.md (6 lines) · unchanged"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"base": "fa69be5fa57e3448f5d702a545efd08ce4d8b6f1",
+"counts": {
+"files": 0,
+"new": 0,
+"ranges": 0,
+"lines": 0,
+"blocks": 0
+},
+"out": ".andromeda/runs/2026-11-24T08-39-30Z-wrap/new-text.md",
+"state": "unchanged",
+"lines": 6
+}
+}
+]

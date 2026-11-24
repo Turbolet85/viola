@@ -1,0 +1,170 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T08:39:51Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--source",
+"../additional/viola-overseer/gated-open2-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer directive for this gated door; its section Then its gated wrap is this wrap brief: v2-07 verified on evidence/r2.md, coverage 27/37, the PROVISIONAL rows the answers discharge, carries cry-fhabylf6 and cry-2oejf2md spent, cry-jeokvkdk placement his",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T08-39-30Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I14 · copy no-repo · ../additional/viola-overseer/gated-open2-directive.md",
+"cite: inputs#I14"
+],
+"stderr": null,
+"wrote": [
+"inputs/I14-gated-open2-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I14",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/gated-open2-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "6e2fb80a7d988963c8051defd5182275750fe19d98493f7c6699a0dc8df306db",
+"copy": "I14-gated-open2-directive.md.txt",
+"link": false,
+"read_at": "2026-11-24T08:39:50Z",
+"step": "wrap",
+"why": "the overseer directive for this gated door; its section Then its gated wrap is this wrap brief: v2-07 verified on evidence/r2.md, coverage 27/37, the PROVISIONAL rows the answers discharge, carries cry-fhabylf6 and cry-2oejf2md spent, cry-jeokvkdk placement his"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T08:39:51Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--source",
+"../additional/viola-overseer/relay-founder-answers-1124.md",
+"--kind",
+"sibling",
+"--why",
+"the operator answers of 2026-11-24 relayed verbatim by overseer1: W1 U2b arm a at 08:12:54Z, F1 option 1, the carry cry-jeokvkdk stands on the fleet entry, R2 grant",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T08-39-30Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I15 · copy no-repo · ../additional/viola-overseer/relay-founder-answers-1124.md",
+"cite: inputs#I15"
+],
+"stderr": null,
+"wrote": [
+"inputs/I15-relay-founder-answers-1124.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I15",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/relay-founder-answers-1124.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "e06518327ad6d526440beb6787c43347a6152ab9aa7b227f945e5a6d2d84475b",
+"copy": "I15-relay-founder-answers-1124.md.txt",
+"link": false,
+"read_at": "2026-11-24T08:39:51Z",
+"step": "wrap",
+"why": "the operator answers of 2026-11-24 relayed verbatim by overseer1: W1 U2b arm a at 08:12:54Z, F1 option 1, the carry cry-jeokvkdk stands on the fleet entry, R2 grant"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T08:39:54Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--run-dir",
+".andromeda/runs/2026-11-24T08-39-30Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-open2-directive.md",
+"I1 cited scope.md:100 · research.md:9 · plan.md:19 · plan.md:267 · plan.md:371 (in fence) · plan.md:567 · report.md:84",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-open2-p3.md",
+"I2 cited plan.md:12 · plan.md:14",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-open-r2.md",
+"I3 cited scope.md:57 · research.md:126 · plan.md:18 · plan.md:213 · plan.md:499 (in fence) · plan.md:567",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/relay-open2-w.md",
+"I4 cited scope.md:63 · plan.md:15 · plan.md:614",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/relay-open2-p5-review.md",
+"I5 cited plan.md:188 · plan.md:200 · plan.md:213 · plan.md:483 (in fence) · plan.md:490 (in fence)",
+"I6 unchanged · copy no-repo · ../additional/viola-overseer/implement-open-directive.md",
+"I6 cited report.md:85",
+"I7 unchanged · copy no-repo · ../additional/viola-overseer/relay-open2-r2-script.md",
+"I7 cited report.md:247 · report.md:258 · report.md:283",
+"I8 unchanged · copy no-repo · ../additional/viola-overseer/relay-open2-r2-red.md",
+"I8 cited report.md:248 · report.md:259 · report.md:288",
+"I9 unchanged · copy no-repo · ../additional/viola-overseer/wrap-open-directive.md",
+"I9 cited report.md:242 · report.md:260 · report.md:261 · report.md:289",
+"I10 n/a — a message has no live source · copy message · message: delegate overseer, 2026-11-24T01:12:39Z",
+"I10 UNCITED",
+"I11 unchanged · copy no-repo · ../additional/viola-overseer/relay-open2-r2-grant.md",
+"I11 UNCITED",
+"I12 unchanged · copy no-repo · ../additional/viola-overseer/gated-open2-directive.md",
+"I12 cited report-gated.md:22 · report-gated.md:38 · report-gated.md:56",
+"I13 unchanged · copy no-repo · ../additional/viola-overseer/relay-founder-answers-1124.md",
+"I13 cited report-gated.md:25 · report-gated.md:36",
+"I14 unchanged · copy no-repo · ../additional/viola-overseer/gated-open2-directive.md",
+"I14 UNCITED",
+"I15 unchanged · copy no-repo · ../additional/viola-overseer/relay-founder-answers-1124.md",
+"I15 UNCITED",
+"inputs: 15 entries — unchanged 14 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 4 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 15,
+"counts": {
+"unchanged": 14,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 4,
+"unparsed": 0
+}
+}
+]

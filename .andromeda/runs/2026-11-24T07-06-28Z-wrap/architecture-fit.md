@@ -1,9 +1,0 @@
-@fit n=1 row=decision/lineage-label-only sha=c17e4628e17d v=fits type=1
-@fit n=2 row=decision/revive-resumes-in-place sha=409e3b713255 v=fits type=1
-@fit n=3 row=contract/cli-verbs/revive sha=426f348fafbc v=fits type=3
-@fit n=4 row=contract/cli-exit-codes/1 sha=cca7c73d21d1 v=fits type=3
-@fit n=5 row=contract/instance-snapshot/cwd sha=5017c40cafb2 v=fits type=3
-@fit n=6 row=contract/diagnostics-role-files/cli-name sha=6c755cda5a6d v=fits type=3
-@fit n=7 row=contract/process-exit-detail/not-live sha=de93f1bb831f v=fits type=3
-@fit n=8 row=contract/process-exit-detail/terminal-not-found sha=dba5271e0c40 v=fits type=3
-@fit n=9 row=name/command/up sha=34e1c68ec291 v=fits type=5

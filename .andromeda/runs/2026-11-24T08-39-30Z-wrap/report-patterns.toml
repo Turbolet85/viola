@@ -1,0 +1,16 @@
+[[pattern]]
+id = 'unlocked'
+regex = '\bunlocked\b'
+ignore_case = true
+
+[[pattern]]
+id = 'provisional'
+fixed = 'PROVISIONAL'
+
+[[pattern]]
+id = 'carries'
+regex = 'cry-fhabylf6|cry-2oejf2md|cry-jeokvkdk'
+
+[[pattern]]
+id = 'r2-gate'
+regex = '\bR2\b'
