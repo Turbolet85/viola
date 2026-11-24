@@ -1,7 +1,0 @@
---- a/.andromeda/architecture.md
-+++ b/.andromeda/architecture.md
-@@ -95,3 +95,3 @@
- decision/flat-cargo-workspace · Flat Cargo workspace with the bin at the root — One Cargo workspace with a flat `crates/` layout, the root `Cargo.toml` being both the `viola` bin package and the workspace; `fuzz/` is its own workspace. · why: The compiler enforces that `viola-pty` cannot see `viola-agent-claude`; `cargo install --path .` needs the bin at the root.
--decision/focus-has-no-driver-form · Focus has no driver-facing form — viola focus is offered on the CLI only: no MCP tool raises a window, and adding one is a further boundary widening of its own. · provisional
-+decision/focus-has-no-driver-form · Focus has no driver-facing form — viola focus is offered on the CLI only: no MCP tool raises a window, and adding one is a further boundary widening of its own.
- decision/frame-client-verifies-server · Frame clients verify the serving wrapper — Before its first frame every frame-writing client checks the recorded endpoint's directory, admits the connected peer's euid, and compares the peer's pid and OS start time with the snapshot's; a mismatch or a check that cannot be made sends no frame.

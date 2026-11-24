@@ -1,6 +1,0 @@
-@amendment marker=2026-11-24-viola-focus
-title: the operator's answers to F-A and F-C ratified
-section: Conventions; Occupied Resources
-change: was PROVISIONAL on the delegate's word for forks F-A, F-C and F-E, per «2026-11-24-viola-focus — Conventions: 2 row(s)» amd-ucar3yln, «2026-11-24-viola-focus — Occupied Resources: 7 row(s) (1 of 2)» amd-2ielop6e, «2026-11-24-viola-focus — Occupied Resources: 1 row(s) (2 of 2)» amd-o227gtex and «2026-11-24-viola-focus — Conventions: 1 row(s)» amd-3swkvzri; now ratified: contract/cli-exit-codes/1, contract/cli-exit-21/strict-modes-failed, contract/diagnostics-role-files/cli-name, name/command/focus, contract/process-exit-detail/{window-not-found, unsupported, unreachable, oversize, malformed, refused} and contract/cli-verbs/focus stand as written.
-why: The operator's own answers ratify them: F-A arm 1 (a command for the human only), F-C (the six refusal pairs accepted as they are) and F-E (the criterion refined, the code untouched); relayed verbatim by overseer1, 2026-11-24, inputs#I11. decision/focus-has-no-driver-form is set standing by this wrap's row landing. The card's confirm (Q1, answer-card.md) is delegate overseer, 2026-11-24T17:34:31Z, PROVISIONAL until his own word in the epoch batch.
-ref: .andromeda/runs/2026-11-24T17-14-08Z-wrap/

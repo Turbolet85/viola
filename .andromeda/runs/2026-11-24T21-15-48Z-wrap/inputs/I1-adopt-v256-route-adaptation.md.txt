@@ -1,0 +1,67 @@
+# Route adaptation relay — two NEW entries in Epoch 5's tail, and v2-07 lowered from verified (from the Viola overseer; the clock read 2026-11-24T19:57:52Z when the operator's answers below stood)
+
+A 0-pending `/andromeda-wrap-session` at HEAD `fd7f761e` (ci#45462585923 green; position 136 records, 0 pending,
+1 gated `2026-11-24-viola-adopt`; coverage `verified 28/37 · deferred 2`). This relay is the only file of its
+folder you read or snap. No master row is reworded by this wrap. Raise NO question dialog for the operator; a
+fork comes to the overseer as a dialog.
+
+## 1. Context — the operator's own answers (his dialog in the overseer's session, this evening; each question put whole with every option and its cost)
+
+- **«`viola adopt`» after R5a's two reds** («Как чиним?»): **«Новая запись в голове (Recommended)»** — a fix entry
+  of its own, FIRST on the route now. The gated record `2026-11-24-viola-adopt` stays gated meanwhile: its plan is
+  frozen and the letters give a wrapped, gated chunk no revision door. After the fix entry lands, ONE R5a fires
+  through the gated door on his word; v2-13 closes there.
+- **The fix of v2-07's move** («где её ставим относительно границы Эпохи 5?»): **«До границы, после adopt
+  (Recommended)»** — a second entry of its own, directly after the adopt fix, still in Epoch 5. His earlier words
+  on it (2026-11-24, relayed verbatim then): «надо делать как положено чтоб закрыть требование»; «Отдельной
+  записью перед Эпохой 6», with his grant for ONE live re-record of the move's fixture (one terminal window, no
+  claude, the host unlocked) when the fix is planned.
+- **v2-07's status** («Снять сейчас, тем же 0-pending wrap, что вставляет записи?»): **«Да, тем же wrap
+  (Recommended)»** — v2-07 is lowered from `verified` by THIS wrap, on the operator's own word.
+
+Measured by the overseer at `fd7f761e`:
+- R5a read `resumed=no` twice (the adopt journal's R5 record); the second time the real child exited 1 in about
+  0.8 s. `src/cmd/adopt.rs:163` takes `std::env::current_dir()` as the spawn folder, and `scripts/r5-adopt.sh:155`
+  types the command in its own `typed-in` scratch folder — not the folder the operator's session was made in.
+  `hypothesis:` the CLI resumes a session only from the folder it was made in. NOT measured; the fix entry's
+  research measures it before anything is designed on it.
+- R4a of `2026-11-24-viola-up` read the active workspace 1 before and 5 after a placed window (Hyprland 0.56.2):
+  the built move takes the active workspace with the moved window. The operator's F4 answer on «`viola open`» is
+  «no focus change». R2 (`evidence/r2.md` of `2026-11-23-viola-open-2`) read placement only.
+
+## 2. Items for DISPOSITION (route-resolve, recommended-first; never pre-placed beyond his answers)
+
+- **(A) NEW, the route's FIRST markerless entry, in Epoch 5, directly after «Switching a session's model and
+  effort»:** a WHAT-only entry on adopt's start — where an adopted session is resumed so that the CLI finds it,
+  and what `viola adopt` says and records when the resumed child ends at once. It claims no new capability; it
+  serves the gated v2-13. Its wording is the dialogue's.
+- **(B) A carry on (A):** R5a is fired once more through `2026-11-24-viola-adopt`'s gated door AFTER (A) lands, on
+  the operator's word, his moment to name; the entry's research measures the hypothesis above first (what a live
+  measurement of it costs is asked of the overseer, never spent unasked); if the rig script must change for the
+  fix, (A) changes it and says so.
+- **(C) NEW, directly after (A), in Epoch 5:** a WHAT-only entry on the placing move of «`viola open`» — a placed
+  window reaches its workspace with the ACTIVE workspace unchanged (the operator's F4, «no focus change»); the
+  move's recorded fixture re-recorded live under his grant (one terminal window, no claude, unlocked). It claims
+  v2-07 again.
+- **(D) v2-07 lowered from `verified` now**, by the letters' own door for a verified capability re-opened on the
+  operator's word — name the call you use and quote its line. The ledger note, verbatim: `2026-11-24 (finding
+  V256): un-verified on the operator's own word of 2026-11-24. R2's green stands as evidence of placement; the
+  capability is held below verified until a placing open is read live with the active workspace unchanged (the
+  operator's F4 answer, «no focus change»), by the entry that carries the move's fix. Coverage reads one fewer
+  verified.` If no tool form lowers a verified capability, write NOTHING by hand: quote the refusal whole, leave
+  v2-07 as it stands, and say so on the card.
+- **(E) The carry `cry-r4rsj5ey` on «Console scaffold»** (the F4 clause owed) MOVES to (C), said by its id.
+
+## 3. Anchors
+
+(A) then (C) stand after «Switching a session's model and effort» and before Epoch 6's heading; «Console
+scaffold» stays Epoch 6's first; nothing else of the tail moves; no entry is retired; the gated record stands as
+it is; Epoch 5's boundary now follows (C). NAME the next entry — (A) — and do not start it.
+
+## 4. The last card
+
+In one block, verbatim where a tool printed it: every route tool line (the two inserts, the carry move, the
+matrix line of (D)), the seal's lines (a `closed {run}` line among them, if one printed), every non-zero exit and
+refusal quoted whole, every place a letter was wrong or silent. Push, and read CI after it. Read `df -m /tmp` and
+`hostwatch.py read --last 15` (`~/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/hostwatch.py`)
+before a gate: a neighbour's contention → stop with one line.
