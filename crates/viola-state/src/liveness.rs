@@ -7,7 +7,7 @@ use std::time::{Duration, SystemTime};
 
 use chrono::DateTime;
 use sysinfo::{Pid, ProcessStatus, ProcessesToUpdate, System};
-use viola_core::UnreachableCause;
+use viola_core::{MAX_FRAME, UnreachableCause};
 
 use crate::heartbeat::beat_age;
 use crate::replay::{Recovered, read_snapshot_or_replay};
@@ -71,6 +71,35 @@ pub fn ancestors(pid: u32, max: usize) -> Vec<u32> {
         at = parent;
     }
     chain
+}
+
+/// This host's boot time, from the `btime` line of one bounded read of `/proc/stat`; `None` on any
+/// failure.
+pub fn boot_time() -> Option<SystemTime> {
+    use std::io::Read as _;
+    let file = std::fs::File::open("/proc/stat").ok()?;
+    let mut text = String::new();
+    file.take(MAX_FRAME).read_to_string(&mut text).ok()?;
+    parse_btime(&text)
+}
+
+/// The boot time a `/proc/stat` text names on its `btime` line, as whole seconds since the epoch.
+fn parse_btime(text: &str) -> Option<SystemTime> {
+    let secs = text
+        .lines()
+        .find_map(|line| line.strip_prefix("btime "))?
+        .trim()
+        .parse::<u64>()
+        .ok()?;
+    SystemTime::UNIX_EPOCH.checked_add(Duration::from_secs(secs))
+}
+
+/// Whether the instance's heartbeat was last touched before `boot`; a missing heartbeat reads
+/// false.
+pub fn beat_before(instance_dir: &Path, boot: SystemTime) -> bool {
+    std::fs::metadata(instance_dir.join(crate::heartbeat::HEARTBEAT))
+        .and_then(|m| m.modified())
+        .is_ok_and(|modified| modified < boot)
 }
 
 /// `pid`'s start time as the snapshot's `started_at`.
@@ -251,6 +280,49 @@ mod tests {
         assert!(table.len() > 1, "{} processes", table.len());
         assert_eq!(table.get(&me).copied(), process_start_time(me));
         assert!(table.contains_key(&me));
+    }
+
+    #[rstest]
+    #[case::a_btime_line("cpu  1 2 3\nbtime 1795464271\nprocesses 9\n", Some(1_795_464_271))]
+    #[case::a_btime_line_last("intr 0\nbtime 100", Some(100))]
+    #[case::no_btime_line("cpu  1 2 3\nprocesses 9\n", None)]
+    #[case::a_malformed_value("btime 17x5\n", None)]
+    #[case::a_negative_value("btime -5\n", None)]
+    #[case::an_empty_value("btime \n", None)]
+    #[case::a_prefix_of_another_key("btimex 100\n", None)]
+    fn boot_time_parses_the_btime_line_as_whole_seconds(
+        #[case] text: &str,
+        #[case] secs: Option<u64>,
+    ) {
+        assert_eq!(
+            parse_btime(text),
+            secs.map(|secs| SystemTime::UNIX_EPOCH + Duration::from_secs(secs))
+        );
+    }
+
+    #[test]
+    fn boot_time_of_this_host_is_in_the_past() {
+        let boot = boot_time().expect("/proc/stat names a btime");
+        assert!(boot < SystemTime::now());
+        assert!(boot > SystemTime::UNIX_EPOCH);
+    }
+
+    #[test]
+    fn beat_before_reads_the_heartbeat_mtime_against_the_boot() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let boot = SystemTime::now() - Duration::from_secs(3_600);
+        assert!(!beat_before(tmp.path(), boot), "no heartbeat");
+        crate::heartbeat::touch_heartbeat(tmp.path()).expect("the heartbeat");
+        assert!(!beat_before(tmp.path(), boot), "a beat after the boot");
+        let file = std::fs::File::options()
+            .write(true)
+            .open(tmp.path().join(crate::heartbeat::HEARTBEAT))
+            .expect("open");
+        file.set_modified(boot - Duration::from_secs(1))
+            .expect("age it");
+        assert!(beat_before(tmp.path(), boot), "a beat before the boot");
+        file.set_modified(boot).expect("at the boot");
+        assert!(!beat_before(tmp.path(), boot), "a beat at the boot");
     }
 
     #[test]

@@ -1,0 +1,220 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name IN ('preflight','started','revive','start','collision_check','checked_exe','open_wrapper_log','pump_child','read_here') AND callee_file LIKE '%src/cmd/%' ORDER BY callee_name, file, line",
+"rows": 42,
+"result": [
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/open/",
+"file": "src/cmd/open.rs",
+"line": 25
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/open/open().",
+"file": "src/cmd/open.rs",
+"line": 90
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/revive/",
+"file": "src/cmd/revive.rs",
+"line": 20
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/revive/started().",
+"file": "src/cmd/revive.rs",
+"line": 158
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/run().",
+"file": "src/cmd/run.rs",
+"line": 279
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/open/",
+"file": "src/cmd/open.rs",
+"line": 25
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/open/opened().",
+"file": "src/cmd/open.rs",
+"line": 112
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/revive/",
+"file": "src/cmd/revive.rs",
+"line": 20
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/revive/preflight().",
+"file": "src/cmd/revive.rs",
+"line": 229
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/start().",
+"file": "src/cmd/run.rs",
+"line": 395
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/tests/collision_check_over_a_replayed_snapshot_reads_the_beat_alone().",
+"file": "src/cmd/run.rs",
+"line": 1405
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/revive/",
+"file": "src/cmd/revive.rs",
+"line": 20
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/revive/started().",
+"file": "src/cmd/revive.rs",
+"line": 169
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/run().",
+"file": "src/cmd/run.rs",
+"line": 286
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/revive/started().",
+"file": "src/cmd/revive.rs",
+"line": 170
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/revive/",
+"file": "src/cmd/revive.rs",
+"line": 21
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/revive/revive().",
+"file": "src/cmd/revive.rs",
+"line": 145
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/run().",
+"file": "src/cmd/run.rs",
+"line": 304
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/",
+"file": "src/cmd/mod.rs",
+"line": 12
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/Command#Revive#",
+"file": "src/cmd/mod.rs",
+"line": 67
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/dispatch().",
+"file": "src/cmd/mod.rs",
+"line": 153
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/dispatch().",
+"file": "src/cmd/mod.rs",
+"line": 153
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/revive/tests/",
+"file": "src/cmd/revive.rs",
+"line": 397
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/answer/answer().",
+"file": "src/cmd/answer.rs",
+"line": 96
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/focus/focus().",
+"file": "src/cmd/focus.rs",
+"line": 41
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/last/last().",
+"file": "src/cmd/last.rs",
+"line": 32
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/link/link_call().",
+"file": "src/cmd/link.rs",
+"line": 96
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/list/list().",
+"file": "src/cmd/list.rs",
+"line": 40
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/open/open().",
+"file": "src/cmd/open.rs",
+"line": 102
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/pause/pause().",
+"file": "src/cmd/pause.rs",
+"line": 34
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/plugin/install().",
+"file": "src/cmd/plugin.rs",
+"line": 62
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/release/release().",
+"file": "src/cmd/release.rs",
+"line": 32
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/revive/",
+"file": "src/cmd/revive.rs",
+"line": 21
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/revive/started().",
+"file": "src/cmd/revive.rs",
+"line": 171
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/revive/list().",
+"file": "src/cmd/revive.rs",
+"line": 332
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/run().",
+"file": "src/cmd/run.rs",
+"line": 303
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/run/tests/start_opens_the_scenario_one_spans_under_run_start().",
+"file": "src/cmd/run.rs",
+"line": 1841
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/send/send().",
+"file": "src/cmd/send.rs",
+"line": 168
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/wait/wait().",
+"file": "src/cmd/wait.rs",
+"line": 45
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/revive/revive().",
+"file": "src/cmd/revive.rs",
+"line": 139
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/verify/typed/run/impl#[Run]spawn().",
+"file": "src/cmd/verify/typed/run.rs",
+"line": 168
+},
+{
+"caller": "rust-analyzer cargo viola 0.1.0 cmd/verify/typed/run/impl#[Run]finish().",
+"file": "src/cmd/verify/typed/run.rs",
+"line": 307
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

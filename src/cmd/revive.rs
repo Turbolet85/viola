@@ -18,7 +18,7 @@ use viola_state::strict::check_instance;
 
 use super::client;
 use super::run::{
-    Launch, Started, checked_exe, collision_check, open_wrapper_log, pair_after_dashes,
+    Launch, Started, WindowAsk, checked_exe, collision_check, open_wrapper_log, pair_after_dashes,
     parse_effort, parse_model, pump_child, refuse_tree, refused, start,
 };
 use crate::human;
@@ -35,7 +35,7 @@ pub(crate) struct ReviveArgs {
     #[arg(long)]
     fork: bool,
     /// Print the instance's logged sessions, oldest first, and start nothing
-    #[arg(long, conflicts_with_all = ["id", "fork", "extra", "model", "effort"])]
+    #[arg(long, conflicts_with_all = ["id", "fork", "extra", "model", "effort", "origin"])]
     pub(super) list: bool,
     /// Resume on this model instead of the recorded one
     #[arg(long, value_name = "MODEL", value_parser = parse_model)]
@@ -46,6 +46,9 @@ pub(crate) struct ReviveArgs {
     /// Print one JSON document on stdout instead of the rows or a refusal's lines
     #[arg(long)]
     json: bool,
+    /// Who opened this revive's terminal: run its window step toward the recorded workspace
+    #[arg(long, value_name = "WORD", value_parser = ["cli", "agent"], hide = true)]
+    origin: Option<String>,
     /// Extra arguments for the child, after `--`
     #[arg(last = true)]
     extra: Vec<OsString>,
@@ -255,9 +258,19 @@ fn preflight(home: &Path, args: ReviveArgs) -> anyhow::Result<Result<Launch, Sta
         spawn_dir,
         json,
         lineage: recorded_lineage(&recovered),
+        window: window_ask(args.origin, &recovered),
         given,
-        window: None,
     }))
+}
+
+/// The window step a revive under `--origin` asks of its start: toward the workspace the real
+/// snapshot recorded, none when it recorded none or was replayed; without `--origin`, no step.
+fn window_ask(origin: Option<String>, recovered: &Recovered) -> Option<WindowAsk> {
+    let place = match recovered {
+        Recovered::Snapshot(snapshot) => snapshot.window.as_ref().and_then(|w| w.workspace),
+        Recovered::Absent | Recovered::Replayed { .. } => None,
+    };
+    origin.map(|origin| WindowAsk { origin, place })
 }
 
 /// The halves a revive hands its start: each override given, else the recorded half while it still
@@ -779,6 +792,86 @@ mod tests {
             effort: effort.to_owned(),
         });
         Recovered::Snapshot(snapshot)
+    }
+
+    fn windowed(workspace: Option<i32>) -> Recovered {
+        let Recovered::Snapshot(mut snapshot) = snapshot(None) else {
+            unreachable!("a snapshot");
+        };
+        snapshot.window = Some(viola_state::snapshot::Window {
+            address: Some("0xabc".to_owned()),
+            workspace,
+            placement: "placed".to_owned(),
+            origin: "cli".to_owned(),
+        });
+        Recovered::Snapshot(snapshot)
+    }
+
+    fn asked(ask: Option<WindowAsk>) -> Option<(String, Option<i32>)> {
+        ask.map(|ask| (ask.origin, ask.place))
+    }
+
+    #[test]
+    fn revive_window_ask_takes_the_recorded_workspace() {
+        let cli = || Some("cli".to_owned());
+        assert_eq!(
+            asked(window_ask(cli(), &windowed(Some(7)))),
+            Some(("cli".to_owned(), Some(7)))
+        );
+        assert_eq!(
+            asked(window_ask(Some("agent".to_owned()), &windowed(Some(-2)))),
+            Some(("agent".to_owned(), Some(-2)))
+        );
+        assert_eq!(
+            asked(window_ask(cli(), &windowed(None))),
+            Some(("cli".to_owned(), None))
+        );
+        assert_eq!(
+            asked(window_ask(cli(), &snapshot(None))),
+            Some(("cli".to_owned(), None))
+        );
+        let state = Replayed {
+            window: Some(viola_state::snapshot::Window {
+                address: Some("0xabc".to_owned()),
+                workspace: Some(7),
+                placement: "placed".to_owned(),
+                origin: "cli".to_owned(),
+            }),
+            ..Replayed::default()
+        };
+        let replayed = Recovered::Replayed {
+            cause: ReplayCause::Unreadable,
+            state: Box::new(state),
+        };
+        assert_eq!(
+            asked(window_ask(cli(), &replayed)),
+            Some(("cli".to_owned(), None))
+        );
+        assert_eq!(
+            asked(window_ask(cli(), &Recovered::Absent)),
+            Some(("cli".to_owned(), None))
+        );
+        assert_eq!(asked(window_ask(None, &windowed(Some(7)))), None);
+    }
+
+    #[rstest]
+    #[case::cli(&["builder", "--origin", "cli"], Ok(Some("cli")))]
+    #[case::agent(&["builder", "--origin", "agent"], Ok(Some("agent")))]
+    #[case::none(&["builder"], Ok(None))]
+    #[case::a_third_word(&["builder", "--origin", "human"], Err(clap::error::ErrorKind::InvalidValue))]
+    #[case::beside_list(&["builder", "--list", "--origin", "cli"], Err(clap::error::ErrorKind::ArgumentConflict))]
+    fn revive_window_ask_origin_takes_two_words_only(
+        #[case] words: &[&str],
+        #[case] want: Result<Option<&str>, clap::error::ErrorKind>,
+    ) {
+        assert_eq!(
+            parse(words).map(|args| args.origin),
+            want.map(|origin| origin.map(str::to_owned))
+        );
+        assert_eq!(
+            clap::Error::new(clap::error::ErrorKind::InvalidValue).exit_code(),
+            2
+        );
     }
 
     #[test]

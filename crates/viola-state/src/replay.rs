@@ -210,6 +210,23 @@ pub fn session_chain(instance_dir: &Path) -> Result<SessionChain, StateError> {
     Ok(chain)
 }
 
+/// Whether the log holds a `session-end` line after its last `session-start` line: one pass,
+/// bounded as [`session_chain`]'s; with no `session-start` any `session-end` counts, and an absent
+/// or empty log reads false. Read-only, and it logs nothing.
+pub fn ended_after_last_start(instance_dir: &Path) -> Result<bool, StateError> {
+    let mut ended = false;
+    let mut lines = read_from(instance_dir, 0)?;
+    for line in lines.by_ref() {
+        let line = line?;
+        match line.value["kind"].as_str() {
+            Some(kind) if kind == EventKind::SessionStart.as_str() => ended = false,
+            Some(kind) if kind == EventKind::SessionEnd.as_str() => ended = true,
+            _ => {}
+        }
+    }
+    Ok(ended)
+}
+
 fn holder(value: &Value) -> Option<Wheel> {
     [Wheel::Driver, Wheel::Human]
         .into_iter()
@@ -977,6 +994,46 @@ mod tests {
             cause: cause.to_owned(),
             agent_session_id: id.to_owned(),
         }
+    }
+
+    fn start() -> (EventKind, Value) {
+        (
+            EventKind::SessionStart,
+            json!({"cause": "startup", "agent_session_id": "s-1"}),
+        )
+    }
+
+    fn end() -> (EventKind, Value) {
+        (EventKind::SessionEnd, json!({}))
+    }
+
+    fn wheel() -> (EventKind, Value) {
+        (
+            EventKind::Wheel,
+            json!({"holder": "driver", "cause": "start"}),
+        )
+    }
+
+    #[rstest]
+    #[case::no_log(None, false)]
+    #[case::an_empty_log(Some(vec![]), false)]
+    #[case::a_start_only(Some(vec![wheel(), start()]), false)]
+    #[case::a_start_then_an_end(Some(vec![wheel(), start(), end()]), true)]
+    #[case::an_end_then_a_later_start(Some(vec![start(), end(), wheel(), start()]), false)]
+    #[case::an_end_with_no_start(Some(vec![end()]), true)]
+    #[case::a_start_an_end_and_a_later_line(Some(vec![start(), end(), wheel()]), true)]
+    fn ended_after_last_start_reads_an_end_after_the_newest_start(
+        #[case] lines: Option<Vec<(EventKind, Value)>>,
+        #[case] want: bool,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        if let Some(lines) = lines {
+            fs::write(tmp.path().join("events.ndjson"), b"").expect("seed");
+            log(tmp.path(), &lines);
+        }
+        let (ended, logged) = capture(|| ended_after_last_start(tmp.path()));
+        assert_eq!(ended.expect("read"), want);
+        assert_eq!(logged, Vec::<Value>::new());
     }
 
     #[test]

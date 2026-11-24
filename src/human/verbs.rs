@@ -56,6 +56,26 @@ fn link_since(since: &str) -> String {
     }
 }
 
+/// One `viola up` line on stdout: `<name>  <word>`, or `<name>  live  <placement>` for an
+/// instance it opened, in one write.
+pub(crate) fn write_up_line(
+    out: &mut impl Write,
+    name: &str,
+    word: &str,
+    placement: Option<&str>,
+) -> io::Result<()> {
+    let line = match placement {
+        Some(placement) => format!("{name}  {word}  {placement}\n"),
+        None => format!("{name}  {word}\n"),
+    };
+    out.write_all(line.as_bytes())
+}
+
+/// `hint: <text>` alone on stderr, in one write: a hint that follows result lines, no refusal.
+pub(crate) fn write_hint(out: &mut impl Write, hint: &str) -> io::Result<()> {
+    out.write_all(format!("hint: {hint}\n").as_bytes())
+}
+
 /// `viola@viola  written  <dir>` and the CLI's two commands that add it, as one write on stdout:
 /// `dir` is the marketplace dir as the commands take it ([`command_word`]).
 pub(crate) fn write_plugin_installed(out: &mut impl Write, dir: &str) -> io::Result<()> {
@@ -139,6 +159,21 @@ mod tests {
             format!("link    overseer -> builder  since {shown}\n")
         );
         assert!(line.is_ascii() && !line.contains('\u{1b}'), "{line:?}");
+    }
+
+    #[test]
+    fn up_lines_are_the_design_lines_in_one_write() {
+        assert_eq!(
+            one_write(|o| write_up_line(o, "builder", "live", Some("placed"))),
+            "builder  live  placed\n"
+        );
+        assert_eq!(
+            one_write(|o| write_up_line(o, "builder", "already-live", None)),
+            "builder  already-live\n"
+        );
+        assert_eq!(one_write(|o| write_hint(o, "a b")), "hint: a b\n");
+        assert!(write_up_line(&mut Broken, "b", "live", None).is_err());
+        assert!(write_hint(&mut Broken, "h").is_err());
     }
 
     #[test]

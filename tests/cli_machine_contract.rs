@@ -1,6 +1,7 @@
 //! The CLI's machine contract, read side by side per verb (test-plan §5 Cross-module patterns
 //! (CLI); architecture §Standard Contracts, CLI `--json` output, and §Conventions, CLI exit codes):
-//! for `send`, `wait`, `last`, `answer`, `list`, `pause`, `release`, `revive` and `revive --list`,
+//! for `send`, `wait`, `last`, `answer`, `list`, `pause`, `release`, `revive`, `revive --list` and
+//! `up` (its `--dry-run` and revive's hidden `--origin` among the flags read),
 //! each outcome a stamped home reaches prints one `--json` document of the documented shape on
 //! stdout, nothing on stderr, and its literal exit — 0, 1, 2 (no document: clap's usage), 10, 13,
 //! 20 and 21 here. Exits 12 and 14 are pinned by name where their cases live:
@@ -332,8 +333,8 @@ fn every_verb_prints_one_document_and_its_literal_exit_over_a_wrapper_s_life(
     }
 }
 
-/// A home no instance ever lived in: the board is empty and `revive` finds no session on either
-/// arm, its start arm never reaching a program.
+/// A home no instance ever lived in: the board is empty, `revive` finds no session on either
+/// arm, its start arm never reaching a program, and `up` re-opens nothing.
 #[test]
 fn verbs_over_a_home_with_no_instance_print_their_documents() {
     let tmp = TestHome::new();
@@ -363,14 +364,56 @@ fn verbs_over_a_home_with_no_instance_print_their_documents() {
             exit: 1,
             out: Out::Doc("{\"v\":1,\"error\":\"no-session\",\"detail\":null}\n"),
         },
+        Row {
+            label: "up ok, nothing to re-open",
+            args: &["up", "--json"],
+            stdin: None,
+            from: None,
+            exit: 0,
+            out: Out::Doc("{\"v\":1,\"ok\":{\"instances\":[]}}\n"),
+        },
+        Row {
+            label: "up --dry-run ok, nothing to re-open",
+            args: &["up", "--dry-run", "--json"],
+            stdin: None,
+            from: None,
+            exit: 0,
+            out: Out::Doc("{\"v\":1,\"ok\":{\"instances\":[]}}\n"),
+        },
+        Row {
+            label: "up names one never started, not taken",
+            args: &["up", "builder", "--json"],
+            stdin: None,
+            from: None,
+            exit: 1,
+            out: Out::Doc(
+                "{\"v\":1,\"ok\":{\"instances\":[{\"name\":\"builder\",\"outcome\":\"not-taken\",\"placement\":null}]}}\n",
+            ),
+        },
+        Row {
+            label: "up refused as usage, an unknown flag",
+            args: &["up", "--origin", "cli", "--json"],
+            stdin: None,
+            from: None,
+            exit: 2,
+            out: Out::Usage,
+        },
+        Row {
+            label: "revive refused as usage, a third origin word",
+            args: &["revive", "builder", "--origin", "human", "--json"],
+            stdin: None,
+            from: None,
+            exit: 2,
+            out: Out::Usage,
+        },
     ];
     for row in &rows {
         assert_row(tmp.path(), &bin, row);
     }
 }
 
-/// A home another user could write: `list` refuses the whole board (exit 21), `revive` on both
-/// arms refuses `strict-modes-failed` (exit 1).
+/// A home another user could write: `list` and `up` refuse the whole board (exit 21), `revive` on
+/// both arms refuses `strict-modes-failed` (exit 1).
 #[cfg(unix)]
 #[test]
 fn verbs_over_a_home_another_user_could_write_print_their_documents() {
@@ -409,6 +452,22 @@ fn verbs_over_a_home_another_user_could_write_print_their_documents() {
             from: None,
             exit: 1,
             out: Out::Doc(strict),
+        },
+        Row {
+            label: "up refused, the home is widened",
+            args: &["up", "--json"],
+            stdin: None,
+            from: None,
+            exit: 21,
+            out: Out::Doc(REFUSED),
+        },
+        Row {
+            label: "up --dry-run refused, the home is widened",
+            args: &["up", "--dry-run", "--json"],
+            stdin: None,
+            from: None,
+            exit: 21,
+            out: Out::Doc(REFUSED),
         },
     ];
     for row in &rows {

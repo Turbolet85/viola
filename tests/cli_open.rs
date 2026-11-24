@@ -22,7 +22,7 @@ use support::home::{
 };
 use support::hygiene::load_schema;
 use support::ndjson::read_lines;
-use support::tied::{gone_within, recorded_tree};
+use support::terminal::end_trees;
 use support::verify::{seed_user_home, trust_config_of, user_home_of};
 
 /// The address the fake `hyprctl`'s `terminal` mode lists the stand-in's window at.
@@ -167,20 +167,7 @@ impl Drop for Terminal {
         let Some(started) = process_start(pid) else {
             return;
         };
-        let mut tree = recorded_tree(pid);
-        tree.push((pid, started));
-        for &(member, when) in &tree {
-            if process_start(member) == Some(when)
-                && let Ok(member) = libc::pid_t::try_from(member)
-            {
-                // SAFETY: a plain signal to a process this case's own open started, its start time
-                // read just above.
-                unsafe {
-                    libc::kill(member, libc::SIGKILL);
-                }
-            }
-        }
-        gone_within(&tree, &[("foot", pid)]);
+        end_trees(&[(pid, started)], &[("foot", pid)]);
     }
 }
 

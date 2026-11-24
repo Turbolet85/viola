@@ -92,6 +92,17 @@ pub(crate) fn not_live_pair(name: &str) -> (String, String) {
     )
 }
 
+/// `viola up`'s `boot-time-unread` pair: the host hides its boot time, so nothing is selected.
+pub(crate) fn boot_time_unread_pair() -> (&'static str, &'static str) {
+    (
+        "the host's boot time cannot be read",
+        "viola revive <name> resumes one instance by hand",
+    )
+}
+
+/// `viola up`'s one hint after its lines when any instance read `not-live`.
+pub(crate) const UP_NOT_LIVE_HINT: &str = "an instance not live may still be verifying a new claude version; viola list shows when it is live";
+
 /// `viola focus`'s refusal pair for its closed exit-1 `code`: no window found, or the Hyprland
 /// seam's own word. Plain ASCII, naming only the parsed `name`.
 pub(crate) fn focus_pair(code: &str, name: &str) -> Option<(String, String)> {
@@ -188,6 +199,22 @@ mod tests {
                 "the window stays open; viola list shows builder once it is live".to_owned()
             )
         );
+    }
+
+    #[test]
+    fn up_pairs_are_the_fixed_lines() {
+        assert_eq!(
+            boot_time_unread_pair(),
+            (
+                "the host's boot time cannot be read",
+                "viola revive <name> resumes one instance by hand"
+            )
+        );
+        assert_eq!(
+            UP_NOT_LIVE_HINT,
+            "an instance not live may still be verifying a new claude version; viola list shows when it is live"
+        );
+        assert!(UP_NOT_LIVE_HINT.is_ascii() && !UP_NOT_LIVE_HINT.contains("release"));
     }
 
     #[rstest]

@@ -31,7 +31,7 @@ pub(crate) const OPEN_LIVE_BOUND: Duration = Duration::from_secs(30);
 const LIVE_POLL: Duration = Duration::from_millis(100);
 /// How many of the parent wrapper's ancestors are matched against the compositor's windows.
 const ANCESTRY: usize = 8;
-const TERMINAL: &str = "foot";
+pub(super) const TERMINAL: &str = "foot";
 const PROGRAM: &str = "claude";
 
 /// The usage error of any word after `--` but `claude` alone: one fixed line, none of the words.
@@ -162,32 +162,14 @@ fn opened(home: &Path, args: &OpenArgs, exe: &[u8]) -> anyhow::Result<ExitCode> 
         origin,
         place: target,
     });
-    let mut terminal = spawn_terminal(&foot, &argv)?;
-    let up = wait_live(
-        || {
-            if live_endpoint(&instance_dir).is_some() {
-                Probe::Live
-            } else if matches!(terminal.try_wait(), Ok(Some(_)) | Err(_)) {
-                Probe::Ended
-            } else {
-                Probe::Pending
-            }
-        },
-        OPEN_LIVE_BOUND,
-        LIVE_POLL,
-    );
-    // The terminal outlives the open by design: its handle is dropped, never waited on.
-    drop(terminal);
-    if !up {
+    let terminal = spawn_terminal(&foot, &argv)?;
+    if !came_up(&instance_dir, terminal) {
         return Ok(refused(args.json, "not-live", || {
             let (unable, hint) = human::not_live_pair(name);
             human::refuse(&unable, &hint);
         }));
     }
-    let window = match read_snapshot_or_replay(&instance_dir) {
-        Ok(Recovered::Snapshot(snapshot)) => snapshot.window,
-        _ => None,
-    };
+    let window = recorded_window(&instance_dir);
     let placement = window
         .as_ref()
         .map_or("unknown", |window| window.placement.as_str());
@@ -323,9 +305,36 @@ fn open_argv(opened: &Opened<'_>) -> Vec<OsString> {
     argv
 }
 
+/// The window the instance's real snapshot records now; none from a replayed or absent one.
+pub(super) fn recorded_window(instance_dir: &Path) -> Option<Window> {
+    match read_snapshot_or_replay(instance_dir) {
+        Ok(Recovered::Snapshot(snapshot)) => snapshot.window,
+        _ => None,
+    }
+}
+
+/// Whether the instance in the spawned `terminal` came up live within `OPEN_LIVE_BOUND`; a
+/// terminal that ended first reads not live. The terminal outlives the caller by design: its
+/// handle is dropped, never waited on.
+pub(super) fn came_up(instance_dir: &Path, mut terminal: Child) -> bool {
+    wait_live(
+        || {
+            if live_endpoint(instance_dir).is_some() {
+                Probe::Live
+            } else if matches!(terminal.try_wait(), Ok(Some(_)) | Err(_)) {
+                Probe::Ended
+            } else {
+                Probe::Pending
+            }
+        },
+        OPEN_LIVE_BOUND,
+        LIVE_POLL,
+    )
+}
+
 /// The terminal, spawned directly with no shell, its streams null and in a process group of its
 /// own, so a Ctrl-C to the open ends no window; one `process-start{subject:"terminal"}`.
-fn spawn_terminal(foot: &Path, argv: &[OsString]) -> anyhow::Result<Child> {
+pub(super) fn spawn_terminal(foot: &Path, argv: &[OsString]) -> anyhow::Result<Child> {
     use std::os::unix::process::CommandExt as _;
     let child = Command::new(foot)
         .args(argv)

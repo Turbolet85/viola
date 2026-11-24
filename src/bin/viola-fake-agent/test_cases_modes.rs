@@ -351,6 +351,32 @@ fn hyprctl_terminal_mode_names_the_stand_in_pid() {
     assert_eq!(words, args(&["/v", "run"]));
 }
 
+/// The stand-in `foot` appends one `{"pid","argv"}` line per spawn: two spawns read as two lines,
+/// in spawn order, each its own argv whole.
+#[test]
+fn foot_records_each_spawn() {
+    use super::foot::{FOOT_SPAWNS, record_spawn};
+    let tmp = tempfile::tempdir().expect("tempdir");
+    let first = args(&["--app-id=viola.a", "--title=a", "/v", "revive", "a"]);
+    let second = args(&["--app-id=viola.b", "--title=b d", "/v", "revive", "b"]);
+    record_spawn(tmp.path(), 41, &first);
+    record_spawn(tmp.path(), 42, &second);
+    let text = fs::read_to_string(tmp.path().join(FOOT_SPAWNS)).expect("the record");
+    let lines: Vec<Value> = text
+        .lines()
+        .map(|line| serde_json::from_str(line).expect("one object a line"))
+        .collect();
+    assert_eq!(
+        lines,
+        [
+            json!({"pid": 41, "argv": first}),
+            json!({"pid": 42, "argv": second})
+        ]
+    );
+    assert!(text.ends_with('\n'));
+    assert_eq!(FOOT_SPAWNS, "foot-spawns.ndjson");
+}
+
 /// A fixtures root holding `<version>/<name>` for each of `files`, and the agent's arguments over
 /// it: `--cli-version 3.0.0 --fixtures <root> --receipt <tmp>/receipt.ndjson` and `extra`.
 fn over_set(tmp: &Path, files: &[(&str, &str)], extra: &[&str]) -> Vec<String> {

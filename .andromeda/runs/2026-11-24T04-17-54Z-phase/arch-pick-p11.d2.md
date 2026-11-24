@@ -1,0 +1,49 @@
+@pick n=1 row=decision/zero-panics-gate v=no standing=S4
+@pick n=2 row=decision/snapshots-check-mode-only v=no standing=S4
+@pick n=3 row=decision/rmcp-exact-features v=no
+@pick n=4 row=decision/release-carries-viola-only v=no
+@pick n=5 row=decision/pty-seam-portable-pty v=no
+@pick n=6 row=decision/no-tracing-level-macros v=no standing=S5
+@pick n=7 row=decision/no-tokio-in-sync-crates v=no
+@pick n=8 row=decision/fuzz-separate-workspace v=no
+@pick n=9 row=decision/exact-toolchain-pin v=no
+@pick n=10 row=decision/channel-tokio-behind-feature v=no
+@pick n=11 row=decision/channel-json-rpc-local-sockets v=no
+@pick n=12 row=decision/cargo-deny-bans v=no
+@pick n=13 row=decision/board-read-model-shape v=yes
+@pick n=14 row=decision/anyhow-at-bin-edge-only v=yes
+@pick n=15 row=decision/single-binary-on-path v=no
+@pick n=16 row=decision/run-pins-self-copy v=yes
+@pick n=17 row=decision/local-only-deployment v=no
+@pick n=18 row=decision/root-bin-consumes-normalised-events v=yes
+@pick n=19 row=decision/pty-knows-no-agent v=no
+@pick n=20 row=decision/mcp-dependencies v=no
+@pick n=21 row=decision/hyprland-seam-crate v=yes
+@pick n=22 row=decision/e2e-test-only v=no
+@pick n=23 row=decision/core-depends-on-no-viola-crate v=no
+@pick n=24 row=decision/claude-shapes-in-one-crate v=yes
+@pick n=25 row=decision/agent-claude-pure v=no
+@pick n=26 row=contract/pre-push/passwd-home v=no
+@pick n=27 row=contract/pre-push/linux-only v=no
+@pick n=28 row=decision/workflow-permissions v=no
+@pick n=29 row=decision/weekly-fuzz v=no
+@pick n=30 row=decision/weekly-advisories v=no
+@pick n=31 row=decision/uploads-gated-on-secret-scan v=no
+@pick n=32 row=decision/tests-against-fake-agent v=no standing=S2
+@pick n=33 row=decision/sync-crates-compile-without-tokio v=no
+@pick n=34 row=decision/release-via-dist v=no
+@pick n=35 row=decision/release-build-viola-only v=no
+@pick n=36 row=decision/real-claude-local-only v=yes
+@pick n=37 row=decision/pre-push-clean-environment v=no
+@pick n=38 row=decision/perf-gate v=yes
+@pick n=39 row=decision/no-workflow-concurrency v=no
+@pick n=40 row=decision/mutation-at-epoch-boundary v=no
+@pick n=41 row=decision/msrv-ci v=no
+@pick n=42 row=decision/local-pre-push-gate v=no
+@pick n=43 row=decision/github-actions-ci v=no
+@pick n=44 row=decision/gate-steps-fail-closed v=no
+@pick n=45 row=decision/fuzz-replay-ci v=no
+@pick n=46 row=decision/event-payload-via-env v=no
+@pick n=47 row=decision/coverage-floors v=no standing=S7
+@pick n=48 row=decision/ci-tools-pinned v=no
+@pick n=49 row=decision/actions-pinned-by-sha v=no

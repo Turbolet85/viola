@@ -38,7 +38,15 @@ fn tui_channel_fds_the_child_holds_nothing_of_violas(booted_wrapper: Wrapper) {
     let child = snapshot["child_pid"].as_u64().expect("child_pid");
     // After its `start` receipt the agent's launch still opens and closes files of its own (its
     // registry row, `hooks.json`), so a descriptor listed can be closed before its link is read:
-    // such a read is no consistent table and is taken again, as `fake::wait_for` spins.
+    // such a read is no consistent table and is taken again, as `fake::wait_for` spins. A whole
+    // table holding a home file that is no fixture is read again too, inside the same deadline:
+    // the launch's open closes inside its one read, and a file still held at the deadline reads
+    // the guard's red below.
+    let held = |table: &[(u64, PathBuf)]| {
+        table
+            .iter()
+            .any(|(_, target)| target.starts_with(&home) && !fixtures.contains(target))
+    };
     let read_table = || -> Option<Vec<(u64, PathBuf)>> {
         std::fs::read_dir(format!("/proc/{child}/fd"))
             .expect("the child's fd table")
@@ -58,14 +66,19 @@ fn tui_channel_fds_the_child_holds_nothing_of_violas(booted_wrapper: Wrapper) {
             .collect()
     };
     let deadline = std::time::Instant::now() + std::time::Duration::from_secs(2);
+    let mut last = None;
     let mut table = loop {
         if let Some(table) = read_table() {
-            break table;
+            if !held(&table) || std::time::Instant::now() >= deadline {
+                break table;
+            }
+            last = Some(table);
+        } else if std::time::Instant::now() >= deadline {
+            match last.take() {
+                Some(table) => break table,
+                None => panic!("no consistent fd table within 2 s"),
+            }
         }
-        assert!(
-            std::time::Instant::now() < deadline,
-            "no consistent fd table within 2 s"
-        );
         std::thread::yield_now();
     };
     table.sort();

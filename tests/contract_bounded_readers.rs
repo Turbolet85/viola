@@ -267,6 +267,24 @@ const BOUNDARIES: &[Boundary] = &[
         witness: "events_three_counts_a_line_past_the_cap_is_torn",
     },
     Boundary {
+        boundary: "/proc/stat (the boot time)",
+        file: "crates/viola-state/src/liveness.rs",
+        needle: "file.take(MAX_FRAME).read_to_string(&mut text).ok()?;",
+        cap: "MAX_FRAME",
+        depth: NO_PARSE,
+        types: "the btime line's whole seconds; anything else reads no boot time",
+        witness: "boot_time_parses_the_btime_line_as_whole_seconds",
+    },
+    Boundary {
+        boundary: "events.ndjson's end after its last start",
+        file: "crates/viola-state/src/replay.rs",
+        needle: "let mut ended = false;\n    let mut lines = read_from(instance_dir, 0)?;",
+        cap: "the events reader's per-line cap MAX_FRAME",
+        depth: DEFAULT_DEPTH,
+        types: "the session-start and session-end kinds alone",
+        witness: "ended_after_last_start_reads_an_end_after_the_newest_start",
+    },
+    Boundary {
         boundary: "ledger/stamps.json",
         file: "crates/viola-state/src/stamps.rs",
         needle: "file.take(MAX_FRAME + 1).read_to_end(&mut bytes)?;",
@@ -374,6 +392,11 @@ const EXCEPTIONS: &[(&str, &str, &str)] = &[
         "src/cmd/run.rs",
         "std::fs::read(std::env::current_exe()?)",
         "checked_exe: the running binary's own bytes, hashed into the pin key",
+    ),
+    (
+        "src/cmd/up.rs",
+        "std::fs::read(std::env::current_exe()?)",
+        "up: the running binary's own bytes, hashed into the pin key",
     ),
     (
         "crates/viola-state/src/pin.rs",

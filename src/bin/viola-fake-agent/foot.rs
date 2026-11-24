@@ -9,6 +9,8 @@ use super::*;
 const FOOT: &str = "foot";
 /// Beside the executable: the argv it was started with, as one JSON array.
 const FOOT_ARGV: &str = "foot-argv";
+/// Beside the executable: one `{"pid","argv"}` line per spawn, appended in spawn order.
+pub(super) const FOOT_SPAWNS: &str = "foot-spawns.ndjson";
 /// Beside the executable: its own pid, read by the fake `hyprctl`'s `terminal` mode.
 pub(super) const FOOT_PID: &str = "foot-pid";
 const WORKING_DIRECTORY: &str = "--working-directory=";
@@ -25,6 +27,7 @@ pub(super) fn is_foot() -> bool {
 pub(super) fn foot(args: &[String]) -> ExitCode {
     if let Some(dir) = exe_dir() {
         let _ = fs::write(dir.join(FOOT_ARGV), json!(args).to_string());
+        record_spawn(&dir, std::process::id(), args);
         let staged = dir.join(format!("{FOOT_PID}.next"));
         if fs::write(&staged, std::process::id().to_string()).is_ok() {
             let _ = fs::rename(&staged, dir.join(FOOT_PID));
@@ -47,6 +50,19 @@ pub(super) fn foot(args: &[String]) -> ExitCode {
                 .unwrap_or(1),
         ),
         Err(_) => ExitCode::from(1),
+    }
+}
+
+/// One `foot-spawns.ndjson` line for this spawn, in one write; a failure is dropped.
+pub(super) fn record_spawn(dir: &Path, pid: u32, args: &[String]) {
+    let mut line = json!({"pid": pid, "argv": args}).to_string();
+    line.push('\n');
+    if let Ok(mut file) = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(dir.join(FOOT_SPAWNS))
+    {
+        let _ = file.write_all(line.as_bytes());
     }
 }
 

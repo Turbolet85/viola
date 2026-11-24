@@ -943,3 +943,113 @@ fn revive_a_recorded_word_that_no_longer_parses_takes_the_default_half(stamped_h
     );
     assert_eq!(second.stop().code(), Some(0));
 }
+
+/// The address the fake `hyprctl`'s `terminal` mode lists the stand-in's window at.
+const WINDOW_ADDRESS: &str = "0x555aa16bde50";
+
+/// The fake `hyprctl` planted in `terminal` mode beside the `claude` a revive finds first on its
+/// `PATH`, its listed window on this test process's own pid (a revive's wrapper is this process's
+/// child, so its window step reads that window as its terminal's), the recorded set copied and the
+/// recorded move re-pointed at workspace 2, the workspace the mode lists that window on.
+fn plant_hyprctl(home: &TestHome) -> PathBuf {
+    let dir = support::home::claude_dir(home.scratch());
+    let set = dir.join("hyprctl-set");
+    fs::create_dir_all(&set).expect("the hyprctl set");
+    for fixture in fs::read_dir(workspace_path("fixtures/hyprland/0.56.2")).expect("set") {
+        let fixture = fixture.expect("a fixture").path();
+        fs::copy(&fixture, set.join(fixture.file_name().expect("a name"))).expect("the copy");
+    }
+    let moved = fs::read_to_string(set.join("MoveToWorkspace.recorded-1.json")).expect("move");
+    fs::write(
+        set.join("MoveToWorkspace.synthetic-2.json"),
+        moved.replace("workspace = 1,", "workspace = 2,"),
+    )
+    .expect("the workspace-2 move");
+    fs::write(dir.join("hyprctl-mode"), "terminal").expect("the mode");
+    fs::write(dir.join("foot-pid"), std::process::id().to_string()).expect("the pid");
+    let hyprctl = dir.join("hyprctl");
+    if !hyprctl.is_file() {
+        fs::copy(support::fake::FAKE, &hyprctl).expect("the fake hyprctl");
+    }
+    dir
+}
+
+/// The move dispatches the fake `hyprctl` was asked, in order.
+fn asked_moves(dir: &Path) -> Vec<Value> {
+    fs::read_to_string(dir.join("hyprctl-asked"))
+        .map(|text| {
+            text.lines()
+                .map(|line| serde_json::from_str(line).expect("one argv a line"))
+                .collect()
+        })
+        .unwrap_or_default()
+}
+
+/// The `window` line of a revived start, read from its start offset once its session started.
+fn revived_window(log: &Path, from: usize) -> Option<Value> {
+    let lines = wait_events(log, "the revived session-start", |l| {
+        l[from..].iter().any(|e| e["kind"] == "session-start")
+    });
+    lines[from..]
+        .iter()
+        .find(|e| e["kind"] == "window")
+        .map(|e| e["data"].clone())
+}
+
+/// Under `--origin`, a revive runs its window step: a first life recorded no window, so the
+/// revived window stays where it opened (`unplaced`, the workspace it was seen on recorded); the
+/// next revive moves its window to that recorded workspace and records it `placed`.
+#[rstest]
+fn revive_origin_moves_its_window_to_the_recorded_workspace(stamped_home: StampedHome) {
+    let (stamped, dir, _) = stopped_life(stamped_home);
+    let bin = plant_hyprctl(&stamped.home);
+    let log = instance_dir(&stamped.home);
+    let typed_in = made_dir(&stamped.home, "typed-in");
+
+    let from = events(&log).len();
+    let second = Wrapper::revive(stamped, "builder", &typed_in, &dir, &["--origin", "cli"]);
+    assert_eq!(
+        revived_window(&log, from),
+        Some(
+            serde_json::json!({"address": WINDOW_ADDRESS, "workspace": 2,
+            "placement": "unplaced", "origin": "cli"})
+        )
+    );
+    assert!(asked_moves(&bin).is_empty(), "an unplaced window was moved");
+    let (stopped, stamped) = second.stop_keep();
+    assert_eq!(stopped.code(), Some(0));
+
+    let from = events(&log).len();
+    let third = Wrapper::revive(stamped, "builder", &typed_in, &dir, &["--origin", "agent"]);
+    assert_eq!(
+        revived_window(&log, from),
+        Some(
+            serde_json::json!({"address": WINDOW_ADDRESS, "workspace": 2,
+            "placement": "placed", "origin": "agent"})
+        )
+    );
+    assert_eq!(
+        asked_moves(&bin),
+        [serde_json::json!([
+            "dispatch",
+            format!(
+                "hl.dsp.window.move({{ workspace = 2, window = \"address:{WINDOW_ADDRESS}\" }})"
+            )
+        ])]
+    );
+    assert_eq!(third.stop().code(), Some(0));
+}
+
+/// Without `--origin` a revive runs no window step: no `window` line, nothing asked of Hyprland.
+#[rstest]
+fn revive_without_origin_runs_no_window_step(stamped_home: StampedHome) {
+    let (stamped, dir, _) = stopped_life(stamped_home);
+    let bin = plant_hyprctl(&stamped.home);
+    let log = instance_dir(&stamped.home);
+    let typed_in = made_dir(&stamped.home, "typed-in");
+    let from = events(&log).len();
+    let second = Wrapper::revive(stamped, "builder", &typed_in, &dir, &[]);
+    assert_eq!(revived_window(&log, from), None);
+    assert!(!bin.join("hyprctl-asked").exists());
+    assert_eq!(second.stop().code(), Some(0));
+}

@@ -14,6 +14,7 @@ mod revive;
 mod run;
 mod send;
 mod unlink;
+mod up;
 mod verify;
 mod wait;
 
@@ -37,7 +38,7 @@ board:    list, focus
 traffic:  send, wait, last, answer
 wheel:    pause, release
 handoff:  link, unlink
-setup:    open, run, revive, verify, plugin install
+setup:    open, run, revive, up, verify, plugin install
 
 Options:
 {options}";
@@ -66,6 +67,8 @@ enum Command {
     Run(run::RunArgs),
     /// Restart a dead instance in this terminal, resuming its newest logged session
     Revive(revive::ReviveArgs),
+    /// Re-open, after a reboot, every instance that was live before it, parents first
+    Up(up::UpArgs),
     /// Type a prompt into the named instance and read it back; the text comes from stdin or --file
     Send(send::SendArgs),
     /// Wait for the named instance's next turn end, dialog or session end at or after a cursor
@@ -152,6 +155,16 @@ pub(crate) fn dispatch(cli: Cli) -> Result<ExitCode, Failure> {
                 })
             };
             revive::revive(&home, args).map_err(|error| Failure { error, sink })
+        }
+        // The fleet names no one instance: its chain goes to the caller's own, when it has one.
+        Command::Up(args) => {
+            let home = resolved_home(cli.home)?;
+            let sink = client::own_name().map(|instance| DetailSink {
+                home: home.clone(),
+                instance,
+                process: ObsProcess::Cli,
+            });
+            up::up(&home, &args).map_err(|error| Failure { error, sink })
         }
         Command::Send(args) => {
             let home = resolved_home(cli.home)?;

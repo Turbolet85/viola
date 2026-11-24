@@ -40,6 +40,13 @@ pub struct Scan {
     malformed: u64,
 }
 
+impl Scan {
+    /// The checked instances, in name order, each with its directory.
+    pub fn instances(&self) -> &[(ViolaName, PathBuf)] {
+        &self.instances
+    }
+}
+
 /// `check` on `path` when it exists; one that cannot be statted is refused.
 fn check_if_present(path: &Path, check: fn(&Path) -> Result<(), Refused>) -> Result<(), Refused> {
     match std::fs::symlink_metadata(path) {

@@ -18,7 +18,8 @@ pub(crate) use auto_verify::{AutoLine, NoStamp, write_auto_line};
 pub(crate) use board::{home_state_pair, instance_state_pair, write_board};
 pub(crate) use escape::escape_message;
 pub(crate) use hints::{
-    answer_hint, focus_pair, not_live_pair, send_hint, terminal_not_found_pair,
+    UP_NOT_LIVE_HINT, answer_hint, boot_time_unread_pair, focus_pair, not_live_pair, send_hint,
+    terminal_not_found_pair,
 };
 pub(crate) use mirror::{
     write_read_back, write_send_open, write_send_unable, write_send_unconfirmable, write_unable,
@@ -26,8 +27,8 @@ pub(crate) use mirror::{
 };
 pub(crate) use style::read as read_colour;
 pub(crate) use verbs::{
-    command_word, write_already_linked, write_answered, write_linked, write_paused,
-    write_plugin_installed, write_released, write_unlinked,
+    command_word, write_already_linked, write_answered, write_hint, write_linked, write_paused,
+    write_plugin_installed, write_released, write_unlinked, write_up_line,
 };
 pub(crate) use wait::{
     write_last_turn, write_message, write_no_message, write_timed_out, write_waiting, write_woken,

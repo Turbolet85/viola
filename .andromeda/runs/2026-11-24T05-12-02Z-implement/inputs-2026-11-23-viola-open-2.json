@@ -1,0 +1,53 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T05:42:01Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-23-viola-open-2",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-open2-r2-grant.md",
+"--kind",
+"relay",
+"--why",
+"the operator grant of ONE more R2 firing of viola open (gated chunk 2026-11-23-viola-open-2), the same one capped claude start, no spare, under the lock, a red final; steps 1-6: build from a detached worktree of 863ea534, fresh home-2, the probe, R2 once",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-24T05-12-02Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I11 · copy no-repo · ../additional/viola-overseer/relay-open2-r2-grant.md",
+"cite: inputs#I11"
+],
+"stderr": null,
+"wrote": [
+"inputs/I11-relay-open2-r2-grant.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I11",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-open2-r2-grant.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "57c70544588673896436438d49249acff88f5df5d73b850ec832cb05d249f8f4",
+"copy": "I11-relay-open2-r2-grant.md.txt",
+"link": false,
+"read_at": "2026-11-24T05:42:00Z",
+"step": "implement",
+"why": "the operator grant of ONE more R2 firing of viola open (gated chunk 2026-11-23-viola-open-2), the same one capped claude start, no spare, under the lock, a red final; steps 1-6: build from a detached worktree of 863ea534, fresh home-2, the probe, R2 once"
+}
+}
+]

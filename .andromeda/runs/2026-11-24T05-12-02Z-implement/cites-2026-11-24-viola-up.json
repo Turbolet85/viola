@@ -1,0 +1,64 @@
+[
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "5fadec18",
+"ts": "2026-11-24T05:38:18Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-24T05-12-02Z-implement/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-24T05-12-02Z-implement",
+"--marker",
+"2026-11-24-viola-up"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 863ea534 — no pre-CI commit",
+"crates/viola-state/src/board.rs — added 7 line(s) in 1 range(s)",
+"crates/viola-state/src/liveness.rs — added 73 line(s) in 3 range(s)",
+"crates/viola-state/src/replay.rs — added 57 line(s) in 2 range(s)",
+"schemas/diag-line.v1.json — added 1 line(s) in 1 range(s)",
+"scripts/r4-up.sh — new file · 335 line(s)",
+"src/bin/viola-fake-agent/foot.rs — added 16 line(s) in 3 range(s)",
+"src/bin/viola-fake-agent/test_cases_modes.rs — added 26 line(s) in 1 range(s)",
+"src/cmd/mod.rs — added 14 line(s) in 4 range(s)",
+"src/cmd/open.rs — added 32 line(s) in 5 range(s)",
+"src/cmd/revive.rs — added 96 line(s) in 6 range(s)",
+"src/cmd/up.rs — new file · 632 line(s)",
+"src/human.rs — added 4 line(s) in 2 range(s)",
+"src/human/hints.rs — added 27 line(s) in 2 range(s)",
+"src/human/verbs.rs — added 35 line(s) in 2 range(s)",
+"tests/cli_machine_contract.rs — added 64 line(s) in 5 range(s)",
+"tests/cli_output_plain.rs — added 2 line(s) in 2 range(s)",
+"tests/cli_revive.rs — added 110 line(s) in 1 range(s)",
+"tests/cli_up.rs — new file · 684 line(s)",
+"tests/contract_bounded_readers.rs — added 23 line(s) in 2 range(s)",
+"tests/contract_diag_schema.rs — added 3 line(s) in 2 range(s)",
+"tests/contract_error_bodies.rs — added 41 line(s) in 2 range(s)",
+"tests/cross_exit_causes.rs — added 4 line(s) in 3 range(s)",
+"new text: 22 file(s) · 3 new · 52 added range(s) · 2286 line(s) · 250 block(s) → .andromeda/runs/2026-11-24T05-12-02Z-implement/new-text.md (296 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-24T05-12-02Z-implement/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "863ea53484b2908be9140bc49785cf064c922ef8",
+"counts": {
+"files": 22,
+"new": 3,
+"ranges": 52,
+"lines": 2286,
+"blocks": 250
+},
+"out": ".andromeda/runs/2026-11-24T05-12-02Z-implement/new-text.md",
+"state": "written",
+"lines": 296
+}
+}
+]

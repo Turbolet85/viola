@@ -1,0 +1,27 @@
+[[control]]
+id = 'old-kill'
+entry = 30
+guard = 'the bounded wait of the shared teardown: every recorded member SIGKILLed at once, in recorded_tree order, as the two guards did before step 22'
+case = 'up_skips_a_live_and_a_stale_instance'
+
+[[control.edit]]
+path = 'tests/support/terminal.rs'
+old = '''    for member in members.iter().filter(|m| leaf_under_a_running_parent(m)) {
+        kill(member);
+    }
+    let deadline = Instant::now() + WITHIN;
+    while members.iter().any(running) {
+        if Instant::now() >= deadline {
+            for member in &members {
+                kill(member);
+            }
+            break;
+        }
+        std::thread::yield_now();
+    }
+'''
+new = '''    let _ = (&leaf_under_a_running_parent, Instant::now(), WITHIN);
+    for member in &members {
+        kill(member);
+    }
+'''

@@ -12,7 +12,8 @@
 //! recording, pinned-copy, interrupted and stamps refusals by `tests/cli_verify.rs`; `viola mcp`'s two
 //! silent exits, both streams empty by rule, by `crates/viola-e2e/tests/mcp_tools.rs` and
 //! `crates/viola-mcp/tests/handlers.rs`; a program not found under `run` itself is `revive`'s row
-//! here, one resolver, with no pair under `run` (obs-plan §7).
+//! here, one resolver, with no pair under `run` (obs-plan §7); `up`'s `boot-time-unread`, a host
+//! that hides its boot time, by its unit pair in `src/human/hints.rs`.
 
 #[allow(dead_code)]
 mod support;
@@ -75,6 +76,7 @@ const FOCUS_UNREACHABLE: &str = "run hyprctl version to check the compositor ans
 const FOCUS_OVERSIZE: &str = "viola reads no reply past its frame cap; nothing was focused";
 const FOCUS_MALFORMED: &str = "check that hyprctl matches the running Hyprland";
 const FOCUS_REFUSED: &str = "the window may have closed; viola list shows builder";
+const BOOT_TIME_UNREAD: &str = "viola revive <name> resumes one instance by hand";
 
 /// A code, its exit, and a hint it ends with: `None` where the cause has none.
 type Cause = (&'static str, u8, Option<&'static str>);
@@ -111,6 +113,7 @@ const CAUSES: &[Cause] = &[
     ("oversize", 1, Some(FOCUS_OVERSIZE)),
     ("malformed", 1, Some(FOCUS_MALFORMED)),
     ("refused", 1, Some(FOCUS_REFUSED)),
+    ("boot-time-unread", 1, Some(BOOT_TIME_UNREAD)),
 ];
 
 const UNVERIFIED_CLI: &str = "run viola verify for this CLI version";
