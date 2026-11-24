@@ -1,0 +1,106 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T22:32:25Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-24-adopt-s-resume-folder",
+"--source",
+"~/dev/projects/additional/viola-overseer/implement-adopt-folder-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer implement directive: no real claude in any form, R5 script only under --rehearse, hostwatch reads before the two whole layers and pre-push, the operator pass with no live entry",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-24T22-32-16Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy no-repo · ../additional/viola-overseer/implement-adopt-folder-directive.md",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-implement-adopt-folder-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/implement-adopt-folder-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "58af428327540f72f3b2bb015e37b5dcc5ebfa77c8223690ee708fcbf9e27c89",
+"copy": "I3-implement-adopt-folder-directive.md.txt",
+"link": false,
+"read_at": "2026-11-24T22:32:24Z",
+"step": "implement",
+"why": "the overseer implement directive: no real claude in any form, R5 script only under --rehearse, hostwatch reads before the two whole layers and pre-push, the operator pass with no live entry"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T23:09:09Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-24-adopt-s-resume-folder",
+"--message-file",
+".andromeda/runs/2026-11-24T22-32-16Z-implement/relay-1.md",
+"--origin",
+"the Viola overseer",
+"--kind",
+"relay",
+"--why",
+"the quiet-window word: the host quiet for viola since 2026-11-24T23:06:31Z; read hostwatch --from that instant, then entries 9-10, the report and the operator pass; say when the pre-CI commit stands",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-24T22-32-16Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the Viola overseer",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the Viola overseer",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "f3b3b4f8a1e7fb8b738fcdab93ccee77c02a6cccffba3b2887fe26187e679388",
+"copy": "I4-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-24T23:09:09Z",
+"step": "implement",
+"why": "the quiet-window word: the host quiet for viola since 2026-11-24T23:06:31Z; read hostwatch --from that instant, then entries 9-10, the report and the operator pass; say when the pre-CI commit stands"
+}
+}
+]

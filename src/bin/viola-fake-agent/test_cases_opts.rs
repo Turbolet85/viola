@@ -114,6 +114,15 @@ fn opts_parse_reads_the_stop_reading_flag() {
 }
 
 #[test]
+fn opts_parse_resume_absent() {
+    let o = Opts::parse(&args(&["--resume-absent", "--resume", "s-1"]));
+    assert!(o.resume_absent);
+    assert_eq!(o.resume.as_deref(), Some("s-1"));
+    let bare = Opts::parse(&args(&["--resume", "s-1"]));
+    assert!(!bare.resume_absent, "off by default");
+}
+
+#[test]
 fn opts_take_model_and_effort() {
     let o = Opts::parse(&args(&["--model", "haiku", "--effort", "low", "--screens"]));
     assert_eq!(

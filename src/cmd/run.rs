@@ -818,6 +818,21 @@ fn spawn_child(
 }
 
 pub(super) fn pump_child(launched: Launched) -> anyhow::Result<ExitCode> {
+    match pump_end(launched)? {
+        PumpEnd::Exited(_) => {
+            run::log_self_exit(0, None);
+            Ok(ExitCode::SUCCESS)
+        }
+        PumpEnd::WorkerPanicked(_) => {
+            run::log_self_exit(1, Some("internal-error"));
+            Ok(ExitCode::from(1))
+        }
+    }
+}
+
+/// `pump_child`'s pump with the child's exit logged, its own exit left to the caller. It returns
+/// after the host terminal is restored.
+pub(super) fn pump_end(launched: Launched) -> anyhow::Result<PumpEnd> {
     let Launched {
         mut pty,
         terminal,
@@ -862,18 +877,10 @@ pub(super) fn pump_child(launched: Launched) -> anyhow::Result<ExitCode> {
     // byte, never a signal that ends the wrapper mid-exit.
     wheel.flush();
     drop(terminal);
-    match end? {
-        PumpEnd::Exited(exit) => {
-            run::log_child_exit(exit);
-            run::log_self_exit(0, None);
-            Ok(ExitCode::SUCCESS)
-        }
-        PumpEnd::WorkerPanicked(exit) => {
-            run::log_child_exit(exit);
-            run::log_self_exit(1, Some("internal-error"));
-            Ok(ExitCode::from(1))
-        }
-    }
+    let end = end?;
+    let (PumpEnd::Exited(exit) | PumpEnd::WorkerPanicked(exit)) = &end;
+    run::log_child_exit(*exit);
+    Ok(end)
 }
 
 fn refuse_live(name: &ViolaName) {

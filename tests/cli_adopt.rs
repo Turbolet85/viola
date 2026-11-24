@@ -353,6 +353,85 @@ fn adopt_refuses_state_another_user_could_write(stamped_home: StampedHome, #[cas
     );
 }
 
+const NOT_RESUMED: &str = "unable: builder's session did not resume\n\
+                           hint: check the session id - claude --resume <id> must open it by hand, \
+                           under the same claude config\n";
+
+/// An adopt typed outside any terminal whose `claude` finds no session for the id: under
+/// `--resume-absent` the fake agent fires SessionEnd alone and exits 1. It draws no screen, so the
+/// streams hold only what viola writes.
+fn adopt_not_resumed(home: &TestHome, json: bool) -> Ran {
+    let bin = claude_dir(home.scratch());
+    let fixtures = workspace_path("fixtures/claude");
+    support::fake::write_fake_args(
+        &bin,
+        &[
+            "--fixtures",
+            fixtures.to_str().expect("utf-8 fixtures"),
+            "--cli-version",
+            support::fake::RECORDED_CLI_VERSION,
+            "--resume-absent",
+        ],
+    );
+    let mut args = vec![ANOTHER_SESSION, "--name", "builder"];
+    if json {
+        args.push("--json");
+    }
+    adopt(home, &args)
+}
+
+#[rstest]
+fn adopt_whose_child_ends_before_its_session_starts_is_not_resumed(stamped_home: StampedHome) {
+    let home = &stamped_home.home;
+    let ran = adopt_not_resumed(home, false);
+    assert_eq!(ran.code, Some(1), "{}", ran.stderr);
+    assert_eq!(ran.stdout, "");
+    assert_eq!(ran.stderr, NOT_RESUMED);
+
+    let lines = role_lines(home.path(), "builder");
+    let child_exits = lines
+        .iter()
+        .filter(|l| l["event"] == "process-exit" && l["subject"] == "claude-child")
+        .count();
+    assert_eq!(child_exits, 1, "one exit of the child");
+    let exits: Vec<&Value> = lines
+        .iter()
+        .filter(|l| l["event"] == "process-exit" && l["subject"] == "self")
+        .collect();
+    assert_eq!(exits.len(), 1, "one exit of the wrapper");
+    assert_eq!(exits[0]["exit_code"], 1);
+    assert_eq!(exits[0]["detail"], "not-resumed");
+    assert_eq!(exits[0]["process"], "run");
+    assert_eq!(exits[0]["instance"], "builder");
+    for line in &lines {
+        assert!(!line.to_string().contains(ANOTHER_SESSION), "{line}");
+    }
+    assert_schema_valid(&lines);
+}
+
+#[rstest]
+fn adopt_json_whose_child_ends_before_its_session_starts_is_the_not_resumed_document(
+    stamped_home: StampedHome,
+) {
+    let ran = adopt_not_resumed(&stamped_home.home, true);
+    assert_refused_document(&ran, "not-resumed");
+}
+
+/// The not-resumed start held nothing: the next adopt of the name starts and resumes.
+#[rstest]
+fn adopt_after_a_not_resumed_start_takes_the_name_over(stamped_home: StampedHome) {
+    let ran = adopt_not_resumed(&stamped_home.home, false);
+    assert_eq!(ran.code, Some(1), "{}", ran.stderr);
+    let (wrapper, _) = adopted(stamped_home, "builder", ANOTHER_SESSION, None);
+    let lines = events(&wrapper.instance_dir());
+    let started = lines
+        .iter()
+        .find(|e| e["kind"] == "session-start")
+        .expect("the resumed session-start");
+    assert_eq!(started["data"]["agent_session_id"], ANOTHER_SESSION);
+    assert_eq!(wrapper.stop().code(), Some(0));
+}
+
 #[test]
 fn adopt_with_a_malformed_id_is_a_usage_error() {
     let home = TestHome::new();

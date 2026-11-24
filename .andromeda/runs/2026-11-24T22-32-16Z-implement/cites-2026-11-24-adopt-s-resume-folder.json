@@ -1,0 +1,51 @@
+[
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "5fadec18",
+"ts": "2026-11-24T23:08:50Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-24T22-32-16Z-implement/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-24T22-32-16Z-implement",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: cfe2329a — no pre-CI commit",
+"schemas/diag-line.v1.json — added 1 line(s) in 1 range(s)",
+"scripts/r5-adopt.sh — added 46 line(s) in 11 range(s)",
+"src/bin/viola-fake-agent.rs — added 19 line(s) in 6 range(s)",
+"src/bin/viola-fake-agent/test_cases_opts.rs — added 9 line(s) in 1 range(s)",
+"src/cmd/adopt.rs — added 48 line(s) in 11 range(s)",
+"src/cmd/run.rs — added 19 line(s) in 2 range(s)",
+"tests/cli_adopt.rs — added 79 line(s) in 1 range(s)",
+"tests/contract_error_bodies.rs — added 8 line(s) in 1 range(s)",
+"tests/cross_exit_causes.rs — added 2 line(s) in 2 range(s)",
+"new text: 9 file(s) · 0 new · 36 added range(s) · 231 line(s) · 24 block(s) → .andromeda/runs/2026-11-24T22-32-16Z-implement/new-text.md (47 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-24T22-32-16Z-implement/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "cfe2329a5002f5eba5fd101a1cdecd33e507d2e0",
+"counts": {
+"files": 9,
+"new": 0,
+"ranges": 36,
+"lines": 231,
+"blocks": 24
+},
+"out": ".andromeda/runs/2026-11-24T22-32-16Z-implement/new-text.md",
+"state": "written",
+"lines": 47
+}
+}
+]

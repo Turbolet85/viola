@@ -1,0 +1,10 @@
+[[control]]
+id = 'not-resumed'
+entry = 5
+guard = "adopt's agent_session_id-is-none branch after the child ends: it falls to the exit-0 arm"
+case = 'adopt_whose_child_ends_before_its_session_starts_is_not_resumed'
+
+[[control.edit]]
+path = 'src/cmd/adopt.rs'
+old = '''        PumpEnd::Exited(_) if !resumed(home, &name)? => {'''
+new = '''        PumpEnd::Exited(_) if false && !resumed(home, &name)? => {'''

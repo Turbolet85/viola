@@ -4,7 +4,7 @@
 #
 #   bash scripts/r5-adopt.sh <base> <viola> <home> a <id> <model> <effort>   R5a: adopt a real ended plain session
 #   bash scripts/r5-adopt.sh <base> <viola> <home> b <id>                    R5b: a real live one is refused
-#   bash scripts/r5-adopt.sh <base> <viola> --rehearse                       both arms over the fake agent
+#   bash scripts/r5-adopt.sh <base> <viola> --rehearse                       both arms, then r5c, over the fake agent
 #
 # <base> must be absent; the script makes it and names it on stdout, removing nothing. <id> must
 # have the session-id shape. Every inherited VIOLA_* name is unset first.
@@ -19,10 +19,13 @@
 # --rehearse puts a fake-only PATH first (<base>/bin holding the fake agent as claude, foot and
 # hyprctl, then /usr/bin:/bin), stamps its own home with `viola verify` against that fake under a
 # scratch user home and runtime dir, and runs both arms through the same host_adopt and close_host.
+# Under --rehearse alone a third arm, r5c, follows: the fake agent told `--resume-absent`, so the
+# adopted child ends before any session starts and the adopt ends not-resumed by itself.
 #
 # Verdict lines:
-#   r5a: <green|red> resumed=<yes|no> lineage=<yes|no> pair=<model>/<effort>|unread turn=<ended|none|unfired> ended=<yes|no>
+#   r5a: <green|red> resumed=<yes|no> lineage=<yes|no> pair=<model>/<effort>|unread turn=<ended|none|unfired> ended=<yes|no> start=<detail|ok>
 #   r5b: <green|red> refused=<session-live|<code>|none> started=<none|child> ended=<yes|no>
+#   r5c: <green|red> not-resumed=<yes|no> started=<child|none> ended=<yes|no>   (rehearse-only)
 #   r5: rehearsed — not a live reading        (last, under --rehearse)
 set -u
 
@@ -221,10 +224,16 @@ v() {
     env "PATH=$no_claude" "${run_env[@]:1}" "$viola" --home "$home" "$@"
 }
 
+# The detail of the last self `process-exit` in <name>'s run role file, empty when it has none.
+last_self_detail() {
+    jq -r -s '[.[] | select(.event == "process-exit" and .subject == "self") | .detail // empty] | last // empty' \
+        "$home/diagnostics/run-$1.ndjson" 2>/dev/null
+}
+
 # R5a: adopt <id> as adopt-probe under r5-parent, read the start, drive one turn.
 arm_a() {
     local id=$1 model=$2 effort=$3 waited=0 line lines sent cursor woke
-    local resumed=no lineage=no pair=unread turn=unfired ended word=red
+    local resumed=no lineage=no pair=unread turn=unfired ended start word=red
     instance=adopt-probe
     closed=
     wrapper_pid=
@@ -266,11 +275,13 @@ arm_a() {
     fi
     close_host
     ended=$(ended_word)
+    start=$(last_self_detail adopt-probe)
+    [ -n "$start" ] || start=ok
     if [ "$resumed" = yes ] && [ "$lineage" = yes ] && [ "$pair" = "$model/$effort" ] &&
         [ "$turn" = ended ] && [ "$ended" = yes ]; then
         word=green
     fi
-    echo "r5a: $word resumed=$resumed lineage=$lineage pair=$pair turn=$turn ended=$ended"
+    echo "r5a: $word resumed=$resumed lineage=$lineage pair=$pair turn=$turn ended=$ended start=$start"
     [ "$word" = green ]
 }
 
@@ -286,8 +297,7 @@ arm_b() {
     wait "$script_pid" 2>/dev/null
     code=$?
     record_wrapper
-    refused=$(jq -r -s '[.[] | select(.event == "process-exit" and .subject == "self") | .detail // empty] | last // empty' \
-        "$home/diagnostics/run-adopt-live.ndjson" 2>/dev/null)
+    refused=$(last_self_detail adopt-live)
     [ -n "$refused" ] || refused=none
     if [ -n "$(jq -r '.data.child_pid // empty' "$home/instances/adopt-live/snapshot.json" 2>/dev/null)" ] ||
         jq -e -s 'any(.[]; .event == "process-start" and .subject == "claude-child")' \
@@ -303,6 +313,35 @@ arm_b() {
     [ "$word" = green ]
 }
 
+# R5c (rehearse-only): adopt <id> as adopt-gone under --json, the fake agent told no session
+# answers it; the child starts, ends before any session starts, and the adopt ends not-resumed.
+arm_c() {
+    local id=$1 code detail notres=no started=none ended word=red
+    instance=adopt-gone
+    closed=
+    wrapper_pid=
+    wrapper_start=
+    printf '%s\n' --resume-absent >>"$bin/fake-args"
+    host_adopt "$id" --name adopt-gone --json
+    # A not-resumed adopt ends by itself (exit 1 through `script -e`).
+    wait "$script_pid" 2>/dev/null
+    code=$?
+    record_wrapper
+    detail=$(last_self_detail adopt-gone)
+    [ "$detail" = not-resumed ] && notres=yes
+    if jq -e -s 'any(.[]; .event == "process-start" and .subject == "claude-child")' \
+        "$home/diagnostics/run-adopt-gone.ndjson" >/dev/null 2>&1; then
+        started=child
+    fi
+    close_host
+    ended=$(ended_word)
+    if [ "$code" -eq 1 ] && [ "$notres" = yes ] && [ "$started" = child ] && [ "$ended" = yes ]; then
+        word=green
+    fi
+    echo "r5c: $word not-resumed=$notres started=$started ended=$ended"
+    [ "$word" = green ]
+}
+
 if [ -n "$rehearse" ]; then
     id_a=$(cat /proc/sys/kernel/random/uuid)
     id_b=$(cat /proc/sys/kernel/random/uuid)
@@ -312,6 +351,7 @@ if [ -n "$rehearse" ]; then
     status=0
     arm_a "$id_a" haiku low || status=1
     arm_b "$id_b" || status=1
+    arm_c "$(cat /proc/sys/kernel/random/uuid)" || status=1
     echo "r5: rehearsed — not a live reading"
     exit "$status"
 fi

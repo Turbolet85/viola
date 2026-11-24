@@ -1,0 +1,130 @@
+[
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-24T22:36:11Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-24T22-32-16Z-implement",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 4908 · 2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+"ts 2026-11-24T22:36:02Z · clock 2026-11-24T22:36:08Z · the builders' bound 2026-11-24T22:31:33Z (line 4346)",
+"ids 2026-11-24T22:36:02Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-24T23:08:33Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-24T22-32-16Z-implement",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 4909 · 2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+"ts 2026-11-24T23:08:26Z · clock 2026-11-24T23:08:33Z · the builders' bound 2026-11-24T22:36:02Z (line 4347)",
+"ids 2026-11-24T23:08:26Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-24T23:08:42Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-24T22-32-16Z-implement",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 4910 · 2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+"ts 2026-11-24T23:08:42Z · clock 2026-11-24T23:08:42Z · the builders' bound 2026-11-24T23:08:26Z (line 4348)",
+"ids 2026-11-24T23:08:42Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-24T23:10:21Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-24T22-32-16Z-implement",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 4913 · 2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+"ts 2026-11-24T23:10:21Z · clock 2026-11-24T23:10:21Z · the builders' bound 2026-11-24T23:08:42Z (line 4349)",
+"ids 2026-11-24T23:10:21Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson"
+],
+"before": null,
+"after": null
+}
+]

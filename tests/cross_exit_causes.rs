@@ -61,6 +61,7 @@ const NO_SESSION: &str = "start one: viola run builder -- claude";
 const UNKNOWN_ID: &str = "viola revive builder --list";
 const SESSION_LIVE: &str = "close it there first, or start a copy: viola revive builder --fork";
 const ADOPT_SESSION_LIVE: &str = "close it there first, then adopt it again";
+const NOT_RESUMED: &str = "check the session id - claude --resume <id> must open it by hand, under the same claude config";
 const CWD_MISSING: &str = "resume it by hand from a directory you choose: viola run builder -- \
                            claude --resume <id>, ids from viola revive builder --list";
 const PROGRAM_NOT_FOUND: &str = "install Claude Code or put it on PATH";
@@ -101,6 +102,7 @@ const CAUSES: &[Cause] = &[
     ("no-session", 1, Some(UNKNOWN_ID)),
     ("session-live", 1, Some(SESSION_LIVE)),
     ("session-live", 1, Some(ADOPT_SESSION_LIVE)),
+    ("not-resumed", 1, Some(NOT_RESUMED)),
     ("cwd-missing", 1, Some(CWD_MISSING)),
     ("internal-error", 1, None),
     ("program-not-found", 1, Some(PROGRAM_NOT_FOUND)),

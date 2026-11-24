@@ -9,7 +9,8 @@ use std::process::ExitCode;
 
 use viola_agent_claude::{PROGRAM, resume_args};
 use viola_core::ViolaName;
-use viola_state::replay::read_snapshot_or_replay;
+use viola_pty::PumpEnd;
+use viola_state::replay::{Recovered, read_snapshot_or_replay};
 use viola_state::snapshot::Lineage;
 use viola_state::strict::check_instance;
 
@@ -17,9 +18,9 @@ use super::client;
 use super::revive::{live_elsewhere, parse_session_id};
 use super::run::{
     Launch, Started, checked_exe, collision_check, open_wrapper_log, parse_effort, parse_model,
-    pump_child, refuse_tree, refused, start,
+    pump_end, refuse_tree, refused, start,
 };
-use crate::human;
+use crate::{human, run};
 
 #[derive(clap::Args)]
 pub(crate) struct AdoptArgs {
@@ -45,6 +46,7 @@ pub(crate) struct AdoptArgs {
 
 const SESSION_LIVE_UNABLE: &str = "that session is open in another claude";
 const SESSION_LIVE_HINT: &str = "close it there first, then adopt it again";
+const NOT_RESUMED_HINT: &str = "check the session id - claude --resume <id> must open it by hand, under the same claude config";
 
 /// A refusal adopt words itself. A name held by a live or stale wrapper is `run`'s own refusal,
 /// written by its collision check.
@@ -52,6 +54,7 @@ const SESSION_LIVE_HINT: &str = "close it there first, then adopt it again";
 enum Refusal {
     StrictModes,
     SessionLive,
+    NotResumed,
 }
 
 impl Refusal {
@@ -60,6 +63,7 @@ impl Refusal {
         match self {
             Self::StrictModes => "strict-modes-failed",
             Self::SessionLive => "session-live",
+            Self::NotResumed => "not-resumed",
         }
     }
 
@@ -68,6 +72,10 @@ impl Refusal {
         match self {
             Self::StrictModes => human::instance_state_pair(name),
             Self::SessionLive => (SESSION_LIVE_UNABLE.to_owned(), SESSION_LIVE_HINT.to_owned()),
+            Self::NotResumed => (
+                format!("{name}'s session did not resume"),
+                NOT_RESUMED_HINT.to_owned(),
+            ),
         }
     }
 
@@ -98,15 +106,43 @@ pub(crate) fn adopt(home: &Path, args: AdoptArgs) -> anyhow::Result<ExitCode> {
     let json = args.json;
     // The error still reaches the catch site, for its chain and its line. A `pump_child` error
     // prints no document: the child has held the terminal, and viola writes nothing past it.
+    let name = args.name.clone();
     let started = started(home, args).inspect_err(|_| {
         if json {
             client::refused_document("internal-error");
         }
     })?;
-    match started {
-        Started::Launched(launched) => pump_child(*launched),
-        Started::Refused(code) => Ok(code),
+    let launched = match started {
+        Started::Launched(launched) => launched,
+        Started::Refused(code) => return Ok(code),
+    };
+    match pump_end(*launched)? {
+        PumpEnd::Exited(_) if !resumed(home, &name)? => {
+            run::log_self_exit(1, Some(Refusal::NotResumed.detail()));
+            Refusal::NotResumed.write(&name, json);
+            Ok(ExitCode::from(1))
+        }
+        PumpEnd::Exited(_) => {
+            run::log_self_exit(0, None);
+            Ok(ExitCode::SUCCESS)
+        }
+        PumpEnd::WorkerPanicked(_) => {
+            run::log_self_exit(1, Some("internal-error"));
+            Ok(ExitCode::from(1))
+        }
     }
+}
+
+/// Whether a `session-start` reached this wrapper: the wrapper records each one's id in the
+/// snapshot, and the start writes it none. Only a real snapshot with no id reads as not resumed.
+fn resumed(home: &Path, name: &ViolaName) -> anyhow::Result<bool> {
+    let instance_dir = std::path::absolute(home)?
+        .join("instances")
+        .join(AsRef::<str>::as_ref(name));
+    Ok(match read_snapshot_or_replay(&instance_dir) {
+        Ok(Recovered::Snapshot(snapshot)) => snapshot.agent_session_id.is_some(),
+        _ => true,
+    })
 }
 
 /// Everything ahead of the child: the checks, the log, the preflight and `run`'s start.
@@ -323,6 +359,12 @@ mod tests {
         "session-live",
         "that session is open in another claude",
         "close it there first, then adopt it again"
+    )]
+    #[case::not_resumed(
+        Refusal::NotResumed,
+        "not-resumed",
+        "builder's session did not resume",
+        "check the session id - claude --resume <id> must open it by hand, under the same claude config"
     )]
     fn adopt_refusals_have_their_fixed_pair_and_closed_detail(
         #[case] refusal: Refusal,

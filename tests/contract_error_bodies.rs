@@ -332,6 +332,14 @@ const CLI_DOCUMENTS: &[Body] = &[
         witness: "adopt_json_of_a_listed_session_is_the_session_live_document",
     },
     Body {
+        code: "not-resumed",
+        detail: "null",
+        exit: Some(1),
+        file: "src/cmd/adopt.rs",
+        needle: REVIVE,
+        witness: "adopt_json_whose_child_ends_before_its_session_starts_is_the_not_resumed_document",
+    },
+    Body {
         code: "internal-error",
         detail: "null",
         exit: Some(1),

@@ -150,6 +150,9 @@ struct Opts {
     /// `Screen.<phase>` and keeps it standing, answering no byte (the browser-tools offer's case).
     start_screen: Option<String>,
     resume: Option<String>,
+    /// `--resume-absent` (argv only): a `--resume <id>` launch finds no such session; it fires
+    /// SessionEnd, no SessionStart, and exits 1.
+    resume_absent: bool,
     fork_session: bool,
     /// `--model <value>` / `--effort <value>` (argv only): the words a start handed, receipted.
     model: Option<String>,
@@ -212,6 +215,7 @@ impl Opts {
                 "--settings-hooks" => o.settings_hooks = value().map(PathBuf::from),
                 "--start-screen" => o.start_screen = value(),
                 "--resume" => o.resume = value(),
+                "--resume-absent" => o.resume_absent = true,
                 "--fork-session" => o.fork_session = true,
                 "--model" => o.model = value(),
                 "--effort" => o.effort = value(),
@@ -1389,7 +1393,15 @@ impl Trust {
 }
 
 /// The launch an untrusted start makes only once trusted: the registry row, then SessionStart.
-fn launch(agent: &Agent) {
+/// Under `--resume-absent` a resume launch fires SessionEnd alone and reads `false`: the agent then
+/// exits 1.
+fn launch(agent: &Agent) -> bool {
+    if agent.opts.resume_absent && agent.opts.resume.is_some() {
+        agent.fire("SessionEnd", "default", &[]);
+        ignore_hangup();
+        agent.close_hooks();
+        return false;
+    }
     // The row first: whoever reads the session-start line already finds the session listed.
     let registered = exe_dir()
         .zip(agent.launch_session())
@@ -1402,6 +1414,7 @@ fn launch(agent: &Agent) {
         agent.launch_variant(),
         &agent.opts.resume_fields(),
     );
+    true
 }
 
 /// Reads stdin byte by byte until EOF or `\x03`. With `trust` the trust dialog stands first, and
@@ -1433,7 +1446,9 @@ fn read_stdin(agent: &Agent, mut trust: Option<Trust>, standing: bool) -> ExitCo
                 TrustStep::Take(TRUST_OPTION) => {
                     trust = None;
                     write_screen(&agent.opts, "ready");
-                    launch(agent);
+                    if !launch(agent) {
+                        return ExitCode::from(1);
+                    }
                 }
                 TrustStep::Take(_) => {
                     ignore_hangup();
@@ -1565,8 +1580,8 @@ fn main() -> ExitCode {
         }
     }
     // The real CLI fires SessionStart at launch; with no registered hook or no fixture, nothing runs.
-    if trusted {
-        launch(&agent);
+    if trusted && !launch(&agent) {
+        return ExitCode::from(1);
     }
     if let Some(inbox) = exe_dir()
         .map(|dir| dir.join(INBOX))
