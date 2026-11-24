@@ -1,0 +1,35 @@
+[[pattern]]
+id = 'setup-row'
+regex = '''open, run, revive, (up, )?verify|help_lists_only_served_verbs|setup:'''
+
+[[pattern]]
+id = 'boot-time'
+regex = '''boot-time-unread|boot time|btime|cross_exit_causes|exit-cause table'''
+
+[[pattern]]
+id = 'bounded'
+regex = '''contract_bounded_readers|/proc/stat|BOUNDARIES'''
+
+[[pattern]]
+id = 'cli-docs'
+regex = '''CLI_DOCUMENTS|contract_error_bodies'''
+
+[[pattern]]
+id = 'exit-detail'
+regex = '''process-exit[^\n]{0,60}detail|detail[^\n]{0,30}enum|diag-line\.v1'''
+
+[[pattern]]
+id = 'term-pair'
+regex = '''subject[:=]\s*"?terminal|process-exit\{subject'''
+
+[[pattern]]
+id = 'origin'
+regex = '''--origin'''
+
+[[pattern]]
+id = 'locks'
+regex = '''\.lock\b|lock files?'''
+
+[[pattern]]
+id = 'term-window'
+regex = '''terminal window|diag-subject/terminal'''

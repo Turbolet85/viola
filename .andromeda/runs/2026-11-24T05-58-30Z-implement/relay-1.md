@@ -1,1 +1,0 @@
-2026-11-24-viola-up. Re-entry on the revised plan (rev 10): step 21 alone, entry 16 and its control, then the whole layers and the operator pass WITHOUT any R4 entry. The directive is unchanged except the plan revision it names: read ~/dev/projects/additional/viola-overseer/implement-up-directive.md whole first and snap it; read the host before the whole layers as it says.

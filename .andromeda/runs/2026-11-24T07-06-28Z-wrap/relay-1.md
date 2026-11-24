@@ -1,0 +1,1 @@
+Proceed. Wrap chunk 2026-11-24-viola-up whole under the directive you just read, ~/dev/projects/additional/viola-overseer/wrap-up-directive.md: snap it; v2-12 stays claimed gated; raise no dialog for the operator; read the host before the light gate and stop for a quiet window if a neighbour is alive.

@@ -1,0 +1,74 @@
+--- a/.andromeda/architecture.md
++++ b/.andromeda/architecture.md
+@@ -122,3 +122,3 @@
+ decision/launch-pair-handed-not-verified · Launch pair handed, never verified — Every start, run and revive, hands the claude child a model and effort pair on its command line; the pair is never read back or verified as the one the session runs on. · why: Whether a session started or resumed with the pair runs on it is unmeasured on the real CLI.
+-decision/lineage-label-only · Lineage is a label only — Lineage is a label only: no wheel, link, send or answer path reads the declared parent or role. · guard: lineage_is_read_by_no_wheel_link_send_or_answer_path
++decision/lineage-label-only · Lineage is a label only — Lineage is a label only: no wheel, link, send or answer path reads the declared parent or role; viola up reads the parent only to order its re-opens. · guard: lineage_is_read_by_no_wheel_link_send_or_answer_path
+ decision/link-recording · How a driver-to-driven link is recorded — A link `driver → driven` is recorded when a `send` or `answer` is issued from inside a wrapped session to another instance, or by an explicit `viola link <driver> <driven>`; `viola unlink` removes it.
+@@ -187,3 +187,3 @@
+ decision/revive-refuses-live-session · Revive refuses a session a live claude holds — viola revive refuses when a claude agents --json row carries the logged session id about to be resumed; --fork skips the reading, and a failed read passes (fail open). · why: A second claude --resume of a held id is neither refused nor copied by the CLI: both sessions run under one id, two writers on one transcript.
+-decision/revive-resumes-in-place · Revive resumes a gone instance in place — viola revive appends to the gone instance's events log with the earlier bytes unchanged, replays no launch spec but the recorded model and effort, and its first record is wheel with holder driver and cause start, as every start's. · why: Ratified: a revived start keeps the wheel at driver.
++decision/revive-resumes-in-place · Revive resumes a gone instance in place — viola revive appends to the gone instance's events log with the earlier bytes unchanged, replays no launch spec but the recorded model and effort, and under the hidden --origin the recorded workspace, and its first record is wheel with holder driver and cause start, as every start's. · why: Ratified: a revived start keeps the wheel at driver.
+ decision/rmcp-stdio-mcp-server · rmcp stdio MCP server — rmcp, its minor pinned, is what serves MCP, over stdio. · why: The official SDK.
+@@ -225,2 +225,4 @@
+ decision/unverified-cli-transport-only · Transport-only degrade on an unverified CLI — On a CLI version that is not verified, viola still types, runs the wheel and emits events, but withholds dialog answers, drivers get `unverified-cli`, and the readiness gate is partial. · why: The docs lag the installed build, and several load-bearing behaviours are measured, not documented.
++decision/up-parents-first · up re-opens parents before children — viola up re-opens its candidates one at a time, parents before children; a candidate whose parent names no other candidate is a root, and a parent cycle is taken once. · provisional
++decision/up-selection-rule · up re-opens only instances gone before the boot — viola up skips a live or stale instance and takes a gone one only when its heartbeat is older than the host boot time and, unless it was named, its events log has no session-end after its last session-start; an unnamed instance ended on purpose stays down.
+ decision/verify-box-wait-for-literal · Verify waits for an input-box literal after added turns — After each added paste turn of viola verify, the rows the paste guard reads come only from a quiet screen holding the input box (a footer literal or the box's own rows) or a modal literal, a poisoned screen, or the probe deadline; any other quiet screen keeps waiting. · why: Measured: after a long paste the CLI footer holds no input-box literal for about 8 s.
+@@ -375,3 +377,3 @@
+ contract/cli-exit-codes/0 · CLI exit codes · 0 — ok.
+-contract/cli-exit-codes/1 · CLI exit codes · 1 — Internal error, and the start, revive-preflight, open, focus and verify refusals, a refused home-tree check or socket directory of the start among them, each an unable and hint pair on stderr with no path, or under --json one refusal document.
++contract/cli-exit-codes/1 · CLI exit codes · 1 — Internal error, and the start, revive-preflight, open, focus, up and verify refusals, a refused home-tree check or socket directory of the start among them, each an unable and hint pair on stderr with no path, or under --json one refusal document; also an up whose lines are not all successes.
+ contract/cli-exit-codes/10 · CLI exit codes · 10 — The `human-typing` refusal.
+@@ -394,5 +396,6 @@
+ contract/cli-verbs/release · CLI verbs · release — `viola release <target>`; a `--budget` flag is a usage error (exit 2).
+-contract/cli-verbs/revive · CLI verbs · revive — `viola revive <name> [--id <ID>] [--fork] [--model <MODEL>] [--effort <EFFORT>] [-- <child args>]` and `viola revive <name> --list` send no channel frame; `--list` conflicts with `--id`, `--fork`, `--model`, `--effort` and the trailing arguments.
++contract/cli-verbs/revive · CLI verbs · revive — `viola revive <name> [--id <ID>] [--fork] [--model <MODEL>] [--effort <EFFORT>] [-- <child args>]` and `viola revive <name> --list` send no channel frame; `--list` conflicts with `--id`, `--fork`, `--model`, `--effort`, the hidden `--origin` and the trailing arguments.
+ contract/cli-verbs/send · CLI verbs · send — `viola send <target>` takes its text from stdin or `--file`.
+ contract/cli-verbs/unlink · CLI verbs · unlink — `viola unlink <driver> <driven>`.
++contract/cli-verbs/up · CLI verbs · up — `viola up [<NAME>...] [--dry-run] [--json]` re-opens, after a reboot, each instance gone before the boot through viola revive in a new terminal; names given narrow the fleet and a name not scanned reads not-taken; CLI-only, no MCP tool and no channel method.
+ contract/cli-verbs/wait · CLI verbs · wait — `viola wait <target> [--after <cursor>] [--timeout-ms <n>]`.
+@@ -478,2 +481,5 @@
+ contract/viola-hook-exit-codes/0 · viola hook exit codes · 0 — Always 0, including on clap parse errors, channel failures and panics caught at the edge; exit 2 is forbidden.
++contract/viola-up-exit-codes/0 · viola up exit codes · 0 — Every line reads live, already-live, stale-heartbeat or would-open.
++contract/viola-up-exit-codes/1 · viola up exit codes · 1 — Any other line; or a refusal with a document under --json: boot-time-unread, strict-modes-failed, pinned-hash-mismatch or terminal-not-found.
++contract/viola-up-exit-codes/21 · viola up exit codes · 21 — The board's strict refusal (instance-unreachable, strict-modes-failed), with no line printed.
+ absence/database — A database
+@@ -509,2 +515,3 @@
+ decision/stamps-writer-checks-before-and-under-lock · Stamps writer checks strict modes before and under its lock — The stamps writer runs the strict-modes check of the ledger folder and the stamps file before creating the folder and again under its lock, and a refusal reads no stamps, never runs the update and writes none. · why: Verify stamps the home through it and run trusts those stamps; a path another user could write must not be read or rewritten.
++decision/up-writes-no-state · up writes no state of its own — viola up writes no snapshot, event line or stamp, leaving each to the revive it spawns; its lines, hint and --json document hold instance names and closed words only, never a window address, pid or workspace; under --dry-run it spawns nothing. · provisional
+ decision/upstream-text-is-content · Upstream text is content — Upstream text carried in event `data` is content, never commands.
+@@ -631,3 +638,3 @@
+ contract/instance-snapshot/cli-version · instance snapshot · cli_version — `cli_version` comes from `run`'s version gate.
+-contract/instance-snapshot/cwd · instance snapshot · cwd — `cwd` is the directory the start spawned its child in, written into the first snapshot when valid UTF-8 and omitted otherwise; its one reader is `viola revive`, which uses it as the revived child's spawn directory and as the folder its start's trust record is keyed by.
++contract/instance-snapshot/cwd · instance snapshot · cwd — `cwd` is the directory the start spawned its child in, written into the first snapshot when valid UTF-8 and omitted otherwise; its readers are `viola revive`, which uses it as the revived child's spawn directory and its trust record's folder, and `viola up`, opening each terminal there.
+ contract/instance-snapshot/data · instance snapshot · data — `data` is `{endpoint?, pid, started_at, pinned_bin, cli_version?, cli_verified, wheel, pending_dialog?, links, child_pid?, agent_session_id?, cwd?, lineage?, launch?, window?}`.
+@@ -829,3 +836,3 @@
+ contract/diagnostics-lines/process-log-line · Diagnostics lines · home-level process-log line — Format owned by obs and fixed by the default-deny, self-contained schema diag-line.v1.
+-contract/diagnostics-role-files/cli-name · home-level diagnostics role files · cli-<name>.ndjson — The CLI verbs' lines, <name> being the target instance for the frame verbs and focus and the caller's VIOLA_NAME for list, verify, revive --list and plugin install.
++contract/diagnostics-role-files/cli-name · home-level diagnostics role files · cli-<name>.ndjson — The CLI verbs' lines, <name> being the target instance for the frame verbs and focus and the caller's VIOLA_NAME for list, verify, revive --list, up and plugin install.
+ contract/diagnostics-role-files/hook-name · home-level diagnostics role files · hook-<name>.ndjson — The hook's hook-invoked, hook-decision and parse-rejected lines.
+@@ -856,4 +863,5 @@
+ contract/instance-unreachable-detail/strict-modes-failed · the instance-unreachable --json document · strict-modes-failed — The detail when the instance check refused the instance.
++contract/process-exit-detail/boot-time-unread · process-exit detail enum · boot-time-unread — A word of the process-exit detail enum in schemas/diag-line.v1.json, occupied by viola up: its exit 1 when the host boot time cannot be read.
+ contract/process-exit-detail/malformed · process-exit detail enum · malformed — A word of the process-exit detail enum in schemas/diag-line.v1.json, occupied by viola focus.
+-contract/process-exit-detail/not-live · process-exit detail enum · not-live — A word of the process-exit detail enum in schemas/diag-line.v1.json, occupied by viola open.
++contract/process-exit-detail/not-live · process-exit detail enum · not-live — A word of the process-exit detail enum in schemas/diag-line.v1.json, occupied by viola open and viola up.
+ contract/process-exit-detail/oversize · process-exit detail enum · oversize — A word of the process-exit detail enum in schemas/diag-line.v1.json, occupied by viola focus.
+@@ -861,3 +869,3 @@
+ contract/process-exit-detail/stale-heartbeat · process-exit detail enum · stale-heartbeat — A word of the process-exit detail enum in schemas/diag-line.v1.json.
+-contract/process-exit-detail/terminal-not-found · process-exit detail enum · terminal-not-found — A word of the process-exit detail enum in schemas/diag-line.v1.json, occupied by viola open.
++contract/process-exit-detail/terminal-not-found · process-exit detail enum · terminal-not-found — A word of the process-exit detail enum in schemas/diag-line.v1.json, occupied by viola open and viola up.
+ contract/process-exit-detail/unreachable · process-exit detail enum · unreachable — A word of the process-exit detail enum in schemas/diag-line.v1.json, occupied by viola focus.
+@@ -886,2 +894,3 @@
+ contract/viola-cli-arguments/revive · viola CLI arguments · revive — viola revive takes <name> [--id <ID>] [--fork] [--model <MODEL>] [--effort <EFFORT>] [-- <child args>], or <name> --list, each with [--json].
++contract/viola-cli-arguments/revive-origin · viola CLI arguments · revive --origin — viola revive --origin <cli|agent> is a hidden flag, conflicting with --list and with no --place: under it the revive places its window on the workspace a real snapshot recorded, else none; without it there is no window step.
+ contract/viola-cli-arguments/run-effort · viola CLI arguments · run --effort — viola run --effort <EFFORT> names the effort handed to the child, one of the five effort words; any other value is a usage error, exit 2; with none given the effort is the config.json default, else the compiled default.
+@@ -936,2 +945,3 @@
+ name/command/unlink — unlink
++name/command/up — up
+ name/command/verify — verify
+@@ -954,2 +964,3 @@
+ name/other/fake-agent-pump-delay-ms — FAKE_AGENT_PUMP_DELAY_MS
++name/other/foot-spawns-ndjson — foot-spawns.ndjson
+ name/other/harness-tied-test-child — HARNESS_TIED_TEST_CHILD

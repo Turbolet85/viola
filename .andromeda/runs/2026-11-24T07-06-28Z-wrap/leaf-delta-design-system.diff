@@ -1,0 +1,60 @@
+--- a/.andromeda/design-system.md
++++ b/.andromeda/design-system.md
+@@ -87,3 +87,3 @@
+ decision/linux-terminal-platform · Linux terminals as the CLI platform — The cli targets Linux terminals: the core on any current distribution, CI on `ubuntu-latest`.
+-decision/list-is-the-board · viola list is the board — `viola list` is the board, `verify` and `plugin install` act on no strip, and every other verb a person runs acts on one strip.
++decision/list-is-the-board · viola list is the board — `viola list` is the board, `verify` and `plugin install` act on no strip, `up` acts on the whole fleet or on the instances it names, and every other verb a person runs acts on one strip.
+ decision/list-refuses-board-on-strict-modes-failure · Strict-modes failure refuses the whole board — A failed strict-modes check of the home or any instance refuses the whole list board with exit 21, in the fixed unable and hint pair or, under --json, the instance-unreachable document with detail strict-modes-failed. · why: The MCP list tool reads the same refusal document through the shared board reader, and the list tests pin exit 21 and the document byte for byte.
+@@ -136,3 +136,3 @@
+ contract/cli-message-escaping/json · CLI message-mode escaping · --json — `--json` output stays serde-escaped.
+-contract/cli-refusal-line/fixed-unable-form · CLI refusal line · fixed unable form — The exit-1 refusals of `run`, `revive`, `open`, `focus` and `verify` and the exit-21 strict-modes refusals of `list`, `link`, `unlink`, `focus`, `send`, `wait`, `last`, `answer`, `pause` and `release` print the fixed `unable: <text>` form.
++contract/cli-refusal-line/fixed-unable-form · CLI refusal line · fixed unable form — The exit-1 refusals of `run`, `revive`, `open`, `focus`, `up` and `verify` and the exit-21 strict-modes refusals of `list`, `link`, `unlink`, `focus`, `send`, `wait`, `last`, `answer`, `pause` and `release` print the fixed `unable: <text>` form.
+ contract/cli-refusal-line/hint · CLI refusal line · hint — A refusal is followed directly by one `hint:` line per reason, detail or cause.
+@@ -152,2 +152,3 @@
+ contract/cli-verb-output/unlink · CLI verb output · viola unlink — `viola unlink <a> <b>` prints `unlink  <a> -> <b>`.
++contract/cli-verb-output/up · CLI verb output · viola up — `viola up` prints one stdout line per instance, `<name>  <word>` or `<name>  live  <placement>` with a closed placement word, or under `--json` one document `{"v":1,"ok":{"instances":[{"name","outcome","placement"}]}}`.
+ contract/exit-21-cause/endpoint-lost · exit 21 cause · endpoint-lost — One of the closed set of causes named in exit 21's `detail`.
+@@ -158,3 +159,3 @@
+ contract/exit-21-cause/unwrapped-name · exit 21 cause · unwrapped-name — One of the closed set of causes named in exit 21's `detail`.
+-contract/help-output/verb-groups · viola --help output · verb groups — `viola --help` lists the served verbs as `board: list, focus` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: open, run, revive, verify, plugin install`, then `Options:`.
++contract/help-output/verb-groups · viola --help output · verb groups — `viola --help` lists the served verbs as `board: list, focus` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: open, run, revive, up, verify, plugin install`, then `Options:`.
+ contract/hook-verb/exit-code · The hook verb · exit code — `hook` always exits 0.
+@@ -205,2 +206,13 @@
+ contract/viola-send-mirror/unconfirmable · viola send readback mirror · unconfirmable — `[  ] unconfirmable  <name>  local command, no measured post-condition` prints on stdout with exit 0.
++contract/viola-up-outcome/already-live · viola up outcome words · already-live — `already-live` is one of the nine closed outcome words of `viola up`: the instance is live and is not re-opened.
++contract/viola-up-outcome/cwd-missing · viola up outcome words · cwd-missing — `cwd-missing` is one of the nine closed outcome words of `viola up`, and a line reading it makes `up` exit 1.
++contract/viola-up-outcome/live · viola up outcome words · live — `live` is one of the nine closed outcome words of `viola up`: the spawned instance came up live, and its line carries the placement word.
++contract/viola-up-outcome/no-session · viola up outcome words · no-session — `no-session` is one of the nine closed outcome words of `viola up`, and a line reading it makes `up` exit 1.
++contract/viola-up-outcome/not-live · viola up outcome words · not-live — `not-live` is one of the nine closed outcome words of `viola up`: a spawned instance that did not come up live; a line reading it makes `up` exit 1.
++contract/viola-up-outcome/not-taken · viola up outcome words · not-taken — `not-taken` is one of the nine closed outcome words of `viola up`: a name given that the scan did not find, or a named instance whose heartbeat is not older than the boot; a line reading it makes `up` exit 1.
++contract/viola-up-outcome/session-live · viola up outcome words · session-live — `session-live` is one of the nine closed outcome words of `viola up`, and a line reading it makes `up` exit 1.
++contract/viola-up-outcome/stale-heartbeat · viola up outcome words · stale-heartbeat — `stale-heartbeat` is one of the nine closed outcome words of `viola up`: the instance reads stale and is not re-opened.
++contract/viola-up-outcome/would-open · viola up outcome words · would-open — `would-open` is one of the nine closed outcome words of `viola up`: a `--dry-run` plan line for an instance that would be spawned.
++contract/viola-up-output/dry-run · viola up output · --dry-run — `viola up --dry-run` prints the plan as `would-open` lines and spawns nothing.
++contract/viola-up-output/line-order · viola up output · line order — Every `viola up` line that is not a spawn comes first, in name order, then the spawned or `would-open` lines in spawn order, parents before children.
+ contract/viola-verify-output/browser-tools-line · viola verify output · browser-tools line — After a successful `stamps.json` update and before the summary, a run that met the browser-tools prompt prints one plain ASCII stdout line, no SGR: `the browser-tools prompt stood at start; viola never answers it: answer it once in claude, then run viola verify again`.
+@@ -231,2 +243,3 @@
+ name/command/unlink — unlink
++name/command/up — up
+ name/command/verify — verify
+@@ -257,3 +270,3 @@
+ contract/cli-stderr/error-line · CLI stderr · error line — Errors print on stderr as `error: …`.
+-contract/cli-stderr/fixed-message-refusal · CLI stderr · fixed message form — The exit-1 refusals of `viola run`, `revive`, `open`, `focus` and `verify`, `viola list`'s exit-21 strict-modes refusal, and the exit-21 strict-modes refusals of `link`, `unlink`, `focus`, `send`, `wait`, `last`, `answer`, `pause` and `release` use `unable: <text>`.
++contract/cli-stderr/fixed-message-refusal · CLI stderr · fixed message form — The exit-1 refusals of `viola run`, `revive`, `open`, `focus`, `up` and `verify`, `viola list`'s exit-21 strict-modes refusal, and the exit-21 strict-modes refusals of `link`, `unlink`, `focus`, `send`, `wait`, `last`, `answer`, `pause` and `release` use `unable: <text>`.
+ contract/cli-stderr/hint-line · CLI stderr · hint line — Each refusal's `hint:` line follows it directly on stderr.
+@@ -264,4 +277,5 @@
+ contract/exit-21-json-cause/socket-dir-refused · exit 21 --json causes · socket-dir-refused — `socket-dir-refused` is one of the six closed causes of exit 21's `--json` document.
+-contract/exit-21-json-cause/strict-modes-failed · exit 21 --json causes · strict-modes-failed — The `list`, `link`, `unlink`, `focus` and `plugin install` refusals and the six frame verbs' strict-modes refusals read `strict-modes-failed`.
++contract/exit-21-json-cause/strict-modes-failed · exit 21 --json causes · strict-modes-failed — The `list`, `link`, `unlink`, `focus`, `up` and `plugin install` refusals and the six frame verbs' strict-modes refusals read `strict-modes-failed`.
+ contract/exit-21-json-cause/unwrapped-name · exit 21 --json causes · unwrapped-name — With no live endpoint, a frame verb whose instance directory, read after the strict-modes check, is absent or a regular file reads `unwrapped-name`; a symbolic link in its place is refused by the strict-modes check and reads `strict-modes-failed`.
++contract/fixed-refusal-pairs/boot-time-unread · fixed refusal pairs · boot-time-unread pair — When the host boot time cannot be read, `viola up` selects nothing and prints its own fixed `unable:` / `hint:` pair, or under `--json` an exit-1 document with the code `boot-time-unread`.
+ contract/fixed-refusal-pairs/home-state · fixed refusal pairs · home-state pair — `unable: the viola home is not private to you` then `hint: the viola home must be readable only by you; viola does not change its permissions`.
+@@ -295,3 +309,3 @@
+ contract/strict-modes/home-under-regular-file · strict-modes refusals · home under a regular file — A home under a regular file cannot be read and is a strict-modes refusal, not the catch-site line: `verify` prints the home-state pair (exit 1), the frame verbs the instance-state pair (exit 21).
+-contract/viola-help/verb-groups · viola --help · verb groups — `viola --help` lists the served verbs only, grouped `board: list, focus` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: open, run, revive, verify, plugin install`, then `Options:`.
++contract/viola-help/verb-groups · viola --help · verb groups — `viola --help` lists the served verbs only, grouped `board: list, focus` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: open, run, revive, up, verify, plugin install`, then `Options:`.
+ contract/viola-link-json/ok · viola link --json · ok — Exit 0 prints `{"v":1,"ok":{"since":<ts>,"already_linked":<bool>}}`, `<ts>` the time the wrapper recorded the link.
+@@ -345,2 +359,3 @@
+ contract/viola-unlink-json/ok · viola unlink --json · ok — Exit 0 prints `{"v":1,"ok":{}}`.
++contract/viola-up-output/not-live-hint · viola up output · not-live hint — After its lines, `viola up` writes one fixed stderr `hint:` line when any line reads `not-live`, and none under `--json`.
+ contract/viola-verify-output/fail-word · viola verify output · fail word — The word `fail` is uncoloured.

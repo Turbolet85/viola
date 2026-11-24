@@ -1,0 +1,10 @@
+@fit n=1 row=contract/diag-subject/terminal sha=5ed237768262 v=fits type=3
+@fit n=2 row=contract/process-log/child-and-probe-lifecycle sha=ac35cf29828e v=fits type=3
+@fit n=3 row=decision/strict-modes-failure-lines sha=b6a72e1a54f5 v=fits type=1
+@fit n=4 row=contract/diag-detail/strict-modes-failed sha=40e1aec4c78e v=fits type=3
+@fit n=5 row=contract/process-exit-detail/strict-modes-failed sha=9e66e11327a6 v=fits type=3
+@fit n=6 row=contract/strict-modes-refusal-exit/21 sha=e6f3567df3eb v=fits type=3
+@fit n=7 row=contract/strict-modes-refusal-exit/1 sha=f4b8eeb2ec95 v=fits type=3
+@fit n=8 row=decision/strict-modes-before-diagnostics sha=fae3d0c398ba v=fits type=2
+@fit n=9 row=decision/symlink-skip-logged-as-count sha=3d52fcbd4dad v=fits type=2
+@fit n=10 row=contract/cli-log-file/up sha=f4718b393cda v=fits type=3

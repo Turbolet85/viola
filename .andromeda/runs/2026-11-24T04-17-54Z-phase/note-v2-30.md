@@ -1,1 +1,0 @@
-2026-11-24 (2026-11-24-viola-up, phase P5): not claimed by «`viola up`» — its acceptance names «an up» among four legs (a resume, an open, an up, an adopt) and «`viola adopt`» carries another; the up leg is exercised here by each revived start's `launch` line, read in `up_reopens_each_pre_boot_instance_parents_first`, and stays for the chunk that closes the last leg.
