@@ -1,0 +1,1492 @@
+[
+{
+"tool": "gate",
+"v": "1.39",
+"sha8": "cb6114c9",
+"ts": "2026-11-24T18:22:18Z",
+"argv": [
+"run",
+"--chunk",
+"2026-11-24-viola-adopt",
+"--operator",
+"20",
+"--run-dir",
+".andromeda/runs/2026-11-24T18-01-09Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-11-24-viola-adopt · entries 22",
+"logs $TMPDIR/andromeda-gate/2026-11-24-viola-adopt/implement-2026-11-24T18-01-09Z · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 8",
+"walk-class rust 10 (crates/viola-e2e/tests/harness_tied.rs, tests/cli_controls_not_disableable.rs, tests/contract_bounded_readers.rs, +7 in the trail) · uncommitted 8",
+"prose L252-262: **What the block runs, in order:** 1. The formatter and the linter. 2. The root binaries' … (410 chars)",
+"prose L264-271: **What is not run, and why:** - No `round` or `live` entry: R5 is the operator's act, fire… (495 chars)",
+"prose L273-277: **Must-pass readings owed to implement:** - Entry 9 asserts literals step 12's script prin… (466 chars)",
+"prose L279-281: **Records made outside the block:** - Entry 14 reads `evidence/r5.md`, which the operator … (224 chars)",
+"prose L283-283: Neither entry carries an `artifact`.",
+"prose L285-287: **The remove-the-guard controls** are implement's one-shot `gate.py control` runs, never e… (317 chars)",
+"prose L289-294: | id | File | The edit removes | Case | Entry | |---|---|---|---|---| | `adopt-live` | `sr… (697 chars)",
+"operator entry 20 · history tripwire: none of 7 forms matched — not a clearance",
+" 20 build       green · exit 0 · 0.43s · 72 B → 20.log · history: unmoved · cargo build -p viola",
+"not run — excluded · 21: 1-19,21-22",
+"entries 22 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 21"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-11-24-viola-adopt",
+"plan": "doc:2026-11-24-viola-adopt/plan",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-11-24-viola-adopt/implement-2026-11-24T18-01-09Z",
+"delta": {
+"docs": [
+".andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+".andromeda/db/log/2026-11-24T04-18-54-2026-11-24-viola-up.ndjson",
+".andromeda/runs/2026-11-24T17-14-08Z-wrap/evolve-2026-11-24-viola-focus.json",
+".claude/session-handoff.md",
+".andromeda/runs/2026-11-24T18-01-09Z-implement/gate-2026-11-24-viola-up.json",
+".andromeda/runs/2026-11-24T18-01-09Z-implement/inputs-2026-11-24-viola-up.json",
+".andromeda/runs/2026-11-24T18-01-09Z-implement/outcome-2026-11-24-viola-up.md",
+".andromeda/runs/2026-11-24T18-01-09Z-implement/rec-2026-11-24-viola-up.json"
+]
+},
+"unmapped": [],
+"walk_class": {
+"marked": {
+"rust": [
+"crates/viola-e2e/tests/harness_tied.rs",
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_bounded_readers.rs",
+"tests/contract_error_bodies.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs",
+"tests/contract_os_gated_tests.rs",
+"tests/contract_verify_home.rs",
+"tests/cross_killed_test.rs"
+]
+},
+"uncommitted": 8,
+"problem": null
+},
+"prose": [
+{
+"from": 252,
+"to": 262,
+"text": "**What the block runs, in order:** 1. The formatter and the linter. 2. The root binaries' units, then the adopt unit cases filtered. 3. The new integration cases by their prefix. 4. The readers of the moved literals and tables. 5. The folded binary under the `ci` profile. 6. The R5 script's parse and its rehearsal. 7. The host read. 8. The harness's three layers. 9. The gated reading. 10. The operator pass."
+},
+{
+"from": 264,
+"to": 271,
+"text": "**What is not run, and why:** - No `round` or `live` entry: R5 is the operator's act, fired once on his word through the `operator` entries 20–22,   never by implement (`inputs#I1` items 1 and 8). - No boot smoke: no boot-path file changes. `src/cmd/run.rs` and `src/run/` are untouched, and `adopt` hands   `run::start` a `Launch` as `revive` does (research §Files to modify). - No mutation run (`inputs#I1` item 9). - No fuzz target: no new parser. - No `cargo deny`: no dependency edge moves."
+},
+{
+"from": 273,
+"to": 277,
+"text": "**Must-pass readings owed to implement:** - Entry 9 asserts literals step 12's script prints. Its first firing after the script exists, before any graded use,   is the reading of entries 9, 21 and 22: the rehearsal prints the same verdict lines the live arms do. - Entry 7's atoms are the renamed cases' names and nextest's summary. They are read from the local run archived at   `target/run-archive/641`, whose summary line reads `5 tests run: 5 passed, 0 skipped`."
+},
+{
+"from": 279,
+"to": 281,
+"text": "**Records made outside the block:** - Entry 14 reads `evidence/r5.md`, which the operator writes from R5's output (step 13). - Entry 19 reads `evidence/ci-fold.md`'s coverage lines, which the operator pass appends (step 11)."
+},
+{
+"from": 283,
+"to": 283,
+"text": "Neither entry carries an `artifact`."
+},
+{
+"from": 285,
+"to": 287,
+"text": "**The remove-the-guard controls** are implement's one-shot `gate.py control` runs, never entries. Each runs `--timeout 900` against its own filtered entry, which reaches its case past fail-fast by `--no-fail-fast`. Each case fails on its own bounded assertion, so a `timeout` reading would NOT read the guard as held."
+},
+{
+"from": 289,
+"to": 294,
+"text": "| id | File | The edit removes | Case | Entry | |---|---|---|---|---| | `adopt-live` | `src/cmd/adopt.rs` | the live-elsewhere reading in the preflight (its closure answers no refusal) | `adopt_of_a_session_open_in_another_claude_is_session_live` | 5 | | `adopt-shape` | `src/cmd/adopt.rs` | the session-id value parser on the positional id (a plain `String`) | `adopt_with_a_malformed_id_is_a_usage_error` | 5 | | `adopt-order` | `src/cmd/adopt.rs` | the holder reading's early return in the preflight order fn | `adopt_preflight_order_a_refused_holder_takes_no_agents_read` | 4 | | `adopt-parent` | `src/cmd/adopt.rs` | `checked`'s parent-equals-name refusal | `adopt_args_refuse_as_usage` | 4 |"
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "cargo nextest run -p viola --features fake-agent --bins --no-fail-fast",
+"run_sha8": "d56f9f61",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "cargo nextest run -p viola --features fake-agent --bins --no-fail-fast -E 'test(/cmd::adopt::tests::/)' ",
+"run_sha8": "96a1218b",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent --no-fail-fast -E 'test(/^adopt_/)' ",
+"run_sha8": "50c1cbb1",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent --no-fail-fast -E 'binary(cli_output_plain) | binary(cross_exit_causes) | binary(contract_error_bodies) | binary(cli_error_bodies) | binary(cli_revive) | binary(cli_machine_contract) | binary(contract_lints)' ",
+"run_sha8": "8b74b977",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent --profile ci --no-fail-fast -E 'binary(security_negatives_env_capture)' ",
+"run_sha8": "bdb4e4e1",
+"expect": [
+"exit 0",
+"contains verify_window_env_name_with_the_user_word_reads_fail_and_records_nothing",
+"contains verify_window_kept_name_reaches_no_stamp_or_record",
+"contains 5 tests run: 5 passed"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "lint",
+"run": "bash -n scripts/r5-adopt.sh",
+"run_sha8": "c2aeb66f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "e2e",
+"run": "cargo build --features fake-agent && bash scripts/r5-adopt.sh \"$(mktemp -d)/r5\" target/debug/viola --rehearse",
+"run_sha8": "68a9cb4f",
+"expect": [
+"exit 0",
+"contains r5a: green resumed=yes lineage=yes pair=haiku/low turn=ended ended=yes",
+"contains r5b: green refused=session-live started=none ended=yes",
+"last line r5: rehearsed — not a live reading"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "python3 ~/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/hostwatch.py read --last 30",
+"run_sha8": "0e3720fc",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration",
+"run_sha8": "03525807",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "e2e",
+"run": "test -s .andromeda/cache/chunks/2026-11-24-viola-adopt/evidence/r5.md && grep -c '^r5[ab]: green ' .andromeda/cache/chunks/2026-11-24-viola-adopt/evidence/r5.md",
+"run_sha8": "665f0fd8",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "3c62df70",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push",
+"run_sha8": "7eca65b6",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "20f114b9",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "grep -c '^ci-fold: verify_window_.* s of 80 s under coverage, ci#' .andromeda/cache/chunks/2026-11-24-viola-adopt/evidence/ci-fold.md",
+"run_sha8": "b27e4f2b",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "build",
+"run": "cargo build -p viola",
+"run_sha8": "140265b3",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-11-24-viola-adopt/implement-2026-11-24T18-01-09Z/20.log",
+"bytes": 72,
+"log_sha8": "b2c020f2",
+"exit": 0,
+"seconds": 0.43,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"operator": true,
+"witness": "history: unmoved",
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "e2e",
+"run": "bash scripts/r5-adopt.sh \"$XDG_RUNTIME_DIR/viola-r5a\" target/debug/viola \"$R5_HOME\" a \"$R5_ID\" \"$R5_MODEL\" \"$R5_EFFORT\"",
+"run_sha8": "70787898",
+"expect": [
+"exit 0",
+"contains r5a: green resumed=yes lineage=yes",
+"contains turn=ended ended=yes"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "e2e",
+"run": "bash scripts/r5-adopt.sh \"$XDG_RUNTIME_DIR/viola-r5b\" target/debug/viola \"$R5_HOME\" b \"$R5_ID\"",
+"run_sha8": "35d6367c",
+"expect": [
+"exit 0",
+"contains r5b: green refused=session-live started=none ended=yes"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+],
+"operator": {
+"n": 20,
+"tripwire": []
+}
+}
+},
+{
+"tool": "gate",
+"v": "1.39",
+"sha8": "cb6114c9",
+"ts": "2026-11-24T18:33:21Z",
+"argv": [
+"run",
+"--chunk",
+"2026-11-24-viola-adopt",
+"--operator",
+"21",
+"--run-dir",
+".andromeda/runs/2026-11-24T18-01-09Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-11-24-viola-adopt · entries 22",
+"logs $TMPDIR/andromeda-gate/2026-11-24-viola-adopt/implement-2026-11-24T18-01-09Z · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 9",
+"walk-class rust 10 (crates/viola-e2e/tests/harness_tied.rs, tests/cli_controls_not_disableable.rs, tests/contract_bounded_readers.rs, +7 in the trail) · uncommitted 9",
+"prose L252-262: **What the block runs, in order:** 1. The formatter and the linter. 2. The root binaries' … (410 chars)",
+"prose L264-271: **What is not run, and why:** - No `round` or `live` entry: R5 is the operator's act, fire… (495 chars)",
+"prose L273-277: **Must-pass readings owed to implement:** - Entry 9 asserts literals step 12's script prin… (466 chars)",
+"prose L279-281: **Records made outside the block:** - Entry 14 reads `evidence/r5.md`, which the operator … (224 chars)",
+"prose L283-283: Neither entry carries an `artifact`.",
+"prose L285-287: **The remove-the-guard controls** are implement's one-shot `gate.py control` runs, never e… (317 chars)",
+"prose L289-294: | id | File | The edit removes | Case | Entry | |---|---|---|---|---| | `adopt-live` | `sr… (697 chars)",
+"operator entry 21 · history tripwire: none of 7 forms matched — not a clearance",
+" 21 e2e         red · exit 0 ✗ (exit 1) · exit 1 · 117.48s · 104 B → 21.log · history: unmoved · bash scripts/r5-adopt.sh \"$XDG_RUNTIME_DIR/viola-r5a\" targ… (119 chars)",
+"not run — excluded · 21: 1-20,22",
+"entries 22 · green 0 · red 1 (21) · recorded 0 · timeout 0 · not-run 21"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-11-24-viola-adopt",
+"plan": "doc:2026-11-24-viola-adopt/plan",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-11-24-viola-adopt/implement-2026-11-24T18-01-09Z",
+"delta": {
+"docs": [
+".andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+".andromeda/db/log/2026-11-24T04-18-54-2026-11-24-viola-up.ndjson",
+".andromeda/runs/2026-11-24T17-14-08Z-wrap/evolve-2026-11-24-viola-focus.json",
+".claude/session-handoff.md",
+".andromeda/runs/2026-11-24T18-01-09Z-implement/gate-2026-11-24-viola-adopt.json",
+".andromeda/runs/2026-11-24T18-01-09Z-implement/gate-2026-11-24-viola-up.json",
+".andromeda/runs/2026-11-24T18-01-09Z-implement/inputs-2026-11-24-viola-up.json",
+".andromeda/runs/2026-11-24T18-01-09Z-implement/outcome-2026-11-24-viola-up.md",
+".andromeda/runs/2026-11-24T18-01-09Z-implement/rec-2026-11-24-viola-up.json"
+]
+},
+"unmapped": [],
+"walk_class": {
+"marked": {
+"rust": [
+"crates/viola-e2e/tests/harness_tied.rs",
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_bounded_readers.rs",
+"tests/contract_error_bodies.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs",
+"tests/contract_os_gated_tests.rs",
+"tests/contract_verify_home.rs",
+"tests/cross_killed_test.rs"
+]
+},
+"uncommitted": 9,
+"problem": null
+},
+"prose": [
+{
+"from": 252,
+"to": 262,
+"text": "**What the block runs, in order:** 1. The formatter and the linter. 2. The root binaries' units, then the adopt unit cases filtered. 3. The new integration cases by their prefix. 4. The readers of the moved literals and tables. 5. The folded binary under the `ci` profile. 6. The R5 script's parse and its rehearsal. 7. The host read. 8. The harness's three layers. 9. The gated reading. 10. The operator pass."
+},
+{
+"from": 264,
+"to": 271,
+"text": "**What is not run, and why:** - No `round` or `live` entry: R5 is the operator's act, fired once on his word through the `operator` entries 20–22,   never by implement (`inputs#I1` items 1 and 8). - No boot smoke: no boot-path file changes. `src/cmd/run.rs` and `src/run/` are untouched, and `adopt` hands   `run::start` a `Launch` as `revive` does (research §Files to modify). - No mutation run (`inputs#I1` item 9). - No fuzz target: no new parser. - No `cargo deny`: no dependency edge moves."
+},
+{
+"from": 273,
+"to": 277,
+"text": "**Must-pass readings owed to implement:** - Entry 9 asserts literals step 12's script prints. Its first firing after the script exists, before any graded use,   is the reading of entries 9, 21 and 22: the rehearsal prints the same verdict lines the live arms do. - Entry 7's atoms are the renamed cases' names and nextest's summary. They are read from the local run archived at   `target/run-archive/641`, whose summary line reads `5 tests run: 5 passed, 0 skipped`."
+},
+{
+"from": 279,
+"to": 281,
+"text": "**Records made outside the block:** - Entry 14 reads `evidence/r5.md`, which the operator writes from R5's output (step 13). - Entry 19 reads `evidence/ci-fold.md`'s coverage lines, which the operator pass appends (step 11)."
+},
+{
+"from": 283,
+"to": 283,
+"text": "Neither entry carries an `artifact`."
+},
+{
+"from": 285,
+"to": 287,
+"text": "**The remove-the-guard controls** are implement's one-shot `gate.py control` runs, never entries. Each runs `--timeout 900` against its own filtered entry, which reaches its case past fail-fast by `--no-fail-fast`. Each case fails on its own bounded assertion, so a `timeout` reading would NOT read the guard as held."
+},
+{
+"from": 289,
+"to": 294,
+"text": "| id | File | The edit removes | Case | Entry | |---|---|---|---|---| | `adopt-live` | `src/cmd/adopt.rs` | the live-elsewhere reading in the preflight (its closure answers no refusal) | `adopt_of_a_session_open_in_another_claude_is_session_live` | 5 | | `adopt-shape` | `src/cmd/adopt.rs` | the session-id value parser on the positional id (a plain `String`) | `adopt_with_a_malformed_id_is_a_usage_error` | 5 | | `adopt-order` | `src/cmd/adopt.rs` | the holder reading's early return in the preflight order fn | `adopt_preflight_order_a_refused_holder_takes_no_agents_read` | 4 | | `adopt-parent` | `src/cmd/adopt.rs` | `checked`'s parent-equals-name refusal | `adopt_args_refuse_as_usage` | 4 |"
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "cargo nextest run -p viola --features fake-agent --bins --no-fail-fast",
+"run_sha8": "d56f9f61",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "cargo nextest run -p viola --features fake-agent --bins --no-fail-fast -E 'test(/cmd::adopt::tests::/)' ",
+"run_sha8": "96a1218b",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent --no-fail-fast -E 'test(/^adopt_/)' ",
+"run_sha8": "50c1cbb1",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent --no-fail-fast -E 'binary(cli_output_plain) | binary(cross_exit_causes) | binary(contract_error_bodies) | binary(cli_error_bodies) | binary(cli_revive) | binary(cli_machine_contract) | binary(contract_lints)' ",
+"run_sha8": "8b74b977",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent --profile ci --no-fail-fast -E 'binary(security_negatives_env_capture)' ",
+"run_sha8": "bdb4e4e1",
+"expect": [
+"exit 0",
+"contains verify_window_env_name_with_the_user_word_reads_fail_and_records_nothing",
+"contains verify_window_kept_name_reaches_no_stamp_or_record",
+"contains 5 tests run: 5 passed"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "lint",
+"run": "bash -n scripts/r5-adopt.sh",
+"run_sha8": "c2aeb66f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "e2e",
+"run": "cargo build --features fake-agent && bash scripts/r5-adopt.sh \"$(mktemp -d)/r5\" target/debug/viola --rehearse",
+"run_sha8": "68a9cb4f",
+"expect": [
+"exit 0",
+"contains r5a: green resumed=yes lineage=yes pair=haiku/low turn=ended ended=yes",
+"contains r5b: green refused=session-live started=none ended=yes",
+"last line r5: rehearsed — not a live reading"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "python3 ~/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/hostwatch.py read --last 30",
+"run_sha8": "0e3720fc",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration",
+"run_sha8": "03525807",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "e2e",
+"run": "test -s .andromeda/cache/chunks/2026-11-24-viola-adopt/evidence/r5.md && grep -c '^r5[ab]: green ' .andromeda/cache/chunks/2026-11-24-viola-adopt/evidence/r5.md",
+"run_sha8": "665f0fd8",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "3c62df70",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push",
+"run_sha8": "7eca65b6",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "20f114b9",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "grep -c '^ci-fold: verify_window_.* s of 80 s under coverage, ci#' .andromeda/cache/chunks/2026-11-24-viola-adopt/evidence/ci-fold.md",
+"run_sha8": "b27e4f2b",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "build",
+"run": "cargo build -p viola",
+"run_sha8": "140265b3",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "e2e",
+"run": "bash scripts/r5-adopt.sh \"$XDG_RUNTIME_DIR/viola-r5a\" target/debug/viola \"$R5_HOME\" a \"$R5_ID\" \"$R5_MODEL\" \"$R5_EFFORT\"",
+"run_sha8": "70787898",
+"expect": [
+"exit 0",
+"contains r5a: green resumed=yes lineage=yes",
+"contains turn=ended ended=yes"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-24-viola-adopt/implement-2026-11-24T18-01-09Z/21.log",
+"bytes": 104,
+"log_sha8": "9d4348c6",
+"exit": 1,
+"seconds": 117.48,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"contains 'r5a: green resumed=yes lineage=yes' ✗",
+"contains 'turn=ended ended=yes' ✗"
+],
+"survivors": [],
+"operator": true,
+"witness": "history: unmoved",
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 22,
+"role": "e2e",
+"run": "bash scripts/r5-adopt.sh \"$XDG_RUNTIME_DIR/viola-r5b\" target/debug/viola \"$R5_HOME\" b \"$R5_ID\"",
+"run_sha8": "35d6367c",
+"expect": [
+"exit 0",
+"contains r5b: green refused=session-live started=none ended=yes"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+],
+"operator": {
+"n": 21,
+"tripwire": []
+}
+}
+},
+{
+"tool": "gate",
+"v": "1.39",
+"sha8": "cb6114c9",
+"ts": "2026-11-24T18:34:13Z",
+"argv": [
+"run",
+"--chunk",
+"2026-11-24-viola-adopt",
+"--operator",
+"22",
+"--run-dir",
+".andromeda/runs/2026-11-24T18-01-09Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-11-24-viola-adopt · entries 22",
+"logs $TMPDIR/andromeda-gate/2026-11-24-viola-adopt/implement-2026-11-24T18-01-09Z · $TMPDIR = /tmp · bound: GNU timeout",
+"delta docs 9",
+"walk-class rust 10 (crates/viola-e2e/tests/harness_tied.rs, tests/cli_controls_not_disableable.rs, tests/contract_bounded_readers.rs, +7 in the trail) · uncommitted 9",
+"prose L252-262: **What the block runs, in order:** 1. The formatter and the linter. 2. The root binaries' … (410 chars)",
+"prose L264-271: **What is not run, and why:** - No `round` or `live` entry: R5 is the operator's act, fire… (495 chars)",
+"prose L273-277: **Must-pass readings owed to implement:** - Entry 9 asserts literals step 12's script prin… (466 chars)",
+"prose L279-281: **Records made outside the block:** - Entry 14 reads `evidence/r5.md`, which the operator … (224 chars)",
+"prose L283-283: Neither entry carries an `artifact`.",
+"prose L285-287: **The remove-the-guard controls** are implement's one-shot `gate.py control` runs, never e… (317 chars)",
+"prose L289-294: | id | File | The edit removes | Case | Entry | |---|---|---|---|---| | `adopt-live` | `sr… (697 chars)",
+"operator entry 22 · history tripwire: none of 7 forms matched — not a clearance",
+" 22 e2e         green · exit 0 · 0.35s · 89 B → 22.log · history: unmoved · bash scripts/r5-adopt.sh \"$XDG_RUNTIME_DIR/viola-r5b\" targ… (94 chars)",
+"not run — excluded · 21: 1-21",
+"entries 22 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 21"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-11-24-viola-adopt",
+"plan": "doc:2026-11-24-viola-adopt/plan",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-11-24-viola-adopt/implement-2026-11-24T18-01-09Z",
+"delta": {
+"docs": [
+".andromeda/db/log/2026-11-24T01-37-29-2026-11-24-viola-focus.ndjson",
+".andromeda/db/log/2026-11-24T04-18-54-2026-11-24-viola-up.ndjson",
+".andromeda/runs/2026-11-24T17-14-08Z-wrap/evolve-2026-11-24-viola-focus.json",
+".claude/session-handoff.md",
+".andromeda/runs/2026-11-24T18-01-09Z-implement/gate-2026-11-24-viola-adopt.json",
+".andromeda/runs/2026-11-24T18-01-09Z-implement/gate-2026-11-24-viola-up.json",
+".andromeda/runs/2026-11-24T18-01-09Z-implement/inputs-2026-11-24-viola-up.json",
+".andromeda/runs/2026-11-24T18-01-09Z-implement/outcome-2026-11-24-viola-up.md",
+".andromeda/runs/2026-11-24T18-01-09Z-implement/rec-2026-11-24-viola-up.json"
+]
+},
+"unmapped": [],
+"walk_class": {
+"marked": {
+"rust": [
+"crates/viola-e2e/tests/harness_tied.rs",
+"tests/cli_controls_not_disableable.rs",
+"tests/contract_bounded_readers.rs",
+"tests/contract_error_bodies.rs",
+"tests/contract_fake_agent_drift.rs",
+"tests/contract_fixture_hygiene.rs",
+"tests/contract_ledger_probes.rs",
+"tests/contract_os_gated_tests.rs",
+"tests/contract_verify_home.rs",
+"tests/cross_killed_test.rs"
+]
+},
+"uncommitted": 9,
+"problem": null
+},
+"prose": [
+{
+"from": 252,
+"to": 262,
+"text": "**What the block runs, in order:** 1. The formatter and the linter. 2. The root binaries' units, then the adopt unit cases filtered. 3. The new integration cases by their prefix. 4. The readers of the moved literals and tables. 5. The folded binary under the `ci` profile. 6. The R5 script's parse and its rehearsal. 7. The host read. 8. The harness's three layers. 9. The gated reading. 10. The operator pass."
+},
+{
+"from": 264,
+"to": 271,
+"text": "**What is not run, and why:** - No `round` or `live` entry: R5 is the operator's act, fired once on his word through the `operator` entries 20–22,   never by implement (`inputs#I1` items 1 and 8). - No boot smoke: no boot-path file changes. `src/cmd/run.rs` and `src/run/` are untouched, and `adopt` hands   `run::start` a `Launch` as `revive` does (research §Files to modify). - No mutation run (`inputs#I1` item 9). - No fuzz target: no new parser. - No `cargo deny`: no dependency edge moves."
+},
+{
+"from": 273,
+"to": 277,
+"text": "**Must-pass readings owed to implement:** - Entry 9 asserts literals step 12's script prints. Its first firing after the script exists, before any graded use,   is the reading of entries 9, 21 and 22: the rehearsal prints the same verdict lines the live arms do. - Entry 7's atoms are the renamed cases' names and nextest's summary. They are read from the local run archived at   `target/run-archive/641`, whose summary line reads `5 tests run: 5 passed, 0 skipped`."
+},
+{
+"from": 279,
+"to": 281,
+"text": "**Records made outside the block:** - Entry 14 reads `evidence/r5.md`, which the operator writes from R5's output (step 13). - Entry 19 reads `evidence/ci-fold.md`'s coverage lines, which the operator pass appends (step 11)."
+},
+{
+"from": 283,
+"to": 283,
+"text": "Neither entry carries an `artifact`."
+},
+{
+"from": 285,
+"to": 287,
+"text": "**The remove-the-guard controls** are implement's one-shot `gate.py control` runs, never entries. Each runs `--timeout 900` against its own filtered entry, which reaches its case past fail-fast by `--no-fail-fast`. Each case fails on its own bounded assertion, so a `timeout` reading would NOT read the guard as held."
+},
+{
+"from": 289,
+"to": 294,
+"text": "| id | File | The edit removes | Case | Entry | |---|---|---|---|---| | `adopt-live` | `src/cmd/adopt.rs` | the live-elsewhere reading in the preflight (its closure answers no refusal) | `adopt_of_a_session_open_in_another_claude_is_session_live` | 5 | | `adopt-shape` | `src/cmd/adopt.rs` | the session-id value parser on the positional id (a plain `String`) | `adopt_with_a_malformed_id_is_a_usage_error` | 5 | | `adopt-order` | `src/cmd/adopt.rs` | the holder reading's early return in the preflight order fn | `adopt_preflight_order_a_refused_holder_takes_no_agents_read` | 4 | | `adopt-parent` | `src/cmd/adopt.rs` | `checked`'s parent-equals-name refusal | `adopt_args_refuse_as_usage` | 4 |"
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets --features fake-agent -- -D warnings",
+"run_sha8": "84426f9a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "cargo nextest run -p viola --features fake-agent --bins --no-fail-fast",
+"run_sha8": "d56f9f61",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "cargo nextest run -p viola --features fake-agent --bins --no-fail-fast -E 'test(/cmd::adopt::tests::/)' ",
+"run_sha8": "96a1218b",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent --no-fail-fast -E 'test(/^adopt_/)' ",
+"run_sha8": "50c1cbb1",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent --no-fail-fast -E 'binary(cli_output_plain) | binary(cross_exit_causes) | binary(contract_error_bodies) | binary(cli_error_bodies) | binary(cli_revive) | binary(cli_machine_contract) | binary(contract_lints)' ",
+"run_sha8": "8b74b977",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "integration",
+"run": "cargo nextest run --workspace --features fake-agent --profile ci --no-fail-fast -E 'binary(security_negatives_env_capture)' ",
+"run_sha8": "bdb4e4e1",
+"expect": [
+"exit 0",
+"contains verify_window_env_name_with_the_user_word_reads_fail_and_records_nothing",
+"contains verify_window_kept_name_reaches_no_stamp_or_record",
+"contains 5 tests run: 5 passed"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "lint",
+"run": "bash -n scripts/r5-adopt.sh",
+"run_sha8": "c2aeb66f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "e2e",
+"run": "cargo build --features fake-agent && bash scripts/r5-adopt.sh \"$(mktemp -d)/r5\" target/debug/viola --rehearse",
+"run_sha8": "68a9cb4f",
+"expect": [
+"exit 0",
+"contains r5a: green resumed=yes lineage=yes pair=haiku/low turn=ended ended=yes",
+"contains r5b: green refused=session-live started=none ended=yes",
+"last line r5: rehearsed — not a live reading"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "python3 ~/dev/projects/additional/andromedaV3/andromeda-overseer/docs/tools/hostwatch.py read --last 30",
+"run_sha8": "0e3720fc",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run --integration",
+"run_sha8": "03525807",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "e2e",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "e2e",
+"run": "test -s .andromeda/cache/chunks/2026-11-24-viola-adopt/evidence/r5.md && grep -c '^r5[ab]: green ' .andromeda/cache/chunks/2026-11-24-viola-adopt/evidence/r5.md",
+"run_sha8": "665f0fd8",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "bash scripts/agent-run.sh pre-push",
+"run_sha8": "4da4c5c8",
+"expect": [
+"exit 0",
+"contains \"ok\":true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "3c62df70",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push",
+"run_sha8": "7eca65b6",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1800",
+"run_sha8": "20f114b9",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "grep -c '^ci-fold: verify_window_.* s of 80 s under coverage, ci#' .andromeda/cache/chunks/2026-11-24-viola-adopt/evidence/ci-fold.md",
+"run_sha8": "b27e4f2b",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "build",
+"run": "cargo build -p viola",
+"run_sha8": "140265b3",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "e2e",
+"run": "bash scripts/r5-adopt.sh \"$XDG_RUNTIME_DIR/viola-r5a\" target/debug/viola \"$R5_HOME\" a \"$R5_ID\" \"$R5_MODEL\" \"$R5_EFFORT\"",
+"run_sha8": "70787898",
+"expect": [
+"exit 0",
+"contains r5a: green resumed=yes lineage=yes",
+"contains turn=ended ended=yes"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "e2e",
+"run": "bash scripts/r5-adopt.sh \"$XDG_RUNTIME_DIR/viola-r5b\" target/debug/viola \"$R5_HOME\" b \"$R5_ID\"",
+"run_sha8": "35d6367c",
+"expect": [
+"exit 0",
+"contains r5b: green refused=session-live started=none ended=yes"
+],
+"log": "$TMPDIR/andromeda-gate/2026-11-24-viola-adopt/implement-2026-11-24T18-01-09Z/22.log",
+"bytes": 89,
+"log_sha8": "c8239f22",
+"exit": 0,
+"seconds": 0.35,
+"readings": [
+"exit 0 ✓",
+"contains 'r5b: green refused=session-live started=none ended=yes' ✓"
+],
+"survivors": [],
+"operator": true,
+"witness": "history: unmoved",
+"outcome": "green"
+}
+],
+"operator": {
+"n": 22,
+"tripwire": []
+}
+}
+}
+]

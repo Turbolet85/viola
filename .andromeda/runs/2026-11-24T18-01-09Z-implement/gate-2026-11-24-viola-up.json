@@ -1,0 +1,48 @@
+[
+{
+"tool": "gate",
+"v": "1.39",
+"sha8": "cb6114c9",
+"ts": "2026-11-24T18:02:01Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-11-24T18-01-09Z-implement",
+"--marker",
+"2026-11-24-viola-up"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base HEAD (gated: no pre-CI commit after the gated flip fa69be5f)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 50 (runs 3 · evidence 13 · inputs 34) · trails 2 not read · copies 30 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 3,
+"evidence": 13,
+"inputs": 34,
+"trails": 2,
+"copies": 30,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+}
+]

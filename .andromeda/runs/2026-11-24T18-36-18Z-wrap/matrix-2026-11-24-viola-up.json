@@ -1,0 +1,132 @@
+[
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "afc8a3a0",
+"ts": "2026-11-24T18:39:09Z",
+"argv": [
+"release",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-24-viola-up",
+"--id",
+"v2-12",
+"--entry",
+"chk-75xg3mgo",
+"--text-file",
+".andromeda/runs/2026-11-24T18-36-18Z-wrap/release-v2-12.md",
+"--run-dir",
+".andromeda/runs/2026-11-24T18-36-18Z-wrap",
+"--standing",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"release v2-12: chunk 2026-11-24-viola-up → null · status planned kept · gated kept → entry chk-75xg3mgo",
+"notes: +453 chars (total 453)",
+"dry-run: nothing written",
+"pool: unclaimed 6 [v2-12 v2-14 v2-15 v2-28 v2-30 v2-31]"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v2-12",
+"chunk": "2026-11-24-viola-up",
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "After a real host restart, one `viola up` re-opens the instances that were live before it — read as a heartbeat older th… (1365 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v2-12",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "After a real host restart, one `viola up` re-opens the instances that were live before it — read as a heartbeat older th… (1365 chars)",
+"notes_chars": 453
+}
+},
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "afc8a3a0",
+"ts": "2026-11-24T18:39:14Z",
+"argv": [
+"release",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-24-viola-up",
+"--id",
+"v2-12",
+"--entry",
+"chk-75xg3mgo",
+"--text-file",
+".andromeda/runs/2026-11-24T18-36-18Z-wrap/release-v2-12.md",
+"--run-dir",
+".andromeda/runs/2026-11-24T18-36-18Z-wrap",
+"--standing"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"release v2-12: chunk 2026-11-24-viola-up → null · status planned kept · gated kept → entry chk-75xg3mgo",
+"notes: +453 chars (total 453)",
+"landed, rendered ./.andromeda/db/log/2026-11-24T04-18-54-2026-11-24-viola-up.ndjson · 1 entry changed",
+"pool: unclaimed 6 [v2-12 v2-14 v2-15 v2-28 v2-30 v2-31]"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T04-18-54-2026-11-24-viola-up.ndjson"
+],
+"before": {
+"id": "v2-12",
+"chunk": "2026-11-24-viola-up",
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "After a real host restart, one `viola up` re-opens the instances that were live before it — read as a heartbeat older th… (1365 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v2-12",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "After a real host restart, one `viola up` re-opens the instances that were live before it — read as a heartbeat older th… (1365 chars)",
+"notes_chars": 453
+}
+},
+{
+"tool": "matrix",
+"v": "1.13",
+"sha8": "afc8a3a0",
+"ts": "2026-11-24T18:39:30Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-24-viola-up",
+"--run-dir",
+".andromeda/runs/2026-11-24T18-36-18Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"released 1 to a follow-up: v2-12 → chk-75xg3mgo",
+"claimed 0 — gate no-op (no entry carries chunk 2026-11-24-viola-up)",
+"pool: unclaimed 6 [v2-12 v2-14 v2-15 v2-28 v2-30 v2-31]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

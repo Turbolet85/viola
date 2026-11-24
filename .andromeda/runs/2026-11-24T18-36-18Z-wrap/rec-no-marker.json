@@ -1,0 +1,58 @@
+[
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T18:37:25Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-24T18-36-18Z-wrap/carries.txt",
+"--run-dir",
+".andromeda/runs/2026-11-24T18-36-18Z-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 3 record(s) · 2 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T18:37:30Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-24T18-36-18Z-wrap/carries.txt",
+"--run-dir",
+".andromeda/runs/2026-11-24T18-36-18Z-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) · 2 edge(s) · tx 4873 · cry-q7hr3xn4 … cry-fqfwo7jx"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-01T02-56-29-no-marker.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]
