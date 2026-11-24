@@ -86,7 +86,7 @@ enum Role {
 }
 
 /// The first argument that is neither the global `--home` nor its value names the role, so
-/// `viola --home <dir> hook stop` is still a `hook`. `run`, `hook` and `mcp` are named roles, and `revive`
+/// `viola --home <dir> hook stop` is still a `hook`. `run`, `adopt`, `hook` and `mcp` are named roles, and `revive`
 /// is a wrapper beside `run` but for its `--list` (anywhere after the verb), which starts nothing
 /// and is `cli`; any other verb is `cli` (obs-plan §7), and a flag in its place (`--help`) names no
 /// verb.
@@ -107,7 +107,10 @@ fn role_of(args: impl IntoIterator<Item = OsString>) -> Role {
                 } else {
                     Role::Other
                 }
-            } else if arg == "run" || arg.to_str().is_some_and(|a| a.starts_with('-')) {
+            } else if arg == "run"
+                || arg == "adopt"
+                || arg.to_str().is_some_and(|a| a.starts_with('-'))
+            {
                 Role::Other
             } else {
                 Role::Cli
@@ -362,6 +365,10 @@ mod tests {
     #[case::revive_after_home(&["--home", "C:/h", "revive", "b"], Role::Other)]
     #[case::revive_after_home_equals(&["--home=C:/h", "revive", "b"], Role::Other)]
     #[case::later_revive(&["send", "revive"], Role::Cli)]
+    #[case::adopt(&["adopt", "c0f0cc23-690b-45dd-bbfb-06d6cfd44942", "--name", "b"], Role::Other)]
+    #[case::adopt_after_home(&["--home", "C:/h", "adopt", "x"], Role::Other)]
+    #[case::adopt_after_home_equals(&["--home=C:/h", "adopt", "x"], Role::Other)]
+    #[case::later_adopt(&["send", "adopt"], Role::Cli)]
     #[case::help(&["--help"], Role::Other)]
     #[case::nothing(&[], Role::Other)]
     #[case::home_only(&["--home", "C:/h"], Role::Other)]

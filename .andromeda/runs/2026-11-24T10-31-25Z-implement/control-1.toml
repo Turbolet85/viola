@@ -1,0 +1,59 @@
+[[control]]
+id = 'adopt-live'
+entry = 5
+guard = 'the live-elsewhere reading in the preflight: its closure answers no refusal'
+case = 'adopt_of_a_session_open_in_another_claude_is_session_live'
+
+[[control.edit]]
+path = 'src/cmd/adopt.rs'
+old = '''        || {
+            live_elsewhere(&home, &cwd, &args.id).then(|| {
+                Refusal::SessionLive.write(name, json);
+                refused(Refusal::SessionLive.detail())
+            })
+        },'''
+new = '''        || None,'''
+
+[[control]]
+id = 'adopt-shape'
+entry = 5
+guard = 'the session-id value parser on the positional id (a plain String)'
+case = 'adopt_with_a_malformed_id_is_a_usage_error'
+
+[[control.edit]]
+path = 'src/cmd/adopt.rs'
+old = '''    #[arg(value_name = "SESSION_ID", value_parser = parse_session_id)]'''
+new = '''    #[arg(value_name = "SESSION_ID")]'''
+
+[[control]]
+id = 'adopt-order'
+entry = 4
+guard = 'the holder reading early return in the preflight order fn'
+case = 'cmd::adopt::tests::adopt_preflight_order_a_refused_holder_takes_no_agents_read'
+
+[[control.edit]]
+path = 'src/cmd/adopt.rs'
+old = '''    if let Some(refusal) = holder() {
+        return Some(refusal);
+    }
+    session_live()'''
+new = '''    let held = holder();
+    let live = session_live();
+    held.or(live)'''
+
+[[control]]
+id = 'adopt-parent'
+entry = 4
+guard = 'checked parent-equals-name refusal'
+case = 'cmd::adopt::tests::adopt_args_refuse_as_usage::case_6_a_parent_equal_to_the_name'
+
+[[control.edit]]
+path = 'src/cmd/adopt.rs'
+old = '''    if args.parent.as_ref() == Some(&args.name) {
+        return Err(clap::Error::raw(
+            clap::error::ErrorKind::ArgumentConflict,
+            "the argument '--parent <NAME>' cannot name the session itself\n",
+        ));
+    }
+    Ok(args)'''
+new = '''    Ok(args)'''

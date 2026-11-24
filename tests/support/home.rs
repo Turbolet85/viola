@@ -890,6 +890,52 @@ impl Wrapper {
         wrapper
     }
 
+    /// `viola adopt <args…>` typed in `dir` under this test's outer terminal, with the fake agent
+    /// as `claude` first on the child's `PATH`; ready as a boot is. `adopt` hands its child no
+    /// words of the caller's, so the fake agent's own flags (a revived child's, and `extra`) ride
+    /// its `fake-args` file, written before the start; `dir` is the child's cwd, so its trusted
+    /// root.
+    pub fn adopt(
+        stamped: StampedHome,
+        name: &str,
+        dir: &Path,
+        args: &[&str],
+        extra: &[&str],
+    ) -> Self {
+        let home = stamped.home.path().to_path_buf();
+        let scratch = stamped.home.scratch().to_path_buf();
+        let bin = claude_dir(&scratch);
+        let mut flags: Vec<String> = revived_agent_flags(&home, name, dir)
+            .iter()
+            .map(|flag| flag.to_str().expect("utf-8 flag").to_owned())
+            .collect();
+        flags.extend(extra.iter().map(|flag| (*flag).to_owned()));
+        let refs: Vec<&str> = flags.iter().map(String::as_str).collect();
+        fake::write_fake_args(&bin, &refs);
+        let mut argv: Vec<OsString> = vec!["--home".into(), home.clone().into(), "adopt".into()];
+        argv.extend(args.iter().map(OsString::from));
+        let path = path_with(&bin);
+        let before = Starts::read(&home, name);
+        let user = unmade_user_home(&home);
+        let user = user.to_str().expect("utf-8 user home");
+        let pty = OuterPty::spawn_without(
+            Path::new(VIOLA),
+            &argv,
+            &[("PATH", &path), (USER_HOME_VAR, user)],
+            &UNWRAPPED,
+            Size::DEFAULT,
+            dir,
+        );
+        let mut wrapper = Self {
+            stamped,
+            name: name.to_owned(),
+            pty,
+            runtime: None,
+        };
+        wrapper.wait_ready(&before);
+        wrapper
+    }
+
     /// Every boot replays the recorded screens (`--screens`); the fake agent's cwd is trusted
     /// unless `trusted` is false. It is this test's own cwd, or `dir` when one is given.
     fn boot_with(

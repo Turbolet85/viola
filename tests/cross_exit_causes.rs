@@ -60,6 +60,7 @@ const PINNED: &str = "the pinned copy was changed after it was written, so viola
 const NO_SESSION: &str = "start one: viola run builder -- claude";
 const UNKNOWN_ID: &str = "viola revive builder --list";
 const SESSION_LIVE: &str = "close it there first, or start a copy: viola revive builder --fork";
+const ADOPT_SESSION_LIVE: &str = "close it there first, then adopt it again";
 const CWD_MISSING: &str = "resume it by hand from a directory you choose: viola run builder -- \
                            claude --resume <id>, ids from viola revive builder --list";
 const PROGRAM_NOT_FOUND: &str = "install Claude Code or put it on PATH";
@@ -99,6 +100,7 @@ const CAUSES: &[Cause] = &[
     ("no-session", 1, Some(NO_SESSION)),
     ("no-session", 1, Some(UNKNOWN_ID)),
     ("session-live", 1, Some(SESSION_LIVE)),
+    ("session-live", 1, Some(ADOPT_SESSION_LIVE)),
     ("cwd-missing", 1, Some(CWD_MISSING)),
     ("internal-error", 1, None),
     ("program-not-found", 1, Some(PROGRAM_NOT_FOUND)),
@@ -580,6 +582,42 @@ fn a_session_open_elsewhere_is_session_live(#[case] json: bool) {
     assert_refused(&ran, json, "session-live", SESSION_LIVE);
     assert!(refused_with(home.path(), "session-live"));
     assert_eq!(child_starts(home.path()), children, "a child started");
+}
+
+/// `adopt`'s own pair for the same code: the operator's id listed live by a `claude`.
+#[rstest]
+#[case::json(true)]
+#[case::human(false)]
+fn an_adopted_session_open_elsewhere_is_session_live(#[case] json: bool) {
+    let home = TestHome::new();
+    plant_agents(&home, None, &listed(FIXTURE_SESSION));
+    let mut command = support::tied::viola();
+    command
+        .arg("--home")
+        .arg(home.path())
+        .args(in_mode(
+            &["adopt", FIXTURE_SESSION, "--name", "builder"],
+            json,
+        ))
+        .current_dir(home.scratch())
+        .env_remove("VIOLA_NAME")
+        .env_remove("VIOLA_DIR")
+        .env_remove("VIOLA_BIN")
+        .env(
+            "PATH",
+            support::home::path_with(&support::home::claude_dir(home.scratch())),
+        )
+        .env(
+            support::home::USER_HOME_VAR,
+            support::home::unmade_user_home(home.path()),
+        )
+        .stdin(std::process::Stdio::null())
+        .stdout(std::process::Stdio::piped())
+        .stderr(std::process::Stdio::piped());
+    let ran = Running::over(command.spawn().expect("viola")).finish();
+    assert_refused(&ran, json, "session-live", ADOPT_SESSION_LIVE);
+    assert!(refused_with(home.path(), "session-live"));
+    assert_eq!(child_starts(home.path()), 0, "a child started");
 }
 
 #[rstest]

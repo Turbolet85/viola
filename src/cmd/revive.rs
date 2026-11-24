@@ -54,7 +54,7 @@ pub(crate) struct ReviveArgs {
     extra: Vec<OsString>,
 }
 
-fn parse_session_id(raw: &str) -> Result<String, String> {
+pub(super) fn parse_session_id(raw: &str) -> Result<String, String> {
     if is_session_id(raw) {
         Ok(raw.to_owned())
     } else {
@@ -209,7 +209,7 @@ fn preflight_order<R, S, D>(
 
 /// Whether a `claude agents --json` read run from `cwd` lists `id`. A read that fails is no
 /// refusal: the revive goes on (architecture §Standard Contracts, Session liveness).
-fn live_elsewhere(home: &Path, cwd: &Path, id: &str) -> bool {
+pub(super) fn live_elsewhere(home: &Path, cwd: &Path, id: &str) -> bool {
     crate::run::agents::read_here(home, cwd)
         .is_ok_and(|list| list.rows.iter().any(|row| row.session_id == id))
 }

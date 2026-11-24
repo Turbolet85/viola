@@ -59,7 +59,7 @@
 [2026-11-23-viola-open-2] `viola open` — a terminal window per session beside its parent; closed flag allowlist, no shell; window identity and origin in its own state, logged codes-only
 [2026-11-24-viola-focus] `viola focus` — the session's window raised and its workspace shown through Hyprland, by recorded identity or ancestry; a named refusal otherwise  BLOCKED-ON: R3, viola focus once on a hand-started session and once on a viola-opened session at the operator host, unlocked, its moment his to name (founder-forks F-D)
 [2026-11-24-viola-up] `viola up` — the fleet re-opened after a reboot, each resumed in place in its workspace, parents first, pid-and-start-verified live ones skipped, logged per instance  BLOCKED-ON: R4, viola up once on a real compositor over a planted fleet (R4a) and once after a real reboot over a real parent and child (R4b), at the operator host, unlocked, its moments his to name (founder-forks U1-U5)
-`viola adopt` — a plain `claude` session, by session-shaped id, closed and resumed under an operator-given name and parent; the live-elsewhere refusal guards it
+[2026-11-24-viola-adopt] `viola adopt` — a plain `claude` session, by session-shaped id, closed and resumed under an operator-given name and parent; the live-elsewhere refusal guards it  BLOCKED-ON: R5, viola adopt once of a real plain claude session the operator started and ended himself (R5a) and once of a real live one, refused (R5b), at the operator host, unlocked, its moment his to name (founder-forks R5)
 Switching a session's model and effort — a verb with no side effect on the user's settings; the console reaches it through «Console actions» (v2-31)
 
 ### Epoch 6 — The fleet console

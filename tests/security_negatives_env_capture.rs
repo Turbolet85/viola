@@ -265,7 +265,7 @@ fn stamp_of(home: &Path) -> Value {
 }
 
 #[rstest]
-fn kept_name_reaches_no_stamp_or_record(#[from(record_home)] home: TestHome) {
+fn verify_window_kept_name_reaches_no_stamp_or_record(#[from(record_home)] home: TestHome) {
     write_spine_set(&fixtures_of(&home), "2.1.0", None);
     keep_the_test_name(home.path());
     let env: Vec<(&str, &str)> = STRIPPED.iter().copied().chain([KEPT]).collect();
@@ -289,7 +289,9 @@ fn kept_name_reaches_no_stamp_or_record(#[from(record_home)] home: TestHome) {
 }
 
 #[rstest]
-fn env_name_with_the_user_word_reads_fail_and_records_nothing(#[from(record_home)] home: TestHome) {
+fn verify_window_env_name_with_the_user_word_reads_fail_and_records_nothing(
+    #[from(record_home)] home: TestHome,
+) {
     use std::os::unix::fs::PermissionsExt;
     let user = std::env::home_dir()
         .and_then(|h| h.file_name().map(|n| n.to_string_lossy().to_uppercase()))
