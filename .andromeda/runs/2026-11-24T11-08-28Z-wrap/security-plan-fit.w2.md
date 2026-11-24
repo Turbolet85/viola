@@ -1,9 +1,0 @@
-@fit n=1 row=contract/strict-modes-refusal/adopt sha=b265e5958628 v=fits type=3
-@fit n=2 row=decision/r5-adopt-script-ends-own-processes sha=1fcbd63eee7d v=fits type=1
-@fit n=3 row=decision/adopt-signals-no-foreign-process sha=ee0c68ae5748 v=fits type=1
-@fit n=4 row=decision/start-checks-home-tree-before-log-opens sha=1a6828dfd87b v=fits type=1
-@fit n=5 row=decision/start-checks-socket-dir-before-bind sha=c1f28a1d5367 v=fits type=1
-@fit n=6 row=decision/start-writes-trust-record-flag-only sha=dd9b76743c71 v=fits type=1
-@fit n=7 row=decision/nothing-written-under-claude-home sha=32bbf804920c v=fits type=2
-@fit n=8 row=decision/no-writes-under-claude-home sha=34d43cea1c40 v=fits type=2
-@fit n=9 row=decision/viola-writes-nothing-in-claude-dir sha=607dc7c88efa v=fits type=2

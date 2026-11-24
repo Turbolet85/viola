@@ -1,0 +1,29 @@
+--- a/.andromeda/layout-templates.md
++++ b/.andromeda/layout-templates.md
+@@ -83,3 +83,3 @@
+ contract/cli-verbs/focus · CLI verbs · viola focus <name> — Brings the named session's window forward and shows its workspace on Hyprland; it takes one ViolaName and `--json` only, and it is a CLI-only human control.
+-contract/cli-verbs/help · CLI verbs · viola --help — The grouped verb table with the served verbs only: the board, traffic, wheel, handoff and setup rows, `board:` holding list and focus, `handoff:` holding link, unlink and `setup:` holding open, run, revive, adopt, up, verify and plugin install.
++contract/cli-verbs/help · CLI verbs · viola --help — The grouped verb table with the served verbs only: the board, traffic, wheel, handoff and setup rows, `board:` holding list and focus, `handoff:` holding link, unlink and `setup:` holding open, run, revive, adopt, up, switch, verify and plugin install.
+ contract/cli-verbs/last · CLI verbs · viola last <target> — Returns the last assistant message, with no spinner.
+@@ -90,4 +90,5 @@
+ contract/cli-verbs/revive-list · CLI verbs · viola revive <name> --list — Prints the instance's logged sessions, one static line each.
+-contract/cli-verbs/run · CLI verbs · viola run <name> -- claude — Passthrough; on a verified CLI the start writes the claude CLI's trust record for an untrusted session folder, flag only, so no trust dialog stands and no key is typed; prints nothing while the child runs.
++contract/cli-verbs/run · CLI verbs · viola run <name> -- claude — Passthrough; on a verified CLI the start writes the claude CLI's trust record for an untrusted session folder, flag only, so no trust dialog stands and no key is typed; prints nothing while the child runs, nor at a switch's respawn of the child.
+ contract/cli-verbs/send · CLI verbs · viola send <target> — Types at a turn boundary and reports read back, unable or unconfirmable.
++contract/cli-verbs/switch · CLI verbs · viola switch <name> [--model <MODEL>] [--effort <EFFORT>] [--json] — Switches a running wrapped session to a new model and effort in place, resuming the same session id; at least one of --model and --effort is required, else a usage error, exit 2; it exits 0, 10, 12, 13, 14, 20 or 21 and writes nothing to the user's own settings.
+ contract/cli-verbs/up · CLI verbs · viola up [<NAME>...] [--dry-run] [--json] — Re-opens the fleet after a reboot: each candidate instance is revived in its own terminal at its recorded working directory, parents before children, and instances already live are skipped; it is CLI-only, with no MCP tool and no channel method.
+@@ -100,3 +101,3 @@
+ contract/frame-verb-hints/wrapper-went-away · frame verb exit-21 hints · wrapper lost during the call — `hint: <name>'s wrapper went away during the call; viola list shows whether it is still running`, the last stderr line.
+-contract/frame-verbs/strict-modes-refused · the frame verbs · strict-modes refusal — For send, wait, last, answer, pause, release, link and unlink: exit 21 before any role file or log opens, stdout empty, the state-files pair, mode left as found; under `--json` `{"v":1,"error":"instance-unreachable","detail":"strict-modes-failed"}`, stderr empty.
++contract/frame-verbs/strict-modes-refused · the frame verbs · strict-modes refusal — For send, wait, last, answer, pause, release, link, unlink and switch: exit 21 before any role file or log opens, stdout empty, the state-files pair, mode left as found; under `--json` `{"v":1,"error":"instance-unreachable","detail":"strict-modes-failed"}`, stderr empty.
+ contract/instance-unreachable-detail/endpoint-lost · exit-21 --json detail · endpoint-lost — One of the causes `{"v":1,"error":"instance-unreachable","detail":"<cause>"}` carries.
+@@ -138,3 +139,3 @@
+ contract/viola-answer-output/unknown-dialog · viola answer output · unknown-dialog — An answer to a dialog that is not pending prints `unable  <name>  not-delivered  unknown-dialog` on stderr, exit 13, then `hint: that dialog is not pending; viola list shows the current DIALOG`.
+-contract/viola-help/setup-row · viola --help output · setup row — The `setup:` verb group row prints exactly `setup:    open, run, revive, adopt, up, verify, plugin install`, `adopt` after `revive`.
++contract/viola-help/setup-row · viola --help output · setup row — The `setup:` verb group row prints exactly `setup:    open, run, revive, adopt, up, switch, verify, plugin install`, `adopt` after `revive` and `switch` after `up`.
+ contract/viola-help/usage-line · viola --help output · usage line — `viola --help` and `viola help` print exactly `Usage: viola [--home <dir>] <verb> [args]` as the first line, then a blank line.
+@@ -212,2 +213,4 @@
+ contract/viola-send-output/word-column · viola send output · word column — The word column is padded so open, read back, unable and unconfirmable line up, and the name always starts in the same column.
++contract/viola-switch-output/json-ok · viola switch output · --json ok — Under --json a switch that succeeds prints one stdout document whose `ok` carries the `model` and `effort` of the new pair.
++contract/viola-switch-output/switched · viola switch output · switched — A switch that succeeds prints `<name>  switched  <model> <effort>` on stdout, exit 0.
+ contract/viola-verb-help/usage · viola <verb> --help output · per-verb usage — `viola <verb> --help` gives clap's per-verb usage unchanged, its usage line naming the program by its executable.

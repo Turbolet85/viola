@@ -1,0 +1,130 @@
+[
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-24T13:59:30Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-24T13-56-22Z-wrap",
+"--marker",
+"2026-11-24-switching-a-session-s-model-and-effort"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 4785 · 2026-11-24T12-24-44-2026-11-24-switching-a-session-s-model-and-effort.ndjson",
+"ts 2026-11-24T13:59:17Z · clock 2026-11-24T13:59:30Z · the builders' bound 2026-11-24T13:39:01Z (line 4304)",
+"ids 2026-11-24T13:59:17Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T12-24-44-2026-11-24-switching-a-session-s-model-and-effort.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-24T14:38:37Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-24T13-56-22Z-wrap",
+"--marker",
+"2026-11-24-switching-a-session-s-model-and-effort"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 4815 · 2026-11-24T12-24-44-2026-11-24-switching-a-session-s-model-and-effort.ndjson",
+"ts 2026-11-24T14:38:17Z · clock 2026-11-24T14:38:37Z · the builders' bound 2026-11-24T13:59:17Z (line 4305)",
+"ids 2026-11-24T14:38:17Z-a … 2026-11-24T14:38:17Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T12-24-44-2026-11-24-switching-a-session-s-model-and-effort.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-24T14:41:07Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-24T13-56-22Z-wrap",
+"--marker",
+"2026-11-24-switching-a-session-s-model-and-effort"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 4817 · 2026-11-24T12-24-44-2026-11-24-switching-a-session-s-model-and-effort.ndjson",
+"ts 2026-11-24T14:40:59Z · clock 2026-11-24T14:41:07Z · the builders' bound 2026-11-24T14:38:17Z (line 4307)",
+"ids 2026-11-24T14:40:59Z-a … 2026-11-24T14:40:59Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T12-24-44-2026-11-24-switching-a-session-s-model-and-effort.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "2eee70d6",
+"ts": "2026-11-24T14:43:20Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-24T13-56-22Z-wrap",
+"--marker",
+"2026-11-24-switching-a-session-s-model-and-effort"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 4820 · 2026-11-24T12-24-44-2026-11-24-switching-a-session-s-model-and-effort.ndjson",
+"ts 2026-11-24T14:43:12Z · clock 2026-11-24T14:43:20Z · the builders' bound 2026-11-24T14:40:59Z (line 4309)",
+"ids 2026-11-24T14:43:12Z-a … 2026-11-24T14:43:12Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T12-24-44-2026-11-24-switching-a-session-s-model-and-effort.ndjson"
+],
+"before": null,
+"after": null
+}
+]

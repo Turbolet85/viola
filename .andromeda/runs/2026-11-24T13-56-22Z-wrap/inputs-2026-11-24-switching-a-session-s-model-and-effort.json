@@ -1,0 +1,207 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T13:57:01Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-24-switching-a-session-s-model-and-effort",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-switch-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the wrap directive: what the close states, whose word each fork rests on, the rows to read against the build, the carries, the route dialog, the last card",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T13-56-22Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy no-repo · ../additional/viola-overseer/wrap-switch-directive.md",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-wrap-switch-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-switch-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "14e4b5fdfafa1833bead0f016743cc40775f868d331671463a5ac45d199877e4",
+"copy": "I6-wrap-switch-directive.md.txt",
+"link": false,
+"read_at": "2026-11-24T13:57:00Z",
+"step": "wrap",
+"why": "the wrap directive: what the close states, whose word each fork rests on, the rows to read against the build, the carries, the route dialog, the last card"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T13:57:03Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-24-switching-a-session-s-model-and-effort",
+"--run-dir",
+".andromeda/runs/2026-11-24T13-56-22Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-switch-directive.md",
+"I1 cited scope.md:59 · research.md:7 · research.md:49 · plan.md:183 · plan.md:187 · plan.md:259 (in fence) · plan.md:457 · report.md:63",
+"I2 n/a — a message has no live source · copy message · message: the session invoker (the overseer), the /andromeda-phase arguments",
+"I2 cited scope.md:59 · research.md:7 · report.md:63",
+"I3 n/a — a message has no live source · copy message · message: delegate overseer, the review word on p5-card-1",
+"I3 cited research.md:35 · plan.md:29 · plan.md:30 · plan.md:387 · plan.md:457 · report.md:63",
+"I4 n/a — a message has no live source · copy message · message: delegate overseer, the word on p5-card-2",
+"I4 cited report.md:64 · report.md:66",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/implement-switch-directive.md",
+"I5 cited report.md:64 · report.md:145",
+"I6 unchanged · copy no-repo · ../additional/viola-overseer/wrap-switch-directive.md",
+"I6 UNCITED",
+"inputs: 6 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T14:32:40Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-24-switching-a-session-s-model-and-effort",
+"--message-file",
+".andromeda/runs/2026-11-24T13-56-22Z-wrap/relay-1.md",
+"--origin",
+"delegate overseer, the answer to Q1 of this wrap",
+"--kind",
+"relay",
+"--why",
+"the F1 widening escalation answered by the delegate overseer, PROVISIONAL: the seven operations confirmed, the founder answer owed",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T13-56-22Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy message · message: delegate overseer, the answer to Q1 of this wrap",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "relay",
+"repo": null,
+"path": "message: delegate overseer, the answer to Q1 of this wrap",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "7647410633f70bb87cc10917b3946117276283d32f7e0c0d92ff014b552e7332",
+"copy": "I7-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-24T14:32:39Z",
+"step": "wrap",
+"why": "the F1 widening escalation answered by the delegate overseer, PROVISIONAL: the seven operations confirmed, the founder answer owed"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T14:43:03Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-24-switching-a-session-s-model-and-effort",
+"--message-file",
+".andromeda/runs/2026-11-24T13-56-22Z-wrap/relay-2.md",
+"--origin",
+"delegate overseer, the route dialog of this wrap",
+"--kind",
+"relay",
+"--why",
+"the route-resolve dialog answered by the delegate overseer: both carries confirmed, the next entry named and not started",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T13-56-22Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I8 · copy message · message: delegate overseer, the route dialog of this wrap",
+"cite: inputs#I8"
+],
+"stderr": null,
+"wrote": [
+"inputs/I8-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I8",
+"kind": "relay",
+"repo": null,
+"path": "message: delegate overseer, the route dialog of this wrap",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "dbfcc90ed32a79f5a8daceec114fd0d700b2cf0b1262626eda646e1518d0315e",
+"copy": "I8-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-24T14:43:02Z",
+"step": "wrap",
+"why": "the route-resolve dialog answered by the delegate overseer: both carries confirmed, the next entry named and not started"
+}
+}
+]

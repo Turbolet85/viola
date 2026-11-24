@@ -25,7 +25,7 @@ The a11y harness checks cli and tui output discipline with `std::process::Comman
 
 - **P2 — confirmed send and readback, or refusal** — cli (`viola send` readback mirror `[RB]`)
 - **P3 — dialog pending, then `answer`** — cli (`viola answer` for a question, permission, plan, or a question first raised by PermissionRequest; `unverified-cli` refusal)
-- **P4 — human takes the wheel** — tui boundary + cli (`pause`, `release`, `send` refused with `human-typing`)
+- **P4 — human takes the wheel** — tui boundary + cli (`pause`, `release`, `send` and `switch` refused with `human-typing`)
 - **P6 — CLI board, wait/last, verify** — cli output discipline; `viola list`'s `CAPTION` literal pins the caption order, which the terminal fleet console (matrix#v2-14) reuses; the wrapped rows are drawn as a tree, their depth carried by a plain-space NAME indent; the `-- UNWRAPPED - READ-ONLY --` separator stands too, printed only when unwrapped rows exist, and the links follow behind their `-- LINKS --` separator (the `--help` group labels stand too: board / traffic / wheel / handoff / setup over the served verbs, the `handoff:` row `handoff:  link, unlink` between `wheel:` and `setup:`, `plugin install` built in `setup:` as one entry and a bare `plugin` unserved)
 
 ## Bootstrap phases (§3)

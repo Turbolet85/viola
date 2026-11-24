@@ -1,0 +1,10 @@
+@fit n=1 row=contract/help-output/verb-groups sha=f70162480e3c v=fits type=3
+@fit n=2 row=contract/viola-help/verb-groups sha=1e71e00eb91c v=fits type=3
+@fit n=3 row=contract/cli-exit-codes/13 sha=aaa7bc79aeed v=fits type=3
+@fit n=4 row=contract/cli-refusal-line/fixed-unable-form sha=b330591d89ed v=fits type=3
+@fit n=5 row=contract/cli-stderr/fixed-message-refusal sha=f5f9de260e52 v=fits type=3
+@fit n=6 row=contract/cli-strict-modes-refusal/instance-state-pair sha=2c9bd92902b0 v=fits type=3
+@fit n=7 row=contract/strict-modes-refusal/exit-21 sha=511f2b5303dd v=fits type=3
+@fit n=8 row=contract/frame-verb-refusals/strict-modes sha=000dc30fce1f v=fits type=3
+@fit n=9 row=contract/exit-21-json-cause/strict-modes-failed sha=ca4918105e9a v=fits type=3
+@fit n=10 row=contract/exit-21-json-cause/server-verify-failed sha=179624d138cb v=fits type=3
