@@ -1,0 +1,12 @@
+@fit n=1 row=contract/strict-modes-refusal-exit/1 sha=b2f8cc7db6c1 v=fits type=3
+@fit n=2 row=decision/home-tree-check-before-log-init sha=9beb61eb6e7e v=fits type=1
+@fit n=3 row=decision/home-tree-check-before-start-log sha=6d854d34d618 v=fits type=1
+@fit n=4 row=decision/instance-check-before-log-init sha=ce6138ff3af0 v=fits type=1
+@fit n=5 row=contract/exit-1-detail/session-live sha=5c46ebd9cfb7 v=fits type=3
+@fit n=6 row=contract/run-exit-1-detail/session-live sha=679865a7df09 v=fits type=3
+@fit n=7 row=decision/session-live-check-fails-open sha=3afc7f37949b v=fits type=1
+@fit n=8 row=contract/diag-subject/agents-probe sha=cf615b517513 v=fits type=3
+@fit n=9 row=contract/cli-internal-error/human-line sha=ddd4a36c7d15 v=fits type=3
+@fit n=10 row=decision/launch-line-untraced sha=b4c1e92c98b6 v=fits type=1
+@fit n=11 row=decision/lineage-line-untraced sha=c45dde98d185 v=fits type=1
+@fit n=12 row=decision/adopt-start-logs-as-run sha=b70d42949f83 v=fits type=1

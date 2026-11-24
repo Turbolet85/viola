@@ -139,4 +139,4 @@
 2026-11-23-viola-open-2 · complete · `viola open` — a terminal window per session beside its parent, closed allowlist, no shell; window and origin recorded by the wrapper · → chk:2026-11-23-viola-open-2
 2026-11-24-viola-focus · gated · `viola focus` — a session's window raised and its workspace shown through Hyprland, by recorded identity or ancestry; a named refusal otherwise · → chk:2026-11-24-viola-focus
 2026-11-24-viola-up · gated · `viola up` — the fleet re-opened after a reboot through `revive`, parents first, live ones skipped, one line per instance · → chk:2026-11-24-viola-up
-2026-11-24-viola-adopt · pending · `viola adopt` — a plain `claude` session, by session-shaped id, resumed under viola with an operator-given name and parent; the live-elsewhere refusal guards it · → chk:2026-11-24-viola-adopt
+2026-11-24-viola-adopt · gated · `viola adopt` — a plain `claude` session, by session-shaped id, resumed under viola with an operator-given name and parent; the live-elsewhere refusal guards it · → chk:2026-11-24-viola-adopt

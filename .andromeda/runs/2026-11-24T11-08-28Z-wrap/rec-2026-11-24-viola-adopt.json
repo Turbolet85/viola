@@ -1,0 +1,1923 @@
+[
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:10:35Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-24-viola-adopt",
+"--section-file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-24-viola-adopt/report rev 2 · 10 new · 0 revised · 0 retired · 60 kept · tx 4699"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:10:35Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-24-viola-adopt",
+"--section-file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-24-viola-adopt/report rev 3 · 67 new · 0 revised · 0 retired · 70 kept · tx 4700"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:11:00Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/cites-land-2026-11-24-viola-adopt.ndjson",
+"--base",
+"e7703af09c0ff2dddf32cc858a03e3af4bea5d0b",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:11:05Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/cites-land-2026-11-24-viola-adopt.ndjson",
+"--base",
+"e7703af09c0ff2dddf32cc858a03e3af4bea5d0b",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 4702"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:12:42Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 1037 · packs 11 · pack 100 · 297585 B",
+"security-plan: rows 657 · packs 7 · pack 100 · 204624 B",
+"design-system: rows 358 · packs 4 · pack 100 · 88427 B",
+"layout-templates: rows 233 · packs 3 · pack 100 · 57568 B",
+"test-plan: rows 1383 · packs 14 · pack 100 · 380042 B",
+"obs-plan: rows 1051 · packs 11 · pack 100 · 292299 B",
+"a11y-plan: rows 242 · packs 3 · pack 100 · 70312 B",
+"rows-packs: 7 master(s) · 4961 row(s) · 53 pack(s) · 2 draw(s) a pack · pin 4702"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:31:30Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 1037 · packs 11 · picked 61 (39 by every draw) · standing 0 · 241993 B · Established Decisions: by boundary, the rest under `also here:`",
+"security-plan: rows 657 · packs 7 · picked 79 (29 by every draw) · standing 0 · 156716 B",
+"design-system: rows 358 · packs 4 · picked 69 (50 by every draw) · standing 0 · 71833 B",
+"layout-templates: rows 233 · packs 3 · picked 46 (34 by every draw) · standing 0 · 51965 B",
+"test-plan: rows 1383 · packs 14 · picked 120 (71 by every draw) · standing 0 · 315526 B",
+"obs-plan: rows 1051 · packs 11 · picked 86 (55 by every draw) · standing 0 · 219341 B",
+"a11y-plan: rows 242 · packs 3 · picked 43 (27 by every draw) · standing 0 · 55325 B",
+"rows-union: 7 master(s) · picked 504 of 4961 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/arch-rows.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/arch-standing.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/security-rows.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/security-standing.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/design-rows.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/design-standing.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/layouts-rows.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/tests-rows.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/tests-standing.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/obs-rows.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/obs-standing.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:41:18Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-adopt-refusals/session-live · rejected",
+"decision/typed-session-id-on-child-argv · rejected",
+"decision/adopt-lineage-without-role-or-window · rejected",
+"fit: fits 12 · not_master 0 · stands 0",
+"## 2026-11-24-viola-adopt — Established Decisions: 4 row(s)\n**Section:** Established Decisions\n**Change:** + decision/adopt-refuses-live-session — Adopt refuses a session a live claude holds\n~ decision/launch-pair-handed-not-verified · rule: was «Every start, run and revive, hands the claude child a model and effort pair on its command line; the pair is never read back or verified as the one the session runs on.»; now «Every start, run, revive and adopt, hands the claude child a model and effort pair on its command line; the pair is never read back or verified as the one the session runs on.»\n~ decision/no-start-over-live-instance · rule: was «A `viola run`, `viola revive` or `viola open` whose `ViolaName` is `live` or `stale` refuses to start.»; now «A `viola run`, `viola revive`, `viola adopt` or `viola open` whose `ViolaName` is `live` or `stale` refuses to start.»\n~ decision/run-refuses-held-name · rule: was «viola run and viola revive refuse a name that is live or stale, or whose endpoint answers, with exit 1 and a message naming the instance.»; now «viola run, viola revive and viola adopt refuse a name that is live or stale, or whose endpoint answers, with exit 1 and a message naming the instance.»\n**Why:** decision/adopt-refuses-live-session: The chunk lands adopt with the live-elsewhere refusal revive already makes, on the delegate's word, and no row says adopt refuses a held session. — on delegate overseer, 2026-11-24, PROVISIONAL\ndecision/launch-pair-handed-not-verified: Adopt's start hands and records its launch pair like every start, and the rule's list of starts names only run and revive.\ndecision/no-start-over-live-instance: Adopt runs run's collision check and refuses a live or stale name, so the rule's list of starts must name it.\ndecision/run-refuses-held-name: Adopt's holder check is run's own and prints run's collision pair, so the rule naming run and revive alone is incomplete.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — Standard Contracts: 2 row(s)\n**Section:** Standard Contracts\n**Change:** + contract/cli-json-output/adopt-refusal-codes — CLI `--json` output · `viola adopt --json` refusal codes\n~ contract/cli-json-output/internal-error · promise: was «`{\"v\":1,\"error\":\"internal-error\",\"detail\":null}` with exit 1 on stdout, stderr empty, when `--json` comes before any `--`; without `--json` the human line `error: internal error` stands, and `run`, `revive`'s start, `mcp` and `hook` stay silent.»; now «`{\"v\":1,\"error\":\"internal-error\",\"detail\":null}` with exit 1 on stdout, stderr empty, when `--json` comes before any `--`; without `--json` the human line `error: internal error` stands, and `run`, `revive`'s start, `adopt`'s start, `mcp` and `hook` stay silent.»\n**Why:** contract/cli-json-output/adopt-refusal-codes: A new verb's --json refusal codes are a contract at the CLI boundary, and only revive's list stands registered.\ncontract/cli-json-output/internal-error: Adopt's start joins the roles silent at the internal-error catch site, so the contract's silent list must name it.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — Conventions: 2 row(s)\n**Section:** Conventions\n**Change:** + contract/cli-verbs/adopt — CLI verbs · adopt\n~ decision/silent-roles-at-internal-error-catch · rule: was «Run, revive's start, mcp and hook print nothing at the internal-error catch site; only a CLI verb prints the internal-error line or document there.»; now «Run, revive's start, adopt's start, mcp and hook print nothing at the internal-error catch site; only a CLI verb prints the internal-error line or document there.»\n**Why:** contract/cli-verbs/adopt: The chunk adds a CLI verb whose arguments no row of the CLI verbs contract names.\ndecision/silent-roles-at-internal-error-catch: The root bin's role mapping now keeps adopt's start silent at the catch site, so the list of silent roles must name it.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — Occupied Resources: 4 row(s)\n**Section:** Occupied Resources\n**Change:** + name/command/adopt — adopt\n~ contract/child-argv/resume · promise: was «A revived start launches `claude` and adds `--resume <id>`, the id one argv element of a direct spawn.»; now «A revived or adopted start launches `claude` and adds `--resume <id>`, the id one argv element of a direct spawn.»\n~ contract/claude-child-argv/resume · promise: was «A revived start adds --resume <id> after those flags, the id one argv element: the newest logged session id, or --id when the instance's log holds it.»; now «A revived start adds --resume <id> after those flags, the id one argv element: the newest logged session id, or --id when the instance's log holds it; an adopted start adds --resume with the operator-typed id, in the session-id shape.»\n~ contract/diagnostics-role-files/run-name · promise: was «The wrapper's codes-only process lines, viola revive's start arm included.»; now «The wrapper's codes-only process lines, viola revive's start arm and viola adopt's start included.»\n**Why:** name/command/adopt: The command name adopt is now occupied and the register of command names lacks it.\ncontract/child-argv/resume: An adopted start now also hands the child --resume with its id, so the promise naming only a revived start is incomplete.\ncontract/claude-child-argv/resume: An adopted start now puts the typed id after --resume, which the promise naming only a revived start leaves out.\ncontract/diagnostics-role-files/run-name: Adopt logs as process run in run-<name>.ndjson, which the role file's promise does not yet name.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"patterns: none: 8 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 12 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:41:18Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/adopt-session-id-argv-crossing · rejected",
+"decision/adopt-refuses-live-session · rejected",
+"decision/adopt-agents-read-fails-open · rejected",
+"decision/adopt-arguments-checked · rejected",
+"fit: fits 8 · not_master 0 · stands 0",
+"## 2026-11-24-viola-adopt — Threat Model Summary: 1 row(s)\n**Section:** Threat Model Summary\n**Change:** ~ decision/state-tree-strict-modes-before-use · rule: was «run, revive's start, open and verify hold the home tree to the strict-modes check before their first read or open under the home and before any log opens; a refusal exits 1.»; now «run, revive's start, adopt's start, open and verify hold the home tree to the strict-modes check before their first read or open under the home and before any log opens; a refusal exits 1.»\n**Why:** decision/state-tree-strict-modes-before-use: viola adopt's start checks the instance strict-modes first and refuses a widened home or instance dir before any log, so it joins the named list of starts.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — Error Handling: 3 row(s)\n**Section:** Error Handling\n**Change:** ~ decision/home-tree-strict-modes-before-log · rule: was «viola run, revive's start and verify run the home tree's strict-modes check before their log opens; a refusal exits 1 with the home or instance pair, opens no log, writes no line and starts no child.»; now «viola run, revive's start, adopt's start and verify run the home tree's strict-modes check before their log opens; a refusal exits 1 with the home or instance pair, opens no log, writes no line and starts no child.»\n~ decision/run-refuses-socket-dir-before-start · rule: was «viola run and revive's start refuse a bad socket directory before any snapshot, child or bind: exit 1 and one process-exit with detail socket-dir-refused.»; now «viola run, revive's start and adopt's start refuse a bad socket directory before any snapshot, child or bind: exit 1 and one process-exit with detail socket-dir-refused.»\n~ contract/cli-json-error/internal-error · promise: was «Under --json the internal-error line is replaced by {\"v\":1,\"error\":\"internal-error\",\"detail\":null} on stdout with stderr empty; run, revive's start, mcp and hook stay silent there.»; now «Under --json the internal-error line is replaced by {\"v\":1,\"error\":\"internal-error\",\"detail\":null} on stdout with stderr empty; run, revive's start, adopt's start, mcp and hook stay silent there.»\n**Why:** decision/home-tree-strict-modes-before-log: adopt's start runs the strict-modes check before its wrapper log opens and refuses with no child, so the list of starts must name it.\ndecision/run-refuses-socket-dir-before-start: adopt launches through run's start and carries run's shared socket-dir-refused code, so the row naming the starts must include it.\ncontract/cli-json-error/internal-error: adopt is a named wrapper role silent at the internal-error catch site and prints the internal-error document under --json, so the silent list must name it.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — Input Validation: 2 row(s)\n**Section:** Input Validation\n**Change:** ~ decision/claude-agents-resolved-from-path · rule: was «list, revive's preflight and the MCP list tool resolve claude for claude agents --json from the calling process's PATH and current directory; its output is untrusted and bounded by MAX_FRAME.»; now «list, revive's preflight, adopt's live-elsewhere check and the MCP list tool resolve claude for claude agents --json from the calling process's PATH and current directory; its output is untrusted and bounded by MAX_FRAME.»\n~ decision/launch-flags-checked · rule: was «viola run's and viola revive's --model must be a model word, 1 to 64 bytes, a lowercase letter first, then lowercase letters, digits, dots and dashes, and --effort one of the five effort words of claude --help; a bad value is a usage error, exit 2, before anything is read.»; now «viola run's, viola revive's and viola adopt's --model must be a model word, 1 to 64 bytes, a lowercase letter first, then lowercase letters, digits, dots and dashes, and --effort one of the five effort words of claude --help; a bad value is a usage error, exit 2, before anything is read.»\n**Why:** decision/claude-agents-resolved-from-path: revive's live-elsewhere check is now shared with adopt with its body unchanged, so adopt also spawns claude agents --json resolved from the caller's PATH.\ndecision/launch-flags-checked: viola adopt takes --model and --effort through run's own model and effort parsers, so the launch-pair check now holds for adopt too.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — Authentication & Authorization: 2 row(s)\n**Section:** Authentication & Authorization\n**Change:** + contract/strict-modes-refusal/adopt — strict-modes refusal · viola adopt\n+ decision/r5-adopt-script-ends-own-processes — R5 adopt script ends only its own processes\n**Why:** contract/strict-modes-refusal/adopt: adopt adds a strict-modes refusal of its own beside run and revive's, whose standing row names only those two.\ndecision/r5-adopt-script-ends-own-processes: the new live-reading script acts on processes, and the bound on which processes it may end is a decision future rigs must respect.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"patterns: none: 6 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 8 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:41:24Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-adopt-refusals/session-live · rejected",
+"decision/typed-session-id-on-child-argv · rejected",
+"decision/adopt-lineage-without-role-or-window · rejected",
+"fit: fits 12 · not_master 0 · stands 0",
+"landed tx 4704 · 12 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:41:24Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/adopt-session-id-argv-crossing · rejected",
+"decision/adopt-refuses-live-session · rejected",
+"decision/adopt-agents-read-fails-open · rejected",
+"decision/adopt-arguments-checked · rejected",
+"fit: fits 8 · not_master 0 · stands 0",
+"landed tx 4705 · 8 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:41:24Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"name/command/adopt · rejected",
+"contract/adopt-json-refusal-code/strict-modes-failed · rejected",
+"contract/adopt-json-refusal-code/session-live · rejected",
+"contract/adopt-json-refusal-code/already-live · rejected",
+"contract/adopt-json-refusal-code/stale-heartbeat · rejected",
+"contract/adopt-json-refusal-code/pinned-hash-mismatch · rejected",
+"contract/adopt-json-refusal-code/squatted-name · rejected",
+"contract/adopt-json-refusal-code/socket-dir-refused · rejected",
+"contract/adopt-json-refusal-code/internal-error · rejected",
+"contract/viola-adopt-refusals/order · rejected",
+"contract/viola-adopt-usage/exit-2 · rejected",
+"fit: fits 13 · not_master 0 · stands 0",
+"## 2026-11-24-viola-adopt — Surface: cli: 4 row(s) (1 of 2)\n**Section:** Surface: cli\n**Change:** ~ contract/help-output/verb-groups · promise: was «`viola --help` lists the served verbs as `board: list, focus` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: open, run, revive, up, verify, plugin install`, then `Options:`.»; now «`viola --help` lists the served verbs as `board: list, focus` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: open, run, revive, adopt, up, verify, plugin install`, then `Options:`.»\n~ contract/viola-run-output/child-started · promise: was «`run` and `revive` print nothing once the child starts.»; now «`run`, `revive` and `adopt` print nothing once the child starts.»\n~ decision/start-refusals-show-no-path-or-pid · rule: was «The exit-1 refusals of `viola run` and `viola revive` print one fixed-message line and one hint per cause, and none shows a path, a pid, the recorded directory or a logged id.»; now «The exit-1 refusals of `viola run`, `viola revive` and `viola adopt` print one fixed-message line and one hint per cause, and none shows a path, a pid, the recorded directory or a logged id.»\n~ contract/cli-refusal-line/fixed-unable-form · promise: was «The exit-1 refusals of `run`, `revive`, `open`, `focus`, `up` and `verify` and the exit-21 strict-modes refusals of `list`, `link`, `unlink`, `focus`, `send`, `wait`, `last`, `answer`, `pause` and `release` print the fixed `unable: <text>` form.»; now «The exit-1 refusals of `run`, `revive`, `adopt`, `open`, `focus`, `up` and `verify` and the exit-21 strict-modes refusals of `list`, `link`, `unlink`, `focus`, `send`, `wait`, `last`, `answer`, `pause` and `release` print the fixed `unable: <text>` form.»\n**Why:** contract/help-output/verb-groups: The help's `setup:` row now reads `open, run, revive, adopt, up, verify, plugin install`, so the stated verb groups must name `adopt` after `revive`.\ncontract/viola-run-output/child-started: `viola adopt` hands its child to `run`'s start and pump as a silent role, so the print-nothing promise now names it.\ndecision/start-refusals-show-no-path-or-pid: `viola adopt` adds exit-1 start refusals in the fixed pair form with no id, path or pid in any pair, so the rule must name its start.\ncontract/cli-refusal-line/fixed-unable-form: `viola adopt`'s exit-1 refusals print the fixed `unable:` / `hint:` pair, so the list of verbs using the fixed form must include it.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — Surface: cli: 4 row(s) (2 of 2)\n**Section:** Surface: cli\n**Change:** ~ contract/cli-start-refusal/fixed-message · promise: was «A start refusal of `run` or `revive` prints a fixed-message `unable:` line and one hint per cause; `revive`'s causes are read in a fixed order that stops at the first.»; now «A start refusal of `run`, `revive` or `adopt` prints a fixed-message `unable:` line and one hint per cause; `revive`'s and `adopt`'s causes are read in a fixed order that stops at the first.»\n~ decision/silent-catch-sites · rule: was «At the catch site, `run`, `revive`'s start, `mcp` and `hook` stay silent.»; now «At the catch site, `run`, `revive`'s start, `adopt`, `mcp` and `hook` stay silent.»\n+ contract/cli-exit-codes/1-adopt-start — CLI exit codes · 1 of viola adopt\n+ contract/viola-adopt-refusals/session-live — viola adopt refusals · session-live\n**Why:** contract/cli-start-refusal/fixed-message: `viola adopt` adds a start whose refusals print fixed pairs read in a fixed order where the first refusal wins.\ndecision/silent-catch-sites: The word `adopt` is now a named role silent at the catch site, so the list of silent catch sites must include it.\ncontract/cli-exit-codes/1-adopt-start: `cli-exit-codes/1` lists the verbs whose exit-1 refusals print a `--json` document and has no room left under its bound, so adopt's exit-1 refusals stand as a row of their own.\ncontract/viola-adopt-refusals/session-live: `viola adopt` adds a new fixed refusal pair for its live-elsewhere check, a wording held provisional on the delegate's word (W4) that no master states yet. — on delegate overseer, 2026-11-24, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — Surface: cli: 4 row(s)\n**Section:** Surface: cli\n**Change:** ~ contract/viola-help/verb-groups · promise: was «`viola --help` lists the served verbs only, grouped `board: list, focus` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: open, run, revive, up, verify, plugin install`, then `Options:`.»; now «`viola --help` lists the served verbs only, grouped `board: list, focus` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: open, run, revive, adopt, up, verify, plugin install`, then `Options:`.»\n~ contract/cli-stderr/fixed-message-refusal · promise: was «The exit-1 refusals of `viola run`, `revive`, `open`, `focus`, `up` and `verify`, `viola list`'s exit-21 strict-modes refusal, and the exit-21 strict-modes refusals of `link`, `unlink`, `focus`, `send`, `wait`, `last`, `answer`, `pause` and `release` use `unable: <text>`.»; now «The exit-1 refusals of `viola run`, `revive`, `adopt`, `open`, `focus`, `up` and `verify`, `viola list`'s exit-21 strict-modes refusal, and the exit-21 strict-modes refusals of `link`, `unlink`, `focus`, `send`, `wait`, `last`, `answer`, `pause` and `release` use `unable: <text>`.»\n~ contract/cli-catch-site/silent-verbs · promise: was «`run`, `revive`'s start, `mcp` and `hook` stay silent at the catch site, under `--json` too.»; now «`run`, `revive`'s start, `adopt`, `mcp` and `hook` stay silent at the catch site, under `--json` too.»\n~ decision/no-json-after-child-held-terminal · rule: was «An error while pumping the child under `viola revive --json` prints no document.»; now «An error while pumping the child under `viola revive --json` or `viola adopt --json` prints no document.»\n**Why:** contract/viola-help/verb-groups: The help's `setup:` row gains `adopt` after `revive`, so the twin verb-groups contract must state it.\ncontract/cli-stderr/fixed-message-refusal: `viola adopt`'s exit-1 refusals use the fixed `unable:` form, so the twin stderr contract must name it.\ncontract/cli-catch-site/silent-verbs: `adopt` joins the silent roles at the catch site, so the twin contract must name it.\ndecision/no-json-after-child-held-terminal: `viola adopt --json` prints the internal-error document only for an error before `pump_child`, its role silent once the child holds the terminal, as revive's start is.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — Brand Identity: 1 row(s)\n**Section:** Brand Identity\n**Change:** ~ decision/run-prints-nothing-while-wrapped · rule: was «`viola run` prints nothing at all while the wrapped `claude` TUI runs, and neither does a `viola revive` that passed its preflight.»; now «`viola run` prints nothing at all while the wrapped `claude` TUI runs, and neither does a `viola revive` or `viola adopt` that passed its preflight.»\n**Why:** decision/run-prints-nothing-while-wrapped: `viola adopt` starts through `run`'s start and pumps its child as a silent role, so the silence while wrapped now covers an adopted start too.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"patterns: none: 11 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 13 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:41:25Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/cli-catch-site/internal-error · rejected",
+"contract/cli-catch-site-outside-revive-adopt/internal-error · rejected",
+"contract/viola-adopt/usage · rejected",
+"contract/viola-adopt-refusals/session-live · rejected",
+"contract/viola-adopt/preflight-order · rejected",
+"contract/viola-adopt-json/strict-modes-failed · rejected",
+"contract/viola-adopt-json/session-live · rejected",
+"contract/viola-adopt-json/already-live · rejected",
+"contract/viola-adopt-json/stale-heartbeat · rejected",
+"contract/viola-adopt-json/pinned-hash-mismatch · rejected",
+"contract/viola-adopt-json/squatted-name · rejected",
+"contract/viola-adopt-json/socket-dir-refused · rejected",
+"contract/viola-adopt-json/internal-error · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"## 2026-11-24-viola-adopt — Surface: cli: 3 row(s)\n**Section:** Surface: cli\n**Change:** ~ contract/cli-verbs/help · promise: was «The grouped verb table with the served verbs only: the board, traffic, wheel, handoff and setup rows, `board:` holding list and focus, `handoff:` holding link, unlink and `setup:` holding open, run, revive, up, verify and plugin install.»; now «The grouped verb table with the served verbs only: the board, traffic, wheel, handoff and setup rows, `board:` holding list and focus, `handoff:` holding link, unlink and `setup:` holding open, run, revive, adopt, up, verify and plugin install.»\n+ contract/cli-verbs/adopt — CLI verbs · viola adopt <SESSION_ID> --name <NAME>\n+ contract/viola-help/setup-row — viola --help output · setup row\n**Why:** contract/cli-verbs/help: The help's `setup:` row now reads `setup:    open, run, revive, adopt, up, verify, plugin install`, so the row that lists its verbs must name adopt.\ncontract/cli-verbs/adopt: The chunk adds the `viola adopt` verb to the CLI surface, and the verb list holds one row a verb.\ncontract/viola-help/setup-row: The printed `setup:` row gained `adopt`, and the verb-groups row cannot take the new literal within its bound.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 3 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:41:25Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/adopt-preflight-order · rejected",
+"decision/adopt-refuses-live-session · rejected",
+"contract/adopt-refusal-code/strict-modes-failed · rejected",
+"contract/adopt-refusal-code/session-live · rejected",
+"contract/adopt-refusal-code/already-live · rejected",
+"contract/adopt-refusal-code/stale-heartbeat · rejected",
+"contract/adopt-refusal-code/pinned-hash-mismatch · rejected",
+"contract/adopt-refusal-code/squatted-name · rejected",
+"contract/adopt-refusal-code/socket-dir-refused · rejected",
+"contract/adopt-refusal-code/internal-error · rejected",
+"contract/adopt-json/error-before-child-pump · rejected",
+"decision/adopt-id-session-shape · rejected",
+"decision/adopt-lineage-and-cwd · rejected",
+"fit: fits 7 · not_master 0 · stands 0",
+"## 2026-11-24-viola-adopt — 6. E2E Test Strategy: 3 row(s)\n**Section:** 6. E2E Test Strategy\n**Change:** ~ contract/cli-human/internal-error · promise: was «Without --json an internal error prints the line \"error: internal error\" byte for byte; run, revive's start, mcp and hook stay silent there.»; now «Without --json an internal error prints the line \"error: internal error\" byte for byte; run, revive's start, adopt's start, mcp and hook stay silent there.»\n~ decision/session-live-read-fails-open · rule: was «revive --fork skips the session-live reading, and a failed claude agents read passes it.»; now «revive --fork skips the session-live reading, and a failed claude agents read passes it, on revive and adopt alike.»\n+ decision/adopt-proven-live — Real adopt proven only by the gated live reading R5\n**Why:** contract/cli-human/internal-error: The word adopt is now a silent role at the internal-error catch site, so the closed silent list must name adopt's start.\ndecision/session-live-read-fails-open: viola adopt shares revive's live-elsewhere reading and starts when its agents read fails, so the fail-open rule now covers adopt.\ndecision/adopt-proven-live: The chunk proves adopt over the fake agent only and leaves the real-CLI clause to R5, a test strategy the plan must keep.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — 5. Integration Test Strategy: 1 row(s)\n**Section:** 5. Integration Test Strategy\n**Change:** ~ contract/strict-modes-refusal/no-line · promise: was «A refused check at run, viola revive, viola verify, viola focus, viola up's board scan, the frame verbs, the hook and the MCP frame tools writes no line.»; now «A refused check at run, viola revive, viola adopt, viola verify, viola focus, viola up's board scan, the frame verbs, the hook and the MCP frame tools writes no line.»\n**Why:** contract/strict-modes-refusal/no-line: viola adopt refuses a widened home or instance dir before any log, so it joins the closed list of refusals that write no line.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — 1. Test Scope Summary: 1 row(s)\n**Section:** 1. Test Scope Summary\n**Change:** ~ decision/real-claude-local-only · rule: was «Claude-facing behaviour is tested against the fake agent and recorded fixtures; the real claude CLI and Anthropic backend are mocked at unit level and reached only locally, through viola verify and the standing live rig's live starts, never in CI.»; now «Claude-facing behaviour is tested against the fake agent and recorded fixtures; the real claude CLI and Anthropic backend are mocked at unit level and reached only locally, through viola verify, the standing live rig's live starts and the gated live-reading scripts, never in CI.»\n**Why:** decision/real-claude-local-only: The chunk adds a test-only gated live-reading script that starts the real claude locally and is never run by a gate in live form, a route the row's closed list did not name.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — 3. Test Harness Contract: 1 row(s)\n**Section:** 3. Test Harness Contract\n**Change:** ~ decision/verify-driven-tests-20s-kill · except: was «»; now «A verify-driven test named verify_window_ takes that class's 80 s kill instead.»\n**Why:** decision/verify-driven-tests-20s-kill: The two verify-driven cases of security_negatives_env_capture moved into the verify_window_ class, so their bound is no longer the 20 s ci kill the rule names.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — 7. Test Data & Fixtures: 1 row(s)\n**Section:** 7. Test Data & Fixtures\n**Change:** + decision/child-argv-read-from-proc — Child argv read from the live child's cmdline\n**Why:** decision/child-argv-read-from-proc: The chunk found the start receipt carries no argv and fixed where an argv claim is read, a convention later tests must follow.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"patterns: none: 5 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 7 operation(s) · 5 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:41:30Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"name/command/adopt · rejected",
+"contract/adopt-json-refusal-code/strict-modes-failed · rejected",
+"contract/adopt-json-refusal-code/session-live · rejected",
+"contract/adopt-json-refusal-code/already-live · rejected",
+"contract/adopt-json-refusal-code/stale-heartbeat · rejected",
+"contract/adopt-json-refusal-code/pinned-hash-mismatch · rejected",
+"contract/adopt-json-refusal-code/squatted-name · rejected",
+"contract/adopt-json-refusal-code/socket-dir-refused · rejected",
+"contract/adopt-json-refusal-code/internal-error · rejected",
+"contract/viola-adopt-refusals/order · rejected",
+"contract/viola-adopt-usage/exit-2 · rejected",
+"fit: fits 13 · not_master 0 · stands 0",
+"landed tx 4706 · 13 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:41:30Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/cli-catch-site/internal-error · rejected",
+"contract/cli-catch-site-outside-revive-adopt/internal-error · rejected",
+"contract/viola-adopt/usage · rejected",
+"contract/viola-adopt-refusals/session-live · rejected",
+"contract/viola-adopt/preflight-order · rejected",
+"contract/viola-adopt-json/strict-modes-failed · rejected",
+"contract/viola-adopt-json/session-live · rejected",
+"contract/viola-adopt-json/already-live · rejected",
+"contract/viola-adopt-json/stale-heartbeat · rejected",
+"contract/viola-adopt-json/pinned-hash-mismatch · rejected",
+"contract/viola-adopt-json/squatted-name · rejected",
+"contract/viola-adopt-json/socket-dir-refused · rejected",
+"contract/viola-adopt-json/internal-error · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"landed tx 4707 · 3 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:41:31Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/adopt-preflight-order · rejected",
+"decision/adopt-refuses-live-session · rejected",
+"contract/adopt-refusal-code/strict-modes-failed · rejected",
+"contract/adopt-refusal-code/session-live · rejected",
+"contract/adopt-refusal-code/already-live · rejected",
+"contract/adopt-refusal-code/stale-heartbeat · rejected",
+"contract/adopt-refusal-code/pinned-hash-mismatch · rejected",
+"contract/adopt-refusal-code/squatted-name · rejected",
+"contract/adopt-refusal-code/socket-dir-refused · rejected",
+"contract/adopt-refusal-code/internal-error · rejected",
+"contract/adopt-json/error-before-child-pump · rejected",
+"decision/adopt-id-session-shape · rejected",
+"decision/adopt-lineage-and-cwd · rejected",
+"fit: fits 7 · not_master 0 · stands 0",
+"landed tx 4708 · 7 operation(s) · 5 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:41:31Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/adopt-preflight-order · rejected",
+"fit: fits 14 · not_master 0 · stands 0",
+"## 2026-11-24-viola-adopt — 2. Telemetry Strategy: 1 row(s)\n**Section:** 2. Telemetry Strategy\n**Change:** ~ contract/strict-modes-refusal-exit/1 · promise: was «run, revive's start, verify, open and up's home-tree check exit 1 on a strict-modes refusal; revive, open and up under --json print the strict-modes-failed document.»; now «run, revive's start, adopt's start, verify, open and up's home-tree check exit 1 on a strict-modes refusal; revive, adopt, open and up under --json print the strict-modes-failed document.»\n**Why:** contract/strict-modes-refusal-exit/1: viola adopt's start refuses a widened home or instance tree with exit 1 and carries strict-modes-failed among its --json refusal codes, so the closed list of exit-1 strict-modes refusers must name it.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — 3. Observability Harness Contract: 2 row(s)\n**Section:** 3. Observability Harness Contract\n**Change:** ~ decision/home-tree-check-before-log-init · rule: was «run, revive's start arm and viola verify check the home tree's modes before their log opens; a refusal writes no line, starts no child, leaves modes as found and exits 1.»; now «run, revive's start arm, adopt's start and viola verify check the home tree's modes before their log opens; a refusal writes no line, starts no child, leaves modes as found and exits 1.»\n~ decision/instance-check-before-log-init · rule: was «Commands acting on an instance (revive's start arm, the hook arms, link, unlink, send, wait, last, answer, pause, release, focus) run the instance strict-modes check before opening any log; a refusal opens and writes nothing and leaves modes as found.»; now «Commands acting on an instance (revive's start arm, adopt's start, the hook arms, link, unlink, send, wait, last, answer, pause, release, focus) run the instance strict-modes check before opening any log; a refusal opens and writes nothing and leaves modes as found.»\n**Why:** decision/home-tree-check-before-log-init: adopt runs its strict-modes check before open_wrapper_log and a widened home is refused before any log with modes left as found, so the list of starts holding this rule gains adopt's.\ndecision/instance-check-before-log-init: adopt's preflight runs check_instance before open_wrapper_log, so its start joins the commands that check the instance before any log.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — 4. Span / Trace Coverage: 4 row(s)\n**Section:** 4. Span / Trace Coverage\n**Change:** ~ decision/home-tree-check-before-start-log · rule: was «The start of run and of viola revive checks the home tree (the home, instance set, ledger, bin, plugin, pinned exe and plugin hooks) before its log opens; a refusal exits 1 with the home or instance pair, opens no log, writes no line and starts no child.»; now «The start of run, of viola revive and of viola adopt checks the home tree (the home, instance set, ledger, bin, plugin, pinned exe and plugin hooks) before its log opens; a refusal exits 1 with the home or instance pair, opens no log, writes no line and starts no child.»\n~ decision/launch-line-untraced · rule: was «The launch line written at every run and revive start is log-only product audit data: it wakes no wait and opens no span, writes no process-log line and no terminal byte of its own.»; now «The launch line written at every run, revive and adopt start is log-only product audit data: it wakes no wait and opens no span, writes no process-log line and no terminal byte of its own.»\n~ decision/lineage-line-untraced · rule: was «The lineage line written at every run and revive start is log-only product audit data: it wakes no wait and writes no process-log line, span or terminal byte of its own.»; now «The lineage line written at every run, revive and adopt start is log-only product audit data: it wakes no wait and writes no process-log line, span or terminal byte of its own.»\n+ decision/adopt-start-logs-as-run — viola adopt start logs as run\n**Why:** decision/home-tree-check-before-start-log: adopt's start is a new start that checks the tree before its run log opens and refuses with exit 1 and no line, so the row naming the starts must include it.\ndecision/launch-line-untraced: adopt's start writes the launch line through run::start and adds no span or line of its own, so the starts the rule names gain adopt.\ndecision/lineage-line-untraced: adopt's start writes the lineage line of its given or inherited parent and adds no line or span of its own, so the starts the rule names gain adopt.\ndecision/adopt-start-logs-as-run: viola adopt is a new start whose instrumentation is run's own process-start, process-exit and agents-probe lines and run.* spans, and no row says which role and file it logs under.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — 1. Obs Scope Summary: 2 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ contract/exit-1-detail/session-live · promise: was «session-live is a distinct detail code for viola revive's exit-1 cause, naming no path or pid.»; now «session-live is a distinct detail code for the exit-1 cause of viola revive and of viola adopt, naming no path or pid.»\n~ contract/run-exit-1-detail/session-live · promise: was «On a start made by viola revive, a distinct detail code.»; now «On a start made by viola revive or viola adopt, a distinct detail code.»\n**Why:** contract/exit-1-detail/session-live: adopt now refuses a session open elsewhere with session-live, exit 1, so the code is no longer revive's alone.\ncontract/run-exit-1-detail/session-live: adopt's start, logging as run, writes session-live on its refusal, so the row naming the starts that carry it must include adopt.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — 6. Log Coverage: 3 row(s)\n**Section:** 6. Log Coverage\n**Change:** ~ decision/session-live-check-fails-open · rule: was «A failed, oversize or malformed claude agents read passes the session-live check; the check is skipped under --fork.»; now «A failed, oversize or malformed claude agents read passes the session-live check of revive's and adopt's starts; the check is skipped under revive's --fork.»\n~ contract/diag-subject/agents-probe · promise: was «Subject of the process-start and process-exit pair of the claude agents read, written by viola list, viola revive's session-live reading, verify's Run B and the list tool of viola mcp into their role files.»; now «Subject of the process-start and process-exit pair of the claude agents read, written by viola list, the session-live reading of viola revive and viola adopt, verify's Run B and the list tool of viola mcp into their role files.»\n+ contract/process-exit-detail/exit-1-adopt — process-exit detail · exit 1 from viola adopt\n**Why:** decision/session-live-check-fails-open: adopt shares revive's live_elsewhere check and starts when its agents read fails, so the fail-open rule now covers both starts.\ncontract/diag-subject/agents-probe: adopt's session-live reading writes run's agents-probe lines, so the list of writers of this subject gains it.\ncontract/process-exit-detail/exit-1-adopt: adopt writes session-live on its own exit-1 process-exit while its strict-modes-failed refusal writes no line, and the standing exit-1 list cannot take it within its bound.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — 7. Error Capture & Reporting: 1 row(s)\n**Section:** 7. Error Capture & Reporting\n**Change:** ~ contract/cli-internal-error/human-line · promise: was «Without --json the cli catch site prints exactly error: internal error; run, revive's start, mcp and hook print neither.»; now «Without --json the cli catch site prints exactly error: internal error; run, revive's start, adopt's start, mcp and hook print neither.»\n**Why:** contract/cli-internal-error/human-line: the role word adopt is now classified before clap and silent at the internal-error catch site, so the list of roles that print nothing there gains adopt's start.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — 8. PII Scrubbing & Compliance: 1 row(s)\n**Section:** 8. PII Scrubbing & Compliance\n**Change:** + decision/adopt-session-id-never-logged — Adopt's typed session id never logged\n**Why:** decision/adopt-session-id-never-logged: adopt brings a new operator-typed id as external input, and the report holds it absent from every line, which no standing row says.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"patterns: none: 11 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 14 operation(s) · 7 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:41:31Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/adopt-session-live-pair · rejected",
+"fit: fits 11 · not_master 0 · stands 0",
+"## 2026-11-24-viola-adopt — 1. A11y Scope Summary: 3 row(s)\n**Section:** 1. A11y Scope Summary\n**Change:** ~ contract/start-refusal/home-strict-modes · promise: was «Over a home tree failing the strict-modes check, `viola run`, a `viola revive` start and `viola verify` refuse before any log opens: exit 1, stdout empty, the home-state pair on stderr with `hint:` last, no child; `verify` prints no step line and no summary.»; now «Over a home tree failing the strict-modes check, `viola run`, a `viola revive` or `viola adopt` start and `viola verify` refuse before any log opens: exit 1, stdout empty, the home-state pair on stderr with `hint:` last, no child; `verify` prints no step line and no summary.»\n~ contract/start-refusal/socket-dir · promise: was «Over a failing socket directory, `viola run` and a `viola revive` start refuse with exit 1 before any snapshot, bind or child: the socket-directory pair on stderr, `hint:` last, plain ASCII, no SGR, naming only the parsed name; the directory is left as found.»; now «Over a failing socket directory, `viola run` and a `viola revive` or `viola adopt` start refuse with exit 1 before any snapshot, bind or child: the socket-directory pair on stderr, `hint:` last, plain ASCII, no SGR, naming only the parsed name; the directory is left as found.»\n~ contract/log-identity/process · promise: was «`process:\"cli\"` for short-lived verbs with a resolved instance; `process:\"run\"` with `instance:<ViolaName>` for `viola run`.»; now «`process:\"cli\"` for short-lived verbs with a resolved instance; `process:\"run\"` with `instance:<ViolaName>` for `viola run` and a `viola adopt` start.»\n**Why:** contract/start-refusal/home-strict-modes: adopt's start now refuses a widened home before any log with exit 1 and no child, so the list of starts this refusal covers gains adopt.\ncontract/start-refusal/socket-dir: adopt's start runs run's shared start, socket-dir-refused among its refusals, so the starts this refusal names gain adopt.\ncontract/log-identity/process: adopt opens run's wrapper log and logs as process run, so the process tag's promise must name it.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — 8. Cognitive Accessibility: 4 row(s) (1 of 2)\n**Section:** 8. Cognitive Accessibility\n**Change:** ~ decision/strict-modes-refusal-before-any-write · rule: was «A home or instance failing the strict-modes check is refused first, before any log opens, frame is sent or child starts, with no line written: exit 21 for frame verbs, link/unlink and focus, exit 1 for run, revive's start and verify.»; now «A home or instance failing the strict-modes check is refused first, before any log opens, frame is sent or child starts, with no line written: exit 21 for frame verbs, link/unlink and focus, exit 1 for run, revive's and adopt's start and verify.»\n~ contract/json-fault/internal-error · promise: was «Where a verb prints error: internal error, --json prints the internal-error document with null detail on stdout instead, stderr empty; run, revive's start, mcp and hook stay silent there.»; now «Where a verb prints error: internal error, --json prints the internal-error document with null detail on stdout instead, stderr empty; run, revive's and adopt's start, mcp and hook stay silent there.»\n~ decision/socket-dir-refusal-before-any-frame · rule: was «A refused socket directory stops the verb before any frame, snapshot, child or bind and leaves the directory as found: exit 21 for the frame verbs, exit 1 for the run and revive start.»; now «A refused socket directory stops the verb before any frame, snapshot, child or bind and leaves the directory as found: exit 21 for the frame verbs, exit 1 for the run, revive and adopt start.»\n~ decision/claude-agents-read-fails-open · rule: was «A failed, oversize, malformed or timed-out claude agents --json read leaves the list board as the board read gave it and passes revive's preflight.»; now «A failed, oversize, malformed or timed-out claude agents --json read leaves the list board as the board read gave it and passes revive's and adopt's preflight.»\n**Why:** decision/strict-modes-refusal-before-any-write: adopt's start refuses a widened home or instance dir before any log with exit 1, so the exit-1 list gains it.\ncontract/json-fault/internal-error: adopt's start joins the roles silent at the internal-error catch site, so the silent list gains it.\ndecision/socket-dir-refusal-before-any-frame: adopt's start shares run's socket-dir-refused refusal, so the exit-1 starts gain adopt.\ndecision/claude-agents-read-fails-open: adopt reads claude agents for its live-elsewhere check and a failed read starts, so the fail-open rule covers adopt's preflight too.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — 8. Cognitive Accessibility: 2 row(s) (2 of 2)\n**Section:** 8. Cognitive Accessibility\n**Change:** ~ contract/cli-fixed-message/form · promise: was «viola revive's exit-1 refusals and viola run's socket-directory refusal print one unable: <text> line, then one hint: line last.»; now «viola revive's exit-1 refusals, viola adopt's strict-modes-failed and session-live refusals and viola run's socket-directory refusal print one unable: <text> line, then one hint: line last.»\n~ contract/start-json-refusal/document · promise: was «Every refusal of the start revive shares with run gives one {\"v\":1,\"error\":\"<code>\",\"detail\":null} document with no hint and empty stderr.»; now «Every refusal of the start revive and adopt share with run, and adopt's own strict-modes-failed and session-live, gives one {\"v\":1,\"error\":\"<code>\",\"detail\":null} document with no hint and empty stderr.»\n**Why:** contract/cli-fixed-message/form: adopt's two own refusals print the fixed unable:/hint: pair form, so the verbs this form names gain adopt.\ncontract/start-json-refusal/document: adopt's --json refusals are its two own codes plus run's shared start codes, each one hint-free document, so the row that says this for revive must cover adopt.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — 1. A11y Scope Summary: 1 row(s)\n**Section:** 1. A11y Scope Summary\n**Change:** ~ contract/tui-passthrough/entry · promise: was «The passthrough is entered by viola run and by a viola revive whose preflight passed.»; now «The passthrough is entered by viola run, by a viola revive whose preflight passed and by a viola adopt whose preflight passed.»\n**Why:** contract/tui-passthrough/entry: adopt's start runs run's start and then pumps the child, so adopt is a new way into the passthrough.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — 2. A11y Strategy: 1 row(s)\n**Section:** 2. A11y Strategy\n**Change:** ~ contract/cli-refusal/unable-line · promise: was «A refusal prints `unable  <name>  <reason>  <detail>` on stderr, the plain word followed by plain detail; `viola revive`'s exit-1 refusals, `viola run`'s socket-directory refusal and `viola verify`'s interrupted pair print one `unable: <text>` line instead.»; now «A refusal prints `unable  <name>  <reason>  <detail>` on stderr, the plain word followed by plain detail; `viola revive`'s exit-1 refusals, `viola adopt`'s two own refusals, `viola run`'s socket-directory refusal and `viola verify`'s interrupted pair print one `unable: <text>` line instead.»\n**Why:** contract/cli-refusal/unable-line: adopt's strict-modes-failed and session-live refusals are fixed unable:/hint: pairs, so the list of one-line forms gains them.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"patterns: none: 11 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 11 operation(s) · 5 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:41:36Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/adopt-preflight-order · rejected",
+"fit: fits 14 · not_master 0 · stands 0",
+"landed tx 4709 · 14 operation(s) · 7 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:41:36Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/adopt-session-live-pair · rejected",
+"fit: fits 11 · not_master 0 · stands 0",
+"landed tx 4710 · 11 operation(s) · 5 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:41:36Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 12 · not_master 0 · stands 0",
+"## 2026-11-24-viola-adopt — Authentication & Authorization: 3 row(s)\n**Section:** Authentication & Authorization\n**Change:** + decision/adopt-signals-no-foreign-process — Adopt acts on no process it did not start\n~ decision/start-checks-home-tree-before-log-opens · rule: was «Run and revive's start check the whole home tree before the wrapper log opens: the home first, then the instance, ledger, bin and plugin folders and the pinned copy's own. A refusal exits 1 with no line or child.»; now «The start of run, revive and adopt checks the whole home tree before the wrapper log opens: the home first, then the instance, ledger, bin and plugin folders and the pinned copy's own. A refusal exits 1 with no line or child.»\n~ decision/start-checks-socket-dir-before-bind · rule: was «A start, run or revive alike, checks the socket directory before any bind, first snapshot or child, makes it only when absent, and checks again so the loser of a race to make it reads the same verdict.»; now «A start, run, revive or adopt alike, checks the socket directory before any bind, first snapshot or child, makes it only when absent, and checks again so the loser of a race to make it reads the same verdict.»\n**Why:** decision/adopt-signals-no-foreign-process: The plan's W1 arm 1 is built — adopt refuses a held session and acts on no foreign process — and no row states it, so it stands as its own provisional row on the delegate's word. — on delegate overseer, 2026-11-24, PROVISIONAL\ndecision/start-checks-home-tree-before-log-opens: Adopt's start runs the pinned-copy home-tree check before its wrapper log opens, so the starts the rule names gain adopt's.\ndecision/start-checks-socket-dir-before-bind: Adopt launches through run's own start, which holds this socket-directory check, so the starts the rule names gain adopt's.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — Data Protection: 3 row(s)\n**Section:** Data Protection\n**Change:** ~ decision/start-writes-trust-record-flag-only · rule: was «On a verified CLI only, run and revive's start write the claude CLI's trust record for an untrusted spawn folder into the config its child reads, setting hasTrustDialogAccepted alone with every other key kept, or a one-key entry where none stands; unlike verify's, the record persists.»; now «On a verified CLI only, the start of run, revive and adopt writes the claude CLI's trust record for an untrusted spawn folder into the config its child reads, setting hasTrustDialogAccepted alone with every other key kept, or a one-key entry where none stands; unlike verify's, the record persists.»\n~ decision/no-writes-under-claude-home · except: was «verify writes a trust record for its own temp folder and removes only it after, a SIGKILL leaving it; run and revive's start set the trust flag of an untrusted spawn folder, which stays.»; now «verify writes a trust record for its own temp folder and removes only it after, a SIGKILL leaving it; the start of run, revive and adopt sets the trust flag of an untrusted spawn folder, which stays.»\n~ decision/viola-writes-nothing-in-claude-dir · except: was «verify writes a trust record for its own temp folder and removes only it after, a SIGKILL leaving it; run and revive's start set the trust flag of an untrusted spawn folder, which stays.»; now «verify writes a trust record for its own temp folder and removes only it after, a SIGKILL leaving it; the start of run, revive and adopt sets the trust flag of an untrusted spawn folder, which stays.»\n**Why:** decision/start-writes-trust-record-flag-only: Adopt's start runs run's own start, whose trust step writes this record for the caller's current folder, so the starts the rule names gain adopt's. — resolved (Q2), PROVISIONAL: delegate overseer, 2026-11-24, inputs#I7: Q2: option 1, land the ten sets PROVISIONAL on the delegate word, each naming adopt's start\ndecision/no-writes-under-claude-home: Adopt's start runs run's trust step, so the exception naming the starts that set the trust flag gains adopt's. — resolved (Q2), PROVISIONAL: delegate overseer, 2026-11-24, inputs#I7: Q2: option 1, land the ten sets PROVISIONAL on the delegate word, each naming adopt's start\ndecision/viola-writes-nothing-in-claude-dir: Adopt's start runs run's trust step, so the exception naming the starts that set the trust flag gains adopt's. — resolved (Q2), PROVISIONAL: delegate overseer, 2026-11-24, inputs#I7: Q2: option 1, land the ten sets PROVISIONAL on the delegate word, each naming adopt's start\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — Threat Model Summary: 1 row(s)\n**Section:** Threat Model Summary\n**Change:** ~ decision/nothing-written-under-claude-home · except: was «verify writes a trust record for its own temp folder and removes only it after, a SIGKILL leaving it; run and revive's start set the trust flag of an untrusted spawn folder, which stays.»; now «verify writes a trust record for its own temp folder and removes only it after, a SIGKILL leaving it; the start of run, revive and adopt sets the trust flag of an untrusted spawn folder, which stays.»\n**Why:** decision/nothing-written-under-claude-home: Adopt's start runs run's trust step, so the exception naming the starts that set the trust flag gains adopt's. — resolved (Q2), PROVISIONAL: delegate overseer, 2026-11-24, inputs#I7: Q2: option 1, land the ten sets PROVISIONAL on the delegate word, each naming adopt's start\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — Secret Management: 3 row(s) (1 of 2)\n**Section:** Secret Management\n**Change:** ~ decision/credential-strip-by-name-only · except: was «viola verify and the start of run and revive read the value of CLAUDE_CONFIG_DIR, only when claude_env_keep keeps that name, to choose the Claude config holding the trust record.»; now «viola verify and the start of run, revive and adopt read the value of CLAUDE_CONFIG_DIR, only when claude_env_keep keeps that name, to choose the Claude config holding the trust record.»\n~ decision/env-not-config-channel · except: was «viola verify and the start of run and revive read CLAUDE_CONFIG_DIR's value, only when claude_env_keep keeps that name, to choose the Claude config holding the trust record.»; now «viola verify and the start of run, revive and adopt read CLAUDE_CONFIG_DIR's value, only when claude_env_keep keeps that name, to choose the Claude config holding the trust record.»\n~ decision/no-stored-secrets · except: was «the test-only seams compiled out of release, list's terminal colour facts, XDG_RUNTIME_DIR for the socket directory, and CLAUDE_CONFIG_DIR's value for verify and run and revive's start when kept»; now «the test-only seams compiled out of release, list's colour facts, XDG_RUNTIME_DIR for the socket directory, and CLAUDE_CONFIG_DIR's value for verify and the start of run, revive and adopt when kept»\n**Why:** decision/credential-strip-by-name-only: Adopt's start runs run's trust step, which reads that value to find the config, so the starts the exception names gain adopt's. — resolved (Q2), PROVISIONAL: delegate overseer, 2026-11-24, inputs#I7: Q2: option 1, land the ten sets PROVISIONAL on the delegate word, each naming adopt's start\ndecision/env-not-config-channel: Adopt's start runs run's trust step, which reads that value to find the config, so the starts the exception names gain adopt's. — resolved (Q2), PROVISIONAL: delegate overseer, 2026-11-24, inputs#I7: Q2: option 1, land the ten sets PROVISIONAL on the delegate word, each naming adopt's start\ndecision/no-stored-secrets: Adopt's start runs run's trust step, which reads that value to find the config, so the starts the exception names gain adopt's. — resolved (Q2), PROVISIONAL: delegate overseer, 2026-11-24, inputs#I7: Q2: option 1, land the ten sets PROVISIONAL on the delegate word, each naming adopt's start\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — Secret Management: 1 row(s) (2 of 2)\n**Section:** Secret Management\n**Change:** ~ decision/r8-claude-env-strip · except: was «verify and run and revive's start read CLAUDE_CONFIG_DIR's value, only when claude_env_keep keeps the name, to choose the Claude config holding the trust record; else the user HOME's .claude.json.»; now «verify and the start of run, revive and adopt read CLAUDE_CONFIG_DIR's value, only when claude_env_keep keeps it, to choose the Claude config of the trust record; else the user HOME's .claude.json.»\n**Why:** decision/r8-claude-env-strip: Adopt's start runs run's trust step, which reads that value to find the config, so the starts the exception names gain adopt's. — resolved (Q2), PROVISIONAL: delegate overseer, 2026-11-24, inputs#I7: Q2: option 1, land the ten sets PROVISIONAL on the delegate word, each naming adopt's start\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — Input Validation: 1 row(s)\n**Section:** Input Validation\n**Change:** ~ decision/session-id-argv-closed-shape · except: was «»; now «viola adopt places an operator-typed id there too, not a logged one, in the same closed shape.»\n**Why:** decision/session-id-argv-closed-shape: Adopt hands the operator-typed id to the child as the one argv element after --resume through the same builder, so the row that holds the crossing to a logged value must name the typed one. — resolved (Q1), PROVISIONAL: delegate overseer, 2026-11-24, inputs#I7: Q1: option 1, land it PROVISIONAL on the delegate word (fork W2)\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"patterns: none: 11 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 12 operation(s) · 6 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:41:37Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-main-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-24-viola-adopt — 6. Log Coverage: 1 row(s)\n**Section:** 6. Log Coverage\n**Change:** ~ contract/start-trust-log/trust-record · promise: was «Each wrapped start of viola run and viola revive on a verified CLI writes exactly one INFO trust-record line to the run role file, its detail one of a closed set of 16 start words, carrying no path, project key or config value; the word never refuses the start.»; now «Each wrapped start of viola run, viola revive and viola adopt on a verified CLI writes exactly one INFO trust-record line to the run role file, its detail one of a closed set of 16 start words, carrying no path, project key or config value; the word never refuses the start.»\n**Why:** contract/start-trust-log/trust-record: Adopt's start runs run's own start and its trust step, which writes this line, so the starts the promise names gain adopt's. — resolved (Q2), PROVISIONAL: delegate overseer, 2026-11-24, inputs#I7: Q2: option 1, land the ten sets PROVISIONAL on the delegate word, each naming adopt's start\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:41:37Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-main-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-24-viola-adopt — Surface: cli: 2 row(s)\n**Section:** Surface: cli\n**Change:** ~ contract/viola-help/verb-groups · promise: was «Five rows `board:    list, focus`, `traffic:  send, wait, last, answer`, `wheel:    pause, release`, `handoff:  link, unlink`, `setup:    open, run, revive, up, verify, plugin install`, served verbs only, plain ASCII, then a blank line and `Options:`; no about line and no clap `Commands:` list.»; now «Five rows `board:    list, focus`, `traffic:  send, wait, last, answer`, `wheel:    pause, release`, `handoff:  link, unlink` and the setup row, served verbs only, plain ASCII, then a blank line and `Options:`; no about line and no clap `Commands:` list.»\n− contract/cli-catch-site/internal-error → none: Its promise stands under contract/cli-internal-error/human and contract/cli-internal-error/json, and its boundary naming the revive start alone went false once adopt's start is silent there too.\n**Why:** contract/viola-help/verb-groups: The setup row now holds adopt and the row's literal would pass its bound, so the setup row stands as its own row and this one names it without its verbs, leaving no stale list.\ncontract/cli-catch-site/internal-error: Adopt's start is a silent role at the catch site, so a boundary naming only the revive start as outside it is false, and the same promise already stands under two other rows.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:41:42Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 12 · not_master 0 · stands 0",
+"landed tx 4711 · 12 operation(s) · 6 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:41:43Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-main-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 4712 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:41:43Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-main-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 4713 · 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:44:48Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 4 · not_master 0 · stands 0",
+"## 2026-11-24-viola-adopt — Conventions: 1 row(s)\n**Section:** Conventions\n**Change:** ~ decision/silent-roles-at-internal-error-catch · name: was «Run, revive, mcp and hook silent at the catch site»; now «Run, revive, adopt, mcp and hook silent at the catch site»\n**Why:** decision/silent-roles-at-internal-error-catch: The rule now names adopt's start among the silent roles, so the row's name listing them must name it too.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — Occupied Resources: 3 row(s)\n**Section:** Occupied Resources\n**Change:** ~ decision/env-strip-names-only · except: was «viola verify, and the run and revive start, read the value of CLAUDE_CONFIG_DIR, only when claude_env_keep keeps that name, to locate the Claude config file.»; now «viola verify, and the run, revive and adopt start, read the value of CLAUDE_CONFIG_DIR, only when claude_env_keep keeps that name, to locate the Claude config file.»\n~ decision/env-strip-reads-names-only · except: was «viola verify, and the run and revive start, read the value of CLAUDE_CONFIG_DIR, only when claude_env_keep keeps that name, to locate the Claude config file.»; now «viola verify, and the run, revive and adopt start, read the value of CLAUDE_CONFIG_DIR, only when claude_env_keep keeps that name, to locate the Claude config file.»\n~ contract/frame-verb-exit-detail/socket-dir-refused · promise: was «Exit 21 with during connect, at WARN, no channel-request line; run and revive's start write it with exit_code 1.»; now «Exit 21 with during connect, at WARN, no channel-request line; run's, revive's and adopt's start write it with exit_code 1.»\n**Why:** decision/env-strip-names-only: Adopt's start runs run's trust step, which reads that value to find the config, so the starts the exception names gain adopt's. — resolved (Q2), PROVISIONAL: delegate overseer, 2026-11-24, inputs#I7: Q2: option 1, land the ten sets PROVISIONAL on the delegate word, each naming adopt's start\ndecision/env-strip-reads-names-only: Adopt's start runs run's trust step, which reads that value to find the config, so the starts the exception names gain adopt's. — resolved (Q2), PROVISIONAL: delegate overseer, 2026-11-24, inputs#I7: Q2: option 1, land the ten sets PROVISIONAL on the delegate word, each naming adopt's start\ncontract/frame-verb-exit-detail/socket-dir-refused: Adopt launches through run's start, whose socket-directory refusal writes this detail with exit_code 1, so the starts the promise names gain adopt's.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"patterns: none: 4 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 4 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:44:48Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-main-security-plan.2.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-24-viola-adopt — Data Protection: 1 row(s)\n**Section:** Data Protection\n**Change:** ~ decision/exec-commands-absolute-pinned-path · rule: was «Every exec-form command viola writes for the CLI is an absolute path, never a PATH lookup: the pinned bin/<version>-<hash>/viola path for run, revive and verify, and the installing exe's canonical path in plugin install's `.mcp.json`.»; now «Every exec-form command viola writes for the CLI is an absolute path, never a PATH lookup: the pinned bin/<version>-<hash>/viola path for run, revive, adopt and verify, and the installing exe's canonical path in plugin install's `.mcp.json`.»\n**Why:** decision/exec-commands-absolute-pinned-path: Adopt's start runs run's start, which pins viola and rewrites plugin/ with the pinned path, so the starts the rule names gain adopt's.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:44:48Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-main-obs-plan.2.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 4 · not_master 0 · stands 0",
+"## 2026-11-24-viola-adopt — 1. Obs Scope Summary: 1 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ decision/r8-strip-logged-as-names-only · rule: was «The R8 environment strip is logged as a count and lists of stripped and kept variable names, and environment maps never pass to a span or event; no value is read, bar the kept CLAUDE_CONFIG_DIR value that viola verify and the run and revive start read, and no value is logged.»; now «The R8 environment strip is logged as a count and lists of stripped and kept variable names, and environment maps never pass to a span or event; no value is read, bar the kept CLAUDE_CONFIG_DIR value that viola verify and the run, revive and adopt start read, and no value is logged.»\n**Why:** decision/r8-strip-logged-as-names-only: Adopt's start runs run's trust step, which reads that value to find the config, so the starts the exception names gain adopt's. — resolved (Q2), PROVISIONAL: delegate overseer, 2026-11-24, inputs#I7: Q2: option 1, land the ten sets PROVISIONAL on the delegate word, each naming adopt's start\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — 3. Observability Harness Contract: 1 row(s)\n**Section:** 3. Observability Harness Contract\n**Change:** ~ decision/env-vars-not-configuration · rule: was «Environment variables are not a configuration channel: service identity has no env-var source or fallback, and the one CLAUDE_CONFIG_DIR value read by verify and the run and revive start, when the strip keeps that name, locates the claude config file, is never logged and configures nothing of viola.»; now «Environment variables are not a configuration channel: service identity has no env-var source or fallback, and the one CLAUDE_CONFIG_DIR value read by verify and the run, revive and adopt start, when kept, locates the claude config file, is never logged and configures nothing of viola.»\n**Why:** decision/env-vars-not-configuration: Adopt's start runs run's trust step, which reads that value to find the config, so the starts the exception names gain adopt's. — resolved (Q2), PROVISIONAL: delegate overseer, 2026-11-24, inputs#I7: Q2: option 1, land the ten sets PROVISIONAL on the delegate word, each naming adopt's start\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — 2. Telemetry Strategy: 1 row(s)\n**Section:** 2. Telemetry Strategy\n**Change:** ~ contract/socket-dir-refused-exit/codes · promise: was «A refused socket directory logs detail socket-dir-refused with no path, pid or uid, and exits 21 at the eight CLI frame verbs and 1 at run and revive's start.»; now «A refused socket directory logs detail socket-dir-refused with no path, pid or uid, and exits 21 at the eight CLI frame verbs and 1 at the start of run, revive and adopt.»\n**Why:** contract/socket-dir-refused-exit/codes: Adopt launches through run's start and its socket-directory refusal, so the starts the promise names gain adopt's.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"## 2026-11-24-viola-adopt — 6. Log Coverage: 1 row(s)\n**Section:** 6. Log Coverage\n**Change:** ~ contract/diag-detail/socket-dir-refused · promise: was «A closed detail on process-exit and hook-decision for a socket dir refused as a symlink, no directory, foreign owner or mode bit: run and revive's start write process-exit exit 1, CLI frame verbs process-exit exit 21 during connect at WARN, viola hook a hook-decision at WARN; MCP writes none.»; now «A closed detail on process-exit and hook-decision for a socket dir refused as a symlink, no directory, foreign owner or mode bit: the start of run, revive and adopt writes process-exit exit 1, frame verbs process-exit exit 21 during connect at WARN, viola hook a hook-decision at WARN; MCP none.»\n**Why:** contract/diag-detail/socket-dir-refused: Adopt launches through run's start and its socket-directory refusal, so the starts the promise names gain adopt's.\n**Ref:** .andromeda/runs/2026-11-24T11-08-28Z-wrap/",
+"patterns: none: 4 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 4 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:44:53Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 4 · not_master 0 · stands 0",
+"landed tx 4714 · 4 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:44:53Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-main-security-plan.2.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 4715 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:44:54Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/ops-main-obs-plan.2.md",
+"--results",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 4 · not_master 0 · stands 0",
+"landed tx 4716 · 4 operation(s) · 4 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:48:28Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/a11y-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap/staged-leaf-.claude__docs__a11y-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/a11y-summary.md rev 25 · 0 new · 3 revised · 0 retired · tx 4717"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.claude/docs/a11y-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:48:28Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/a11y.md",
+"--file",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap/staged-leaf-.claude__rules__a11y.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/a11y.md rev 11 · 0 new · 2 revised · 0 retired · tx 4718"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.claude/rules/a11y.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:48:29Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/conventions.md",
+"--file",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap/staged-leaf-.claude__docs__conventions.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/conventions.md rev 27 · 0 new · 4 revised · 0 retired · tx 4719"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.claude/docs/conventions.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:48:30Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-agent-claude.md",
+"--file",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap/staged-leaf-.claude__docs__services__viola-agent-claude.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-agent-claude.md rev 37 · 0 new · 3 revised · 0 retired · tx 4720"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.claude/docs/services/viola-agent-claude.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:48:30Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-state.md",
+"--file",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap/staged-leaf-.claude__docs__services__viola-state.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-state.md rev 15 · 0 new · 2 revised · 0 retired · tx 4721"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.claude/docs/services/viola-state.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:48:31Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola.md",
+"--file",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap/staged-leaf-.claude__docs__services__viola.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola.md rev 33 · 0 new · 1 revised · 0 retired · tx 4722"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.claude/docs/services/viola.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:48:31Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/stack.md",
+"--file",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap/staged-leaf-.claude__docs__stack.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/stack.md rev 17 · 0 new · 1 revised · 0 retired · tx 4723"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.claude/docs/stack.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:48:32Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/frontend.md",
+"--file",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap/staged-leaf-.claude__rules__frontend.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/frontend.md rev 17 · 0 new · 1 revised · 0 retired · tx 4724"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.claude/rules/frontend.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:48:32Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/api.md",
+"--file",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap/staged-leaf-.claude__rules__api.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/api.md rev 22 · 0 new · 3 revised · 0 retired · tx 4725"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.claude/rules/api.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:48:33Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/commands.md",
+"--file",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap/staged-leaf-.claude__docs__commands.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/commands.md rev 34 · 0 new · 2 revised · 0 retired · tx 4726"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.claude/docs/commands.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:48:33Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/design-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap/staged-leaf-.claude__docs__design-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/design-summary.md rev 24 · 0 new · 2 revised · 0 retired · tx 4727"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.claude/docs/design-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:48:34Z",
+"argv": [
+"harness",
+"land",
+"CLAUDE.md",
+"--file",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap/staged-leaf-CLAUDE.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed CLAUDE.md rev 32 · 0 new · 2 revised · 0 retired · tx 4728"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./CLAUDE.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:48:35Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/obs-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap/staged-leaf-.claude__docs__obs-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/obs-summary.md rev 22 · 0 new · 5 revised · 0 retired · tx 4729"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.claude/docs/obs-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:48:35Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/security-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap/staged-leaf-.claude__docs__security-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 48 · 0 new · 6 revised · 0 retired · tx 4730"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:48:36Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/security.md",
+"--file",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap/staged-leaf-.claude__rules__security.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/security.md rev 51 · 0 new · 6 revised · 0 retired · tx 4731"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.claude/rules/security.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:48:36Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/tests-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap/staged-leaf-.claude__docs__tests-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/tests-summary.md rev 46 · 0 new · 3 revised · 0 retired · tx 4732"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.claude/docs/tests-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:48:37Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/testing.md",
+"--file",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap/staged-leaf-.claude__rules__testing.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/testing.md rev 61 · 0 new · 1 revised · 0 retired · tx 4733"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.claude/rules/testing.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:48:37Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/verification-harness.md",
+"--file",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap/staged-leaf-.claude__rules__verification-harness.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/verification-harness.md rev 50 · 0 new · 1 revised · 0 retired · tx 4734"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.claude/rules/verification-harness.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:48:38Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/observability.md",
+"--file",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap/staged-leaf-.claude__rules__observability.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/observability.md rev 29 · 0 new · 5 revised · 0 retired · tx 4735"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.claude/rules/observability.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T11:54:38Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 4741 · run-iajyvkmd … run-iajyvkmd"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T12:03:19Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-24-viola-adopt",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 13 file(s) of 2026-11-24-viola-adopt"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

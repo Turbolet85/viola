@@ -1,0 +1,55 @@
+## After implement
+- **Report:** 2026-11-24T10-31-25Z-implement — the newest implement run of 2026-11-24-viola-adopt (`rec.py runs … --file '*-2026-11-24-viola-adopt.json'`, its last run line), its outcome `green`.
+- **Commits:** since last_wrap (2026-11-24T08:39:30Z): `cc9c51af chore(2026-11-24-viola-adopt): operator pre-CI commit, for the run this chunk's verdict reads` — the pass's one commit; base `e7703af0`, its parent.
+- **Operator pass:** run in implement's window WITHOUT R5, on `inputs#I5` (`evidence/operator-pass.md`, `evidence/operator-entries.md`).
+  - entry 15 `bash scripts/agent-run.sh pre-push` — green · `"ok":true`, coverage 4359 passed, doctest 0;
+  - entry 16 hygiene — `clean`, after implement's own read refused `.andromeda/runs/2026-11-24T09-38-18Z-phase/p5-card-1.md:106` (P1 tmp, ×2): its two scratch paths rewritten `/tmp/…` → `$TMPDIR/…`, nothing else;
+  - entry 17 push — green · origin `build/viola-0.2.0` e7703af0 → cc9c51af;
+  - entry 18 CI — `cc9c51af07ef verdict: green · checks 7/7 · wall 839 s · runs ci#45378879061 completed/success` (fuzz-replay · lint · msrv · perf · release · supply-chain · test);
+  - step 11 — `junit-ubuntu-latest` of ci#45378879061: `verify_window_kept_name_reaches_no_stamp_or_record` 11.520 s, `verify_window_env_name_with_the_user_word_reads_fail_and_records_nothing` 14.588 s, each of an 80 s kill, each passed;
+  - entry 19 ci-fold count — green · `2`;
+  - not fired: entry 14 (gated, `evidence/r5.md` absent), entries 20–22 (R5's build, R5a, R5b — the operator's own word, not given).
+  - The pass's end: as-left — no commit after the pre-CI one; R5 unfired; `matrix#v2-13` claimed GATED, no ref.
+- **Changes after implement:** none — no commit after the pre-CI one, and no directed edit of the wrap's.
+- **Inputs:** `inputs.py verify` (this wrap): `inputs: 6 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 1 · unparsed 0`.
+  - I1 · ../additional/viola-overseer/phase-adopt-directive.md · copy no-repo · unchanged
+  - I2 · message: the overseer, delegate for the operator · copy message · n/a
+  - I3 · message: the overseer, delegate for the operator · copy message · n/a
+  - I4 · ../additional/viola-overseer/implement-adopt-directive.md · copy no-repo · unchanged
+  - I5 · message: the operator, relaying the overseer · copy message · n/a
+  - I6 · ../additional/viola-overseer/wrap-adopt-directive.md · copy no-repo · unchanged — snapped `--step wrap` at this wrap (`inputs#I6`), cited here; `verify` printed it UNCITED before this close existed. What it changes: the wrap runs whole with no question dialog for the operator; v2-13 stays claimed GATED (its gated entry deferred, no flip); every row resting on W1–W4, T1–T6 or the two P5 answers lands PROVISIONAL on the delegate's word, named with its fork; the host is read before the light gate; route-resolve is asked of the overseer in one dialog.
+- **Scope:** none — this wrap's scope read appended no line (`scope: clean — changed 11 · listed 10 · recorded 1 (companion 0 · mechanical 0 · in-intent 1 · widening 0) · absorbed 0 · excluded 240`); implement's one in-intent line (`tests/support/home.rs`, self) stands.
+- **Sweep reach:** `cascade.py sweep --pre-pass` (trail `cascade-2026-11-24-viola-adopt-pre-pass.json`, part `sweep-pre-pass-1.1.txt`). Two patterns refused unfired, each a master zero on that refusal: `exit-causes` (`cross_exit_causes`) and `adopt-verb` (`\badopt\b`) — no master names `adopt` or `cross_exit_causes`.
+  - Counts / qualifiers moved:
+    - the help's `setup:` row 6 → 7 — `help-setup`: standing 3 (design-system 2 · layout-templates 1) — 3 stale (the two help verb-groups contracts and the layout row omit `adopt`); owner design-system, layout-templates.
+    - `CAUSES` row added — `exit-causes`: 0 in the masters (refusal above) — no master site; test-local table.
+    - three `contract_error_bodies` rows — `err-bodies`: standing 5 (architecture 1 · security-plan 1 · test-plan 3) — 5 no-change (each names the census and its guard, never a count of rows).
+    - `verify_window_` class 0 → 2 cases of `security_negatives_env_capture` — `verify-window`: standing 2 (architecture 1 · test-plan 1) — architecture:726 no-change (its own verify-window guard); test-plan:1349 (`dec-5eznx6xr`, the 80 s class row) to read at P2: whether it names the class's members.
+  - Spec claims disproved:
+    - an upper-case id refused — `sid-shape`: standing 4 (security-plan 4: `dec-smpwvh33`, `dec-nfc3sekp`, `dec-ostmtq6s`, `ctr-r4g2uafx`) — each states «the closed session-id shape» and none states its case: no-change for the case; the plan's row alone was wrong.
+    - the fake's receipt holds argv — `fake-receipt`: standing 23 (architecture 1 · test-plan 22) — 23 no-change: none says the `start` receipt holds argv (test-plan's `contract/fake-agent-receipt/*` rows name env, kind, line, cwd, fds, hold, hook, key, prompt, size, start, step — no argv).
+  - Expected amendments:
+    - help `setup:` row (design-system, layout-templates) — `help-setup` above; owners design-system, layout-templates.
+    - adopt's `--json` refusal codes beside revive's — `session-live`: standing 30 (architecture 8 · security-plan 1 · design-system 4 · layout-templates 3 · test-plan 4 · obs-plan 9 · a11y-plan 1); `pin-exe` standing 32 (architecture 13 · security-plan 2 · design-system 3 · layout-templates 1 · test-plan 3 · obs-plan 8 · a11y-plan 2) — revive's code lists stand true for revive; adopt's own list is an add; owner architecture (`contract/revive-json-error-codes/*` area).
+    - an adopted start's `--resume <id>` — `resume-argv`: standing 10 (architecture 6 · security-plan 1 · design-system 1 · layout-templates 1 · test-plan 1) — architecture `contract/child-argv/resume` and `contract/claude-child-argv/resume` read at P2 for the starts they name; owner architecture.
+    - adopt refuses a session a live claude holds — `revive-live`: standing 1 (architecture `dec-wyen2ydb` decision/revive-refuses-live-session); owner architecture.
+    - adopt joins silent-roles-at-internal-error-catch — `silent-catch`: standing 1 (architecture `dec-u2cdb2ya`); owner architecture.
+    - the operator-typed id onto the child's argv (W2) — `argv-noshell`: standing 1 (security-plan `dec-smpwvh33`); owner security-plan.
+    - adopt's start joins the named strict-modes lists — `strict-lists`: standing 4 (security-plan `dec-oeec26zu` · obs-plan `ctr-4y43s52d`, `ctr-4yotlmdu`, `dec-4vvlfngd`); owners security-plan, obs-plan.
+    - W1's no-signal arm — no pattern of its own: a new row; owner security-plan.
+    - `adopt` logs as process `run` — `pin-exe`/`session-live` obs-plan rows above; owner obs-plan.
+    - cli-human/internal-error's silent list; `tests/cli_adopt.rs` among the integration binaries — `integ-bins`: standing 1 (test-plan `dec-cxo3xt3k`); `exit-causes` 0; owner test-plan.
+    - a11y start-refusal rows — `a11y-start`: standing 4 (a11y-plan `ctr-2zufdiex`, `ctr-2zgxkdlb`, `dec-2olim4m4`, `ctr-25d7tamc`); owner a11y-plan.
+    - `contract/instance-snapshot/cwd` — `snap-cwd`: standing 1 (architecture `ctr-ywc67zqh`); owner architecture.
+    - W1–W4 PROVISIONAL marks — no master site: the marks ride each row P2 lands.
+  - Sweep reach: 15 patterns · 16 moved facts, 15 with a pattern (the report's own count: 4 counts · 2 disproved · 10 expected-amendment lines, the W1–W4 marks line alone with none) · by line 0 lines · 0 offsets.
+- **Outcome, final:**
+  - supersedes «(ci) … the coverage half is the operator pass's (step 11) … local half met»: met — under coverage in ci#45378879061 the two `verify_window_` cases took 11.520 s and 14.588 s of their 80 s kill; attempt 1 of ci#45361892176 had killed one at 20.013 s (research, `inputs#I1`); no kill line moved.
+  - supersedes «entries 15–22 — leg operator»: entries 15–19 green (above); entries 20–22 not run — R5's, the operator's own word not given.
+  - `matrix#v2-13`: still GATED on R5 — no real plain session adopted, none refused live, no real `claude` started; entry 14 deferred; no ref. W1–W4, T1–T6 and both P5 answers stand on the delegate's word, PROVISIONAL.
+  - watches: none.
+  - Outcome basis: Setup 4's commit list (the pre-CI commit alone), the final HEAD's CI run ci#45378879061 (`evidence/operator-entries.md` entry 18), the pass record `evidence/operator-pass.md`; implement's report for the rest.
+- **Decisions & corrections after implement:**
+  - the pass's hygiene refusal on `p5-card-1.md:106` (two `/tmp/` paths) closed by a respell to `$TMPDIR/…`, named in the pre-CI commit's body (`evidence/operator-entries.md` entry 16);
+  - the wrap directive (`inputs#I6`): no question dialog for the operator; every W1–W4 row PROVISIONAL on the delegate's word; route-resolve asked of the overseer once; the host read before the light gate.
+- **Process hygiene, re-measured:** `gate.py census` (this run dir; `--comm viola-fake-agen --comm script --args projects/viola/target/debug/viola --args projects/viola/target/harness`): `census: none running`.

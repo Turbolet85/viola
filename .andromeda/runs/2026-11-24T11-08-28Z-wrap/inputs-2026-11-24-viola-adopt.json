@@ -1,0 +1,207 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T11:08:37Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-24-viola-adopt",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-adopt-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the wrap directive: close statements, whose word, rows to read, carries, route dialog, last card",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy no-repo · ../additional/viola-overseer/wrap-adopt-directive.md",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-wrap-adopt-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-adopt-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "d85ac87cbb0ba1745e66192e6b00117695f8af36941961a49624a5c6faa22804",
+"copy": "I6-wrap-adopt-directive.md.txt",
+"link": false,
+"read_at": "2026-11-24T11:08:37Z",
+"step": "wrap",
+"why": "the wrap directive: close statements, whose word, rows to read, carries, route dialog, last card"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T11:09:05Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-24-viola-adopt",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-adopt-directive.md",
+"I1 cited scope.md:47 · scope.md:52 · scope.md:60 · research.md:7 · plan.md:9 · plan.md:27 · plan.md:151 · plan.md:266 · plan.md:269 · plan.md:371 (in fence) · report.md:57 · report.md:68",
+"I2 n/a — a message has no live source · copy message · message: the overseer, delegate for the operator, in this session",
+"I2 cited plan.md:162 · plan.md:197 · report.md:58",
+"I3 n/a — a message has no live source · copy message · message: the overseer, delegate for the operator, in this session",
+"I3 cited report.md:59",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/implement-adopt-directive.md",
+"I4 cited report.md:66 · report.md:70 · report.md:122 · report.md:132 · report.md:135",
+"I5 n/a — a message has no live source · copy message · message: the operator, relaying the overseer",
+"I5 cited report.md:67 · report.md:133",
+"I6 unchanged · copy no-repo · ../additional/viola-overseer/wrap-adopt-directive.md",
+"I6 UNCITED",
+"inputs: 6 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 6,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T11:41:03Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-24-viola-adopt",
+"--message-file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/relay-1.md",
+"--origin",
+"the overseer, delegate for the operator",
+"--kind",
+"relay",
+"--why",
+"the answers to the wrap escalation card Q1 and Q2, and fork W5",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy message · message: the overseer, delegate for the operator",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer, delegate for the operator",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "ba6755d062734aab6e52fc571709119045be92bf74fada0d4eda3c5f2249307f",
+"copy": "I7-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-24T11:41:03Z",
+"step": "wrap",
+"why": "the answers to the wrap escalation card Q1 and Q2, and fork W5"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T11:54:30Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-24-viola-adopt",
+"--message-file",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap/relay-2.md",
+"--origin",
+"the overseer, delegate for the operator",
+"--kind",
+"relay",
+"--why",
+"the route dialog answer: no tail edit, the next entry named",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T11-08-28Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I8 · copy message · message: the overseer, delegate for the operator",
+"cite: inputs#I8"
+],
+"stderr": null,
+"wrote": [
+"inputs/I8-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I8",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer, delegate for the operator",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "35b75dc87f0cb15c1b0a53148587d74caea10c6ab1d39f401187647d3d57239f",
+"copy": "I8-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-24T11:54:29Z",
+"step": "wrap",
+"why": "the route dialog answer: no tail edit, the next entry named"
+}
+}
+]
