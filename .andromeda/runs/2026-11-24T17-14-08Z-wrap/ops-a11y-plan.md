@@ -1,0 +1,2 @@
+@none
+reason: The gated part changed no source, symbol, schema or interactive surface (fct-y7hwvg42, fct-h2wrzfpv); per the operator's F1 answer viola focus's 5 s compositor read adds no bound because decision/hyprctl-read-deadline already names viola focus (fct-tjrdfmgu), and the picker-marked decision/time-bounds-never-on-human keeps its «Eight» lead PROVISIONAL as the report states, so every a11y-plan row reads true as it stands.

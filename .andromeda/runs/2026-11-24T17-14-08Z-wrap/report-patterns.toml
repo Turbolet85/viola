@@ -1,0 +1,19 @@
+[[pattern]]
+id = 'FE-unsupported'
+regex = '(?i)outside Hyprland|no `?hyprctl`? reachable|focus-off-hyprland|focus_off_hyprland'
+
+[[pattern]]
+id = 'FB-board-row'
+regex = 'board:\s+list'
+
+[[pattern]]
+id = 'F1-compositor'
+regex = 'HYPRCTL_DEADLINE|compositor read|hyprctl-read-deadline'
+
+[[pattern]]
+id = 'FA-driver-form'
+regex = 'focus-has-no-driver-form|focus-raises-only-ancestry-windows|focus-ancestor-walk-in-memory|no MCP tool raises'
+
+[[pattern]]
+id = 'R4a-active-ws'
+regex = '(?i)active workspace|movetoworkspace'

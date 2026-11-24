@@ -1,0 +1,162 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T17:14:51Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-24-viola-focus",
+"--source",
+"../additional/viola-overseer/gated-focus-up-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer directive: §A steps 2-3 and step 7 are this gated wrap",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T17-14-08Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I10 · copy no-repo · ../additional/viola-overseer/gated-focus-up-directive.md",
+"cite: inputs#I10"
+],
+"stderr": null,
+"wrote": [
+"inputs/I10-gated-focus-up-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I10",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/gated-focus-up-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "b44310dd33072da5a5cf1cc097cd3afe65d96547acf26777deb542bb215b7d8b",
+"copy": "I10-gated-focus-up-directive.md.txt",
+"link": false,
+"read_at": "2026-11-24T17:14:51Z",
+"step": "wrap",
+"why": "the overseer directive: §A steps 2-3 and step 7 are this gated wrap"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T17:14:52Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-24-viola-focus",
+"--source",
+"../additional/viola-overseer/relay-founder-answers-1124.md",
+"--kind",
+"relay",
+"--why",
+"the operator own answers (F-A arm 1, F-B, F-C, F-E, F1 three rows) discharging this chunk PROVISIONAL rows; relayed verbatim by overseer1",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T17-14-08Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I11 · copy no-repo · ../additional/viola-overseer/relay-founder-answers-1124.md",
+"cite: inputs#I11"
+],
+"stderr": null,
+"wrote": [
+"inputs/I11-relay-founder-answers-1124.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I11",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-founder-answers-1124.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "4a9d15981cf19e9b0b0f43682ca8245226e22d269f422d42e14f9c93da28fa5d",
+"copy": "I11-relay-founder-answers-1124.md.txt",
+"link": false,
+"read_at": "2026-11-24T17:14:51Z",
+"step": "wrap",
+"why": "the operator own answers (F-A arm 1, F-B, F-C, F-E, F1 three rows) discharging this chunk PROVISIONAL rows; relayed verbatim by overseer1"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-24T17:14:54Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-24-viola-focus",
+"--run-dir",
+".andromeda/runs/2026-11-24T17-14-08Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-focus-directive.md",
+"I1 cited scope.md:11 · research.md:7 · research.md:54 · plan.md:10 · plan.md:239 · plan.md:324 (in fence) · plan.md:461",
+"I2 n/a — a message has no live source · copy message · message: the overseer, this session, 2026-11-24",
+"I2 cited scope.md:11 · research.md:7 · plan.md:10 · plan.md:238 · plan.md:461",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-focus-p5-review.md",
+"I3 cited plan.md:13 · plan.md:175 · plan.md:176 · plan.md:196 · plan.md:461 · plan.md:469 · plan.md:471 · plan.md:473 · report.md:57 · report.md:63",
+"I4 n/a — a message has no live source · copy message · message: the overseer, this session, 2026-11-24, as delegate for the operator",
+"I4 cited report.md:57",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/implement-focus-directive.md",
+"I5 cited report.md:54 · report.md:114 · report.md:157 · report.md:172 · report.md:177",
+"I6 n/a — a message has no live source · copy message · message: the Viola overseer, in this session",
+"I6 cited report.md:55 · report.md:114 · report.md:172",
+"I7 unchanged · copy no-repo · ../additional/viola-overseer/wrap-focus-directive.md",
+"I7 cited report.md:187 · report.md:201 · report.md:205 · report.md:206",
+"I8 unchanged · copy no-repo · ../additional/viola-overseer/relay-r3-r4a-grant.md",
+"I8 cited report-gated.md:26 · report-gated.md:48",
+"I9 unchanged · copy no-repo · ../additional/viola-overseer/gated-focus-up-directive.md",
+"I9 cited report-gated.md:24 · report-gated.md:33",
+"I10 unchanged · copy no-repo · ../additional/viola-overseer/gated-focus-up-directive.md",
+"I10 UNCITED",
+"I11 unchanged · copy no-repo · ../additional/viola-overseer/relay-founder-answers-1124.md",
+"I11 UNCITED",
+"inputs: 11 entries — unchanged 8 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 11,
+"counts": {
+"unchanged": 8,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 2,
+"unparsed": 0
+}
+}
+]

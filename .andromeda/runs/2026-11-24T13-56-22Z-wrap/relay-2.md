@@ -1,3 +1,0 @@
-Route-resolve dialog (route-record.md) — the answer as given:
-
-"Both carries (Recommended)" notes: delegate overseer, 2026-11-24T14:42:49Z: both carries as proposed (carry 1's place is the entry the operator's own U6 answer already sends live readings to; carry 2 a delegate's placement, PROVISIONAL). Name «Console scaffold» as next, NOT started: Epoch 5 holds no markerless entry now, and its boundary (his standing word: after the epoch's last entry) stands before any entry of the next epoch — the overseer says when. Go on with P6-P7; read the host before the light gate; read CI on the wrap commit before the last card.

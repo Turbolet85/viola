@@ -1,13 +1,12 @@
 # Coverage — viola-0.2.0
 
-verified 27/37 · deferred 2 · planned 8 · implemented 0 · unclaimed 5
+verified 28/37 · deferred 2 · planned 7 · implemented 0 · unclaimed 5
 
 ## deferred (2)
 - v2-21 · A key answering the CLI's session-feedback survey keeps the wheel
 - v2-22 · Product-owned session settings
 
-## planned, gated (3)
-- v2-11 · Focus a session's window · 2026-11-24-viola-focus
+## planned, gated (2)
 - v2-12 · Restore the fleet after a reboot · 2026-11-24-viola-up
 - v2-13 · Adopt a plain session into the fleet · 2026-11-24-viola-adopt
 
@@ -18,7 +17,7 @@ verified 27/37 · deferred 2 · planned 8 · implemented 0 · unclaimed 5
 - v2-30 · Model and effort named at launch
 - v2-31 · Switch a session's model and effort
 
-## verified (27)
+## verified (28)
 - v2-01 · Epoch 8 cleanup · 2026-11-13-epoch-8-cleanup
 - v2-02 · The dialog-hold ceiling read live · 2026-11-15-live-round-on-the-trimmed-product
 - v2-03 · `viola run` wraps the unmodified CLI on Linux, proved · 2026-11-15-live-round-on-the-trimmed-product
@@ -29,6 +28,7 @@ verified 27/37 · deferred 2 · planned 8 · implemented 0 · unclaimed 5
 - v2-08 · The launch authority bounded · 2026-11-23-viola-open-2
 - v2-09 · The lineage registry · 2026-11-22-lineage-registry
 - v2-10 · Observed links shown apart · 2026-11-22-lineage-registry
+- v2-11 · Focus a session's window · 2026-11-24-viola-focus
 - v2-16 · A turn ended by an API error ends the turn · 2026-11-15-api-error-turn-end
 - v2-17 · `wait`'s documented wake condition · 2026-11-16-wait-wake-condition
 - v2-18 · The driver's send recognised whatever whitespace the CLI trims · 2026-11-16-send-confirmation

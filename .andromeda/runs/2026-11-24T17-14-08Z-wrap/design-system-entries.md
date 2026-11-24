@@ -1,0 +1,6 @@
+@amendment marker=2026-11-24-viola-focus
+title: the operator's answers to F-A, F-B, F-C and F-E ratified
+section: Surface: cli
+change: was PROVISIONAL on the delegate's word for forks F-A, F-B, F-C and F-E, per «2026-11-24-viola-focus — Surface: cli: 6 row(s) (1 of 2)» amd-j42eunpw, «2026-11-24-viola-focus — Surface: cli: 5 row(s) (2 of 2)» amd-zeq3swfm, «2026-11-24-viola-focus — Surface: cli: 3 row(s)» amd-soxofojs, «2026-11-24-viola-focus — Surface: cli: 1 row(s)» amd-nodoguut, amd-xmchmhkf and amd-tw4doisi; now ratified: the help rows reading `board: list, focus`, contract/cli-verb-output/focus, the six contract/viola-focus-exit-1-codes rows, contract/viola-focus-refusals/exit-21, contract/cli-exit-codes/1, contract/cli-refusal-line/fixed-unable-form, contract/cli-stderr/fixed-message-refusal and contract/exit-21-json-cause/strict-modes-failed stand as written.
+why: The operator's own answers ratify them: F-A arm 1, F-B (the board group holding list and focus), F-C (the six refusal pairs accepted as they are) and F-E (the criterion refined, the code untouched); relayed verbatim by overseer1, 2026-11-24, inputs#I11. The card's confirm (Q1, answer-card.md) is delegate overseer, 2026-11-24T17:34:31Z, PROVISIONAL until his own word in the epoch batch.
+ref: .andromeda/runs/2026-11-24T17-14-08Z-wrap/
