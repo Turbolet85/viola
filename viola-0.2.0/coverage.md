@@ -1,12 +1,12 @@
 # Coverage — viola-0.2.0
 
-verified 28/37 · deferred 2 · planned 7 · implemented 0 · unclaimed 6
+verified 28/37 · deferred 2 · planned 6 · implemented 1 · unclaimed 6
 
 ## deferred (2)
 - v2-21 · A key answering the CLI's session-feedback survey keeps the wheel
 - v2-22 · Product-owned session settings
 
-## planned, gated (1)
+## implemented, gated (1)
 - v2-13 · Adopt a plain session into the fleet · 2026-11-24-viola-adopt
 
 ## planned, unclaimed (5)
