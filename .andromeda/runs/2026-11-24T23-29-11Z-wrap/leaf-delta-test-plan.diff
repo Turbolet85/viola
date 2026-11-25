@@ -1,0 +1,11 @@
+--- a/.andromeda/test-plan.md
++++ b/.andromeda/test-plan.md
+@@ -859,2 +859,3 @@
+ contract/fake-agent-cli/control · viola-fake-agent command line · --control — The control path is <home>/fake/<name>.control (<name>.revived.control for a revive start), and the fake agent reads it by byte offset.
++contract/fake-agent-cli/resume-absent · viola-fake-agent command line · --resume-absent — The argv-only --resume-absent, given with --resume, makes the fake agent fire SessionEnd with no SessionStart, close its hooks, ignore SIGHUP and exit 1, at both launch sites: a trusted start and the trust dialog's accept.
+ contract/fake-agent-cli/script · viola-fake-agent command line · --script — The fake agent follows a JSON turn script for PreToolUse, PermissionRequest, PostToolUse, Stop, Notification and UserPromptSubmit steps; a relative --script is resolved against the workspace root, the same way as --fixtures.
+@@ -871,3 +872,3 @@
+ contract/fake-agent-cli/wake-after-ms · viola-fake-agent command line · --wake-after-ms — The argv-only --wake-after-ms <ms>, capped at 5 000, fires once, that long after the first Stop carrying a non-empty session_crons, a keyless recorded UserPromptSubmit, and under --turn-stop its turn end.
+-contract/fake-agent-events/session-start · viola-fake-agent fired events · SessionStart — After start_receipts the fake agent fires SessionStart (variant default) once, silent without a registered hook or a fixture, like every fire; under --screens with an untrusted cwd only after Enter on the trust row, which draws the ready screen.
++contract/fake-agent-events/session-start · viola-fake-agent fired events · SessionStart — After start_receipts the fake agent fires SessionStart (variant default) once, silent without a registered hook or a fixture, like every fire; under --screens with an untrusted cwd only after Enter on the trust row, which draws the ready screen; under --resume-absent with --resume it fires none.
+ contract/fake-agent-exit/exit-triggers · viola-fake-agent exit · exit trigger — The fake agent exits on \x03 or at stdin EOF, and exits 1 on Enter on the trust form's No; before it exits it waits for a hook still running and starts no other.

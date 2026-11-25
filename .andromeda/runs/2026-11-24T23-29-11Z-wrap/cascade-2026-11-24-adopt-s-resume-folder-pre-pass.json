@@ -1,0 +1,245 @@
+[
+{
+"tool": "cascade",
+"v": "1.37",
+"sha8": "63d45d09",
+"ts": "2026-11-24T23:30:26Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 5e22bfb6 (pre-pass — HEAD)",
+"architecture · 16 rows over 1 files · new 0 · standing 16 · 5 patterns",
+"security-plan · 2 rows over 1 files · new 0 · standing 2 · 2 patterns",
+"design-system · 6 rows over 1 files · new 0 · standing 6 · 4 patterns",
+"layout-templates · 1 rows over 1 files · new 0 · standing 1 · 1 pattern",
+"test-plan · 12 rows over 1 files · new 0 · standing 12 · 5 patterns",
+"obs-plan · 13 rows over 1 files · new 0 · standing 13 · 2 patterns",
+"a11y-plan · 10 rows over 1 files · new 0 · standing 10 · 4 patterns",
+"by line · 0 lines · 0 offsets",
+"total (11 patterns) · 82 rows over 20 files",
+"per class · new 0/0 · standing 60/7 · leaf 21/13 · curation 1/1 · base 0/0",
+"rows 1/1 · .andromeda/runs/2026-11-24T23-29-11Z-wrap/sweep-pre-pass-1.1.txt · 109 lines · 12382 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/sweep-pre-pass-1.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "5e22bfb6590dab4e28b369866c236f4c65b75f6f",
+"how": "pre-pass — HEAD",
+"counts": {
+"adopt-refusals": {
+"new": 0,
+"standing": 10,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"adopt-codes": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"pe-detail": {
+"new": 0,
+"standing": 23,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"exit-tables": {
+"new": 0,
+"standing": 3,
+"leaf": 8,
+"curation": 1,
+"base": 0
+},
+"fake-opts": {
+"new": 0,
+"standing": 6,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"r5-verdict": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"child-held": {
+"new": 0,
+"standing": 4,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"pump-err": {
+"new": 0,
+"standing": 7,
+"leaf": 9,
+"curation": 0,
+"base": 0
+},
+"adopt-logs": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"refusal-form": {
+"new": 0,
+"standing": 3,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"exit1-adopt": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 16,
+"files": 1,
+"new": 0,
+"standing": 16,
+"patterns": 5
+},
+"security-plan": {
+"rows": 2,
+"files": 1,
+"new": 0,
+"standing": 2,
+"patterns": 2
+},
+"design-system": {
+"rows": 6,
+"files": 1,
+"new": 0,
+"standing": 6,
+"patterns": 4
+},
+"layout-templates": {
+"rows": 1,
+"files": 1,
+"new": 0,
+"standing": 1,
+"patterns": 1
+},
+"test-plan": {
+"rows": 12,
+"files": 1,
+"new": 0,
+"standing": 12,
+"patterns": 5
+},
+"obs-plan": {
+"rows": 13,
+"files": 1,
+"new": 0,
+"standing": 13,
+"patterns": 2
+},
+"a11y-plan": {
+"rows": 10,
+"files": 1,
+"new": 0,
+"standing": 10,
+"patterns": 4
+}
+},
+"per_master": {
+"adopt-refusals": {
+"architecture": 3,
+"security-plan": 1,
+"design-system": 1,
+"layout-templates": 1,
+"test-plan": 1,
+"a11y-plan": 3
+},
+"adopt-codes": {
+"architecture": 1
+},
+"pe-detail": {
+"architecture": 10,
+"test-plan": 1,
+"obs-plan": 12
+},
+"exit-tables": {
+"architecture": 1,
+"test-plan": 2
+},
+"fake-opts": {
+"test-plan": 6
+},
+"r5-verdict": {
+"security-plan": 1
+},
+"child-held": {
+"design-system": 2,
+"a11y-plan": 2
+},
+"pump-err": {
+"architecture": 1,
+"design-system": 2,
+"test-plan": 2,
+"a11y-plan": 2
+},
+"adopt-logs": {
+"obs-plan": 1
+},
+"refusal-form": {
+"a11y-plan": 3
+},
+"exit1-adopt": {
+"design-system": 1
+}
+},
+"forms": {
+"adopt-codes": [
+{
+"form": "8 (closed )?(codes|details|words|refusal codes)",
+"from": "eight"
+}
+],
+"pe-detail": [
+{
+"form": "exit-one-adopt",
+"from": "1"
+}
+],
+"exit1-adopt": [
+{
+"form": "one-adopt-start",
+"from": "1"
+}
+]
+},
+"parts": [
+"sweep-pre-pass-1.1.txt"
+]
+}
+}
+]

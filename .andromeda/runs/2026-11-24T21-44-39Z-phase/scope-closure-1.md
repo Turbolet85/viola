@@ -1,7 +1,0 @@
-old: - Where `viola adopt` starts its resumed `claude` child, so that the CLI finds the adopted session: the spawn folder
-new: - Where `viola adopt` starts its resumed `claude` child, so that the CLI finds the adopted session: the spawn folder — `[premise-corrected: the relied ledger row resume-session resumes from a folder other than the maker's (Run B .viola-verify-<pid>/ vs Run E -resume/, fixture 2.1.328 SessionStart.resume-1.json, stamped pass on 2.1.331); the folder alone did not decide the R5a reds — research M3]` — kept as fork 1, the operator's
-old: - `[inferred]` hypothesis (verbatim marker kept): «hypothesis: the CLI resumes a session only from the folder it was
-new: - `[premise-corrected: falsified at the measured grain — a sibling-folder resume works on 2.1.328 (recorded) and 2.1.331 (stamped), and under A alone a transcript would stand in the maker's project folder, where the overseer found none; a non-sibling folder stays unmeasured — research M3]` hypothesis (verbatim marker kept): «hypothesis: the CLI resumes a session only from the folder it was
-old: - gate: none on this entry.
-new: - `[inferred]` hypothesis C (research M3): the operator's `claude` kept the session under another Claude config dir (a `CLAUDE_CONFIG_DIR` in his terminal), which the R5a child — started from a shell where it was unset — does not read; viola's own strip removes that name unless `claude_env_keep` keeps it. Asked of the operator through the overseer (research M4), never read here.
-- gate: none on this entry.

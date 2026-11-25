@@ -1,1 +1,0 @@
-2026-11-24 (finding V256): the operator ruled v2-07 UN-VERIFIED on 2026-11-24 until a placing open is read live with the active workspace unchanged (his F4, no focus change). matrix v1.13 has no verb that lowers a verified capability, so the ledger still reads verified; the lowering is owed to that door. R2's green stands as evidence of placement only.

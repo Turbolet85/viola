@@ -1,0 +1,17 @@
+--- a/.andromeda/architecture.md
++++ b/.andromeda/architecture.md
+@@ -508,3 +508,3 @@
+ decision/mcp-over-stdio · MCP over stdio only — MCP speaks JSON-RPC 2.0 over stdio; the MCP server is stdio only.
+-decision/no-document-after-child-held-terminal · No JSON document once the child held the terminal — An error after the child has held the terminal prints no JSON document. · why: The child has held the terminal.
++decision/no-document-after-child-held-terminal · No JSON document once the child held the terminal — An error after the child has held the terminal prints no JSON document. · why: The child has held the terminal. · except: viola adopt --json's not-resumed end prints its error document after the child released the terminal; nothing of run or revive.
+ decision/no-shell-out · No shelling out — Nothing shells out through `sh` or `bash`; child processes are spawned directly.
+@@ -579,3 +579,3 @@
+ contract/cli-exit-21-document/unwrapped-name · exit-21 CLI document · unwrapped-name — One of six closed detail causes; v 1, error instance-unreachable.
+-contract/cli-json-output/adopt-refusal-codes · CLI `--json` output · `viola adopt --json` refusal codes — `<code>` is one of `strict-modes-failed` · `session-live` · `already-live` · `stale-heartbeat` · `pinned-hash-mismatch` · `squatted-name` · `socket-dir-refused` · `internal-error`; only `strict-modes-failed` and `session-live` are adopt's own closed details.
++contract/cli-json-output/adopt-refusal-codes · CLI `--json` output · `viola adopt --json` refusal codes — `<code>` is one of `strict-modes-failed` · `session-live` · `not-resumed` · `already-live` · `stale-heartbeat` · `pinned-hash-mismatch` · `squatted-name` · `socket-dir-refused` · `internal-error`; only `strict-modes-failed`, `session-live` and `not-resumed` are adopt's own closed details.
+ contract/cli-json-output/error · CLI `--json` output · `error` — Outcomes that have no channel `result` print an `error` document.
+@@ -739,3 +739,3 @@
+ decision/claude-env-stripped-from-child · Inherited CLAUDE names stripped from the child — Every inherited CLAUDE* environment name, matched exactly, is removed from the wrapped child's environment, and the identity-floor names are removed whatever the persistent environment says. · except: A name listed in config.json claude_env_keep is kept, unless it is an identity-floor name.
+-decision/claude-flag-literals-in-agent-crate · Claude flag literals in the agent crate — The Claude agent crate is the one product home of the --resume, --fork-session, --model and --effort flag literals, and holds the program name and the --settings flag that verify reads.
++decision/claude-flag-literals-in-agent-crate · Claude flag literals in the agent crate — The Claude agent crate is the one product home of the --resume, --fork-session, --model and --effort flag literals, and holds the program name and the --settings flag that verify reads. · except: viola adopt's fixed not-resumed hint names claude --resume <id> as words for the human to type, never as an argument viola passes.
+ decision/cleanup-reads-refused-or-missing-socket-gone · Cleanup reads a refused or missing socket as gone — Harness cleanup reads the endpoint as gone when a connect is refused or the path is absent, and removes no leftover socket file, so cleanup reads ok after a force-killed wrapper. · why: A killed wrapper removes nothing and the next bind takes its leftover; the force-killed-wrapper lifecycle test asserts ok and the file still standing.

@@ -1,0 +1,12 @@
+--- a/.andromeda/obs-plan.md
++++ b/.andromeda/obs-plan.md
+@@ -412,3 +412,3 @@
+ decision/accept-drops-foreign-euid · Unadmitted peers dropped at accept — The wrapper drops an accepted stream whose peer euid is not admitted on the accept thread, before any worker thread or frame, with no span and no line; the peer reads end-of-file and the wheel does not move.
+-decision/adopt-start-logs-as-run · viola adopt start logs as run — The start of viola adopt is not a cli verb and logs as process run into the run log of its name, through run's own lines and spans, adding no event, detail word, field, subject or span of its own.
++decision/adopt-start-logs-as-run · viola adopt start logs as run — The start of viola adopt is not a cli verb and logs as process run into the run log of its name, through run's own lines and spans, adding no event, detail word, field, subject or span of its own. · except: The detail word not-resumed, on adopt's own self process-exit exit 1 when the resumed child ends before its session starts.
+ decision/appender-heals-torn-line · The appender heals a torn line — An append that finds the events log's last byte is not LF writes one LF and its line in a single write; the reader neither heals nor logs.
+@@ -686,3 +686,3 @@
+ contract/process-exit-detail/exit-1 · process-exit detail · exit 1 — already-live, stale-heartbeat, squatted-name, pinned-hash-mismatch, internal-error, socket-dir-refused, from revive's preflight no-session, session-live, cwd-missing, and from viola open terminal-not-found and not-live; each one process-exit line with no child started, bar not-live's terminal.
+-contract/process-exit-detail/exit-1-adopt · process-exit detail · exit 1 from viola adopt — viola adopt's preflight ends exit 1 with one process-exit detail session-live and no child started; its strict-modes-failed refusal comes before any log and writes no line.
++contract/process-exit-detail/exit-1-adopt · process-exit detail · exit 1 from viola adopt — viola adopt's preflight ends exit 1 with one process-exit detail session-live and no child started; its strict-modes-failed refusal comes before any log and writes no line; a resumed child ending before its session starts gives exit 1 detail not-resumed after the child's process-exit.
+ contract/process-exit-detail/exit-20 · process-exit detail · exit 20 — wrapper-fault.

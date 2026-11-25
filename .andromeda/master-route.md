@@ -141,4 +141,4 @@
 2026-11-24-viola-up · complete · `viola up` — the fleet re-opened through `revive` on the real compositor, parents first, live ones skipped, one line per instance; the reboot reading released to «The fleet on the founder's host» · → chk:2026-11-24-viola-up
 2026-11-24-viola-adopt · gated · `viola adopt` — a plain `claude` session, by session-shaped id, resumed under viola with an operator-given name and parent; the live-elsewhere refusal guards it · → chk:2026-11-24-viola-adopt
 2026-11-24-switching-a-session-s-model-and-effort · complete · a running session switched to a given model and effort, recorded so a resume replays the new pair; nothing written to the user's own settings · → chk:2026-11-24-switching-a-session-s-model-and-effort
-2026-11-24-adopt-s-resume-folder · pending · `viola adopt` — the resumed child started where the CLI finds the session; a child ending at once said and recorded · → chk:2026-11-24-adopt-s-resume-folder
+2026-11-24-adopt-s-resume-folder · complete · `viola adopt` — the resumed child started where the CLI finds the session; a child ending at once said and recorded · → chk:2026-11-24-adopt-s-resume-folder

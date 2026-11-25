@@ -1,0 +1,1213 @@
+[
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:32:03Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-24-adopt-s-resume-folder",
+"--section-file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-24-adopt-s-resume-folder/report rev 2 · 10 new · 0 revised · 0 retired · 33 kept · tx 4918"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:32:07Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-24-adopt-s-resume-folder",
+"--section-file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-24-adopt-s-resume-folder/report rev 3 · 19 new · 0 revised · 0 retired · 43 kept · tx 4919"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:32:32Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/cites-land-2026-11-24-adopt-s-resume-folder.ndjson",
+"--base",
+"e341bd205d27b2394ef4b9808f5a0818fb983539",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:32:37Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/cites-land-2026-11-24-adopt-s-resume-folder.ndjson",
+"--base",
+"e341bd205d27b2394ef4b9808f5a0818fb983539",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 4921"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:34:13Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 1045 · packs 11 · pack 100 · 301138 B",
+"security-plan: rows 665 · packs 7 · pack 100 · 207969 B",
+"design-system: rows 360 · packs 4 · pack 100 · 89308 B",
+"layout-templates: rows 237 · packs 3 · pack 100 · 58614 B",
+"test-plan: rows 1384 · packs 14 · pack 100 · 380750 B",
+"obs-plan: rows 1055 · packs 11 · pack 100 · 294033 B",
+"a11y-plan: rows 244 · packs 3 · pack 100 · 71326 B",
+"rows-packs: 7 master(s) · 4990 row(s) · 53 pack(s) · 2 draw(s) a pack · pin 4921"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:52:07Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 1045 · packs 11 · picked 40 (28 by every draw) · standing 0 · 232353 B · Established Decisions: by boundary, the rest under `also here:`",
+"security-plan: rows 665 · packs 7 · picked 33 (24 by every draw) · standing 0 · 144374 B",
+"design-system: rows 360 · packs 4 · picked 25 (17 by every draw) · standing 0 · 76053 B",
+"layout-templates: rows 237 · packs 3 · picked 17 (13 by every draw) · standing 0 · 52452 B",
+"test-plan: rows 1384 · packs 14 · picked 56 (33 by every draw) · standing 0 · 245152 B",
+"obs-plan: rows 1055 · packs 11 · picked 22 (10 by every draw) · standing 0 · 171040 B",
+"a11y-plan: rows 244 · packs 3 · picked 28 (18 by every draw) · standing 0 · 56670 B",
+"rows-union: 7 master(s) · picked 221 of 4990 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/arch-rows.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/arch-standing.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/security-rows.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/security-standing.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/design-rows.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/design-standing.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/layouts-rows.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/tests-rows.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/tests-standing.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/obs-rows.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/obs-standing.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:57:34Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/instance-snapshot/agent-session-id · rejected",
+"decision/adopt-not-resumed-end · rejected",
+"contract/process-exit-detail/not-resumed · rejected",
+"contract/adopt-refusal-pairs/not-resumed · rejected",
+"decision/adopt-spawn-folder-not-session-folder · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"## 2026-11-24-adopt-s-resume-folder — Standard Contracts: 2 row(s)\n**Section:** Standard Contracts\n**Change:** ~ contract/cli-json-output/adopt-refusal-codes · promise: was «`<code>` is one of `strict-modes-failed` · `session-live` · `already-live` · `stale-heartbeat` · `pinned-hash-mismatch` · `squatted-name` · `socket-dir-refused` · `internal-error`; only `strict-modes-failed` and `session-live` are adopt's own closed details.»; now «`<code>` is one of `strict-modes-failed` · `session-live` · `not-resumed` · `already-live` · `stale-heartbeat` · `pinned-hash-mismatch` · `squatted-name` · `socket-dir-refused` · `internal-error`; only `strict-modes-failed`, `session-live` and `not-resumed` are adopt's own closed details.»\n~ decision/no-document-after-child-held-terminal · except: was «»; now «viola adopt --json's not-resumed end prints its error document after the child released the terminal; nothing of run or revive.»\n**Why:** contract/cli-json-output/adopt-refusal-codes: viola adopt --json gains its own third refusal code not-resumed, so the closed list and the count of adopt's own details must name it. — on relayed verbatim by the Viola overseer, 2026-11-24, inputs#I2\ndecision/no-document-after-child-held-terminal: adopt's not-resumed end writes its document after the child held the terminal, the one named exception scoped to adopt, so the decision must name it as its exception. — resolved (Q1), PROVISIONAL: delegate Viola-overseer, 2026-11-24: confirmed, all six read against his two answers of 2026-11-24 (fork 2; the hint's text) and lying inside them — PROVISIONAL as a confirm; the ratification is the operator's answers, relayed verbatim by the Viola overseer, 2026-11-24, inputs#I2\n**Ref:** .andromeda/runs/2026-11-24T23-29-11Z-wrap/",
+"## 2026-11-24-adopt-s-resume-folder — Occupied Resources: 1 row(s)\n**Section:** Occupied Resources\n**Change:** ~ decision/claude-flag-literals-in-agent-crate · except: was «»; now «viola adopt's fixed not-resumed hint names claude --resume <id> as words for the human to type, never as an argument viola passes.»\n**Why:** decision/claude-flag-literals-in-agent-crate: adopt's fixed hint now carries the --resume literal as human text outside the agent crate, so the decision must name that case as its exception. — resolved (Q1), PROVISIONAL: delegate Viola-overseer, 2026-11-24: confirmed, all six read against his two answers of 2026-11-24 (fork 2; the hint's text) and lying inside them — PROVISIONAL as a confirm; the ratification is the operator's answers, relayed verbatim by the Viola overseer, 2026-11-24, inputs#I2\n**Ref:** .andromeda/runs/2026-11-24T23-29-11Z-wrap/",
+"patterns: none: 3 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 3 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:57:38Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/instance-snapshot/agent-session-id · rejected",
+"decision/adopt-not-resumed-end · rejected",
+"contract/process-exit-detail/not-resumed · rejected",
+"contract/adopt-refusal-pairs/not-resumed · rejected",
+"decision/adopt-spawn-folder-not-session-folder · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"landed tx 4922 · 3 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:57:38Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-adopt-refusals/not-resumed · rejected",
+"contract/log-detail-codes/not-resumed · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"## 2026-11-24-adopt-s-resume-folder — Surface: cli: 2 row(s)\n**Section:** Surface: cli\n**Change:** ~ contract/viola-run-output/child-started · promise: was «`run`, `revive` and `adopt` print nothing once the child starts.»; now «`run`, `revive` and `adopt` print nothing once the child starts, except `adopt`'s not-resumed end, which writes its fixed pair or `--json` document after the child released the terminal.»\n~ contract/cli-exit-codes/1-adopt-start · promise: was «A start refusal of `viola adopt` exits 1 with its fixed `unable:` / `hint:` pair, or under `--json` one stdout document `{\"v\":1,\"error\":\"<code>\",\"detail\":null}` and no hint, stderr empty.»; now «A start refusal of `viola adopt`, or its not-resumed end after the child ran, exits 1 with its fixed `unable:` / `hint:` pair, or under `--json` one stdout document `{\"v\":1,\"error\":\"<code>\",\"detail\":null}` and no hint, stderr empty; a resumed child ends exit 0.»\n**Why:** contract/viola-run-output/child-started: adopt's not-resumed end now writes its pair or document after pump_end returns, so the row's flat «adopt prints nothing» is false for that named case. — resolved (Q1), PROVISIONAL: delegate Viola-overseer, 2026-11-24: confirmed, all six read against his two answers of 2026-11-24 (fork 2; the hint's text) and lying inside them — PROVISIONAL as a confirm; the ratification is the operator's answers, relayed verbatim by the Viola overseer, 2026-11-24, inputs#I2\ncontract/cli-exit-codes/1-adopt-start: adopt's exit 1 now also covers the not-resumed end after the child ran, which the row named only as start refusals. — on relayed verbatim by the Viola overseer, 2026-11-24, inputs#I2\n**Ref:** .andromeda/runs/2026-11-24T23-29-11Z-wrap/",
+"## 2026-11-24-adopt-s-resume-folder — Surface: cli: 1 row(s)\n**Section:** Surface: cli\n**Change:** ~ decision/no-json-after-child-held-terminal · except: was «»; now «`viola adopt`'s not-resumed end writes its fixed pair or `--json` document after the child released the terminal; `run` and `revive` still write nothing past the child.»\n**Why:** decision/no-json-after-child-held-terminal: the rule's reason «viola writes nothing past it» now has one named exception, adopt's not-resumed end, scoped to adopt alone. — resolved (Q1), PROVISIONAL: delegate Viola-overseer, 2026-11-24: confirmed, all six read against his two answers of 2026-11-24 (fork 2; the hint's text) and lying inside them — PROVISIONAL as a confirm; the ratification is the operator's answers, relayed verbatim by the Viola overseer, 2026-11-24, inputs#I2\n**Ref:** .andromeda/runs/2026-11-24T23-29-11Z-wrap/",
+"patterns: none: 3 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 3 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:57:38Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-24-adopt-s-resume-folder — 4. Span / Trace Coverage: 1 row(s)\n**Section:** 4. Span / Trace Coverage\n**Change:** ~ decision/adopt-start-logs-as-run · except: was «»; now «The detail word not-resumed, on adopt's own self process-exit exit 1 when the resumed child ends before its session starts.»\n**Why:** decision/adopt-start-logs-as-run: adopt's start now writes process-exit{subject:\"self\", exit_code:1, detail:\"not-resumed\"} of its own, an exception the operator's answer adds by naming the case, so the row's «no detail word of its own» must carry it as its exception. — resolved (Q1), PROVISIONAL: delegate Viola-overseer, 2026-11-24: confirmed, all six read against his two answers of 2026-11-24 (fork 2; the hint's text) and lying inside them — PROVISIONAL as a confirm; the ratification is the operator's answers, relayed verbatim by the Viola overseer, 2026-11-24, inputs#I2\n**Ref:** .andromeda/runs/2026-11-24T23-29-11Z-wrap/",
+"## 2026-11-24-adopt-s-resume-folder — 6. Log Coverage: 1 row(s)\n**Section:** 6. Log Coverage\n**Change:** ~ contract/process-exit-detail/exit-1-adopt · promise: was «viola adopt's preflight ends exit 1 with one process-exit detail session-live and no child started; its strict-modes-failed refusal comes before any log and writes no line.»; now «viola adopt's preflight ends exit 1 with one process-exit detail session-live and no child started; its strict-modes-failed refusal comes before any log and writes no line; a resumed child ending before its session starts gives exit 1 detail not-resumed after the child's process-exit.»\n**Why:** contract/process-exit-detail/exit-1-adopt: viola adopt gains a third exit-1 cause, the self process-exit detail not-resumed written after the claude-child process-exit, which the row naming adopt's exit-1 details must now list. — on relayed verbatim by the Viola overseer, 2026-11-24, inputs#I2\n**Ref:** .andromeda/runs/2026-11-24T23-29-11Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:57:39Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/tui-passthrough/adopt-not-resumed-end · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"## 2026-11-24-adopt-s-resume-folder — 2. A11y Strategy: 1 row(s)\n**Section:** 2. A11y Strategy\n**Change:** ~ contract/cli-refusal/unable-line · promise: was «A refusal prints `unable  <name>  <reason>  <detail>` on stderr, the plain word followed by plain detail; `viola revive`'s exit-1 refusals, `viola adopt`'s two own refusals, `viola run`'s socket-directory refusal and `viola verify`'s interrupted pair print one `unable: <text>` line instead.»; now «A refusal prints `unable  <name>  <reason>  <detail>` on stderr, the plain word followed by plain detail; `viola revive`'s exit-1 refusals, `viola adopt`'s three own refusals, `viola run`'s socket-directory refusal and `viola verify`'s interrupted pair print one `unable: <text>` line instead.»\n**Why:** contract/cli-refusal/unable-line: viola adopt gained a third own refusal, not-resumed, with its fixed unable:/hint: pair, so the row's count of adopt's own refusals moves from two to three. — on relayed verbatim by the Viola overseer, 2026-11-24, inputs#I2\n**Ref:** .andromeda/runs/2026-11-24T23-29-11Z-wrap/",
+"## 2026-11-24-adopt-s-resume-folder — 8. Cognitive Accessibility: 2 row(s)\n**Section:** 8. Cognitive Accessibility\n**Change:** ~ contract/cli-fixed-message/form · promise: was «viola revive's exit-1 refusals, viola adopt's strict-modes-failed and session-live refusals and viola run's socket-directory refusal print one unable: <text> line, then one hint: line last.»; now «viola revive's exit-1 refusals, viola adopt's strict-modes-failed, session-live and not-resumed refusals and viola run's socket-directory refusal print one unable: <text> line, then one hint: line last.»\n~ contract/start-json-refusal/document · promise: was «Every refusal of the start revive and adopt share with run, and adopt's own strict-modes-failed and session-live, gives one {\"v\":1,\"error\":\"<code>\",\"detail\":null} document with no hint and empty stderr.»; now «Every refusal of the start revive and adopt share with run, and adopt's own strict-modes-failed, session-live and not-resumed, gives one {\"v\":1,\"error\":\"<code>\",\"detail\":null} document with no hint and empty stderr.»\n**Why:** contract/cli-fixed-message/form: adopt's new not-resumed refusal prints the same one-line unable:/hint: form, so the row naming adopt's fixed-message refusals must name it too. — on relayed verbatim by the Viola overseer, 2026-11-24, inputs#I2\ncontract/start-json-refusal/document: under --json adopt's not-resumed refusal is exactly {\"v\":1,\"error\":\"not-resumed\",\"detail\":null} with stderr empty, so the row listing adopt's own document-giving refusals must include it. — on relayed verbatim by the Viola overseer, 2026-11-24, inputs#I2\n**Ref:** .andromeda/runs/2026-11-24T23-29-11Z-wrap/",
+"## 2026-11-24-adopt-s-resume-folder — 4. ARIA Patterns & Roles: 1 row(s)\n**Section:** 4. ARIA Patterns & Roles\n**Change:** ~ decision/wheel-ignores-terminal-events · except: was «Before the child starts, a keyed start's automatic-verify lines and verify's own output reach the human's terminal.»; now «Before the child starts, a keyed start's automatic-verify lines and verify's own output reach the human's terminal; after the child ends, a not-resumed viola adopt's refusal pair or document does.»\n**Why:** decision/wheel-ignores-terminal-events: the rule that viola originates zero bytes on the human's terminal now has a second named exception, adopt's not-resumed end written after its child released the terminal. — resolved (Q1), PROVISIONAL: delegate Viola-overseer, 2026-11-24: confirmed, all six read against his two answers of 2026-11-24 (fork 2; the hint's text) and lying inside them — PROVISIONAL as a confirm; the ratification is the operator's answers, relayed verbatim by the Viola overseer, 2026-11-24, inputs#I2\n**Ref:** .andromeda/runs/2026-11-24T23-29-11Z-wrap/",
+"patterns: none: 4 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 4 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:57:39Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/adopt-proven-live · rejected",
+"contract/adopt-exit-1/not-resumed · rejected",
+"decision/sessionless-start-runs-piped · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-24-adopt-s-resume-folder — 7. Test Data & Fixtures: 2 row(s)\n**Section:** 7. Test Data & Fixtures\n**Change:** ~ contract/fake-agent-events/session-start · promise: was «After start_receipts the fake agent fires SessionStart (variant default) once, silent without a registered hook or a fixture, like every fire; under --screens with an untrusted cwd only after Enter on the trust row, which draws the ready screen.»; now «After start_receipts the fake agent fires SessionStart (variant default) once, silent without a registered hook or a fixture, like every fire; under --screens with an untrusted cwd only after Enter on the trust row, which draws the ready screen; under --resume-absent with --resume it fires none.»\n+ contract/fake-agent-cli/resume-absent — viola-fake-agent command line · --resume-absent\n**Why:** contract/fake-agent-events/session-start: Under the new --resume-absent option given with --resume the fake fires no SessionStart, so the row's «fires SessionStart once» no longer holds for every start.\ncontract/fake-agent-cli/resume-absent: The fake agent's argv-only option list gains --resume-absent, and the command-line contract holds one row an option, none for it.\n**Ref:** .andromeda/runs/2026-11-24T23-29-11Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:57:44Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-adopt-refusals/not-resumed · rejected",
+"contract/log-detail-codes/not-resumed · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"landed tx 4923 · 3 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:57:45Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 4924 · 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:57:45Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/tui-passthrough/adopt-not-resumed-end · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"landed tx 4925 · 4 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:57:45Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/adopt-proven-live · rejected",
+"contract/adopt-exit-1/not-resumed · rejected",
+"decision/sessionless-start-runs-piped · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 4926 · 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:57:46Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/ops-main-design-system.md",
+"--results",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"contract/viola-adopt-refusals/not-resumed · over — promise: 313 chars, 300 at the most"
+],
+"stderr": "1 row(s) refused of 1 operation(s) to land — nothing written",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:57:46Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/adopt-refusal/not-resumed · rejected",
+"decision/adopt-resumed-from-own-snapshot · rejected",
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:57:46Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-adopt-refusals/not-resumed · rejected",
+"decision/adopt-not-resumed-written-after-child · rejected",
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:58:18Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/ops-main-design-system.md",
+"--results",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-24-adopt-s-resume-folder — Surface: cli: 1 row(s)\n**Section:** Surface: cli\n**Change:** + contract/viola-adopt-refusals/not-resumed — viola adopt refusals · not-resumed\n**Why:** contract/viola-adopt-refusals/not-resumed: adopt gains a third own refusal with a fixed pair beside session-live's row, and the hint's `<id>` stays a literal word so the session id is never printed. — on relayed verbatim by the Viola overseer, 2026-11-24, inputs#I2\n**Ref:** .andromeda/runs/2026-11-24T23-29-11Z-wrap/",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-24T23:58:22Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/ops-main-design-system.md",
+"--results",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 4927 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T00:01:46Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/a11y.md",
+"--file",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap/staged-leaf-.claude__rules__a11y.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/a11y.md rev 13 · 0 new · 1 revised · 0 retired · tx 4928"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+"./.claude/rules/a11y.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T00:01:47Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/conventions.md",
+"--file",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap/staged-leaf-.claude__docs__conventions.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/conventions.md rev 29 · 0 new · 1 revised · 0 retired · tx 4929"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+"./.claude/docs/conventions.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T00:01:47Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-agent-claude.md",
+"--file",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap/staged-leaf-.claude__docs__services__viola-agent-claude.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-agent-claude.md rev 39 · 0 new · 1 revised · 0 retired · tx 4930"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+"./.claude/docs/services/viola-agent-claude.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T00:01:48Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/api.md",
+"--file",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap/staged-leaf-.claude__rules__api.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/api.md rev 24 · 0 new · 1 revised · 0 retired · tx 4931"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+"./.claude/rules/api.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T00:01:48Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/frontend.md",
+"--file",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap/staged-leaf-.claude__rules__frontend.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/frontend.md rev 19 · 0 new · 1 revised · 0 retired · tx 4932"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+"./.claude/rules/frontend.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T00:01:49Z",
+"argv": [
+"harness",
+"land",
+"CLAUDE.md",
+"--file",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap/staged-leaf-CLAUDE.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed CLAUDE.md rev 33 · 0 new · 1 revised · 0 retired · tx 4933"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+"./CLAUDE.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T00:01:49Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/commands.md",
+"--file",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap/staged-leaf-.claude__docs__commands.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/commands.md rev 37 · 0 new · 1 revised · 0 retired · tx 4934"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+"./.claude/docs/commands.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T00:01:50Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/design-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap/staged-leaf-.claude__docs__design-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/design-summary.md rev 26 · 0 new · 1 revised · 0 retired · tx 4935"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+"./.claude/docs/design-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T00:01:50Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/obs-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap/staged-leaf-.claude__docs__obs-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/obs-summary.md rev 25 · 0 new · 2 revised · 0 retired · tx 4936"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+"./.claude/docs/obs-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T00:01:51Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/tests-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap/staged-leaf-.claude__docs__tests-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/tests-summary.md rev 48 · 0 new · 1 revised · 0 retired · tx 4937"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+"./.claude/docs/tests-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T00:01:51Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/verification-harness.md",
+"--file",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap/staged-leaf-.claude__rules__verification-harness.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/verification-harness.md rev 51 · 0 new · 2 revised · 0 retired · tx 4938"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+"./.claude/rules/verification-harness.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T00:01:52Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/observability.md",
+"--file",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap/staged-leaf-.claude__rules__observability.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/observability.md rev 32 · 0 new · 1 revised · 0 retired · tx 4939"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson",
+"./.claude/rules/observability.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T00:06:10Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap",
+"--marker",
+"2026-11-24-adopt-s-resume-folder"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 4944 · run-ld3btmqz … run-ld3btmqz"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T21-45-15-2026-11-24-adopt-s-resume-folder.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T00:08:51Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-24-adopt-s-resume-folder",
+"--run-dir",
+".andromeda/runs/2026-11-24T23-29-11Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 8 file(s) of 2026-11-24-adopt-s-resume-folder"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

@@ -1,0 +1,43 @@
+[[pattern]]
+id = 'adopt-refusals'
+regex = '''own refusals?|refusals? of its own|adopt's (two|2) refusals|adopt-own-refusals'''
+
+[[pattern]]
+id = 'adopt-codes'
+regex = '''adopt-refusal-codes|eight (closed )?(codes|details|words|refusal codes)'''
+
+[[pattern]]
+id = 'pe-detail'
+regex = '''process-exit-detail|exit-1-adopt|not-resumed'''
+
+[[pattern]]
+id = 'exit-tables'
+regex = '''cross_exit_causes|CLI_DOCUMENTS|contract_error_bodies|exit-cause table'''
+
+[[pattern]]
+id = 'fake-opts'
+regex = '''fake-agent-argv-only|resume-absent|argv-only'''
+
+[[pattern]]
+id = 'r5-verdict'
+regex = '''r5-adopt|\br5a\b|\br5c\b'''
+
+[[pattern]]
+id = 'child-held'
+regex = '''no-json-after-child-held-terminal|viola-run-output/child-started|writes nothing past it'''
+
+[[pattern]]
+id = 'pump-err'
+regex = '''pump-child-error|pump_child|pump_end'''
+
+[[pattern]]
+id = 'adopt-logs'
+regex = '''adopt-start-logs-as-run'''
+
+[[pattern]]
+id = 'refusal-form'
+regex = '''cli-refusal/unable-line|cli-fixed-message/form|start-json-refusal/document'''
+
+[[pattern]]
+id = 'exit1-adopt'
+regex = '''1-adopt-start'''
