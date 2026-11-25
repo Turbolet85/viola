@@ -1,7 +1,0 @@
---- a/.andromeda/architecture.md
-+++ b/.andromeda/architecture.md
-@@ -58,3 +58,3 @@
- ## architecture · established-decisions
--decision/adopt-refuses-live-session · Adopt refuses a session a live claude holds — viola adopt resumes under viola, with an operator-given name, a plain claude session named by its session id, and refuses with session-live, exit 1, when a claude agents --json row carries that id; a failed read passes. · provisional
-+decision/adopt-refuses-live-session · Adopt refuses a session a live claude holds — viola adopt resumes under viola, with an operator-given name, a plain claude session named by its session id, and refuses with session-live, exit 1, when a claude agents --json row carries that id; a failed read passes.
- decision/anyhow-only-in-bin · anyhow only in the viola binary — anyhow is used only in the viola bin: its main, dispatch and the catch-site internal-error reporter. · why: anyhow's context chains are only useful where a person reads them.

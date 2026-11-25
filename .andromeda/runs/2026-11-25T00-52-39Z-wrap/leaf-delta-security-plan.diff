@@ -1,7 +1,0 @@
---- a/.andromeda/security-plan.md
-+++ b/.andromeda/security-plan.md
-@@ -105,3 +105,3 @@
- ## security-plan · authentication-authorization
--decision/adopt-signals-no-foreign-process · Adopt acts on no process it did not start — viola adopt resumes only a session no live claude holds, spawns its own child in its own terminal, and never ends or signals a process viola did not start. · why: A plain session still running elsewhere is refused rather than taken over. · provisional
-+decision/adopt-signals-no-foreign-process · Adopt acts on no process it did not start — viola adopt resumes only a session no live claude holds, spawns its own child in its own terminal, and never ends or signals a process viola did not start. · why: A plain session still running elsewhere is refused rather than taken over.
- decision/all-or-nothing-access · All-or-nothing access — Any caller that passes the OS check gets the full surface, with no roles.
