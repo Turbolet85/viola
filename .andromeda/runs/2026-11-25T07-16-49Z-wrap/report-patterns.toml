@@ -1,0 +1,31 @@
+[[pattern]]
+id = 'C1-vfy-codes'
+regex = 'program-not-found|unclean-fixture|version-unreadable|untrusted-folder'
+
+[[pattern]]
+id = 'C2-detail-enum'
+regex = 'process-exit-detail|detail. enum|diag-line\.v1\.json|untrusted-folder'
+
+[[pattern]]
+id = 'C3-causes'
+regex = 'cross_exit_causes|CAUSES'
+
+[[pattern]]
+id = 'E1-own-window'
+regex = 'window-step-moves-own-terminal-window|moves only the window of its own terminal|active workspace|keep_view'
+
+[[pattern]]
+id = 'E2-proven-live'
+regex = 'window-placement-proven-live|window-raise-proven-live|r7-place|\bR7\b'
+
+[[pattern]]
+id = 'E3-failing-row'
+regex = '1-relied-row-failed|failing-row|failing row|still stamp|untrusted-folder'
+
+[[pattern]]
+id = 'E4-refusals'
+regex = 'viola-verify-refusals|did not start ready|from a folder you trust'
+
+[[pattern]]
+id = 'E5-help'
+regex = 'viola-verify-output/help|verify-output'

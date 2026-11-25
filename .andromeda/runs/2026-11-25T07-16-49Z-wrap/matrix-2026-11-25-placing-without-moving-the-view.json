@@ -1,0 +1,152 @@
+[
+{
+"tool": "matrix",
+"v": "1.14",
+"sha8": "542b5ad7",
+"ts": "2026-11-25T08:15:39Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-25-placing-without-moving-the-view",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--gated",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-25-placing-without-moving-the-view: 1 · to flip 0 · already verified 0 · below 0 · gated held 1",
+"gated v2-07 (planned) — held below verified — R7, ONE viola open placing a window live at the operator hos… (187 chars)",
+"nothing to write — 1 gated cap(s) held below verified, 0 already verified",
+"version: verified 28/37"
+],
+"stderr": null,
+"wrote": [],
+"before": [],
+"after": []
+},
+{
+"tool": "matrix",
+"v": "1.14",
+"sha8": "542b5ad7",
+"ts": "2026-11-25T08:15:43Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-25-placing-without-moving-the-view",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--gated"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-25-placing-without-moving-the-view: 1 · to flip 0 · already verified 0 · below 0 · gated held 1",
+"gated v2-07 (planned) — held below verified — R7, ONE viola open placing a window live at the operator hos… (187 chars)",
+"nothing to write — 1 gated cap(s) held below verified, 0 already verified",
+"version: verified 28/37"
+],
+"stderr": null,
+"wrote": [],
+"before": [],
+"after": []
+},
+{
+"tool": "matrix",
+"v": "1.14",
+"sha8": "542b5ad7",
+"ts": "2026-11-25T08:15:50Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.2.0",
+"--id",
+"v2-13",
+"--text-file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/note-v2-13.md",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v2-13: +434 chars (total 2271) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v2-13",
+"chunk": "2026-11-24-viola-adopt",
+"status": "verified",
+"method": "e2e",
+"ref": "scripts/r5-adopt.sh R5a (gate entry 21, `r5a: green resumed=yes lineage=yes pair=haiku/low turn=ended ended=yes start=ok… (357 chars)",
+"acceptance": "A plain claude session named by its session id ends and resumes under viola with the given name and parent and is then d… (1023 chars)",
+"notes_chars": 1835
+},
+"after": {
+"id": "v2-13",
+"chunk": "2026-11-24-viola-adopt",
+"status": "verified",
+"method": "e2e",
+"ref": "scripts/r5-adopt.sh R5a (gate entry 21, `r5a: green resumed=yes lineage=yes pair=haiku/low turn=ended ended=yes start=ok… (357 chars)",
+"acceptance": "A plain claude session named by its session id ends and resumes under viola with the given name and parent and is then d… (1023 chars)",
+"notes_chars": 2271
+}
+},
+{
+"tool": "matrix",
+"v": "1.14",
+"sha8": "542b5ad7",
+"ts": "2026-11-25T08:15:55Z",
+"argv": [
+"note",
+"--dir",
+"viola-0.2.0",
+"--id",
+"v2-13",
+"--text-file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/note-v2-13.md",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v2-13: +434 chars (total 2271) · status verified · ref/acceptance untouched",
+"landed, rendered ./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson"
+],
+"before": {
+"id": "v2-13",
+"chunk": "2026-11-24-viola-adopt",
+"status": "verified",
+"method": "e2e",
+"ref": "scripts/r5-adopt.sh R5a (gate entry 21, `r5a: green resumed=yes lineage=yes pair=haiku/low turn=ended ended=yes start=ok… (357 chars)",
+"acceptance": "A plain claude session named by its session id ends and resumes under viola with the given name and parent and is then d… (1023 chars)",
+"notes_chars": 1835
+},
+"after": {
+"id": "v2-13",
+"chunk": "2026-11-24-viola-adopt",
+"status": "verified",
+"method": "e2e",
+"ref": "scripts/r5-adopt.sh R5a (gate entry 21, `r5a: green resumed=yes lineage=yes pair=haiku/low turn=ended ended=yes start=ok… (357 chars)",
+"acceptance": "A plain claude session named by its session id ends and resumes under viola with the given name and parent and is then d… (1023 chars)",
+"notes_chars": 2271
+}
+}
+]

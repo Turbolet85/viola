@@ -1,1 +1,0 @@
-2026-11-25 (the operator's lowering): R4a of «`viola up`» read the active workspace 1 before and 5 after a placed window on Hyprland 0.56.2, against the operator's F4 «no focus change», where R2 of «`viola open`» read placement only → «Placing without moving the view»

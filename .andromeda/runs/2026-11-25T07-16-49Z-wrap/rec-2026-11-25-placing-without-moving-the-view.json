@@ -1,0 +1,1415 @@
+[
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:19:17Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-25-placing-without-moving-the-view",
+"--section-file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-25-placing-without-moving-the-view/report rev 3 · 10 new · 0 revised · 0 retired · 56 kept · tx 5033"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:19:20Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-25-placing-without-moving-the-view",
+"--section-file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-25-placing-without-moving-the-view/report rev 4 · 45 new · 0 revised · 0 retired · 66 kept · tx 5034"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:19:49Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/cites-land-2026-11-25-placing-without-moving-the-view.ndjson",
+"--base",
+"4c62b09777afaa7cfce3d9f1036054bc0263b812",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:19:54Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/cites-land-2026-11-25-placing-without-moving-the-view.ndjson",
+"--base",
+"4c62b09777afaa7cfce3d9f1036054bc0263b812",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 5036"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:21:36Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 1045 · packs 11 · pack 100 · 301436 B",
+"security-plan: rows 665 · packs 7 · pack 100 · 207954 B",
+"design-system: rows 361 · packs 4 · pack 100 · 90076 B",
+"layout-templates: rows 237 · packs 3 · pack 100 · 58614 B",
+"test-plan: rows 1385 · packs 14 · pack 100 · 381172 B",
+"obs-plan: rows 1055 · packs 11 · pack 100 · 294281 B",
+"a11y-plan: rows 244 · packs 3 · pack 100 · 71405 B",
+"rows-packs: 7 master(s) · 4992 row(s) · 53 pack(s) · 2 draw(s) a pack · pin 5036"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:37:43Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 1045 · packs 11 · picked 75 (45 by every draw) · standing 0 · 210847 B · Established Decisions: by boundary, the rest under `also here:`",
+"security-plan: rows 665 · packs 7 · picked 26 (12 by every draw) · standing 0 · 159068 B",
+"design-system: rows 361 · packs 4 · picked 35 (28 by every draw) · standing 0 · 72865 B",
+"layout-templates: rows 237 · packs 3 · picked 31 (24 by every draw) · standing 0 · 52705 B",
+"test-plan: rows 1385 · packs 14 · picked 48 (38 by every draw) · standing 0 · 295158 B",
+"obs-plan: rows 1055 · packs 11 · picked 49 (25 by every draw) · standing 0 · 166042 B",
+"a11y-plan: rows 244 · packs 3 · picked 30 (14 by every draw) · standing 0 · 51931 B",
+"rows-union: 7 master(s) · picked 294 of 4992 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/arch-rows.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/arch-standing.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/security-rows.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/security-standing.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/design-rows.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/design-standing.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/layouts-rows.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/tests-rows.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/tests-standing.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/obs-rows.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/obs-standing.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:44:07Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-verify-exit-codes/1 · rejected",
+"decision/window-step-keeps-view · rejected",
+"fit: fits 5 · not_master 0 · stands 0",
+"## 2026-11-25-placing-without-moving-the-view — Established Decisions: 3 row(s)\n**Section:** Established Decisions\n**Change:** ~ contract/viola-verify-exit-codes/1-relied-row-failed · promise: was «A relied ledger row failed; the failing row's stamp is still written.»; now «A relied ledger row failed; the failing row's stamp is still written. A probe run whose first screen read the trust or imports form is no failed row but the untrusted-folder refusal, which writes no stamp.»\n+ decision/verify-refuses-untrusted-folder — Verify refuses an untrusted folder\n+ contract/viola-verify-refusal-codes/untrusted-folder — viola verify process-exit refusal codes · untrusted-folder\n**Why:** contract/viola-verify-exit-codes/1-relied-row-failed: A run whose first screen read trust or imports now ends in a no-stamp refusal before any row is checked, so the exit-1 failing-row promise must say it no longer covers that case. — resolved (Q1), PROVISIONAL: delegate Viola-overseer, 2026-11-25, inputs#I8: «Confirm all 12» — the ratification his answers M1 and V1, relayed verbatim by overseer1, 2026-11-25, inputs#I3\ndecision/verify-refuses-untrusted-folder: A confounded probe run is now a refusal that stamps nothing, a decision future verify and start work must respect. — resolved (Q1), PROVISIONAL: delegate Viola-overseer, 2026-11-25, inputs#I8: «Confirm all 12» — the ratification his answers M1 and V1, relayed verbatim by overseer1, 2026-11-25, inputs#I3\ncontract/viola-verify-refusal-codes/untrusted-folder: verify's closed refusal code set gains untrusted-folder, and each code of the set is one contract row. — resolved (Q1), PROVISIONAL: delegate Viola-overseer, 2026-11-25, inputs#I8: «Confirm all 12» — the ratification his answers M1 and V1, relayed verbatim by overseer1, 2026-11-25, inputs#I3\n**Ref:** .andromeda/runs/2026-11-25T07-16-49Z-wrap/",
+"## 2026-11-25-placing-without-moving-the-view — Conventions: 1 row(s)\n**Section:** Conventions\n**Change:** + contract/verify-process-exit/untrusted-folder — viola verify process-exit detail · untrusted-folder\n**Why:** contract/verify-process-exit/untrusted-folder: verify's process-exit detail gains untrusted-folder beside its sibling codes in this section. — resolved (Q1), PROVISIONAL: delegate Viola-overseer, 2026-11-25, inputs#I8: «Confirm all 12» — the ratification his answers M1 and V1, relayed verbatim by overseer1, 2026-11-25, inputs#I3\n**Ref:** .andromeda/runs/2026-11-25T07-16-49Z-wrap/",
+"## 2026-11-25-placing-without-moving-the-view — Occupied Resources: 1 row(s)\n**Section:** Occupied Resources\n**Change:** + contract/process-exit-detail/untrusted-folder — process-exit detail enum · untrusted-folder\n**Why:** contract/process-exit-detail/untrusted-folder: The diagnostics line schema's process-exit detail enum gains one value, an occupied word to register beside its siblings. — resolved (Q1), PROVISIONAL: delegate Viola-overseer, 2026-11-25, inputs#I8: «Confirm all 12» — the ratification his answers M1 and V1, relayed verbatim by overseer1, 2026-11-25, inputs#I3\n**Ref:** .andromeda/runs/2026-11-25T07-16-49Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 5 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:44:07Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/r7-place-script-closes-own-terminal · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"## 2026-11-25-placing-without-moving-the-view — Authentication & Authorization: 1 row(s)\n**Section:** Authentication & Authorization\n**Change:** ~ decision/window-step-moves-own-terminal-window · rule: was «The wrapper's window step moves only the window of its own terminal, found by its parent pid within a 5 s wait, at most once, and never a window it did not open.»; now «The wrapper's window step moves only the window of its own terminal, found by its parent pid within a 5 s wait, at most once, and never a window it did not open; it switches back once to the workspace active before it only when the move changed it; a failed read or restore changes no placement.»\n**Why:** decision/window-step-moves-own-terminal-window: The window step now reads the monitors before and after its move and may send one workspace switch back to the previously active workspace, a boundary widening the row must name. — resolved (Q1), PROVISIONAL: delegate Viola-overseer, 2026-11-25, inputs#I8: «Confirm all 12» — the ratification his answers M1 and V1, relayed verbatim by overseer1, 2026-11-25, inputs#I3\n**Ref:** .andromeda/runs/2026-11-25T07-16-49Z-wrap/",
+"## 2026-11-25-placing-without-moving-the-view — Data Protection: 2 row(s)\n**Section:** Data Protection\n**Change:** ~ decision/verify-never-answers-import-dialog · rule: was «viola verify against the real claude runs from a folder the user trusts whose external CLAUDE.md import is already answered; verify never answers that dialog.»; now «viola verify against the real claude runs from a folder the user trusts whose external CLAUDE.md import is already answered; verify never answers that dialog, and a run that first meets the trust or import dialog is refused untrusted-folder, exit 1, with no stamp written.»\n+ contract/verify-refusal-codes/untrusted-folder — verify's refusal codes · untrusted-folder\n**Why:** decision/verify-never-answers-import-dialog: A verify whose Runs B to E first read the trust or imports dialog is now refused untrusted-folder before any row is checked or stamp written, which the row requiring a pre-trusted folder must state. — resolved (Q1), PROVISIONAL: delegate Viola-overseer, 2026-11-25, inputs#I8: «Confirm all 12» — the ratification his answers M1 and V1, relayed verbatim by overseer1, 2026-11-25, inputs#I3\ncontract/verify-refusal-codes/untrusted-folder: verify's closed refusal codes gain untrusted-folder, and the closed list holds one row per code. — resolved (Q1), PROVISIONAL: delegate Viola-overseer, 2026-11-25, inputs#I8: «Confirm all 12» — the ratification his answers M1 and V1, relayed verbatim by overseer1, 2026-11-25, inputs#I3\n**Ref:** .andromeda/runs/2026-11-25T07-16-49Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 3 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:44:12Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-verify-exit-codes/1 · rejected",
+"decision/window-step-keeps-view · rejected",
+"fit: fits 5 · not_master 0 · stands 0",
+"landed tx 5038 · 5 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:44:13Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/r7-place-script-closes-own-terminal · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"landed tx 5039 · 3 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:44:13Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"contract/verify-exit-detail/untrusted-folder · stands — stands as contract/verify-process-exit/untrusted-folder — the same name under another key: set that row"
+],
+"stderr": "1 row(s) refused of 1 operation(s) to land — nothing written",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:44:13Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-25-placing-without-moving-the-view — Authentication & Authorization: 1 row(s)\n**Section:** Authentication & Authorization\n**Change:** + decision/r7-place-script-closes-own-terminal — R7 placing script acts only on its own terminal\n**Why:** decision/r7-place-script-closes-own-terminal: A new test-only live script opens and closes a terminal window on the real compositor, and its bounds stand on the plan's step 15 confirmed on a delegate's card, so the row lands provisional until the operator's own word. — on delegate Viola-overseer, 2026-11-25, inputs#I5, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-25T07-16-49Z-wrap/",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:44:24Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/verify-exit-detail/untrusted-folder · rejected",
+"fit: fits 0 · not_master 0 · stands 0",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 0 operation(s) · 0 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:44:25Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 5040 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:44:25Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-verify-refusals/untrusted-folder · rejected",
+"contract/log-detail-codes/untrusted-folder · rejected",
+"decision/placing-keeps-the-view · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-25-placing-without-moving-the-view — Surface: cli: 2 row(s)\n**Section:** Surface: cli\n**Change:** ~ contract/auto-verify-line/did-not-verify · promise: was «A start whose automatic verify ran and did not leave a green stamp prints the fixed did-not-verify line naming the parsed claude version.»; now «A start whose automatic verify ran and left a stamp that is not green prints the fixed did-not-verify line naming the parsed claude version.»\n~ contract/auto-verify-line/no-stamp · promise: was «A start whose automatic verify left no stamp prints the fixed no-stamp line naming the parsed version and one closed word of `spawn-failed`, `unstamped` or `lock-refused`.»; now «A start whose automatic verify left no stamp, a verify refused for an untrusted folder included, prints the fixed no-stamp line naming the parsed version and one closed word of `spawn-failed`, `unstamped` or `lock-refused`; the version stays unattempted.»\n**Why:** contract/auto-verify-line/did-not-verify: An automatic verify refused for an untrusted folder leaves no stamp and prints the no-stamp `unstamped` line, so the did-not-verify line belongs only to a run that left a stamp that is not green. — on relayed verbatim by overseer1, 2026-11-25, inputs#I3\ncontract/auto-verify-line/no-stamp: The untrusted-folder refusal of the automatic verify now ends in the no-stamp `unstamped` line with the version left unattempted, which the row must say. — on relayed verbatim by overseer1, 2026-11-25, inputs#I3\n**Ref:** .andromeda/runs/2026-11-25T07-16-49Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:44:25Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/placing-start-keeps-the-view · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-25-placing-without-moving-the-view — Surface: cli: 2 row(s)\n**Section:** Surface: cli\n**Change:** + contract/viola-verify-refusals/untrusted-folder — viola verify refusals · untrusted folder\n~ contract/viola-verify-output/failing-row · promise: was «A run with a failing row exits 1 and still writes the stamp.»; now «A run with a failing row exits 1 and still writes the stamp; a run whose first screen read trust or imports is a refusal before any row is read, not a failing row, and writes no stamp.»\n**Why:** contract/viola-verify-refusals/untrusted-folder: verify gains a new refusal pair with its own code, a sibling of the stopped refusal, its wording provisional on a delegate's word for the epoch batch, and no standing row states it. — on delegate Viola-overseer, 2026-11-25, inputs#I4, PROVISIONAL\ncontract/viola-verify-output/failing-row: a confounded run is now a refusal that stamps nothing while a failing relied row still stamps, so the failing-row promise must name where it stops. — resolved (Q1), PROVISIONAL: delegate Viola-overseer, 2026-11-25, inputs#I8: «Confirm all 12» — the ratification his answers M1 and V1, relayed verbatim by overseer1, 2026-11-25, inputs#I3\n**Ref:** .andromeda/runs/2026-11-25T07-16-49Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:44:26Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/untrusted-folder-refusal/verify · rejected",
+"contract/auto-verify-refusal/untrusted-folder · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"## 2026-11-25-placing-without-moving-the-view — 6. E2E Test Strategy: 1 row(s)\n**Section:** 6. E2E Test Strategy\n**Change:** ~ decision/window-placement-proven-live · rule: was «A real terminal window placed on its parent's workspace, or on the workspace its snapshot recorded when viola up re-opens it, on Hyprland is proven only by a live reading; the fakes prove the placement words and the window records only.»; now «A real terminal window placed on its parent's workspace, or on the workspace its snapshot recorded when viola up re-opens it, on Hyprland is proven only by a live reading, a placing open's kept view only by the gated live reading R7; the fakes prove the placement words and the window records only.»\n**Why:** decision/window-placement-proven-live: The window step now restores the active workspace a placing move took, a view the fakes never move, so the row must name R7 as the one proof that a placing open leaves the view where it was. — on relayed verbatim by overseer1, 2026-11-25, inputs#I3\n**Ref:** .andromeda/runs/2026-11-25T07-16-49Z-wrap/",
+"## 2026-11-25-placing-without-moving-the-view — 5. Integration Test Strategy: 1 row(s)\n**Section:** 5. Integration Test Strategy\n**Change:** + contract/verify-exit-detail/untrusted-folder — viola verify process-exit detail · untrusted-folder\n**Why:** contract/verify-exit-detail/untrusted-folder: verify's closed process-exit detail set gains untrusted-folder, and the set is held one row an item beside interrupted and the five other refusal codes. — resolved (Q1), PROVISIONAL: delegate Viola-overseer, 2026-11-25, inputs#I8: «Confirm all 12» — the ratification his answers M1 and V1, relayed verbatim by overseer1, 2026-11-25, inputs#I3\n**Ref:** .andromeda/runs/2026-11-25T07-16-49Z-wrap/",
+"## 2026-11-25-placing-without-moving-the-view — 7. Test Data & Fixtures: 1 row(s)\n**Section:** 7. Test Data & Fixtures\n**Change:** + decision/verify-failing-row-from-fixture-set — Failing relied row taken from a fixture set\n**Why:** decision/verify-failing-row-from-fixture-set: The trust form borrowed to fail rows became a no-stamp refusal, so the tests were re-based and future tests must take a failing row the same way.\n**Ref:** .andromeda/runs/2026-11-25T07-16-49Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 3 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:44:26Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/verify-untrusted-folder-stderr/unable-hint-pair · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-25-placing-without-moving-the-view — 6. Log Coverage: 1 row(s)\n**Section:** 6. Log Coverage\n**Change:** ~ contract/process-exit-detail/verify-refusal · promise: was «Under a parsed VIOLA_NAME, verify writes its refusal code: program-not-found, pinned-hash-mismatch, version-unreadable, strict-modes-failed, unclean-fixture or interrupted; a failing row carries no code.»; now «Under a parsed VIOLA_NAME, verify writes its refusal code: program-not-found, pinned-hash-mismatch, version-unreadable, strict-modes-failed, unclean-fixture, untrusted-folder or interrupted; a failing row carries no code.»\n**Why:** contract/process-exit-detail/verify-refusal: verify's closed refusal codes on its process-exit gained untrusted-folder, added to the diag-line detail enum, so the row's closed list must name it. — resolved (Q1), PROVISIONAL: delegate Viola-overseer, 2026-11-25, inputs#I8: «Confirm all 12» — the ratification his answers M1 and V1, relayed verbatim by overseer1, 2026-11-25, inputs#I3\n**Ref:** .andromeda/runs/2026-11-25T07-16-49Z-wrap/",
+"## 2026-11-25-placing-without-moving-the-view — 4. Span / Trace Coverage: 1 row(s)\n**Section:** 4. Span / Trace Coverage\n**Change:** + decision/window-view-restore-uninstrumented — Window view restore uninstrumented\n**Why:** decision/window-view-restore-uninstrumented: the window step gained a before and after monitors read and a conditional restore whose instrumentation is only the seam's existing hyprctl-probe pairs, a choice future work on run.window must respect. — on relayed verbatim by overseer1, 2026-11-25, inputs#I3\n**Ref:** .andromeda/runs/2026-11-25T07-16-49Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:44:26Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-verify/untrusted-folder-pair · rejected",
+"decision/placing-open-keeps-the-view · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-25-placing-without-moving-the-view — 8. Cognitive Accessibility: 1 row(s)\n**Section:** 8. Cognitive Accessibility\n**Change:** ~ contract/cli-fixed-message/form · promise: was «viola revive's exit-1 refusals, viola adopt's strict-modes-failed, session-live and not-resumed refusals and viola run's socket-directory refusal print one unable: <text> line, then one hint: line last.»; now «viola revive's exit-1 refusals, viola adopt's strict-modes-failed, session-live and not-resumed refusals, viola run's socket-directory refusal and viola verify's untrusted-folder refusal print one unable: <text> line, then one hint: line last.»\n**Why:** contract/cli-fixed-message/form: viola verify's new untrusted-folder refusal prints the fixed unable:/hint: pair, so the closed list of fixed-message refusals must name it. — on relayed verbatim by overseer1, 2026-11-25, inputs#I3\n**Ref:** .andromeda/runs/2026-11-25T07-16-49Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:44:31Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-verify-refusals/untrusted-folder · rejected",
+"contract/log-detail-codes/untrusted-folder · rejected",
+"decision/placing-keeps-the-view · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 5041 · 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:44:31Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/placing-start-keeps-the-view · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 5042 · 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:44:31Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/untrusted-folder-refusal/verify · rejected",
+"contract/auto-verify-refusal/untrusted-folder · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"landed tx 5043 · 3 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:44:32Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/verify-untrusted-folder-stderr/unable-hint-pair · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 5044 · 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:44:32Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/viola-verify/untrusted-folder-pair · rejected",
+"decision/placing-open-keeps-the-view · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 5045 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:50:27Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/a11y-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap/staged-leaf-.claude__docs__a11y-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/a11y-summary.md rev 28 · 0 new · 1 revised · 0 retired · tx 5046"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"./.claude/docs/a11y-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:50:27Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/conventions.md",
+"--file",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap/staged-leaf-.claude__docs__conventions.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/conventions.md rev 30 · 0 new · 1 revised · 0 retired · tx 5047"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"./.claude/docs/conventions.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:50:28Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-mcp.md",
+"--file",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap/staged-leaf-.claude__docs__services__viola-mcp.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-mcp.md rev 10 · 0 new · 1 revised · 0 retired · tx 5048"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"./.claude/docs/services/viola-mcp.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:50:28Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-pty.md",
+"--file",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap/staged-leaf-.claude__docs__services__viola-pty.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-pty.md rev 9 · 0 new · 1 revised · 0 retired · tx 5049"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"./.claude/docs/services/viola-pty.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:50:29Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola-state.md",
+"--file",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap/staged-leaf-.claude__docs__services__viola-state.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola-state.md rev 16 · 0 new · 2 revised · 0 retired · tx 5050"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"./.claude/docs/services/viola-state.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:50:29Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola.md",
+"--file",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap/staged-leaf-.claude__docs__services__viola.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola.md rev 35 · 0 new · 3 revised · 0 retired · tx 5051"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"./.claude/docs/services/viola.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:50:30Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/stack.md",
+"--file",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap/staged-leaf-.claude__docs__stack.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/stack.md rev 19 · 0 new · 1 revised · 0 retired · tx 5052"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"./.claude/docs/stack.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:50:31Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/api.md",
+"--file",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap/staged-leaf-.claude__rules__api.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/api.md rev 25 · 0 new · 1 revised · 0 retired · tx 5053"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"./.claude/rules/api.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:50:31Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/commands.md",
+"--file",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap/staged-leaf-.claude__docs__commands.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/commands.md rev 38 · 0 new · 2 revised · 0 retired · tx 5054"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"./.claude/docs/commands.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:50:32Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/gotchas.md",
+"--file",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap/staged-leaf-.claude__docs__gotchas.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/gotchas.md rev 19 · 0 new · 2 revised · 0 retired · tx 5055"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"./.claude/docs/gotchas.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:50:32Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/obs-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap/staged-leaf-.claude__docs__obs-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/obs-summary.md rev 26 · 0 new · 1 revised · 0 retired · tx 5056"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"./.claude/docs/obs-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:50:33Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/security-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap/staged-leaf-.claude__docs__security-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 51 · 0 new · 5 revised · 0 retired · tx 5057"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:50:34Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/security.md",
+"--file",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap/staged-leaf-.claude__rules__security.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/security.md rev 54 · 0 new · 2 revised · 0 retired · tx 5058"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"./.claude/rules/security.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:50:34Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/tests-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap/staged-leaf-.claude__docs__tests-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/tests-summary.md rev 49 · 0 new · 2 revised · 0 retired · tx 5059"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"./.claude/docs/tests-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:50:35Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/observability.md",
+"--file",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap/staged-leaf-.claude__rules__observability.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/observability.md rev 33 · 0 new · 2 revised · 0 retired · tx 5060"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"./.claude/rules/observability.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T07:55:20Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 5066 · run-linlo2yg … run-linlo2yg"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "3d1bc4fb",
+"ts": "2026-11-25T08:16:06Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-25-placing-without-moving-the-view",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 12 file(s) of 2026-11-25-placing-without-moving-the-view"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

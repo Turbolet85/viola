@@ -8,7 +8,7 @@ viola's own PTY seam over portable-pty `=0.9.0`: spawn · read · write · resiz
 ## Key integrations
 
 ### Consumes from
-portable-pty `=0.9.0`; tracing (the `pty.spawn` span); libc `=0.2.189` (termios raw mode, terminal size). No thiserror: `PtyError` is hand-written with fixed messages.
+portable-pty `=0.9.0`; tracing (the `pty.spawn` span); libc `=0.2.189` (termios raw mode, terminal size); a code-free `fake-agent = []` feature, so a package-scoped `--features fake-agent` build resolves. No thiserror: `PtyError` is hand-written with fixed messages.
 
 ### Publishes to
 The root bin's `run` pump (`src/run/`), `viola verify`'s six interactive PTY runs (`src/cmd/verify/typed/`), `viola list`'s board width (`viola_pty::host_size()`) and the tests' outer-PTY driver (`tests/support/outer_pty.rs`, `viola-harness supervise`).

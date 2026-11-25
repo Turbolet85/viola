@@ -8,6 +8,16 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-11-25 — Architecture holds verify's process-exit codes twice under one boundary name
+The architecture master keeps two families of `viola verify`'s process-exit codes, `contract/verify-process-exit/*`
+(Conventions) and `contract/verify-exit-detail/*` (Occupied Resources), both with the boundary «viola verify
+process-exit detail». `rec.py rows-land` reads a contract's name as boundary plus item, so a new code added to one
+family stands as already landed for the other: a sibling lands once, and the second family stays one row short.
+A wrap that grows verify's code set adds it to `verify-process-exit` alone; folding the two families into one is
+a master edit of its own, never a side effect of a chunk's add.
+
+---
+
 ## 2026-11-22 — An evidence script finds the repository from its own location
 A script a chunk keeps among its evidence (a measuring harness, a probe) names the repository by a path it computes from its own file's location, never by an absolute path written into it. The hygiene read refuses a host path in an evidence file, and `gate.py respell` rewrites only a path spelled as git spells the root, so an absolute repository path written by hand halts the land until the line is rewritten by hand on the operator's word.
 

@@ -1,0 +1,64 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "ba2b6b98",
+"ts": "2026-11-25T08:17:52Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-25-placing-without-moving-the-view",
+"--date",
+"2026-11-25",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--to",
+"gated",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would flip 2026-11-25-placing-without-moving-the-view pending -> gated"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "ba2b6b98",
+"ts": "2026-11-25T08:17:56Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-25-placing-without-moving-the-view",
+"--date",
+"2026-11-25",
+"--run-dir",
+".andromeda/runs/2026-11-25T07-16-49Z-wrap",
+"--to",
+"gated"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip 2026-11-25-placing-without-moving-the-view pending -> gated · tx 5072"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

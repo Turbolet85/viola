@@ -15,7 +15,7 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 
 ## ConPTY never closes the output stream
 **What breaks:** waiting for reader EOF to detect child exit breaks the rule that child exit is detected on the process handle, never on EOF (`pty_backend()` is `openpty`; the ConPTY that never closed its output stream left with the Windows code, recoverable at the tag `multi-os-final`).
-**How to avoid:** detect exit only by `wait()` on the process handle (a dedicated handle-wait thread); tests use `child.wait()`, never master EOF.
+**How to avoid:** detect exit only on the process handle, polled on main (never a dedicated handle-wait thread); tests use `child.wait()`, never master EOF.
 **Fix if broken:** move exit detection to the handle; log `process-exit{exit_source:"handle-wait"}`.
 **References:** arch [PTY]; brief §4.1 Windows details; test-plan §11 E2E.
 
@@ -76,7 +76,7 @@ Rendered by `/andromeda-setup-project` on the first run and kept current by wrap
 
 ## CLI-native modals bypass every hook
 **What breaks:** a paste typed while a CLI-native modal is up ("Teach auto mode…") is swallowed; the screen also lags the hooks.
-**How to avoid:** the vt100 readiness gate (quiet period + no standing modal + the input box: a footer literal, or the box's own rows — a rule row of the compiled rule char alone, at least 40, above a row opening the compiled prompt char) before any send — the full gate on the compiled `SIGNATURES` only on a verified CLI version (a standing modal refuses at once, while a modal literal's row that is not option-shaped with the box's own rows below it is a quote and does not; a quiet screen with no input box, as under the CLI's 8.0 s paste hint, waits up to 8.5 s for one), partial otherwise (a poisoned model or a screen not quiet within 8.5 s refuses; no row is read); every send confirmed after the fact; otherwise `not-delivered` / `input-not-ready`.
+**How to avoid:** the vt100 readiness gate (quiet period + no standing modal + the input box: a footer literal, or the box's own rows — a rule row of the compiled rule char alone, at least 40, above a row opening the compiled prompt char) before any send — the full gate on the compiled `SIGNATURES` only on a verified CLI version (a standing modal refuses at once, while a modal literal's row that is not option-shaped with the box's own rows below it is a quote and does not, save a quote alone on its own line or a code-block line holding only the label, which still refuses; a quiet screen with no input box, as under the CLI's 8.0 s paste hint, waits up to 8.5 s for one), partial otherwise (a poisoned model or a screen not quiet within 8.5 s refuses; no row is read); every send confirmed after the fact; otherwise `not-delivered` / `input-not-ready`.
 **References:** arch [Screen Model], [Delivery Confirmation].
 
 ## Local commands fire no UserPromptSubmit

@@ -1,0 +1,97 @@
+@pick n=1 row=contract/release-check-output/test-only-feature v=no
+@pick n=2 row=contract/pre-push-refusals/tool-pin-mismatch v=no
+@pick n=3 row=contract/pre-push-refusals/tool-missing-cc v=no
+@pick n=4 row=decision/zizmor-workflow-gate v=no
+@pick n=5 row=decision/zizmor-workflow-audit v=no
+@pick n=6 row=decision/tracing-subscriber-floor v=no
+@pick n=7 row=decision/toolchains-via-rustup v=no
+@pick n=8 row=decision/test-support-dev-only v=no
+@pick n=9 row=decision/signed-self-update v=no
+@pick n=10 row=decision/serde-json-unbounded-depth-banned v=no
+@pick n=11 row=decision/serde-json-bounded-depth v=no
+@pick n=12 row=decision/scheduled-fuzzing v=no
+@pick n=13 row=decision/scheduled-advisory-run v=no
+@pick n=14 row=decision/rustix-advisory-floor v=no
+@pick n=15 row=decision/rmcp-http-server-and-auth-banned v=no
+@pick n=16 row=decision/release-cache-poisoning-addressed v=no
+@pick n=17 row=decision/release-build-without-test-features v=no
+@pick n=18 row=decision/release-binary-audit v=no
+@pick n=19 row=decision/release-artifact-attestations v=no
+@pick n=20 row=decision/product-toolchain-pin v=no
+@pick n=21 row=decision/pre-push-checks-pins-installs-nothing v=no
+@pick n=22 row=decision/perf-uploads-scan-gated v=no
+@pick n=23 row=decision/nothing-runs-as-root v=no
+@pick n=24 row=decision/no-workflow-concurrency v=no
+@pick n=25 row=decision/no-tokio-in-sync-crates v=no
+@pick n=26 row=decision/no-stale-license-exceptions v=no
+@pick n=27 row=decision/no-rust-cache-in-release v=no
+@pick n=28 row=decision/no-c-building-crates v=no
+@pick n=29 row=decision/msrv-floor v=no
+@pick n=30 row=decision/manual-dependency-updates v=no
+@pick n=31 row=decision/licence-allow-list v=no
+@pick n=32 row=decision/least-workflow-permissions v=no
+@pick n=33 row=decision/g2-zero-panics-single-exemption v=no
+@pick n=34 row=decision/g2-single-panic-exemption v=no
+@pick n=35 row=decision/fuzz-workspace-exemption v=no
+@pick n=36 row=decision/fuzz-workspace-exempt-from-root-deny v=no
+@pick n=37 row=decision/fuzz-nightly-pin v=no
+@pick n=38 row=decision/fuzz-lockfile-audited-separately v=no
+@pick n=39 row=decision/exact-third-party-pins v=no
+@pick n=40 row=decision/exact-dependency-pins v=no
+@pick n=41 row=decision/event-values-through-env v=no
+@pick n=42 row=decision/cve-sla-enabled-feature v=no
+@pick n=43 row=decision/cve-sla-disabled-feature v=no
+@pick n=44 row=decision/crates-io-only v=no
+@pick n=45 row=decision/cli-tool-exact-pins v=no
+@pick n=46 row=decision/ci-cargo-deny-gate v=no
+@pick n=47 row=decision/checkout-no-persisted-credentials v=no
+@pick n=48 row=decision/cargo-deny-audit v=no
+@pick n=49 row=decision/cargo-audit-not-gated v=no
+@pick n=50 row=decision/c-building-crates-banned v=no
+@pick n=51 row=decision/bytes-advisory-floor v=no
+@pick n=52 row=decision/advisory-ignore-list v=no
+@pick n=53 row=decision/advisory-ignore-grounds v=no
+@pick n=54 row=decision/actions-pinned-by-sha v=no
+@pick n=55 row=decision/rmcp-feature-set v=no
+@pick n=56 row=decision/rmcp-banned-features v=no
+@pick n=57 row=contract/verify-refusal-codes/version-unreadable v=yes mode=add-to fact=F2
+@pick n=58 row=contract/verify-refusal-codes/unclean-fixture v=yes mode=add-to fact=F2
+@pick n=59 row=contract/verify-refusal-codes/strict-modes-failed v=yes mode=add-to fact=F2
+@pick n=60 row=contract/verify-refusal-codes/program-not-found v=yes mode=add-to fact=F2
+@pick n=61 row=contract/verify-refusal-codes/pinned-hash-mismatch v=yes mode=add-to fact=F2
+@pick n=62 row=contract/fixture-refusal-line/form v=no
+@pick n=63 row=contract/fixture-refusal-codes/username v=no
+@pick n=64 row=contract/fixture-refusal-codes/home-path v=no
+@pick n=65 row=contract/fixture-refusal-codes/email v=no
+@pick n=66 row=contract/fixture-refusal-codes/absolute-path v=no
+@pick n=67 row=contract/events-link-lines/no-op-pairs v=no
+@pick n=68 row=contract/events-link-lines/data v=no
+@pick n=69 row=contract/channel-unlink-method/reply v=no
+@pick n=70 row=contract/channel-link-method/reply v=no
+@pick n=71 row=decision/window-record-kept-to-snapshot-and-event-log v=no
+@pick n=72 row=decision/viola-writes-nothing-in-claude-dir v=no
+@pick n=73 row=decision/viola-format-fixtures-hygiene v=no
+@pick n=74 row=decision/verify-trusted-runs-risk v=yes mode=add-to fact=F1
+@pick n=75 row=decision/verify-real-cli-transcripts-accepted v=no
+@pick n=76 row=decision/verify-probes-confined-to-own-dir v=no
+@pick n=77 row=decision/verify-probe-dirs-cleanup v=yes mode=add-to fact=F1
+@pick n=78 row=decision/verify-probe-captures-transient v=no
+@pick n=79 row=decision/verify-never-answers-import-dialog v=yes mode=add-to fact=F1
+@pick n=80 row=decision/verify-never-answers-import v=yes mode=add-to fact=F1
+@pick n=81 row=decision/verify-echo-probe-residuals v=no
+@pick n=82 row=decision/verify-cross-session-probe-residuals v=no
+@pick n=83 row=decision/verify-context-probe-residual v=no
+@pick n=84 row=decision/two-keys-per-tree-accepted v=no
+@pick n=85 row=decision/trust-record-writer-guarded v=no
+@pick n=86 row=decision/transcript-path-redacted v=no
+@pick n=87 row=decision/state-files-os-permissions v=no
+@pick n=88 row=decision/start-writes-trust-record-flag-only v=no
+@pick n=89 row=decision/start-trust-skips-trusted-folders v=yes mode=add-to fact=F1
+@pick n=90 row=decision/sha2-content-hash v=no
+@pick n=91 row=decision/screen-fixture-signature-rows-only v=no
+@pick n=92 row=decision/scratch-footer-reading-residual v=no
+@pick n=93 row=decision/same-user-tampering-out-of-scope v=no
+@pick n=94 row=decision/probe-prompts-synthetic v=no
+@pick n=95 row=decision/probe-artifacts-cleanup v=yes mode=add-to fact=F1
+@pick n=96 row=decision/plugin-install-live-round-rig v=no
+@pick n=97 row=decision/plugin-files-rewritten-each-start v=no
