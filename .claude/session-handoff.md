@@ -1,45 +1,40 @@
 # Session Handoff
 
-**Last Updated:** 2026-11-25T00:06:12Z
+**Last Updated:** 2026-11-25T01:33:30Z
 **Branch:** build/viola-0.2.0 · 0 ahead of origin/build/viola-0.2.0 as read at this wrap's Setup (this wrap's push lands its commit)
 **Status:** clean
-**Last Commit:** 2026-11-24-adopt-s-resume-folder — feat: `viola adopt`'s not-resumed end, said and recorded
+**Last Commit:** 2026-11-24-viola-adopt — feat: gated acceptance — `viola adopt`
 
 ## Position
-- Done: 2026-11-24-adopt-s-resume-folder — `viola adopt` whose resumed child ends before its session starts exits 1
-  `not-resumed` (pair or `--json` document after the child released the terminal), proven over the fake agent alone.
-  - Claims no capability. v2-13 stays claimed GATED by «`viola adopt`».
-  - The entry's first premise (the resume folder) was measured false. The title «Adopt's resume folder» misnames what
-    was built; a frozen title is inviolate, so this is said here and in the close, nothing more.
-- Still GATED: «`viola adopt`» (`chk-ep3sqyx7`), R5 STANDING (R5b green, R5a red twice). It owns R5a.
-- Next: ONE R5a through the viola-adopt gated door on the operator's word. The overseer holds the kept session's id and
-  sends the gated implement next.
-- Then «Placing without moving the view» (`chk-ktu6mxtx`, v2-07, his grant of one live fixture re-record). NOT
-  started. Epoch 5's boundary follows it (no split, the overseer on the operator's standing word).
+- Done: 2026-11-24-viola-adopt (gated wrap) — v2-13 verified on R5: a real plain session the operator ended himself,
+  adopted by id under `adopt-probe` (parent `r5-parent`, haiku / low), one driven turn ended (R5a, 2026-11-25T00:29:58Z,
+  the block's «unlocked» read `true` — the script opens no window); a real live one refused `session-live`, nothing
+  started (R5b, 2026-11-24T18:34:07Z). Two earlier red R5a firings (ids with no kept session) and the overseer's one
+  measurement firing are named in the report's close. Record `gated → complete`; `cry-z6ucncyv` MET.
+- Next: «Placing without moving the view» (`chk-ktu6mxtx`, v2-07, his grant of one live fixture re-record). NOT
+  started. Epoch 5 holds no gated chunk and this one markerless entry; its boundary follows it.
 
 ## Work done
-- Wrap `2026-11-24T23-29-11Z-wrap`: the report closed from artifacts; 15 row operations in 5 masters (tx 4922-4927);
-  16 leaf findings in 12 leaves; one Tier-2 learning (testing.md); no tail edit.
+- Wrap `2026-11-25T00-52-39Z-wrap`: the report-gated close; 4 state sets (tx 4967-4969) and 17 ratifying sidecar
+  entries (tx 4970-4974) set as his on the overseer's one answer card (`inputs#I13`); 2 leaf findings; no learning;
+  no tail edit (route answer `inputs#I14`).
 
 ## Drift resolved
-- adopt's own refusals two → three, its `--json` codes eight → nine; `process-exit` `not-resumed`; the fake agent's
-  `--resume-absent`.
-- Fork 2's departure («viola writes nothing past it») added as adopt's named exception in 6 rows. The rows are the
-  operator's answers (`inputs#I2`); the answer card confirm is the overseer's, PROVISIONAL.
-- 15 proposals rejected (12 one-fact-one-home, 3 wrong or on a delegate's fork).
+- This chunk's PROVISIONAL rows on W1, W2 + W3, W4 and W5 (`inputs#I12`, his dialog of 2026-11-24T18:28:03Z) and the
+  two a11y «Eight time bounds» rows now stand as his. The T-rows and both P5 answers stay PROVISIONAL (epoch batch).
+- 4 proposals rejected: 3 test-plan adds `not_master`; 1 architecture file re-issued as main's (a file-name collision
+  with the take-up wrap's landed `ops-architecture.md`).
 
 ## Notes
-- **Still PROVISIONAL:** test-plan `decision/window-raise-proven-live`; the a11y «Eight» leads; every Q1 card confirm
-  (a delegate's), this wrap's included; the two new entries' wording (the delegate overseer's).
+- **Still PROVISIONAL:** test-plan `decision/window-raise-proven-live`; the T-rows and P5 answers of «`viola adopt`»;
+  the resume-folder chunk's Fork 2 rows (answer card a delegate's).
 - **Deferred learnings:** recurrence-despite-learning, the `date -u` timestamp rule (4th recurrence); testing.md
   2026-09-24 «wait on the exact line asserted». Review with `/andromeda-wrap-session --review`.
-- **Carries:** `cry-z6ucncyv` (R5) stands; `cry-vz3fiqnh` closed with this entry (measure-first and rig clauses met,
-  its R5a clause the gated record's); `cry-g43vil5i` and `cry-r4rsj5ey` on «Placing without moving the view».
-- **Desk:** `$XDG_RUNTIME_DIR/viola-r5a/`, `viola-r5a2/`, `viola-r5a3/`, `viola-r5b/`, `viola-r3/`,
-  `~/.cache/viola-r4/live-20261124T170559Z/`, `~/.cache/viola-v257-backup-2026-11-24T18-36-18Z/`;
-  `~/.viola/instances/adopt-probe` (his to remove by hand).
+- **Carries:** `cry-g43vil5i` and `cry-r4rsj5ey` on «Placing without moving the view».
+- **Desk (his to remove; nothing removed):** `~/.viola/instances/adopt-probe` (in his viola home); the base
+  `$XDG_RUNTIME_DIR/viola-r5a/` and the start's trust record for its `typed-in/` folder in his Claude config; also
+  `$XDG_RUNTIME_DIR/viola-r5a1-kept/`, `viola-r5a2/`, `viola-r5a3/`, `viola-r5b/`, `viola-r3/`,
+  `~/.cache/viola-adopt-probe-kept/`, `~/.cache/viola-r4/live-20261124T170559Z/`,
+  `~/.cache/viola-v257-backup-2026-11-24T18-36-18Z/`.
 - **Last failed command:** none.
 - **Host:** PATH's claude is 2.1.331 (stamped, 29 rows).
-
-## Session End Status
-Completed normally at 2026-11-25 01:27:36

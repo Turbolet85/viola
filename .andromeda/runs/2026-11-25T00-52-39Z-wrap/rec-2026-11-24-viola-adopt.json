@@ -1,0 +1,586 @@
+[
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T00:56:32Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report-gated",
+"--owner",
+"chk:2026-11-24-viola-adopt",
+"--section-file",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-24-viola-adopt/report-gated rev 2 · 10 new · 0 revised · 0 retired · 30 kept · tx 4962"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T00:56:40Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report-gated",
+"--owner",
+"chk:2026-11-24-viola-adopt",
+"--section-file",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-24-viola-adopt/report-gated rev 3 · 2 new · 0 revised · 0 retired · 40 kept · tx 4963"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T00:57:05Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/cites-land-2026-11-24-viola-adopt.ndjson",
+"--base",
+"d3cd68f7d6c19f6383b5253e23438717545a5106",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T00:57:10Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/cites-land-2026-11-24-viola-adopt.ndjson",
+"--base",
+"d3cd68f7d6c19f6383b5253e23438717545a5106",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 4965"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T00:58:25Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 1045 · packs 11 · pack 100 · 301451 B",
+"security-plan: rows 665 · packs 7 · pack 100 · 207969 B",
+"design-system: rows 361 · packs 4 · pack 100 · 90076 B",
+"layout-templates: rows 237 · packs 3 · pack 100 · 58614 B",
+"test-plan: rows 1385 · packs 14 · pack 100 · 381172 B",
+"obs-plan: rows 1055 · packs 11 · pack 100 · 294281 B",
+"a11y-plan: rows 244 · packs 3 · pack 100 · 71435 B",
+"rows-packs: 7 master(s) · 4992 row(s) · 53 pack(s) · 2 draw(s) a pack · pin 4965"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T01:07:59Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 1045 · packs 11 · picked 4 (1 by every draw) · standing 0 · 118256 B · Established Decisions: by boundary, the rest under `also here:`",
+"security-plan: rows 665 · packs 7 · picked 3 (1 by every draw) · standing 0 · 95880 B",
+"design-system: rows 361 · packs 4 · picked 2 (0 by every draw) · standing 0 · 64774 B",
+"layout-templates: rows 237 · packs 3 · picked 3 (0 by every draw) · standing 0 · 52227 B",
+"test-plan: rows 1385 · packs 14 · picked 24 (15 by every draw) · standing 0 · 264809 B",
+"obs-plan: rows 1055 · packs 11 · picked 0 (0 by every draw) · standing 0 · no proposer",
+"a11y-plan: rows 244 · packs 3 · picked 2 (2 by every draw) · standing 0 · 16030 B",
+"rows-union: 7 master(s) · picked 38 of 4992 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/arch-rows.md",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/arch-standing.md",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/security-rows.md",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/security-standing.md",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/design-rows.md",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/design-standing.md",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/layouts-rows.md",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/tests-rows.md",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/tests-standing.md",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/obs-standing.md",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T01:10:10Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"decision/adopt-refuses-live-session: landed at tx 4704 under another text — re-word its disposition (`reject`, or your own `@row_set`)"
+],
+"stderr": "1 operation(s) offer a row this file landed, at another sha — nothing written",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T01:10:10Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"## 2026-11-24-viola-adopt — Authentication & Authorization: 1 row(s)\n**Section:** Authentication & Authorization\n**Change:** ~ decision/adopt-signals-no-foreign-process · state: was «provisional»; now «standing»\n**Why:** decision/adopt-signals-no-foreign-process: The operator's answer on W1 (refusal with a hint, never acting on a session a live claude holds) is ratified at this wrap, so the decision applied ahead of its ratification now stands and its provisional mark ends. — on relayed verbatim by overseer1, 2026-11-24T18:28:03Z, inputs#I12\n**Ref:** .andromeda/runs/2026-11-25T00-52-39Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T01:10:18Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"## 2026-11-24-viola-adopt — Established Decisions: 1 row(s)\n**Section:** Established Decisions\n**Change:** ~ decision/adopt-refuses-live-session · state: was «provisional»; now «standing»\n**Why:** decision/adopt-refuses-live-session: The operator's answer on W1 (refusal with a hint, never adopting a live session) now stands as his, so the decision is no longer applied ahead of its ratification and its provisional mark ends. — on relayed verbatim by overseer1, 2026-11-24T18:28:03Z, inputs#I12\n**Ref:** .andromeda/runs/2026-11-25T00-52-39Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T01:11:43Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/ops-main-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"## 2026-11-24-viola-adopt — 8. Cognitive Accessibility: 1 row(s)\n**Section:** 8. Cognitive Accessibility\n**Change:** ~ decision/time-bounds-never-on-human · state: was «provisional»; now «standing»\n**Why:** decision/time-bounds-never-on-human: The operator's «Принять обе» on W4 names the lead «Eight time bounds» and accepts it, so the row landed provisional on the delegate's word now stands as his. — on relayed verbatim by overseer1, 2026-11-24T18:28:03Z, inputs#I12\n**Ref:** .andromeda/runs/2026-11-25T00-52-39Z-wrap/",
+"## 2026-11-24-viola-adopt — 8. Cognitive Accessibility: 1 row(s)\n**Section:** 8. Cognitive Accessibility\n**Change:** ~ decision/time-bounds-fall-on-the-driver · state: was «provisional»; now «standing»\n**Why:** decision/time-bounds-fall-on-the-driver: The operator's «Принять обе» on W4 names the lead «Eight time bounds» and accepts it, so the row landed provisional on the delegate's word now stands as his. — on relayed verbatim by overseer1, 2026-11-24T18:28:03Z, inputs#I12\n**Ref:** .andromeda/runs/2026-11-25T00-52-39Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T01:11:49Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/ops-main-architecture.md",
+"--results",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"landed tx 4967 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T01:11:49Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"landed tx 4968 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T01:11:49Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/ops-main-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"landed tx 4969 · 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T01:15:43Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/a11y-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-25T00-52-39Z-wrap/staged-leaf-.claude__docs__a11y-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/a11y-summary.md rev 27 · 0 new · 1 revised · 0 retired · tx 4975"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.claude/docs/a11y-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T01:15:44Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/security-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-25T00-52-39Z-wrap/staged-leaf-.claude__docs__security-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 50 · 0 new · 1 revised · 0 retired · tx 4976"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T01:31:54Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 4981 · run-3zezaugb … run-3zezaugb"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.56",
+"sha8": "85fa9b6f",
+"ts": "2026-11-25T01:34:18Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-24-viola-adopt",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 21 file(s) of 2026-11-24-viola-adopt"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

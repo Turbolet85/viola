@@ -1,0 +1,2 @@
+@none
+reason: The gated part of the chunk changes no source, test, manifest or plugin file and adds or changes no cli output wording (fct-zbecs472, fct-n4pfptxj, fct-yacfaoti), so no new UI token use and no wording gives a row to set. W4's ratification of contract/viola-adopt-refusals/session-live lands as a sidecar entry, not a cell, because a contract row has no state cell (fct-rrfrwdt3). The report shows none of the picked rows false or incomplete, and the two task files are pipeline records that give no row.

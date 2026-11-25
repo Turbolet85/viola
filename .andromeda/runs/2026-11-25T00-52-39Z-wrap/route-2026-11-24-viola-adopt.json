@@ -1,0 +1,67 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "4158721f",
+"ts": "2026-11-25T01:35:50Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-24-viola-adopt",
+"--date",
+"2026-11-25",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-z6ucncyv strip BLOCKED-ON: 226ch \"BLOCKED-ON: R5, viola adopt once of a re\"",
+"pin next markerless chk-ktu6mxtx holds CARRY:×2",
+"2026-11-24-viola-adopt · strip 1 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-24-viola-adopt gated -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "4158721f",
+"ts": "2026-11-25T01:35:54Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-24-viola-adopt",
+"--date",
+"2026-11-25",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-z6ucncyv strip BLOCKED-ON: 226ch \"BLOCKED-ON: R5, viola adopt once of a re\"",
+"pin next markerless chk-ktu6mxtx holds CARRY:×2",
+"flip 2026-11-24-viola-adopt gated -> complete · tx 4986",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-24T09-39-00-2026-11-24-viola-adopt.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

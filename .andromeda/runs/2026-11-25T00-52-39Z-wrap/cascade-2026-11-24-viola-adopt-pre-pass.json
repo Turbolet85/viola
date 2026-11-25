@@ -1,0 +1,219 @@
+[
+{
+"tool": "cascade",
+"v": "1.37",
+"sha8": "63d45d09",
+"ts": "2026-11-25T00:54:57Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/report-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"baseline 4d4e2e1c (pre-pass — HEAD)",
+"resume-dir · control UNFIRED over the seven masters (bodies and sets) at 4d4e2e1c"
+],
+"stderr": "control: resume-dir never fired over the seven masters' pre-pass text, bodies and sets (4d4e2e1c) — no master holds them: re-fire with --pattern r5-live --pattern w1-refusal --pattern w2-typed-id --pattern w4-pair --pattern w5-start --pattern eight-bounds; this refusal, the trail's record, is the basis of each named pattern's master zero",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.37",
+"sha8": "63d45d09",
+"ts": "2026-11-25T00:55:08Z",
+"argv": [
+"sweep",
+"--pre-pass",
+"--patterns-file",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/report-patterns.toml",
+"--pattern",
+"r5-live",
+"--pattern",
+"w1-refusal",
+"--pattern",
+"w2-typed-id",
+"--pattern",
+"w4-pair",
+"--pattern",
+"w5-start",
+"--pattern",
+"eight-bounds",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap",
+"--marker",
+"2026-11-24-viola-adopt"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 4d4e2e1c (pre-pass — HEAD)",
+"architecture · 7 rows over 1 files · new 0 · standing 7 · 4 patterns",
+"security-plan · 13 rows over 1 files · new 0 · standing 13 · 4 patterns",
+"design-system · 3 rows over 1 files · new 0 · standing 3 · 2 patterns",
+"layout-templates · 2 rows over 1 files · new 0 · standing 2 · 1 pattern",
+"test-plan · 2 rows over 1 files · new 0 · standing 2 · 2 patterns",
+"obs-plan · 6 rows over 1 files · new 0 · standing 6 · 1 pattern",
+"a11y-plan · 4 rows over 1 files · new 0 · standing 4 · 2 patterns",
+"by line · 0 lines · 0 offsets",
+"total (6 patterns) · 50 rows over 13 files",
+"per class · new 0/0 · standing 37/7 · leaf 13/6 · curation 0/0 · base 0/0",
+"rows 1/1 · .andromeda/runs/2026-11-25T00-52-39Z-wrap/sweep-pre-pass-1.1.txt · 64 lines · 7416 B"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/sweep-pre-pass-1.1.txt"
+],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "4d4e2e1cbd024a97671a42398cbd7b590e505554",
+"how": "pre-pass — HEAD",
+"counts": {
+"r5-live": {
+"new": 0,
+"standing": 3,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"w1-refusal": {
+"new": 0,
+"standing": 3,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"w2-typed-id": {
+"new": 0,
+"standing": 2,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"w4-pair": {
+"new": 0,
+"standing": 3,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"w5-start": {
+"new": 0,
+"standing": 24,
+"leaf": 9,
+"curation": 0,
+"base": 0
+},
+"eight-bounds": {
+"new": 0,
+"standing": 2,
+"leaf": 1,
+"curation": 0,
+"base": 0
+}
+},
+"bare": [],
+"masters": {
+"architecture": {
+"rows": 7,
+"files": 1,
+"new": 0,
+"standing": 7,
+"patterns": 4
+},
+"security-plan": {
+"rows": 13,
+"files": 1,
+"new": 0,
+"standing": 13,
+"patterns": 4
+},
+"design-system": {
+"rows": 3,
+"files": 1,
+"new": 0,
+"standing": 3,
+"patterns": 2
+},
+"layout-templates": {
+"rows": 2,
+"files": 1,
+"new": 0,
+"standing": 2,
+"patterns": 1
+},
+"test-plan": {
+"rows": 2,
+"files": 1,
+"new": 0,
+"standing": 2,
+"patterns": 2
+},
+"obs-plan": {
+"rows": 6,
+"files": 1,
+"new": 0,
+"standing": 6,
+"patterns": 1
+},
+"a11y-plan": {
+"rows": 4,
+"files": 1,
+"new": 0,
+"standing": 4,
+"patterns": 2
+}
+},
+"per_master": {
+"r5-live": {
+"architecture": 1,
+"security-plan": 1,
+"test-plan": 1
+},
+"w1-refusal": {
+"architecture": 2,
+"security-plan": 1
+},
+"w2-typed-id": {
+"architecture": 1,
+"security-plan": 1
+},
+"w4-pair": {
+"design-system": 1,
+"layout-templates": 2
+},
+"w5-start": {
+"architecture": 3,
+"security-plan": 10,
+"design-system": 2,
+"test-plan": 1,
+"obs-plan": 6,
+"a11y-plan": 2
+},
+"eight-bounds": {
+"a11y-plan": 2
+}
+},
+"forms": {
+"eight-bounds": [
+{
+"form": "8 time bounds",
+"from": "eight"
+}
+]
+},
+"parts": [
+"sweep-pre-pass-1.1.txt"
+]
+}
+}
+]

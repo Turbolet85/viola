@@ -1,0 +1,1 @@
+delegate Viola-overseer (2026-11-25T01:18:42Z): confirmed — the flip to complete, no tail edit, «Placing without moving the view» named as next and not started. Go on: the host read, the light gate (stop on a neighbour's contention), P7, push, the CI read on the wrap's own commit, then the last card. After the card start nothing.

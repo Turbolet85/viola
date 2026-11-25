@@ -1,0 +1,270 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-25T00:52:46Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-24-viola-adopt",
+"--source",
+"~/dev/projects/additional/viola-overseer/gated-wrap-adopt-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer directive for this gated wrap: what the close states, the PROVISIONAL rows his answers discharge, the carries, route-resolve, host read, last card",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I11 · copy no-repo · ../additional/viola-overseer/gated-wrap-adopt-directive.md",
+"cite: inputs#I11"
+],
+"stderr": null,
+"wrote": [
+"inputs/I11-gated-wrap-adopt-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I11",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/gated-wrap-adopt-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "84f74530db0a4339e574fc2c61d567db2cd87bb8ee388f0daf2dfa4265075e96",
+"copy": "I11-gated-wrap-adopt-directive.md.txt",
+"link": false,
+"read_at": "2026-11-25T00:52:45Z",
+"step": "wrap",
+"why": "the overseer directive for this gated wrap: what the close states, the PROVISIONAL rows his answers discharge, the carries, route-resolve, host read, last card"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-25T00:52:46Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-24-viola-adopt",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-founder-answers-1124.md",
+"--kind",
+"sibling",
+"--why",
+"the operator answers of 2026-11-24T18:28:03Z (W1 arm 1, W2+W3, W5 arm a, W4 with Eight time bounds) that discharge this chunk PROVISIONAL rows",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I12 · copy no-repo · ../additional/viola-overseer/relay-founder-answers-1124.md",
+"cite: inputs#I12"
+],
+"stderr": null,
+"wrote": [
+"inputs/I12-relay-founder-answers-1124.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I12",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/relay-founder-answers-1124.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "70088084ebf27216ff5d86daf3e1ee69d50dcc3edb121021ae2ad5399c38bd7f",
+"copy": "I12-relay-founder-answers-1124.md.txt",
+"link": false,
+"read_at": "2026-11-25T00:52:46Z",
+"step": "wrap",
+"why": "the operator answers of 2026-11-24T18:28:03Z (W1 arm 1, W2+W3, W5 arm a, W4 with Eight time bounds) that discharge this chunk PROVISIONAL rows"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-25T00:53:07Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-24-viola-adopt",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-adopt-directive.md",
+"I1 cited scope.md:47 · scope.md:52 · scope.md:60 · research.md:7 · plan.md:9 · plan.md:27 · plan.md:151 · plan.md:266 · plan.md:269 · plan.md:371 (in fence) · report.md:57 · report.md:68 · report.md:246",
+"I2 n/a — a message has no live source · copy message · message: the overseer, delegate for the operator, in this session",
+"I2 cited plan.md:162 · plan.md:197 · report.md:58",
+"I3 n/a — a message has no live source · copy message · message: the overseer, delegate for the operator, in this session",
+"I3 cited report.md:59 · report-gated.md:28",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/implement-adopt-directive.md",
+"I4 cited report.md:66 · report.md:70 · report.md:122 · report.md:132 · report.md:135",
+"I5 n/a — a message has no live source · copy message · message: the operator, relaying the overseer",
+"I5 cited report.md:67 · report.md:133 · report.md:203",
+"I6 unchanged · copy no-repo · ../additional/viola-overseer/wrap-adopt-directive.md",
+"I6 cited report.md:219 · report.md:253",
+"I7 n/a — a message has no live source · copy message · message: the overseer, delegate for the operator",
+"I7 UNCITED",
+"I8 n/a — a message has no live source · copy message · message: the overseer, delegate for the operator",
+"I8 UNCITED",
+"I9 n/a — a message has no live source · copy message · message: the Viola overseer (relay-r5a-gated.md), on the operator word it quotes",
+"I9 cited report-gated.md:20 · report-gated.md:56",
+"I10 n/a — a message has no live source · copy message · message: the operator, in this session",
+"I10 UNCITED",
+"I11 unchanged · copy no-repo · ../additional/viola-overseer/gated-wrap-adopt-directive.md",
+"I11 UNCITED",
+"I12 unchanged · copy no-repo · ../additional/viola-overseer/relay-founder-answers-1124.md",
+"I12 UNCITED",
+"inputs: 12 entries — unchanged 5 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 7 · uncited 5 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 12,
+"counts": {
+"unchanged": 5,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 7
+},
+"uncited": 5,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-25T01:11:35Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-24-viola-adopt",
+"--message-file",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/relay-1.md",
+"--origin",
+"the Viola overseer, delegate for the operator",
+"--kind",
+"relay",
+"--why",
+"the answer card confirm: C1 the 16 rows set standing as his, C2 (a) the two Eight time bounds rows set standing as his",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I13 · copy message · message: the Viola overseer, delegate for the operator",
+"cite: inputs#I13"
+],
+"stderr": null,
+"wrote": [
+"inputs/I13-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I13",
+"kind": "relay",
+"repo": null,
+"path": "message: the Viola overseer, delegate for the operator",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "5ba3213bcbab3b3663975b2a5aa210c312b4257d239e756241eb542f4843c404",
+"copy": "I13-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-25T01:11:35Z",
+"step": "wrap",
+"why": "the answer card confirm: C1 the 16 rows set standing as his, C2 (a) the two Eight time bounds rows set standing as his"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "40525505",
+"ts": "2026-11-25T01:18:48Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-24-viola-adopt",
+"--message-file",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap/relay-2.md",
+"--origin",
+"the Viola overseer, delegate for the operator",
+"--kind",
+"relay",
+"--why",
+"the route dialog answer: flip to complete, no tail edit, Placing without moving the view named next, not started",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-25T00-52-39Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I14 · copy message · message: the Viola overseer, delegate for the operator",
+"cite: inputs#I14"
+],
+"stderr": null,
+"wrote": [
+"inputs/I14-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I14",
+"kind": "relay",
+"repo": null,
+"path": "message: the Viola overseer, delegate for the operator",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "c2b389a3538bf2eab42fff04d65fe2b6c5982497839094407f57a779eaf78065",
+"copy": "I14-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-25T01:18:48Z",
+"step": "wrap",
+"why": "the route dialog answer: flip to complete, no tail edit, Placing without moving the view named next, not started"
+}
+}
+]

@@ -1,0 +1,28 @@
+[[pattern]]
+id = 'r5-live'
+regex = '\bR5[ab]?\b|r5-adopt|adopt-proven-live'
+
+[[pattern]]
+id = 'w1-refusal'
+regex = 'refuses a session a live claude holds|acts on no process it did not start|adopt-refuses-live-session|adopt-signals-no-foreign-process'
+
+[[pattern]]
+id = 'w2-typed-id'
+regex = 'operator-typed id|session-id-argv-closed-shape'
+
+[[pattern]]
+id = 'w4-pair'
+regex = 'viola-adopt-refusals/session-live|session open in another'
+
+[[pattern]]
+id = 'w5-start'
+regex = 'run, revive,? (and|or) adopt|revive and adopt'
+
+[[pattern]]
+id = 'eight-bounds'
+fixed = 'Eight time bounds'
+
+[[pattern]]
+id = 'resume-dir'
+regex = 'folder the session was (not )?made in|resume folder'
+ignore_case = true
