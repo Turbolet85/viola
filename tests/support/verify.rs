@@ -452,7 +452,22 @@ fn spawn_viola_without(
     stdin: Option<Vec<u8>>,
     within: Option<Duration>,
 ) -> Ran {
+    spawn_viola_in(args, env, removed, stdin, within, None)
+}
+
+/// `spawn_viola_without` typed in `cwd` when one is given, else in this test's own cwd.
+fn spawn_viola_in(
+    args: &[OsString],
+    env: &[(&str, OsString)],
+    removed: &[&str],
+    stdin: Option<Vec<u8>>,
+    within: Option<Duration>,
+    cwd: Option<&Path>,
+) -> Ran {
     let mut cmd = super::tied::viola();
+    if let Some(cwd) = cwd {
+        cmd.current_dir(cwd);
+    }
     for name in removed {
         cmd.env_remove(name);
     }
@@ -676,6 +691,37 @@ fn verify_runtime(
         &[SOCKET_ROOT_VAR]
     };
     let ran = spawn_viola_without(&args, &tied, removed, None, None);
+    drop(runtime);
+    ran
+}
+
+/// `verify` typed in `cwd`, the fake agent given no `--trusted-root`: verify's runs B to E, which
+/// run in folders inside `cwd`, are trusted only when the fake agent's `--trust-config` file (the
+/// test-owned user home's `.claude.json`) holds a record for `cwd` or a folder above it.
+pub fn verify_in(
+    home: &Path,
+    fixtures: &Path,
+    version: &str,
+    cwd: &Path,
+    env: &[(&str, OsString)],
+) -> Ran {
+    let mut args = verify_args(home, fixtures, version, &[]);
+    args.extend(
+        [
+            "--screens",
+            "--turn-stop",
+            "--dialogs",
+            "--framing",
+            "--transcript",
+        ]
+        .map(OsString::from),
+    );
+    let (mut tied, fake) = user_tie(home, &[]);
+    args.extend(fake);
+    let runtime = runtime_dir();
+    tied.push((SOCKET_ROOT_VAR, runtime.path().into()));
+    tied.extend(env.iter().cloned());
+    let ran = spawn_viola_in(&args, &tied, &[], None, None, Some(cwd));
     drop(runtime);
     ran
 }

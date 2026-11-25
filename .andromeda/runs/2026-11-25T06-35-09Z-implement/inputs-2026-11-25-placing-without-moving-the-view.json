@@ -1,0 +1,53 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "7155e552",
+"ts": "2026-11-25T06:35:16Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-25-placing-without-moving-the-view",
+"--source",
+"~/dev/projects/additional/viola-overseer/implement-placing-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer's implement directive: no real compositor, no real claude, R7 only under --rehearse; operator pass without R7; end the turn at the pre-CI push",
+"--step",
+"implement",
+"--run-dir",
+".andromeda/runs/2026-11-25T06-35-09Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy no-repo · ../additional/viola-overseer/implement-placing-directive.md",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-implement-placing-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/implement-placing-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "6043050ae9356169cebd15fc64af0f254cfe5e2aa709c4658905e673d2dbf13e",
+"copy": "I6-implement-placing-directive.md.txt",
+"link": false,
+"read_at": "2026-11-25T06:35:15Z",
+"step": "implement",
+"why": "the overseer's implement directive: no real compositor, no real claude, R7 only under --rehearse; operator pass without R7; end the turn at the pre-CI push"
+}
+}
+]

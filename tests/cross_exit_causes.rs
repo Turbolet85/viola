@@ -9,7 +9,7 @@
 //! impostor is a named carve-out of test-built state); a refused socket directory's other seven frame verbs and its hook paths by
 //! `tests/security_negatives_socket_dir.rs`; a stale heartbeat by `tests/cli_instance_state.rs`,
 //! the wrapper held by the `Frozen` guard of `tests/support/frozen.rs`; `verify`'s version,
-//! recording, pinned-copy, interrupted and stamps refusals by `tests/cli_verify.rs`; `viola mcp`'s two
+//! recording, pinned-copy, interrupted, untrusted-folder and stamps refusals by `tests/cli_verify.rs`; `viola mcp`'s two
 //! silent exits, both streams empty by rule, by `crates/viola-e2e/tests/mcp_tools.rs` and
 //! `crates/viola-mcp/tests/handlers.rs`; a program not found under `run` itself is `revive`'s row
 //! here, one resolver, with no pair under `run` (obs-plan §7); `up`'s `boot-time-unread`, a host
@@ -68,6 +68,7 @@ const PROGRAM_NOT_FOUND: &str = "install Claude Code or put it on PATH";
 const VERSION_UNREADABLE: &str = "run claude --version to check the install";
 const UNCLEAN_FIXTURE: &str = "record with a viola home under your user home";
 const INTERRUPTED: &str = "run viola verify again to stamp this CLI";
+const UNTRUSTED_FOLDER: &str = "run viola verify from a folder you trust in Claude Code";
 const TERMINAL_NOT_FOUND: &str = "install foot, the terminal viola open starts";
 const NOT_LIVE: &str = "the window stays open; viola list shows builder once it is live";
 const WINDOW_NOT_FOUND: &str =
@@ -109,6 +110,7 @@ const CAUSES: &[Cause] = &[
     ("version-unreadable", 1, Some(VERSION_UNREADABLE)),
     ("unclean-fixture", 1, Some(UNCLEAN_FIXTURE)),
     ("interrupted", 1, Some(INTERRUPTED)),
+    ("untrusted-folder", 1, Some(UNTRUSTED_FOLDER)),
     ("terminal-not-found", 1, Some(TERMINAL_NOT_FOUND)),
     ("not-live", 1, Some(NOT_LIVE)),
     ("window-not-found", 1, Some(WINDOW_NOT_FOUND)),

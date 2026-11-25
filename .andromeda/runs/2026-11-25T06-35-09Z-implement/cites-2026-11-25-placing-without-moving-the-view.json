@@ -1,0 +1,55 @@
+[
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "8d27d12d",
+"ts": "2026-11-25T06:49:26Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-25T06-35-09Z-implement/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-25T06-35-09Z-implement",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: 38d9b7e8 — no pre-CI commit",
+"schemas/diag-line.v1.json — added 1 line(s) in 1 range(s)",
+"scripts/r7-place.sh — new file · 234 line(s)",
+"src/cmd/verify.rs — added 37 line(s) in 3 range(s)",
+"src/run/window.rs — added 160 line(s) in 7 range(s)",
+"tests/cli_open.rs — added 20 line(s) in 1 range(s)",
+"tests/cli_verify.rs — added 49 line(s) in 2 range(s)",
+"tests/cli_verify/runs.rs — added 2 line(s) in 1 range(s)",
+"tests/cli_verify/stamps.rs — added 13 line(s) in 7 range(s)",
+"tests/cli_version_gate.rs — added 50 line(s) in 4 range(s)",
+"tests/contract_diag_schema.rs — added 4 line(s) in 2 range(s)",
+"tests/cross_exit_causes.rs — added 3 line(s) in 3 range(s)",
+"tests/support/home.rs — added 21 line(s) in 2 range(s)",
+"tests/support/verify.rs — added 46 line(s) in 3 range(s)",
+"new text: 13 file(s) · 1 new · 37 added range(s) · 640 line(s) · 73 block(s) → .andromeda/runs/2026-11-25T06-35-09Z-implement/new-text.md (103 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-25T06-35-09Z-implement/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "38d9b7e80748d43cd31f284ab2111dc5c66130b1",
+"counts": {
+"files": 13,
+"new": 1,
+"ranges": 37,
+"lines": 640,
+"blocks": 73
+},
+"out": ".andromeda/runs/2026-11-25T06-35-09Z-implement/new-text.md",
+"state": "written",
+"lines": 103
+}
+}
+]

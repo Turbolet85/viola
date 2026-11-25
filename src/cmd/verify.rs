@@ -290,6 +290,13 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
     if stop::stopped() {
         return Ok(Ended::Interrupted);
     }
+    if confounded(&probes.typed) {
+        human::refuse(
+            "claude did not start ready in this folder: it is not trusted",
+            "run viola verify from a folder you trust in Claude Code",
+        );
+        return Ok(Ended::Refused("untrusted-folder"));
+    }
 
     let results = check_rows(&probes);
     let written_at = obs::timestamp(Utc::now());
@@ -333,6 +340,17 @@ fn measure(home: &Path, args: &VerifyArgs) -> anyhow::Result<Ended> {
         Some(dir) => record(dir, &version, &probes),
         None => Ok(Ended::Exit(0)),
     }
+}
+
+/// Whether Run B, C, D or E, which run in folders trusted only by inheritance from verify's own
+/// folder, first read the trust or the imports form: a red such a run reads is verify's own, never
+/// the CLI's, so it is stamped nowhere. Run A (untrusted by design) and Run F (its own trust
+/// record) are not read.
+fn confounded(typed: &TypedRun) -> bool {
+    typed.first[1..=4]
+        .iter()
+        .flatten()
+        .any(|reading| matches!(reading.screen, FirstScreen::Trust | FirstScreen::Imports))
 }
 
 /// `<home>/ledger/probes/<pid>/` (0700) with the capture plugin in `plugin/` and an empty
@@ -981,6 +999,25 @@ mod tests {
         typed.first[run] = Some(reading(screen));
         typed.first_rows[run] = rows.map(|r| r.iter().map(|s| (*s).to_owned()).collect());
         typed
+    }
+
+    #[rstest::rstest]
+    #[case::trust_on_b(&[(1, FirstScreen::Trust)], true)]
+    #[case::imports_on_e(&[(4, FirstScreen::Imports)], true)]
+    #[case::trust_on_a(&[(0, FirstScreen::Trust)], false)]
+    #[case::trust_on_f(&[(5, FirstScreen::Trust)], false)]
+    #[case::box_everywhere(&[(0, FirstScreen::Box), (1, FirstScreen::Box), (2, FirstScreen::Box),
+        (3, FirstScreen::Box), (4, FirstScreen::Box), (5, FirstScreen::Box)], false)]
+    #[case::browser_tools_on_b(&[(1, FirstScreen::BrowserTools)], false)]
+    fn confounded_reads_trust_or_imports_on_runs_b_to_e_only(
+        #[case] firsts: &[(usize, FirstScreen)],
+        #[case] expected: bool,
+    ) {
+        let mut typed = TypedRun::default();
+        for &(run, screen) in firsts {
+            typed.first[run] = Some(reading(screen));
+        }
+        assert_eq!(confounded(&typed), expected);
     }
 
     fn names(files: &[Recorded]) -> Vec<&str> {

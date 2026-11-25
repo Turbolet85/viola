@@ -1,7 +1,10 @@
 //! The wrapper's window step, run at a start `viola open` asked for: the window of the terminal the
 //! wrapper runs in, found by that terminal's pid in the compositor's `clients`, moved once to the
-//! target workspace, and recorded with a closed placement word. It reads and dispatches only
-//! through the Hyprland seam; no reply text, address or pid reaches a line.
+//! target workspace, and recorded with a closed placement word. Around that move it reads the
+//! focused monitor's active workspace before and after, and focuses the operator's prior workspace
+//! back once when the move took it (the operator's own answer to fork M, M1), so a placed window
+//! leaves the view where it was. It reads and dispatches only through the Hyprland seam; no reply
+//! text, address, pid or workspace reaches a line.
 
 use std::time::{Duration, Instant};
 
@@ -64,11 +67,40 @@ fn find_and_place(
     let Some(place) = place else {
         return (Some(seen.address), seen_on, "unplaced");
     };
+    let prev = active_workspace(read);
     let move_to = Request::MoveToWorkspace(seen.address.clone(), WorkspaceId::new(place));
     match read(&move_to) {
-        Ok(Reply::Dispatched) => (Some(seen.address), Some(place), "placed"),
+        Ok(Reply::Dispatched) => {
+            if let Some(prev) = prev {
+                keep_view(read, prev);
+            }
+            (Some(seen.address), Some(place), "placed")
+        }
         Ok(_) => (Some(seen.address), seen_on, HyprlandError::Malformed.code()),
         Err(error) => (Some(seen.address), seen_on, error.code()),
+    }
+}
+
+/// The focused monitor's active workspace, through one `monitors` read; `None` when the read
+/// fails, answers another reply or names no focused monitor with an active workspace.
+fn active_workspace(
+    read: &mut dyn FnMut(&Request) -> Result<Reply, HyprlandError>,
+) -> Option<WorkspaceId> {
+    match read(&Request::Monitors) {
+        Ok(Reply::Monitors(monitors)) => monitors
+            .into_iter()
+            .find(|monitor| monitor.focused == Some(true))
+            .and_then(|monitor| monitor.active_workspace),
+        _ => None,
+    }
+}
+
+/// The move takes the active workspace with the moved window on Hyprland 0.56.2, which offers no
+/// measured silent move: the operator's view is focused back to `prev` once, only when the move
+/// took it. A failed read or restore leaves the placement as the move set it.
+fn keep_view(read: &mut dyn FnMut(&Request) -> Result<Reply, HyprlandError>, prev: WorkspaceId) {
+    if active_workspace(read).is_some_and(|now| now != prev) {
+        let _restored = read(&Request::Workspace(prev));
     }
 }
 
@@ -112,6 +144,129 @@ mod tests {
         }
     }
 
+    /// A read that answers `clients` with `windows`, each `monitors` with the next of `views`, the
+    /// move with `moved` and a workspace focus with `restored`, keeping every request it was asked.
+    fn view_seam(
+        windows: Vec<viola_hyprland::Window>,
+        mut views: std::collections::VecDeque<Result<Reply, HyprlandError>>,
+        moved: Result<Reply, HyprlandError>,
+        restored: Result<Reply, HyprlandError>,
+        asked: &mut Vec<Request>,
+    ) -> impl FnMut(&Request) -> Result<Reply, HyprlandError> + '_ {
+        move |request| {
+            asked.push(request.clone());
+            match request {
+                Request::Clients => Ok(Reply::Clients(windows.clone())),
+                Request::Monitors => views.pop_front().unwrap_or(Err(HyprlandError::Unreachable)),
+                Request::Workspace(_) => restored.clone(),
+                _ => moved.clone(),
+            }
+        }
+    }
+
+    /// A `monitors` reply of two monitors: the focused one showing `active`, the other 9.
+    fn view(active: i32) -> Result<Reply, HyprlandError> {
+        let monitor = |id: i64, focused: bool, workspace: i32| viola_hyprland::Monitor {
+            id,
+            width: None,
+            height: None,
+            x: None,
+            y: None,
+            focused: Some(focused),
+            active_workspace: Some(WorkspaceId::new(workspace)),
+        };
+        Ok(Reply::Monitors(vec![
+            monitor(0, false, 9),
+            monitor(1, true, active),
+        ]))
+    }
+
+    fn moved_to(workspace: i32) -> Request {
+        let address = Address::try_new("0xbbb".to_owned()).expect("an address");
+        Request::MoveToWorkspace(address, WorkspaceId::new(workspace))
+    }
+
+    #[test]
+    fn window_step_restores_the_active_workspace_the_move_took() {
+        let mut asked = Vec::new();
+        let mut read = view_seam(
+            vec![client("0xbbb", TERMINAL, 2)],
+            [view(1), view(5)].into(),
+            Ok(Reply::Dispatched),
+            Ok(Reply::Dispatched),
+            &mut asked,
+        );
+        let window = window_step(&mut read, TERMINAL, Some(5), "agent", WINDOW_WAIT);
+        drop(read);
+        assert_eq!(window, record(Some("0xbbb"), Some(5), "placed", "agent"));
+        assert_eq!(
+            asked,
+            [
+                Request::Clients,
+                Request::Monitors,
+                moved_to(5),
+                Request::Monitors,
+                Request::Workspace(WorkspaceId::new(1)),
+            ]
+        );
+    }
+
+    #[test]
+    fn window_step_restores_nothing_when_the_view_stayed() {
+        let mut asked = Vec::new();
+        let mut read = view_seam(
+            vec![client("0xbbb", TERMINAL, 2)],
+            [view(1), view(1)].into(),
+            Ok(Reply::Dispatched),
+            Ok(Reply::Dispatched),
+            &mut asked,
+        );
+        let window = window_step(&mut read, TERMINAL, Some(5), "cli", WINDOW_WAIT);
+        drop(read);
+        assert_eq!(window, record(Some("0xbbb"), Some(5), "placed", "cli"));
+        assert_eq!(
+            asked,
+            [
+                Request::Clients,
+                Request::Monitors,
+                moved_to(5),
+                Request::Monitors
+            ]
+        );
+    }
+
+    #[test]
+    fn window_step_moves_on_when_the_monitors_read_fails() {
+        let mut asked = Vec::new();
+        let mut read = view_seam(
+            vec![client("0xbbb", TERMINAL, 2)],
+            [Err(HyprlandError::Unreachable), view(5)].into(),
+            Ok(Reply::Dispatched),
+            Ok(Reply::Dispatched),
+            &mut asked,
+        );
+        let window = window_step(&mut read, TERMINAL, Some(5), "cli", WINDOW_WAIT);
+        drop(read);
+        assert_eq!(window, record(Some("0xbbb"), Some(5), "placed", "cli"));
+        assert_eq!(asked, [Request::Clients, Request::Monitors, moved_to(5)]);
+    }
+
+    #[test]
+    fn window_step_keeps_placed_when_the_restore_fails() {
+        let mut asked = Vec::new();
+        let mut read = view_seam(
+            vec![client("0xbbb", TERMINAL, 2)],
+            [view(1), view(5)].into(),
+            Ok(Reply::Dispatched),
+            Err(HyprlandError::Refused),
+            &mut asked,
+        );
+        let window = window_step(&mut read, TERMINAL, Some(5), "cli", WINDOW_WAIT);
+        drop(read);
+        assert_eq!(window, record(Some("0xbbb"), Some(5), "placed", "cli"));
+        assert_eq!(asked.last(), Some(&Request::Workspace(WorkspaceId::new(1))));
+    }
+
     fn record(
         address: Option<&str>,
         workspace: Option<i32>,
@@ -139,6 +294,7 @@ mod tests {
             asked,
             [
                 Request::Clients,
+                Request::Monitors,
                 Request::MoveToWorkspace(address, WorkspaceId::new(1))
             ]
         );
@@ -204,5 +360,6 @@ mod tests {
         let window = window_step(&mut read, TERMINAL, Some(1), "cli", WINDOW_WAIT);
         drop(read);
         assert_eq!(window, record(Some("0xbbb"), Some(2), "refused", "cli"));
+        assert_eq!(asked, [Request::Clients, Request::Monitors, moved_to(1)]);
     }
 }

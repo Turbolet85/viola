@@ -94,30 +94,23 @@ fn verify_refuses_a_widened_ledger_before_any_step(#[from(home)] home: TestHome)
     support::home::unwiden(&ledger(home.path()));
 }
 
-/// The trusted run's turn would wait out the probe deadline for a Stop that never comes, so the
-/// fake agent's trust root is moved off the cwd: its trusted, dialog and plan runs start at the
-/// trust dialog and are killed with no key, which fails the three rows a turn measures, the four
-/// dialog rows, the three framing rows, the newline row, the resume row (Run B captured no
-/// SessionStart, so no Run E starts), the agents row (Run B never reached its turn, so no read is
-/// made), the compact row and the identity-floor row (Run B's hook child never ran, so no env
-/// names were read). The trust-record run reads its own record, not the trust root, so its row
-/// still passes.
+/// A set with no `SessionEnd` payload, every run started in a trusted folder: the rows that read
+/// the session's end fail, the CLI's own red, and are stamped. (A run that meets the trust form
+/// instead is verify's own red and stamps nothing: `verify_window_refuses_an_untrusted_folder_and_stamps_nothing`.)
 #[rstest]
-fn verify_a_set_without_stop_fails_its_rows_and_still_stamps(#[from(home)] home: TestHome) {
-    write_spine_set(&fixtures(&home), "2.1.0", Some("Stop"));
-    let elsewhere = home.scratch().to_str().expect("utf-8").to_owned();
-    let after = ["--trusted-root", elsewhere.as_str()];
-    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &[]);
+fn verify_a_set_without_session_end_fails_its_rows_and_still_stamps(#[from(home)] home: TestHome) {
+    write_spine_set(&fixtures(&home), "2.1.0", Some("SessionEnd"));
+    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &[], &[]);
     assert_eq!(ran.code, Some(1));
     let stdout = ran.stdout_text();
     let lines: Vec<&str> = stdout.lines().collect();
-    let mut expected = steps_failing(|i| ![0, 2, 3, 5, 6, 22, 23].contains(&i));
-    expected.push("stamped 2.1.0  7 pass  22 fail".to_owned());
+    let mut expected = steps_failing(|i| i == 1);
+    expected.push("stamped 2.1.0  28 pass  1 fail".to_owned());
     assert_eq!(lines, expected);
     assert!(ran.stderr.is_empty());
     let rows = &stamps(home.path())["data"]["versions"]["2.1.0"]["rows"];
     assert_eq!(rows["spine-hooks"], "fail");
-    assert_eq!(rows["stop-message"], "fail");
+    assert_eq!(rows["stop-message"], "pass");
     assert_eq!(rows["shim-resolution"], "pass");
     assert_eq!(probes_left(home.path()), 0);
 }
@@ -370,15 +363,13 @@ fn verify_dispatch_error_keeps_the_chain_in_the_detail_file(#[from(record_home)]
     assert!(!record.exists());
 }
 
-/// A failing row is no internal error. The Stop-less set's trusted run starts at the trust dialog
-/// (its trust root moved off the cwd), as in `verify_a_set_without_stop_fails_its_rows_and_still_stamps`.
+/// A failing row is no internal error: the `SessionEnd`-less set of
+/// `verify_a_set_without_session_end_fails_its_rows_and_still_stamps`.
 #[rstest]
 fn verify_with_an_instance_logs_its_start_and_exit(#[from(home)] home: TestHome) {
-    write_spine_set(&fixtures(&home), "2.1.0", Some("Stop"));
+    write_spine_set(&fixtures(&home), "2.1.0", Some("SessionEnd"));
     let env = [("VIOLA_NAME", OsString::from("verifier"))];
-    let elsewhere = home.scratch().to_str().expect("utf-8").to_owned();
-    let after = ["--trusted-root", elsewhere.as_str()];
-    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &after, &env);
+    let ran = verify(home.path(), &fixtures(&home), "2.1.0", &[], &[], &env);
     assert_eq!(ran.code, Some(1));
     assert!(ran.stderr.is_empty(), "a failing row is no internal error");
     let role =

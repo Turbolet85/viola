@@ -260,6 +260,26 @@ fn open_records_the_window_found_by_the_terminal_pid() {
     case.assert_lines_schema_valid();
 }
 
+/// The recorded `monitors` reply reads the same active workspace before and after the move, so the
+/// placing start dispatches the move alone and focuses no workspace back.
+#[test]
+fn open_placing_keeps_the_dispatch_list_to_the_move() {
+    let case = Case::new(Hyprctl::Mode("terminal"), true);
+    let (ran, _terminal) = case.open(&["child", "--workspace", "1", "--", "claude"], &[]);
+    assert_live_with(&ran, "placed");
+    let asked = fs::read_to_string(case.bin.join("hyprctl-asked")).expect("the dispatch receipt");
+    let asked: Vec<Value> = asked
+        .lines()
+        .map(|line| serde_json::from_str(line).expect("one argv line"))
+        .collect();
+    let moved = json!([
+        "dispatch",
+        format!("hl.dsp.window.move({{ workspace = 1, window = \"address:{ADDRESS}\" }})")
+    ]);
+    assert_eq!(asked, [moved]);
+    case.assert_lines_schema_valid();
+}
+
 #[test]
 fn open_from_an_agent_shell_names_the_caller_as_parent() {
     let case = Case::new(Hyprctl::Mode("terminal"), true);

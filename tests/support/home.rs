@@ -981,8 +981,29 @@ impl Wrapper {
     /// It runs under a test-owned socket root (`XDG_RUNTIME_DIR`), so the start's own verify
     /// composes Run B's socket address alike under `pre-push`'s `env -i`, where none is set.
     pub fn start_as_user(stamped: StampedHome, name: &str, user_home: &Path) -> Starting {
+        Self::start_as_user_at(stamped, name, user_home, None)
+    }
+
+    /// `start_as_user` typed in `dir`: the session child's cwd and trusted root, and the folder the
+    /// start's own verify runs in, its runs trusted only by the fake agent's own options there.
+    pub fn start_as_user_in(
+        stamped: StampedHome,
+        name: &str,
+        user_home: &Path,
+        dir: &Path,
+    ) -> Starting {
+        Self::start_as_user_at(stamped, name, user_home, Some(dir))
+    }
+
+    fn start_as_user_at(
+        stamped: StampedHome,
+        name: &str,
+        user_home: &Path,
+        dir: Option<&Path>,
+    ) -> Starting {
         let root = SocketRoot::new();
         let host = Host {
+            dir,
             user_home: Some(user_home),
             socket_root: Some(root.path()),
             ..Host::default()

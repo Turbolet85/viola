@@ -112,7 +112,8 @@ fn verify_record_refuses_a_dirty_kept_row(
 /// Run A's and Run F's dirs are each a fresh `viola-verify-*` dir under the OS temp dir, Run B's is
 /// `<cwd>/.viola-verify-<pid>/`, and Run C's, Run D's and Run E's carry `-dialogs`, `-plan` and
 /// `-resume`; after a passing run and after a failing one, none is left. The failing run's Run B
-/// starts at the trust dialog and captures no SessionStart, so no Run E starts.
+/// starts at the trust dialog and captures no SessionStart, so no Run E starts, and verify refuses
+/// `untrusted-folder`: the dirs go on that refusal's path too.
 #[rstest]
 #[case::passing(false)]
 #[case::failing(true)]

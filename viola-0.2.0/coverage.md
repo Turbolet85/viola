@@ -1,13 +1,15 @@
 # Coverage — viola-0.2.0
 
-verified 28/37 · deferred 2 · planned 7 · implemented 0 · unclaimed 7
+verified 28/37 · deferred 2 · planned 7 · implemented 0 · unclaimed 6
 
 ## deferred (2)
 - v2-21 · A key answering the CLI's session-feedback survey keeps the wheel
 - v2-22 · Product-owned session settings
 
-## planned, unclaimed (6)
-- v2-07 · Launch a session into the fleet
+## planned, gated (1)
+- v2-07 · Launch a session into the fleet · 2026-11-25-placing-without-moving-the-view
+
+## planned, unclaimed (5)
 - v2-14 · The fleet console
 - v2-15 · Every verb from the console
 - v2-28 · The fleet run by viola

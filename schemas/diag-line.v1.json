@@ -74,7 +74,7 @@
       "subject": { "$ref": "#/$defs/subject" }, "exit_code": { "type": "integer" },
       "child_exit_status": { "type": "integer" },
       "exit_source": { "enum": ["handle-wait", "kill-fallback"] },
-      "detail": { "enum": ["already-live", "squatted-name", "pinned-hash-mismatch", "internal-error", "instance-dead", "strict-modes-failed", "server-verify-failed", "socket-dir-refused", "wrapper-fault", "cwd-missing", "no-session", "interrupted", "session-live", "stale-heartbeat", "unwrapped-name", "endpoint-lost", "program-not-found", "version-unreadable", "unclean-fixture", "terminal-not-found", "not-live", "window-not-found", "unsupported", "unreachable", "oversize", "malformed", "refused", "boot-time-unread", "not-resumed"] },
+      "detail": { "enum": ["already-live", "squatted-name", "pinned-hash-mismatch", "internal-error", "instance-dead", "strict-modes-failed", "server-verify-failed", "socket-dir-refused", "wrapper-fault", "cwd-missing", "no-session", "interrupted", "session-live", "stale-heartbeat", "unwrapped-name", "endpoint-lost", "program-not-found", "version-unreadable", "unclean-fixture", "terminal-not-found", "not-live", "window-not-found", "unsupported", "unreachable", "oversize", "malformed", "refused", "boot-time-unread", "not-resumed", "untrusted-folder"] },
       "during": { "enum": ["connect", "call"] }, "duration_ms": { "$ref": "#/$defs/count" } } } },
     { "if": { "properties": { "event": { "const": "panic" } } }, "then": { "properties": {
       "panic_location": { "type": "string" }, "thread": { "type": "string" } } } },

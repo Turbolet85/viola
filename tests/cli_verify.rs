@@ -22,9 +22,9 @@ use support::home::{
 };
 use support::hygiene::{check, has_username, load_schema};
 use support::verify::{
-    CANARY, INPUT_BOX_ROW, Ran, TRUST_ROW, screen_rows, spine_payload, verify,
-    verify_without_framing, verify_without_screens, viola, viola_with_stdin, write_screen,
-    write_screen_set, write_spine_set,
+    CANARY, INPUT_BOX_ROW, Ran, TRUST_ROW, screen_rows, spine_payload, trust_config_of, verify,
+    verify_in, verify_without_framing, verify_without_screens, viola, viola_with_stdin,
+    write_screen, write_screen_set, write_spine_set,
 };
 
 const STEPS_PASS: [&str; 29] = [
@@ -550,6 +550,52 @@ fn hook_capture(dir: &Path, stdin: &[u8]) -> Ran {
         dir.into(),
     ];
     viola_with_stdin(&args, &[], Some(stdin.to_vec()))
+}
+
+/// Runs B to E run inside verify's own folder and are trusted only by inheritance from it: from a
+/// folder under `/tmp` that no trust record names they meet the trust form, and verify refuses
+/// `untrusted-folder` with no stamp, its probe dirs gone. The control, the same home and binaries
+/// once that folder's record stands in the fake agent's config, stamps green: the refusal hangs on
+/// the folder, not on a broken verify.
+#[rstest]
+fn verify_window_refuses_an_untrusted_folder_and_stamps_nothing(#[from(home)] home: TestHome) {
+    write_spine_set(&fixtures(&home), "2.1.0", None);
+    let folder = tempfile::Builder::new()
+        .prefix("viola-test-untrusted-")
+        .tempdir_in("/tmp")
+        .expect("a folder under /tmp");
+    let env = [("VIOLA_NAME", OsString::from("verifier"))];
+    let ran = verify_in(home.path(), &fixtures(&home), "2.1.0", folder.path(), &env);
+    assert_eq!(ran.code, Some(1), "stdout {}", ran.stdout_text());
+    assert_eq!(
+        ran.stderr_text(),
+        "unable: claude did not start ready in this folder: it is not trusted\n\
+         hint: run viola verify from a folder you trust in Claude Code\n"
+    );
+    assert!(
+        !ran.stdout_text()
+            .lines()
+            .any(|line| line.starts_with("stamped")),
+        "{}",
+        ran.stdout_text()
+    );
+    assert!(!ledger(home.path()).join("stamps.json").exists());
+    assert_eq!(probes_left(home.path()), 0);
+    assert_refused_line(home.path(), "untrusted-folder");
+
+    let key = canonical(folder.path());
+    let key = key.to_str().expect("utf-8");
+    let trusted = json!({"projects": {key: {"hasTrustDialogAccepted": true}}});
+    viola_state::fs::replace_private(
+        &trust_config_of(home.path()),
+        trusted.to_string().as_bytes(),
+        0o600,
+    )
+    .expect("the folder's trust record");
+    let ran = verify_in(home.path(), &fixtures(&home), "2.1.0", folder.path(), &[]);
+    assert_eq!(ran.code, Some(0), "stderr {}", ran.stderr_text());
+    assert_eq!(ran.stdout_text(), all_pass_stdout());
+    assert!(stamps(home.path())["data"]["versions"]["2.1.0"].is_object());
 }
 
 #[path = "cli_verify/stamps.rs"]

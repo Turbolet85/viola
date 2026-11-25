@@ -24,19 +24,11 @@ use viola_agent_claude::ledger::{LedgerRow, counts};
 
 /// Stamps `home` for `version` through `viola verify` against the fake agent; `skip` leaves one
 /// spine fixture out, so that row fails.
-/// A set with `skip` left out stamps a failing row. Its trusted interactive run would wait out the
-/// probe deadline for a Stop that never comes, so the fake agent's trust root is moved off the cwd:
-/// that run starts at the trust dialog and is killed with no key.
+/// A set with `skip` left out (`SessionEnd`: its runs still end their turns) stamps a failing row.
 fn stamp(home: &TestHome, version: &str, skip: Option<&str>) {
     let fixtures = home.scratch().join(format!("fixtures-{version}"));
     write_spine_set(&fixtures, version, skip);
-    let elsewhere = home.scratch().to_str().expect("utf-8").to_owned();
-    let after: &[&str] = if skip.is_some() {
-        &["--trusted-root", elsewhere.as_str()]
-    } else {
-        &[]
-    };
-    let ran = verify(home.path(), &fixtures, version, &[], after, &[]);
+    let ran = verify(home.path(), &fixtures, version, &[], &[], &[]);
     let expected = if skip.is_some() { Some(1) } else { Some(0) };
     assert_eq!(ran.code, expected, "verify: {}", ran.stdout_text());
 }
@@ -103,7 +95,7 @@ fn run_with_a_verified_version_records_cli_verified(#[from(home)] home: TestHome
 }
 
 #[rstest]
-#[case::failing_row(Some((RECORDED_CLI_VERSION, Some("Stop"))))]
+#[case::failing_row(Some((RECORDED_CLI_VERSION, Some("SessionEnd"))))]
 #[case::other_version(Some(("3.0.0", None)))]
 #[case::unstamped(None)]
 fn run_without_a_verified_stamp_degrades(
@@ -521,6 +513,53 @@ fn verify_window_run_whose_verify_goes_red_records_it_and_the_next_start_runs_no
         std::fs::read(second.home().join("ledger").join("stamps.json")).expect("stamps"),
         stamps
     );
+    second.stop();
+}
+
+/// A keyed start typed in a folder under `/tmp` that no trust record names runs its verify there:
+/// verify's runs meet the trust form and it refuses with no stamp, so the start reads unstamped and
+/// leaves the version un-attempted. A second keyed start in that folder once its record stands
+/// verifies the version: the first did not lock it out.
+#[rstest]
+fn verify_window_start_from_an_untrusted_folder_leaves_the_version_unattempted(
+    #[from(home)] home: TestHome,
+) {
+    let (stamped, user) = keyed(home, Some("true"), true, "claude-a");
+    let folder = tempfile::Builder::new()
+        .prefix("viola-test-untrusted-")
+        .tempdir_in("/tmp")
+        .expect("a folder under /tmp");
+    let mut starting = Wrapper::start_as_user_in(stamped, "builder", &user, folder.path());
+    verify_ended(&mut starting, "builder");
+    let first = starting.ready();
+    let shown = shown_text(&first.shown());
+    assert!(shown.contains(&line_verifying()), "{shown}");
+    assert!(shown.contains(LINE_UNSTAMPED), "{shown}");
+    let snapshot = snapshot_data(&first.instance_dir()).expect("snapshot");
+    assert_eq!(snapshot["cli_verified"], false);
+    let stamps = first.home().join("ledger").join("stamps.json");
+    let entry = std::fs::read(&stamps).ok().map(|bytes| {
+        let doc: Value = serde_json::from_slice(&bytes).expect("json");
+        doc["data"]["versions"][RECORDED_CLI_VERSION].clone()
+    });
+    assert!(entry.as_ref().is_none_or(Value::is_null), "{entry:?}");
+    let (_, stamped) = first.stop_keep();
+
+    let key = std::fs::canonicalize(folder.path()).expect("canonical");
+    let key = key.to_str().expect("utf-8");
+    let trusted = serde_json::json!({"projects": {key: {"hasTrustDialogAccepted": true}}});
+    viola_state::fs::replace_private(
+        &trust_config_of(stamped.home.path()),
+        trusted.to_string().as_bytes(),
+        0o600,
+    )
+    .expect("the folder's trust record");
+    let mut starting = Wrapper::start_as_user_in(stamped, "second", &user, folder.path());
+    verify_ended(&mut starting, "second");
+    let second = starting.ready();
+    assert!(shown_text(&second.shown()).contains(&line_verifying()));
+    let snapshot = snapshot_data(&second.instance_dir()).expect("snapshot");
+    assert_eq!(snapshot["cli_verified"], true);
     second.stop();
 }
 

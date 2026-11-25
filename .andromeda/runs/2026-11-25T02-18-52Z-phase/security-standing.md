@@ -1,0 +1,18 @@
+# security · standing conventions
+
+- S1 · each new test runs under its own viola home, never the operator's, and removes only the directories it created · secret-management
+  decision/e2e-home-removal-own-dirs-only · Test-side removal only of its own dirs — A test-side removal under target/e2e-home never takes anything but a dir the test side itself created.
+  decision/test-homes-gitignored · Test homes kept out of git — Local --home test directories are git-ignored so recorded state never lands in git.
+  decision/test-removal-own-dirs-only · Test-side removal only of test-created dirs — A test-side removal under the e2e home takes only a directory the test side itself created, by its owner record, its own temp dir or its session name prefix, or another build's stamp dir whose lock it takes with try_lock.
+  decision/tests-use-own-home · Tests use their own home — Development handles secrets as production does, and tests use their own --home directory.
+- S2 · each new or re-recorded fixture is scrubbed of home paths, usernames, emails and absolute paths, kept by its closed allowlist and reviewed before commit · data-protection
+  decision/fixture-hygiene · Recorded fixture hygiene — Recorded claude fixtures are never committed from sessions with real prompts, nor before being checked for home paths and usernames.
+  decision/screen-fixture-signature-rows-only · Screen fixtures keep only signature rows — A screen fixture keeps only signature rows (a row holding a compiled footer or modal literal whole, a box rule row as its rule chars alone, a prompt row as the prompt char alone), the rest blanked; another box row, a kept row the scrub would rewrite or a username split across a row seam is refused. · except: On a failed recording verify, a hidden rig-only option writes one first-screen file of whole scrubbed rows per run short of the input box, kept local and git-ignored; an unclean set is refused whole.
+  decision/viola-format-fixtures-hygiene · viola-format fixtures under the hygiene walk — Committed viola-format fixtures, the old state shapes and retired words, are held to the same fixture hygiene walk as recorded fixtures: no path, user or email. · guard: viola_format_fixtures_pass_hygiene
+- S3 · each new test seam or fake reply lives only under the test-only feature and is compiled out of the release build · security-anti-patterns
+  decision/mcp-fixtures-via-test-only-tap · MCP fixtures recorded through a test-only tap — MCP exchange fixtures are recorded by a test-only tap, started live by the standing rig under its private CLI config, that spawns viola mcp directly with no shell, caps each line, keeps its raw capture 0600 in a private directory never committed, and applies the same scrub and closed refusal codes. · guard: schemas/claude-mcp-fixture.v1.json
+  decision/test-support-dev-only · test-support enabled only for development — viola-channel's test-only test-support feature is enabled only by the root package's dev-dependencies.
+- S4 · a new seam request or environment read is entered in the log the plan keeps for them · security-anti-patterns-never-do-these
+  decision/new-env-read-needs-log-entry · New seam or environment read needs a log entry — No further test-only seam or environment read is added without its own Decisions Log entry.
+- S5 · each CI job holds no secrets and runs no real claude CLI; real-CLI and live compositor legs stay local and operator-fired · threat-model-summary
+  decision/checkout-no-persisted-credentials · Checkout without persisted credentials — The CI checkout action runs with persist-credentials false.

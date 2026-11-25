@@ -1,0 +1,32 @@
+[[control]]
+id = 'win-restore'
+entry = 4
+guard = 'the Workspace(prev) restore dispatch of the window step (step 3)'
+case = 'window_step_restores_the_active_workspace_the_move_took'
+
+[[control.edit]]
+path = 'src/run/window.rs'
+old = '''        let _restored = read(&Request::Workspace(prev));'''
+new = '''        let _restored = prev;'''
+
+[[control]]
+id = 'win-stayed'
+entry = 4
+guard = 'the after-read != prev test (restore always once the after-read answers)'
+case = 'window_step_restores_nothing_when_the_view_stayed'
+
+[[control.edit]]
+path = 'src/run/window.rs'
+old = '''    if active_workspace(read).is_some_and(|now| now != prev) {'''
+new = '''    if active_workspace(read).is_some_and(|_now| true) {'''
+
+[[control]]
+id = 'vfy-confound'
+entry = 5
+guard = 'the step-9 untrusted-folder refusal before check_rows'
+case = 'verify_window_refuses_an_untrusted_folder_and_stamps_nothing'
+
+[[control.edit]]
+path = 'src/cmd/verify.rs'
+old = '''    if confounded(&probes.typed) {'''
+new = '''    if false && confounded(&probes.typed) {'''

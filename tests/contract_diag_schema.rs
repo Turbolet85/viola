@@ -215,12 +215,14 @@ fn diag_line_schema_takes_only_catalogued_spawn_subjects(
     assert_eq!(validator.is_valid(&exit), valid);
 }
 
-/// `viola open`'s two exit-1 causes and `viola up`'s `boot-time-unread` are `process-exit`
-/// details of the catalog; a detail outside it is still refused.
+/// `viola open`'s two exit-1 causes, `viola up`'s `boot-time-unread` and `viola verify`'s
+/// `untrusted-folder` are `process-exit` details of the catalog; a detail outside it is still
+/// refused.
 #[rstest]
 #[case::terminal_not_found("terminal-not-found", true)]
 #[case::not_live("not-live", true)]
 #[case::boot_time_unread("boot-time-unread", true)]
+#[case::untrusted_folder("untrusted-folder", true)]
 #[case::unknown("not-open", false)]
 fn diag_line_schema_takes_the_open_exit_details(#[case] detail: &str, #[case] valid: bool) {
     let validator = jsonschema::validator_for(&line_schema()).expect("valid schema");
