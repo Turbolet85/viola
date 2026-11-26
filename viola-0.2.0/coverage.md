@@ -1,13 +1,10 @@
 # Coverage — viola-0.2.0
 
-verified 28/37 · deferred 2 · planned 6 · implemented 1 · unclaimed 6
+verified 29/37 · deferred 2 · planned 6 · implemented 0 · unclaimed 6
 
 ## deferred (2)
 - v2-21 · A key answering the CLI's session-feedback survey keeps the wheel
 - v2-22 · Product-owned session settings
-
-## implemented, gated (1)
-- v2-07 · Launch a session into the fleet · 2026-11-25-placing-without-moving-the-view
 
 ## planned, unclaimed (5)
 - v2-14 · The fleet console
@@ -19,13 +16,14 @@ verified 28/37 · deferred 2 · planned 6 · implemented 1 · unclaimed 6
 ## planned, unclaimed, gated (1)
 - v2-12 · Restore the fleet after a reboot
 
-## verified (28)
+## verified (29)
 - v2-01 · Epoch 8 cleanup · 2026-11-13-epoch-8-cleanup
 - v2-02 · The dialog-hold ceiling read live · 2026-11-15-live-round-on-the-trimmed-product
 - v2-03 · `viola run` wraps the unmodified CLI on Linux, proved · 2026-11-15-live-round-on-the-trimmed-product
 - v2-04 · The budget gate removed whole · 2026-11-14-budget-gate-removed
 - v2-05 · The status-line interception removed whole · 2026-11-14-status-line-interception-removed
 - v2-06 · The secret scan's `cookie` class removed · 2026-11-13-epoch-8-cleanup
+- v2-07 · Launch a session into the fleet · 2026-11-25-placing-without-moving-the-view
 - v2-08 · The launch authority bounded · 2026-11-23-viola-open-2
 - v2-09 · The lineage registry · 2026-11-22-lineage-registry
 - v2-10 · Observed links shown apart · 2026-11-22-lineage-registry

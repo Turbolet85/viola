@@ -1,0 +1,133 @@
+[
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-26T06:19:55Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/rules/ci.md",
+"--file",
+".andromeda/runs/2026-11-26T06-00-17Z-wrap/draft-.claude-rules-ci.md",
+"--run-dir",
+".andromeda/runs/2026-11-26T06-00-17Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land .claude/rules/ci.md rev 8 · 2 node(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-26T06:19:59Z",
+"argv": [
+"harness",
+"land",
+"--root",
+".",
+".claude/rules/ci.md",
+"--file",
+".andromeda/runs/2026-11-26T06-00-17Z-wrap/draft-.claude-rules-ci.md",
+"--run-dir",
+".andromeda/runs/2026-11-26T06-00-17Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/ci.md rev 8 · 0 new · 1 revised · 0 retired · tx 5102"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-26T06-19-59-2026-11-26T06-00-17Z-wrap.ndjson",
+"./.claude/rules/ci.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-26T06:22:01Z",
+"argv": [
+"query",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-26T06-00-17Z-wrap",
+"select * from blocked"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"status\tmarker\tversion\tblock",
+"gated\t2026-11-25-placing-without-moving-the-view\tviola-0.2.0\tBLOCKED-ON: R7, ONE viola open placing a window live at the operator host, unlocked, the active workspace read before and after, fired this evening with him at the host (his fork L answer, inputs#I3)",
+"markerless\tThe fleet on the founder's host\tviola-0.2.0\tBLOCKED-ON: R4, viola up once on a real compositor over a planted fleet (R4a) and once after a real reboot over a real parent and child (R4b), at the operator host, unlocked, its moments his to name (founder-forks U1-U5)",
+"2 row(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-26T06:27:40Z",
+"argv": [
+"outputs",
+"land",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-26T06-00-17Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed tx 5109 · 319 record(s) of 141 payload(s)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-26T06-19-59-2026-11-26T06-00-17Z-wrap.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-26T06:27:44Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-26T06-00-17Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-25T07-16-49Z-wrap · 199 file(s) · 2026-11-25T07-16-49Z-wrap.parquet · tx 5110 · 199 removed · 272 set aside",
+"sealed 2026-11-26T05-27-23Z-implement · 9 file(s) · 2026-11-26T05-27-23Z-implement.parquet · tx 5111 · 9 removed · 0 set aside",
+"seal · 2 run(s) · own 2026-11-26T06-00-17Z-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

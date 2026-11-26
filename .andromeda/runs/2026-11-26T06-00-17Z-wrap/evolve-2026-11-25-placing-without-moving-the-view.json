@@ -1,0 +1,132 @@
+[
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "4d0b5024",
+"ts": "2026-11-26T06:02:35Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-26T06-00-17Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 5087 · 2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"ts 2026-11-26T06:02:27Z · clock 2026-11-26T06:02:35Z · the builders' bound 2026-11-25T08:20:31Z (line 4404)",
+"ids 2026-11-26T06:02:27Z-a",
+"carried 2 overseer record(s) · tx 5088 · 2026-11-26T06-02-35-session-2026-11-26.ndjson"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"./.andromeda/db/log/2026-11-26T06-02-35-session-2026-11-26.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "4d0b5024",
+"ts": "2026-11-26T06:19:30Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-26T06-00-17Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 5101 · 2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"ts 2026-11-26T06:19:15Z · clock 2026-11-26T06:19:30Z · the builders' bound 2026-11-26T06:02:27Z (line 4410)",
+"ids 2026-11-26T06:19:15Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "4d0b5024",
+"ts": "2026-11-26T06:21:49Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-26T06-00-17Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) in the store · tx 5103 · 2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"ts 2026-11-26T06:21:40Z · clock 2026-11-26T06:21:49Z · the builders' bound 2026-11-26T06:19:15Z (line 4413)",
+"ids 2026-11-26T06:21:40Z-a … 2026-11-26T06:21:40Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "4d0b5024",
+"ts": "2026-11-26T06:23:41Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-26T06-00-17Z-wrap",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 5106 · 2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson",
+"ts 2026-11-26T06:23:36Z · clock 2026-11-26T06:23:41Z · the builders' bound 2026-11-26T06:21:40Z (line 4416)",
+"ids 2026-11-26T06:23:36Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-25T02-19-51-2026-11-25-placing-without-moving-the-view.ndjson"
+],
+"before": null,
+"after": null
+}
+]
