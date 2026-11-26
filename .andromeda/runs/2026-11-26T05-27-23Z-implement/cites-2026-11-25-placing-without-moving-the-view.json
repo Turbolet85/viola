@@ -1,0 +1,42 @@
+[
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "39afbf07",
+"ts": "2026-11-26T05:31:34Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-26T05-27-23Z-implement/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-26T05-27-23Z-implement",
+"--marker",
+"2026-11-25-placing-without-moving-the-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: e39aa576 — gated: no pre-CI commit after the gated flip e39aa576",
+"new text: 0 file(s) · 0 new · 0 added range(s) · 0 line(s) · 0 block(s) → .andromeda/runs/2026-11-26T05-27-23Z-implement/new-text.md (6 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-26T05-27-23Z-implement/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "e39aa57616262772cdafdead9af292bbb96e0dae",
+"counts": {
+"files": 0,
+"new": 0,
+"ranges": 0,
+"lines": 0,
+"blocks": 0
+},
+"out": ".andromeda/runs/2026-11-26T05-27-23Z-implement/new-text.md",
+"state": "written",
+"lines": 6
+}
+}
+]
