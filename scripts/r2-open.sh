@@ -21,7 +21,12 @@
 #   r2: <green|red> placement=<word> workspace=<n|none> parent_workspace=<n|none>[ first=<reading>]
 #       agent=<comm|none>[ left=<n>]
 #   r2-rehearsal: <green|red> parent_placement=<word> parent_workspace=<n|none>[ first=<reading>][ left=<n>]
+#   r2: red precondition=<scratch|locked>
 # `agent` and `left` are readings: neither turns a green red.
+#
+# Preconditions, on both arms, before anything is made or started: the scratch home and
+# $XDG_RUNTIME_DIR/viola-r2 must not exist (`scratch`), and `hyprctl locked` must read `false`
+# (`locked`): the rehearsal starts the real foot too.
 set -u
 
 rehearse=
@@ -206,11 +211,21 @@ workspace_of() {
         echo none
 }
 
+# A precondition refused before anything is made or started: one line, exit 1, and the exit trap's
+# cleanup skipped, since nothing of this run stands to close.
+precondition() {
+    cleaned=1
+    echo "r2: red precondition=$1"
+    exit 1
+}
+
+[ -e "$home" ] || [ -e "$r2" ] && precondition scratch
 for tool in foot hyprctl jq; do
     if ! command -v "$tool" >/dev/null; then
         finish red "no-$tool"
     fi
 done
+[ "$(hyprctl locked 2>/dev/null)" = false ] || precondition locked
 mkdir -p "$work" "$no_claude"
 
 # The parent's program: the wrapper hands every child `--plugin-dir <dir>`, then `--model <m>

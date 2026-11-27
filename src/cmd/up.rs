@@ -29,7 +29,7 @@ use viola_state::replay::{
 use viola_state::strict::check_home_tree;
 
 use super::client::{self, own_name};
-use super::open::{TERMINAL, came_up, recorded_window, spawn_terminal};
+use super::open::{TERMINAL, came_up, recorded_window, refused, spawn_terminal};
 use super::run::refuse_tampered_pin;
 use crate::{human, run};
 
@@ -213,18 +213,6 @@ fn refuse_board(json: bool, refused: &ScanRefused) {
             human::refuse(&unable, &hint);
         }
     }
-}
-
-/// An exit-1 refusal of the whole `up`: the stderr pair, or with `json` its code's document; one
-/// `process-exit` either way.
-fn refused(json: bool, detail: &'static str, human: impl FnOnce()) -> ExitCode {
-    if json {
-        client::refused_document(detail);
-    } else {
-        human();
-    }
-    run::log_self_exit(1, Some(detail));
-    ExitCode::from(1)
 }
 
 #[instrument(skip_all, name = "cli.up", fields(dry_run = args.dry_run))]

@@ -20,8 +20,11 @@ path = "junit.xml"
 # planted-hang pair recorded in chunk 2026-11-18-trust-record-row-read-live's evidence.
 # The two drift replay tests are of the class by what they run, a whole `viola verify` per recorded
 # set (`tests/support/verify.rs`'s class note), so they are taken by name beside its prefix.
+# The six `path4_`-shaped tests (one in `cli_answer`, five `run_` in `cli_version_gate`) each run a
+# whole `viola verify` of their own and then boot a wrapper on that home, the class's work (7.39-7.67 s
+# warm), so they are taken by name beside its prefix too.
 [[profile.ci.overrides]]
-filter = 'test(/verify_window_/) | test(/fake_agent_(dialog|framing)_replay_matches_every_recorded_/)'
+filter = 'test(/verify_window_/) | test(/fake_agent_(dialog|framing)_replay_matches_every_recorded_/) | test(/^path4_a_stamp_failing_the_dialog_rows_leaves_dialogs_to_the_human$/) | (binary(cli_version_gate) & test(/^run_(with_a_verified_version_records_cli_verified|without_a_verified_stamp_degrades|with_world_writable_stamps_is_unverified_whatever_they_hold|writes_nothing_of_its_own_on_any_gate_outcome|with_a_child_that_is_not_the_cli_records_no_version)/))'
 slow-timeout = { period = "20s", terminate-after = 4 }
 
 # Every binary that drives verify, directly or through the stamped-home fixture (its longest other
@@ -55,8 +58,10 @@ slow-timeout = { period = "5s", terminate-after = 3 }
 # matches `package(viola-e2e)` below, and would otherwise take that 30 s kill, under its own wait.
 # The two drift replay tests each run a whole `viola verify` per recorded set, the class's own work,
 # so they are taken by name beside its prefix rather than under the 15 s default.
+# The six `path4_`-shaped tests each run a whole `viola verify` of their own and then boot a wrapper
+# on that home (7.39-7.67 s warm), the class's work, so they are taken by name beside it as well.
 [[profile.mutants.overrides]]
-filter = 'test(/verify_window_/) | test(/fake_agent_(dialog|framing)_replay_matches_every_recorded_/)'
+filter = 'test(/verify_window_/) | test(/fake_agent_(dialog|framing)_replay_matches_every_recorded_/) | test(/^path4_a_stamp_failing_the_dialog_rows_leaves_dialogs_to_the_human$/) | (binary(cli_version_gate) & test(/^run_(with_a_verified_version_records_cli_verified|without_a_verified_stamp_degrades|with_world_writable_stamps_is_unverified_whatever_they_hold|writes_nothing_of_its_own_on_any_gate_outcome|with_a_child_that_is_not_the_cli_records_no_version)/))'
 slow-timeout = { period = "20s", terminate-after = 4 }
 
 # The harness's own tests wait out its 20 s boot deadline by design. When a diff touches the harness,

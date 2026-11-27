@@ -61,13 +61,23 @@ pub fn process_start_time(pid: u32) -> Option<u64> {
 pub fn ancestors(pid: u32, max: usize) -> Vec<u32> {
     let mut sys = System::new();
     sys.refresh_processes(ProcessesToUpdate::All, true);
+    walk(pid, max, |at| {
+        sys.process(Pid::from_u32(at))
+            .and_then(sysinfo::Process::parent)
+            .map(Pid::as_u32)
+    })
+}
+
+/// The parent chain of `pid` by `parent_of`, nearest first: at most `max` pids, ending at pid 1 or
+/// at the first pid with no parent.
+fn walk(pid: u32, max: usize, parent_of: impl Fn(u32) -> Option<u32>) -> Vec<u32> {
     let mut chain = Vec::new();
-    let mut at = Pid::from_u32(pid);
-    while chain.len() < max && at.as_u32() > 1 {
-        let Some(parent) = sys.process(at).and_then(sysinfo::Process::parent) else {
+    let mut at = pid;
+    while chain.len() < max && at > 1 {
+        let Some(parent) = parent_of(at) else {
             break;
         };
-        chain.push(parent.as_u32());
+        chain.push(parent);
         at = parent;
     }
     chain
@@ -219,6 +229,32 @@ mod tests {
         assert_eq!(ancestors(std::process::id(), 1).len(), 1);
         assert_eq!(ancestors(std::process::id(), 0), Vec::<u32>::new());
         assert_eq!(ancestors(1, 8), Vec::<u32>::new());
+    }
+
+    fn table(rows: &[(u32, u32)]) -> impl Fn(u32) -> Option<u32> + '_ {
+        |at| rows.iter().find(|(pid, _)| *pid == at).map(|(_, p)| *p)
+    }
+
+    #[test]
+    fn walk_stops_at_pid_one_whatever_the_table_names_for_it() {
+        let rows = [(30, 20), (20, 1), (1, 7), (7, 5)];
+        assert_eq!(walk(30, 8, table(&rows)), vec![20, 1]);
+        assert_eq!(walk(1, 8, table(&rows)), Vec::<u32>::new());
+    }
+
+    #[test]
+    fn walk_holds_at_most_max_pids() {
+        let rows = [(60, 50), (50, 40), (40, 30), (30, 20), (20, 1)];
+        assert_eq!(walk(60, 3, table(&rows)), vec![50, 40, 30]);
+        assert_eq!(walk(60, 0, table(&rows)), Vec::<u32>::new());
+        assert_eq!(walk(60, 8, table(&rows)), vec![50, 40, 30, 20, 1]);
+    }
+
+    #[test]
+    fn walk_ends_at_a_pid_with_no_parent() {
+        let rows = [(60, 50), (50, 40)];
+        assert_eq!(walk(60, 8, table(&rows)), vec![50, 40]);
+        assert_eq!(walk(99, 8, table(&rows)), Vec::<u32>::new());
     }
 
     #[rstest]

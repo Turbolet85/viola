@@ -127,7 +127,7 @@ const MUTANTS_FLOOR_SECS: u64 = 20;
 
 const MUTANTS_OVERRIDES: &str = "[profile.mutants.overrides]";
 const E2E_FILTER: &str = "filter = 'package(viola-e2e)'";
-const VERIFY_WINDOW_FILTER: &str = "filter = 'test(/verify_window_/) | test(/fake_agent_(dialog|framing)_replay_matches_every_recorded_/)'";
+const VERIFY_WINDOW_FILTER: &str = "filter = 'test(/verify_window_/) | test(/fake_agent_(dialog|framing)_replay_matches_every_recorded_/) | test(/^path4_a_stamp_failing_the_dialog_rows_leaves_dialogs_to_the_human$/) | (binary(cli_version_gate) & test(/^run_(with_a_verified_version_records_cli_verified|without_a_verified_stamp_degrades|with_world_writable_stamps_is_unverified_whatever_they_hold|writes_nothing_of_its_own_on_any_gate_outcome|with_a_child_that_is_not_the_cli_records_no_version)/))'";
 const PASTE_HINT_FILTER: &str = "filter = 'test(/send_under_the_paste_hint_/)'";
 
 /// `period` × `terminate-after` of a table's

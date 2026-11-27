@@ -623,6 +623,24 @@ mod tests {
     }
 
     #[test]
+    fn scan_instances_lists_the_checked_instances_in_name_order() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = home(&tmp);
+        let tester = instance(&home, "tester");
+        let builder = instance(&home, "builder");
+        let scan = scanned(&home);
+        let listed: Vec<(&str, &Path)> = scan
+            .instances()
+            .iter()
+            .map(|(n, dir)| (n.as_ref(), dir.as_path()))
+            .collect();
+        assert_eq!(
+            listed,
+            [("builder", builder.as_path()), ("tester", tester.as_path())]
+        );
+    }
+
+    #[test]
     fn board_scan_counts_a_plain_file_and_a_name_that_is_no_name_as_malformed() {
         let tmp = tempfile::tempdir().expect("tempdir");
         let home = home(&tmp);

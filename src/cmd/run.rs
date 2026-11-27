@@ -24,8 +24,8 @@ use viola_state::liveness::{Liveness, STALE_AFTER, classify, own_start, same_pro
 use viola_state::pin::{PinError, Pinned, pin_bytes, pin_key};
 use viola_state::replay::{Recovered, read_snapshot_or_replay};
 use viola_state::snapshot::{InstanceSnapshot, Lineage, Wheel, Window};
-use viola_state::strict::check_endpoint_dir;
 use viola_state::strict::{TreeRefused, check_home_tree};
+use viola_state::strict::{check_endpoint_dir, check_instance};
 
 use crate::run::ChildLaunch;
 use crate::run::auto_verify::{self, Attempt, Outcome, auto_verify};
@@ -321,6 +321,50 @@ pub(super) fn checked_exe(
     let exe = std::fs::read(std::env::current_exe()?)?;
     let home = std::path::absolute(home)?;
     Ok(check_home_tree(&home, Some(name), Some(&pin_key(&exe))).map(|()| exe))
+}
+
+/// Whether the instance's home and files pass the strict-modes check.
+pub(super) fn trusted(home: &Path, name: &ViolaName) -> anyhow::Result<bool> {
+    let home = std::path::absolute(home)?;
+    let instance_dir = home.join("instances").join(AsRef::<str>::as_ref(name));
+    Ok(check_instance(&home, &instance_dir).is_ok())
+}
+
+/// What a `revive` or an `adopt` start holds once its prologue has passed: this exe's bytes and
+/// the persistent environment's names.
+pub(super) struct Prologue {
+    pub(super) exe: Vec<u8>,
+    pub(super) persistent: Vec<String>,
+}
+
+/// The first steps of a `revive` or an `adopt` start, in their order: the instance check, the
+/// home tree check, then the wrapper log. `strict_modes` writes the verb's own strict-modes
+/// refusal, a document when given `true`. Before the log opens: opening it narrows the home to
+/// its owner, which would erase the very state this check refuses. A refused check opens nothing
+/// under the home and writes no line.
+pub(super) fn start_prologue(
+    home: &Path,
+    name: &ViolaName,
+    json: bool,
+    strict_modes: impl Fn(bool),
+) -> anyhow::Result<Result<Prologue, Started>> {
+    if !trusted(home, name)? {
+        strict_modes(json);
+        return Ok(Err(Started::Refused(ExitCode::from(1))));
+    }
+    let exe = match checked_exe(home, name)? {
+        Ok(exe) => exe,
+        Err(_) if json => {
+            strict_modes(true);
+            return Ok(Err(Started::Refused(ExitCode::from(1))));
+        }
+        Err(refused) => {
+            refuse_tree(name, refused);
+            return Ok(Err(Started::Refused(ExitCode::from(1))));
+        }
+    };
+    let persistent = open_wrapper_log(home, name)?;
+    Ok(Ok(Prologue { exe, persistent }))
 }
 
 /// A refused tree's stderr pair, the home's or the instance's: nothing under the home opened, no

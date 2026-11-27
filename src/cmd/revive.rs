@@ -14,12 +14,11 @@ use viola_agent_claude::{PROGRAM, RESUME_FLAG, is_effort_level, is_session_id, r
 use viola_core::{ViolaName, is_model_word};
 use viola_state::replay::{Recovered, SessionLink, read_snapshot_or_replay, session_chain};
 use viola_state::snapshot::{Launch as Pair, Lineage};
-use viola_state::strict::check_instance;
 
 use super::client;
 use super::run::{
-    Launch, Started, WindowAsk, checked_exe, collision_check, open_wrapper_log, pair_after_dashes,
-    parse_effort, parse_model, pump_child, refuse_tree, refused, start,
+    Launch, Prologue, Started, WindowAsk, collision_check, pair_after_dashes, parse_effort,
+    parse_model, pump_child, refused, start, start_prologue, trusted,
 };
 use crate::human;
 
@@ -153,35 +152,18 @@ pub(crate) fn revive(home: &Path, args: ReviveArgs) -> anyhow::Result<ExitCode> 
 
 /// Everything ahead of the child: the checks, the log, the preflight and `run`'s start.
 fn started(home: &Path, args: ReviveArgs) -> anyhow::Result<Started> {
-    // Before the log opens: opening it narrows the home to its owner, which would erase the very
-    // state this check refuses. A refused check opens nothing under the home and writes no line.
-    if !trusted(home, &args.name)? {
-        Refusal::StrictModes.write(&args.name, args.json);
-        return Ok(Started::Refused(ExitCode::from(1)));
-    }
-    let exe = match checked_exe(home, &args.name)? {
-        Ok(exe) => exe,
-        Err(_) if args.json => {
-            Refusal::StrictModes.write(&args.name, true);
-            return Ok(Started::Refused(ExitCode::from(1)));
-        }
-        Err(refused) => {
-            refuse_tree(&args.name, refused);
-            return Ok(Started::Refused(ExitCode::from(1)));
-        }
+    let name = args.name.clone();
+    let prologue = start_prologue(home, &args.name, args.json, |json| {
+        Refusal::StrictModes.write(&name, json);
+    })?;
+    let Prologue { exe, persistent } = match prologue {
+        Ok(prologue) => prologue,
+        Err(refused) => return Ok(refused),
     };
-    let persistent = open_wrapper_log(home, &args.name)?;
     match preflight(home, args)? {
         Ok(launch) => start(home, &launch, &persistent, &exe),
         Err(refusal) => Ok(refusal),
     }
-}
-
-/// Whether the instance's home and files pass the strict-modes check.
-fn trusted(home: &Path, name: &ViolaName) -> anyhow::Result<bool> {
-    let home = std::path::absolute(home)?;
-    let instance_dir = home.join("instances").join(AsRef::<str>::as_ref(name));
-    Ok(check_instance(&home, &instance_dir).is_ok())
 }
 
 /// The four readings in their fixed order, taken once the strict-modes check has passed: the

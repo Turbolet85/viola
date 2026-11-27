@@ -1037,6 +1037,14 @@ mod tests {
     }
 
     #[test]
+    fn ended_after_last_start_reads_false_for_another_kind_after_the_start() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        fs::write(tmp.path().join("events.ndjson"), b"").expect("seed");
+        log(tmp.path(), &[start(), wheel()]);
+        assert!(!ended_after_last_start(tmp.path()).expect("read"));
+    }
+
+    #[test]
     fn session_chain_of_an_empty_or_an_absent_log_holds_no_link() {
         let tmp = tempfile::tempdir().expect("tempdir");
         assert_eq!(

@@ -40,7 +40,6 @@ const SEND_REFUSAL: &str =
 
 const OPEN_REFUSED: &str = "client::refused_document(detail);";
 const FOCUS_REFUSED: &str = "client::refused_document(code);";
-const UP_REFUSED: &str = "client::refused_document(detail);";
 
 const CLI_DOCUMENTS: &[Body] = &[
     Body {
@@ -127,32 +126,32 @@ const CLI_DOCUMENTS: &[Body] = &[
         code: "boot-time-unread",
         detail: "null",
         exit: Some(1),
-        file: "src/cmd/up.rs",
-        needle: UP_REFUSED,
+        file: "src/cmd/open.rs",
+        needle: OPEN_REFUSED,
         witness: "up_pairs_are_the_fixed_lines",
     },
     Body {
         code: "terminal-not-found",
         detail: "null",
         exit: Some(1),
-        file: "src/cmd/up.rs",
-        needle: UP_REFUSED,
+        file: "src/cmd/open.rs",
+        needle: OPEN_REFUSED,
         witness: "up_without_foot_refuses_terminal_not_found_and_spawns_nothing",
     },
     Body {
         code: "strict-modes-failed",
         detail: "null",
         exit: Some(1),
-        file: "src/cmd/up.rs",
-        needle: UP_REFUSED,
+        file: "src/cmd/open.rs",
+        needle: OPEN_REFUSED,
         witness: "up_refuses_a_home_another_user_may_read_with_no_line",
     },
     Body {
         code: "pinned-hash-mismatch",
         detail: "null",
         exit: Some(1),
-        file: "src/cmd/up.rs",
-        needle: UP_REFUSED,
+        file: "src/cmd/open.rs",
+        needle: OPEN_REFUSED,
         witness: "a_tampered_pinned_copy_is_pinned_hash_mismatch",
     },
     Body {

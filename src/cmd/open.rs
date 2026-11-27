@@ -192,7 +192,7 @@ fn opened(home: &Path, args: &OpenArgs, exe: &[u8]) -> anyhow::Result<ExitCode> 
 
 /// A refusal of the open, before or after its spawn: the stderr pair, or with `json` the code's
 /// one document; one `process-exit` either way.
-fn refused(json: bool, detail: &'static str, human: impl FnOnce()) -> ExitCode {
+pub(super) fn refused(json: bool, detail: &'static str, human: impl FnOnce()) -> ExitCode {
     if json {
         client::refused_document(detail);
     } else {
