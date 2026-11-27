@@ -1,0 +1,118 @@
+[
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-27T23:41:17Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"scope-record",
+"--owner",
+"chk:2026-11-27-epoch-5-cleanup-2",
+"--file",
+".andromeda/cache/docs/2026-11-27-epoch-5-cleanup-2/scope-record.md",
+"--run-dir",
+".andromeda/runs/2026-11-27T23-32-38Z-implement",
+"--marker",
+"2026-11-27-epoch-5-cleanup-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-27-epoch-5-cleanup-2/scope-record rev 1 · 1 new · 0 revised · 0 retired · 0 kept · tx 5213"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-27T22-44-04-2026-11-27-epoch-5-cleanup-2.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-27T23:48:06Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-27-epoch-5-cleanup-2",
+"--file",
+".andromeda/cache/docs/2026-11-27-epoch-5-cleanup-2/report.md",
+"--run-dir",
+".andromeda/runs/2026-11-27T23-32-38Z-implement",
+"--marker",
+"2026-11-27-epoch-5-cleanup-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-27-epoch-5-cleanup-2/report rev 1 · 54 new · 0 revised · 0 retired · 0 kept · tx 5218"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-27T22-44-04-2026-11-27-epoch-5-cleanup-2.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-27T23:48:23Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-27-epoch-5-cleanup-2",
+"--run-dir",
+".andromeda/runs/2026-11-27T23-32-38Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-27-epoch-5-cleanup-2 · 1 new · 0 changed · 0 gone · 5 kept · tx 5220"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-27T22-44-04-2026-11-27-epoch-5-cleanup-2.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-27T23:51:35Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-27-epoch-5-cleanup-2",
+"--run-dir",
+".andromeda/runs/2026-11-27T23-32-38Z-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-27-epoch-5-cleanup-2 · 1 new · 0 changed · 0 gone · 7 kept · tx 5222"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-27T22-44-04-2026-11-27-epoch-5-cleanup-2.ndjson"
+],
+"before": null,
+"after": null
+}
+]

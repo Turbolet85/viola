@@ -15,8 +15,11 @@ use std::time::Duration;
 
 use viola_agent_claude::StripPlan;
 use viola_agent_claude::trust::{self, LOCK_SUFFIX, StartWord, TrustWord, Walk};
-use viola_core::MAX_FRAME;
+use viola_core::obs::ObsEvent;
+use viola_core::{MAX_FRAME, obs_event};
 use viola_state::fs::replace_private;
+
+use crate::trust_record;
 
 /// A write or a removal makes at most three attempts.
 pub(crate) const ATTEMPTS: u32 = 3;
@@ -270,11 +273,47 @@ impl Drop for Lock {
     }
 }
 
+/// The child's folder trusted for the CLI before its spawn, on a verified CLI only: one
+/// `trust-record` line with the step's closed word, no path, key or value. The word never refuses
+/// the start; a folder left untrusted is the human's dialog.
+pub(crate) fn trust_folder(cli_verified: bool, strip: &StripPlan, spawn_dir: &Path) {
+    let word = trust_word(cli_verified, strip, spawn_dir);
+    obs_event!(INFO, ObsEvent::TrustRecord, detail = word.as_str());
+}
+
+fn trust_word(cli_verified: bool, strip: &StripPlan, spawn_dir: &Path) -> StartWord {
+    if !cli_verified {
+        return StartWord::UnverifiedCli;
+    }
+    let file = match trust_record::trust_config_file(strip) {
+        Ok(file) => file,
+        Err(word) => return StartWord::of(word),
+    };
+    let Ok(cwd) = std::fs::canonicalize(spawn_dir) else {
+        return StartWord::ConfigUnreadable;
+    };
+    let git_root = trust_record::git_root(&cwd);
+    let user_home = std::env::home_dir().and_then(|home| std::fs::canonicalize(home).ok());
+    trust_record::trust_for_start(&file, &cwd, git_root.as_deref(), user_home.as_deref())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
     use serde_json::{Value, json};
     use std::os::unix::fs::PermissionsExt as _;
+
+    #[test]
+    fn trust_word_on_an_unverified_cli_reads_no_file() {
+        let strip = viola_agent_claude::plan_strip(std::iter::empty(), &[]);
+        let gone = Path::new("/nonexistent/viola-trust-step");
+        assert_eq!(trust_word(false, &strip, gone), StartWord::UnverifiedCli);
+        assert_eq!(
+            trust_word(true, &strip, gone),
+            StartWord::ConfigUnreadable,
+            "the verified arm reaches the folder"
+        );
+    }
 
     const KEY: &str = "/t/viola-verify-x";
 

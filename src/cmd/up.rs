@@ -223,6 +223,22 @@ fn upped(home: &Path, scan: &board::Scan, args: &UpArgs) -> anyhow::Result<ExitC
             human::refuse(unable, hint);
         }));
     };
+    let (mut lines, candidates, order) = plan(home, scan, args, boot);
+    if args.dry_run || order.is_empty() {
+        for at in order {
+            lines.push((candidates[at].name.as_ref().to_owned(), Outcome::WouldOpen));
+        }
+        return Ok(finish(&lines, args.json));
+    }
+    act(home, args, &candidates, order, lines)
+}
+
+/// The board read: each scanned instance's pick, then the named instances the scan did not hold.
+fn select(
+    scan: &board::Scan,
+    args: &UpArgs,
+    boot: SystemTime,
+) -> (Vec<(String, Outcome)>, Vec<Candidate>) {
     let named = |name: &ViolaName| args.names.contains(name);
     let mut lines: Vec<(String, Outcome)> = Vec::new();
     let mut candidates: Vec<Candidate> = Vec::new();
@@ -255,6 +271,18 @@ fn upped(home: &Path, scan: &board::Scan, args: &UpArgs) -> anyhow::Result<ExitC
             lines.push((name.as_ref().to_owned(), Outcome::NotTaken));
         }
     }
+    (lines, candidates)
+}
+
+/// The session reads and the order: the candidates with no session, no directory or a session
+/// live elsewhere leave with their line, then the lines sort and the rest go parents first.
+fn plan(
+    home: &Path,
+    scan: &board::Scan,
+    args: &UpArgs,
+    boot: SystemTime,
+) -> (Vec<(String, Outcome)>, Vec<Candidate>, Vec<usize>) {
+    let (mut lines, mut candidates) = select(scan, args, boot);
     candidates.retain(|candidate| match (&candidate.id, &candidate.cwd) {
         (None, _) => {
             lines.push((candidate.name.as_ref().to_owned(), Outcome::NoSession));
@@ -283,12 +311,18 @@ fn upped(home: &Path, scan: &board::Scan, args: &UpArgs) -> anyhow::Result<ExitC
     let names: Vec<&str> = candidates.iter().map(|c| c.name.as_ref() as &str).collect();
     let parents: Vec<Option<&str>> = candidates.iter().map(|c| c.parent.as_deref()).collect();
     let order = parents_first(&parents, &names);
-    if args.dry_run || order.is_empty() {
-        for at in order {
-            lines.push((names[at].to_owned(), Outcome::WouldOpen));
-        }
-        return Ok(finish(&lines, args.json));
-    }
+    (lines, candidates, order)
+}
+
+/// The spawns: the home tree checked, the binary pinned and the terminal resolved, then one
+/// pinned `viola revive` per candidate in order, each line its outcome.
+fn act(
+    home: &Path,
+    args: &UpArgs,
+    candidates: &[Candidate],
+    order: Vec<usize>,
+    mut lines: Vec<(String, Outcome)>,
+) -> anyhow::Result<ExitCode> {
     let exe = std::fs::read(std::env::current_exe()?)?;
     if check_home_tree(home, None, Some(&pin_key(&exe))).is_err() {
         return Ok(refused(args.json, "strict-modes-failed", || {
@@ -330,7 +364,7 @@ fn upped(home: &Path, scan: &board::Scan, args: &UpArgs) -> anyhow::Result<ExitC
         } else {
             Outcome::NotLive
         };
-        lines.push((names[at].to_owned(), outcome));
+        lines.push((candidate.name.as_ref().to_owned(), outcome));
     }
     Ok(finish(&lines, args.json))
 }

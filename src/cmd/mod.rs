@@ -12,7 +12,7 @@ mod pause;
 mod plugin;
 mod release;
 mod revive;
-mod run;
+pub(crate) mod run;
 mod send;
 mod switch;
 mod unlink;

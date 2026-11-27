@@ -6,11 +6,17 @@
 //! leaves the view where it was. It reads and dispatches only through the Hyprland seam; no reply
 //! text, address, pid or workspace reaches a line.
 
+use std::ffi::OsStr;
+use std::path::Path;
 use std::time::{Duration, Instant};
 
 use tracing::instrument;
+use viola_agent_claude::StripPlan;
 use viola_hyprland::{Address, HyprlandError, Reply, Request, WorkspaceId};
 use viola_state::snapshot::Window;
+
+use crate::cmd::run::WindowAsk;
+use crate::run;
 
 /// How long the terminal's window may take to appear in `clients`.
 pub(crate) const WINDOW_WAIT: Duration = Duration::from_secs(5);
@@ -102,6 +108,23 @@ fn keep_view(read: &mut dyn FnMut(&Request) -> Result<Reply, HyprlandError>, pre
     if active_workspace(read).is_some_and(|now| now != prev) {
         let _restored = read(&Request::Workspace(prev));
     }
+}
+
+/// The window step of a start `viola open` asked for, over the compositor seam: `hyprctl` looked up
+/// on `PATH` (none reads `unsupported`, nothing spawned), the terminal the wrapper's parent, the
+/// R8 strip's names taken out of each read's environment. Its bound never stops the start.
+pub(crate) fn open_window(ask: &WindowAsk, cwd: &Path, strip: &StripPlan) -> Window {
+    let hyprctl = run::resolve_program(OsStr::new(viola_hyprland::PROGRAM), cwd).ok();
+    let mut read = |request: &viola_hyprland::Request| {
+        viola_hyprland::read(hyprctl.as_deref(), request, &strip.remove).reply
+    };
+    run::window::window_step(
+        &mut read,
+        std::os::unix::process::parent_id(),
+        ask.place,
+        &ask.origin,
+        run::window::WINDOW_WAIT,
+    )
 }
 
 #[cfg(test)]

@@ -1,0 +1,37 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "c76de2ab",
+"ts": "2026-11-27T22:44:05Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-11-27-epoch-5-cleanup-2",
+"--id",
+"chk-ohgzrkah",
+"--desc-file",
+".andromeda/runs/2026-11-27T22-42-56Z-phase/master-desc.txt",
+"--scope-file",
+".andromeda/cache/docs/2026-11-27-epoch-5-cleanup-2/scope.md",
+"--run-dir",
+".andromeda/runs/2026-11-27T22-42-56Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"promoted 2026-11-27-epoch-5-cleanup-2 · chk-ohgzrkah · Epoch 5 cleanup · tx 5197"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-27T22-44-04-2026-11-27-epoch-5-cleanup-2.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]
