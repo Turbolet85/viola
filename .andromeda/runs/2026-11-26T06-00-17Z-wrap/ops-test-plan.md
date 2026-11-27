@@ -1,2 +1,0 @@
-@row_none n=1 fact=F1 type=9
-what: the decision that a placing open's kept view is proven only by the gated live reading R7 already stands whole in decision/window-placement-proven-live; what remains of the fact, where keyboard focus lands after the restore and how a failed restore looks live, is an unproven owed item the route holds (fct-7kc6afm2, fct-ut3q2524), and the gated run changed no source, test or master (fct-y2daabf2, fct-usfib2hp).

@@ -1,0 +1,29 @@
+--- a/.andromeda/obs-plan.md
++++ b/.andromeda/obs-plan.md
+@@ -366,3 +366,3 @@
+ decision/ci-verify-fake-agent-only · CI verify against the fake agent only — In CI, viola verify runs only against the fake agent.
+-decision/compact-confirm-window · Compact confirmation window — A /compact send waits 40 s for its compacted-session post-condition, while every other confirmed send waits 10 s. · provisional
++decision/compact-confirm-window · Compact confirmation window — A /compact send waits 40 s for its compacted-session post-condition, while every other confirmed send waits 10 s.
+ decision/dependency-targets-off-in-sink · rmcp and portable-pty targets off — The rmcp and portable-pty log targets are switched OFF in the sink.
+@@ -432,4 +432,4 @@
+ decision/instance-check-before-role-file · Instance check before any role file — The frame verbs run the instance check on their named instance (the driven instance for link and unlink) before any role file opens.
+-decision/launch-line-untraced · Launch line has no trace of its own — The launch line written at every run, revive and adopt start and at every switch is log-only product audit data: it wakes no wait and opens no span, writes no process-log line and no terminal byte of its own. · provisional
+-decision/lineage-line-untraced · Lineage line has no trace of its own — The lineage line written at every run, revive and adopt start is log-only product audit data: it wakes no wait and writes no process-log line, span or terminal byte of its own. · provisional
++decision/launch-line-untraced · Launch line has no trace of its own — The launch line written at every run, revive and adopt start and at every switch is log-only product audit data: it wakes no wait and opens no span, writes no process-log line and no terminal byte of its own.
++decision/lineage-line-untraced · Lineage line has no trace of its own — The lineage line written at every run, revive and adopt start is log-only product audit data: it wakes no wait and writes no process-log line, span or terminal byte of its own.
+ decision/link-methods-untraced · Explicit link methods open no span — The explicit link and unlink methods open no span and write no process-log line of their own; their channel lines hold no driver, driven or other param.
+@@ -469,3 +469,3 @@
+ decision/wheel-typed-mark-uninstrumented · Wheel typed mark and wakes count uninstrumented — The stdin typed mark and the held scheduled-wakes count are in-memory wrapper state that open no span and write no line of their own, and carry no key and no prompt text.
+-decision/window-line-untraced · Window line has no trace of its own — The window line a start under --origin writes after its launch line, and a switch writes again after its own launch line, is log-only product audit data: it wakes no wait, opens no span and is never copied into a process-log line. · provisional
++decision/window-line-untraced · Window line has no trace of its own — The window line a start under --origin writes after its launch line, and a switch writes again after its own launch line, is log-only product audit data: it wakes no wait, opens no span and is never copied into a process-log line.
+ decision/window-view-restore-uninstrumented · Window view restore uninstrumented — The window step's reads of the active workspace before and after its move, and its restore of the earlier active workspace when the move changed it, add no placement word, span field or log line of their own; a failed read or restore leaves the placement word as the move set it.
+@@ -817,3 +817,3 @@
+ decision/fuzz-artifacts-need-synthetic-corpus · Fuzz artifacts need a synthetic corpus — Fuzz crash artifacts upload only while the committed fuzz corpus is synthetic; a non-synthetic corpus seed must first drop that upload.
+-decision/lineage-names-confined · Parent and role confined to product surfaces — A start's parent and role names appear only in events.ndjson, the snapshot, the viola list board, list --json and the MCP list result, each parent re-parsed as a viola name and each role as a code word and dropped otherwise, never in a process-log or detail line. · provisional
++decision/lineage-names-confined · Parent and role confined to product surfaces — A start's parent and role names appear only in events.ndjson, the snapshot, the viola list board, list --json and the MCP list result, each parent re-parsed as a viola name and each role as a code word and dropped otherwise, never in a process-log or detail line.
+ decision/link-names-never-in-process-log · Link pair names never in a process log — link and unlink driver and driven names never appear in a process-log line; the channel pair logs the method, never the params. · guard: link_verbs_log_the_channel_pair_and_no_names
+@@ -893,3 +893,3 @@
+ decision/session-end-hook-budget · session-end hook budget — viola hook session-end completes in under 1.0 s. · guard: gate --require perf
+-decision/spine-hook-budget · Spine hook budget — The spine hooks and pre-tool-use on an unverified CLI complete under the tests-owned spine deadline, provisionally 1.0 s. · guard: gate --require perf · provisional
++decision/spine-hook-budget · Spine hook budget — The spine hooks and pre-tool-use on an unverified CLI complete under the tests-owned spine deadline, provisionally 1.0 s. · guard: gate --require perf
+ decision/surviving-obs-mutant-fails · Surviving obs mutant is a failure — A surviving cargo-mutants mutant in obs code at a run --mutants (the epoch-boundary audit or on demand) counts as an SLO invariant failure. · except: A missed mutant the host never compiles is not counted as surviving.

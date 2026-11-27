@@ -1,0 +1,86 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-27T19:08:19Z",
+"argv": [
+"snap",
+"--no-chunk",
+"--source",
+"~/dev/projects/additional/viola-overseer/boundary-wrap-0.2.0-e5-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer's directive for the Epoch 5 boundary wrap: §1 and §2 the operator's own word by question dialog, read back 2026-11-27T19:03:24Z (ratify every PROVISIONAL mark; mint «Epoch 5 cleanup»); §3 the overseer's technical placements",
+"--step",
+"wrap",
+"--claimed-commit",
+"a80df0e5",
+"--run-dir",
+".andromeda/runs/2026-11-27T19-07-11Z-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 2,
+"stdout": [],
+"stderr": "--claimed-commit: the source is in no git repository",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-27T19:08:23Z",
+"argv": [
+"snap",
+"--no-chunk",
+"--source",
+"~/dev/projects/additional/viola-overseer/boundary-wrap-0.2.0-e5-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer's directive for the Epoch 5 boundary wrap: §1 and §2 the operator's own word by question dialog, read back 2026-11-27T19:03:24Z (ratify every PROVISIONAL mark; mint «Epoch 5 cleanup»); §3 the overseer's technical placements",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-27T19-07-11Z-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/boundary-wrap-0.2.0-e5-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-boundary-wrap-0.2.0-e5-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/boundary-wrap-0.2.0-e5-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "b15f0ed6bc2f8289179026e4eb30af8cab75479289c28ae0ad729c9a41511d04",
+"copy": "I1-boundary-wrap-0.2.0-e5-directive.md.txt",
+"link": false,
+"read_at": "2026-11-27T19:08:23Z",
+"step": "wrap",
+"why": "the overseer's directive for the Epoch 5 boundary wrap: §1 and §2 the operator's own word by question dialog, read back 2026-11-27T19:03:24Z (ratify every PROVISIONAL mark; mint «Epoch 5 cleanup»); §3 the overseer's technical placements"
+}
+}
+]

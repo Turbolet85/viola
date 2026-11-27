@@ -1,0 +1,29 @@
+@chunk as=f after=epoch:viola-0.2.0/6
+Epoch 5 cleanup — the Epoch 5 audit's ranked defects mended and the root crate's mutation baseline made green, each item read by the next boundary's audit
+
+@carry in=@f
+CARRY: (the operator's own word of 2026-11-27, given by question dialog and relayed verbatim by the overseer, .andromeda/runs/2026-11-27T19-07-11Z-wrap/inputs/I1-boundary-wrap-0.2.0-e5-directive.md.txt §2; the items from the ranked list of .andromeda/runs/2026-11-27T18-39-43Z-code-audit/proposals.md, in its order) (1) the root crate `viola` gets a green mutation baseline under the `mutants` nextest profile: `cli_answer`'s `path4_a_stamp_failing_the_dialog_rows_leaves_dialogs_to_the_human`, a test that runs its own verify on a custom-stamped home (measured at that record's Skips: one TIMEOUT at the 15 s kill, no failed assertion), moves by name under the longer kill the verify tests have there, the profile's general 15 s limit NOT raised; then the epoch's 372 in-diff mutants of `viola` (`--in-diff` from `15a566e8`, the recorded form, `--copy-target=false`, `TMPDIR` a short-named dir under `~/dev/projects/viola-mutants-scratch/`) run ONCE as an addendum to that ledger record of 2026-11-27, the operator's word for this one run given with this entry; the next audit reads a `mutation:viola` score, not a `baseline-test-failure` skip. This addendum is the chunk's one mutation run: no other mutation run, no witness run and no live start inside it
+
+@carry in=@f
+CARRY: (the same word and record) (2) killing tests for `viola-pty`'s nine survivors in `crates/viola-pty/src/pump.rs`'s restart path — which output copy ended (the generation guard), and the time limits in `reap_within` and `drain`; the next audit's `viola-pty` diff mutants read those nine caught
+
+@carry in=@f
+CARRY: (the same word and record) (3) one shared start prologue for `revive` and `adopt`: `src/cmd/adopt.rs` carries a copy of `src/cmd/revive.rs`'s whole prologue, the strict-modes check that must run before the log opens included; the next audit reads that ordering in one place, not two copies
+
+@carry in=@f
+CARRY: (the same word and record) (4) killing tests for `viola-state`'s three survivors, the ancestor-walk bound at `crates/viola-state/src/liveness.rs:66` first (the security plan's limit of 8 ancestor pids); the next audit's `viola-state` diff mutants read those three caught
+
+@carry in=@f
+CARRY: (the same word and record) (5) `scripts/r2-open.sh` reads the two preconditions its sibling `scripts/r*.sh` read before starting anything — the desktop not locked, its scratch dir fresh; the next audit reads no `r*.sh` whose live arm can start on a locked desktop
+
+@carry in=@f
+CARRY: (the same word and record) (6) the three splits: `upped` in `src/cmd/up.rs`; the restart code out of `crates/viola-pty/src/pump.rs`; the window and trust steps out of `src/cmd/run.rs`; the next audit's `complexity.over_ceiling` and `sizes.over_800` rows (its M2, M3) read those three no longer over
+
+@carry in=@f
+CARRY: (the same word and record) (7) one `refused()` helper for `viola open` and `viola up`, the byte-identical copy in `src/cmd/open.rs` and `src/cmd/up.rs` made one; the next audit's duplication read (its M1) no longer lists that pair
+
+@carry in=@f
+CARRY: (the overseer's technical placement, the same snapshot §2, from the diagnosis .andromeda/runs/2026-11-27T18-27-52Z-evolve-diagnose/proposals.md; at the phase's discretion, each named in its scope and none promised) (8) the UNRESOLVED markers standing in the masters' history — the layouts history's mis-dated entry and the security history's line 43, each of which cost a history agent a re-spawn; this epoch's consolidation printed `UNRESOLVED` 2 · 3 · 1 for architecture, security-plan and test-plan — resolved or re-dated by the letters' own door, none deleted by hand; (9) the project's boot paths declared once in test-plan, so phase P5's check 4 (2) reads a list and not an earlier plan's precedent
+
+@carry in=@f
+CARRY: (the same word and record, the audit's own deliberately-not list) not in this entry: `viola-e2e` or a whole crate under mutation, the `mutants` profile's general 15 s limit, a rework of the window code, a split of `viola verify`, a shared library for the `r*.sh` scripts; its phase sizes it against one window and proposes a split if it does not fit — a split is the operator's
