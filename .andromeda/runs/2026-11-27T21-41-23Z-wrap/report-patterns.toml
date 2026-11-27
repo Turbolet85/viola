@@ -1,0 +1,44 @@
+[[pattern]]
+id = 'vclass'
+regex = 'verify_window_|path4_a_stamp_failing_the_dialog_rows|run_with_a_verified_version_records_cli_verified|verify-window-80s-kill|verify-driven-tests-20s-kill|verify class'
+
+[[pattern]]
+id = 'uprefused'
+regex = 'UP_REFUSED|OPEN_REFUSED'
+
+[[pattern]]
+id = 'refusedfn'
+regex = 'fn refused|\brefused\(\)'
+
+[[pattern]]
+id = 'trustedfn'
+regex = 'fn trusted|\btrusted\(\)|start_prologue|\bPrologue\b|shared prologue'
+
+[[pattern]]
+id = 'mutviola'
+regex = 'baseline-test-failure|mutation\.viola'
+
+[[pattern]]
+id = 'tcounts'
+regex = '1413 (tests|passed)|323 (tests|passed)|328 (tests|passed)|44 (tests|passed)|49 (tests|passed)'
+
+[[pattern]]
+id = 'r2pre'
+regex = 'r2-open|precondition='
+
+[[pattern]]
+id = 'misdated'
+regex = '2026-11-17-cli-output-discipline'
+
+[[pattern]]
+id = 'bootpaths'
+regex = 'boot path'
+ignore_case = true
+
+[[pattern]]
+id = 'drainwalk'
+regex = 'DRAIN_WITHIN|\bSeams\b|\bwalk\(|drain bound|ancestors\('
+
+[[pattern]]
+id = 'hookbudget'
+regex = 'provisionally 1\.0 s|spine-hook-budget'

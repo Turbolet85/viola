@@ -1,0 +1,85 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "c76de2ab",
+"ts": "2026-11-27T22:23:10Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-27-epoch-5-cleanup",
+"--date",
+"2026-11-27",
+"--run-dir",
+".andromeda/runs/2026-11-27T21-41-23Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-vrqgbqkp strip CARRY: 1258ch \"CARRY: (the operator's own word of 2026-\"",
+"pin cry-votx3z6o strip CARRY: 298ch \"CARRY: (the same word and record) (2) ki\"",
+"pin cry-pkiwuzk3 strip CARRY: 296ch \"CARRY: (the same word and record) (3) on\"",
+"pin cry-iusctbfm strip CARRY: 277ch \"CARRY: (the same word and record) (4) ki\"",
+"pin cry-ernnvzxq strip CARRY: 270ch \"CARRY: (the same word and record) (5) `s\"",
+"pin cry-cnhf6m4x strip CARRY: 305ch \"CARRY: (the same word and record) (6) th\"",
+"pin cry-6p6nf2vr strip CARRY: 237ch \"CARRY: (the same word and record) (7) on\"",
+"pin cry-3narsm6f strip CARRY: 711ch \"CARRY: (the overseer's technical placeme\"",
+"pin cry-34tej6i7 strip CARRY: 384ch \"CARRY: (the same word and record, the au\"",
+"pin next markerless chk-ohgzrkah holds CARRY:×1",
+"2026-11-27-epoch-5-cleanup · strip 9 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-27-epoch-5-cleanup pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "c76de2ab",
+"ts": "2026-11-27T22:23:18Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-27-epoch-5-cleanup",
+"--date",
+"2026-11-27",
+"--desc-file",
+".andromeda/runs/2026-11-27T21-41-23Z-wrap/master-desc.txt",
+"--run-dir",
+".andromeda/runs/2026-11-27T21-41-23Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-vrqgbqkp strip CARRY: 1258ch \"CARRY: (the operator's own word of 2026-\"",
+"pin cry-votx3z6o strip CARRY: 298ch \"CARRY: (the same word and record) (2) ki\"",
+"pin cry-pkiwuzk3 strip CARRY: 296ch \"CARRY: (the same word and record) (3) on\"",
+"pin cry-iusctbfm strip CARRY: 277ch \"CARRY: (the same word and record) (4) ki\"",
+"pin cry-ernnvzxq strip CARRY: 270ch \"CARRY: (the same word and record) (5) `s\"",
+"pin cry-cnhf6m4x strip CARRY: 305ch \"CARRY: (the same word and record) (6) th\"",
+"pin cry-6p6nf2vr strip CARRY: 237ch \"CARRY: (the same word and record) (7) on\"",
+"pin cry-3narsm6f strip CARRY: 711ch \"CARRY: (the overseer's technical placeme\"",
+"pin cry-34tej6i7 strip CARRY: 384ch \"CARRY: (the same word and record, the au\"",
+"pin next markerless chk-ohgzrkah holds CARRY:×1",
+"flip 2026-11-27-epoch-5-cleanup pending -> complete - desc REWRITTEN from --desc-file · tx 5193",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-27T19-39-16-2026-11-27-epoch-5-cleanup.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

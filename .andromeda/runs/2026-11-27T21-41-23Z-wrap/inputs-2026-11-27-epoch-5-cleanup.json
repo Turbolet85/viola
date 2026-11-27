@@ -1,0 +1,156 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-27T21:42:03Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-27-epoch-5-cleanup",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-e5-cleanup-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the overseer wrap directive: five items the close, the reconcile, route-resolve and the last card follow; the operator away, no dialog for him",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-27T21-41-23Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy no-repo · ../additional/viola-overseer/wrap-e5-cleanup-directive.md",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-wrap-e5-cleanup-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-e5-cleanup-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "47c4788dbc7f78e6afdd2a143853e729b9c7f3592f97c696423d3526da587035",
+"copy": "I7-wrap-e5-cleanup-directive.md.txt",
+"link": false,
+"read_at": "2026-11-27T21:42:03Z",
+"step": "wrap",
+"why": "the overseer wrap directive: five items the close, the reconcile, route-resolve and the last card follow; the operator away, no dialog for him"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-27T21:42:04Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-27-epoch-5-cleanup",
+"--run-dir",
+".andromeda/runs/2026-11-27T21-41-23Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-e5-cleanup-directive.md",
+"I1 cited scope.md:15 · research.md:10 · plan.md:201 · plan.md:446 (in fence) · plan.md:573 · report.md:64",
+"I2 n/a — a message has no live source · copy message · message: the Viola overseer, relayed in this session",
+"I2 cited plan.md:20 · plan.md:573 · plan.md:577 · plan.md:578 · report.md:64",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-e5-cleanup-f1.md",
+"I3 cited report.md:64",
+"I4 n/a — a message has no live source · copy message · message: the Viola overseer, relayed in this session",
+"I4 cited report.md:65 · report.md:68",
+"I5 n/a — a message has no live source · copy message · message: the Viola overseer",
+"I5 cited report.md:67 · report.md:80 · report.md:142",
+"I6 n/a — a message has no live source · copy message · message: the Viola overseer",
+"I6 cited report.md:222",
+"I7 unchanged · copy no-repo · ../additional/viola-overseer/wrap-e5-cleanup-directive.md",
+"I7 UNCITED",
+"inputs: 7 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-27T22:17:34Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-27-epoch-5-cleanup",
+"--message-file",
+".andromeda/runs/2026-11-27T21-41-23Z-wrap/relay-1.md",
+"--origin",
+"the Viola overseer (delegate)",
+"--kind",
+"relay",
+"--why",
+"the route-resolve card answer: the card stands; CI on 328c22d8 green 7 of 7 read by the overseer; the host free for the light gate",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-27T21-41-23Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I8 · copy message · message: the Viola overseer (delegate)",
+"cite: inputs#I8"
+],
+"stderr": null,
+"wrote": [
+"inputs/I8-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I8",
+"kind": "relay",
+"repo": null,
+"path": "message: the Viola overseer (delegate)",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "6f718a07016972b0fe75bb07ed7875165cc0adae2960b6c0463c09470f2f431e",
+"copy": "I8-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-27T22:17:33Z",
+"step": "wrap",
+"why": "the route-resolve card answer: the card stands; CI on 328c22d8 green 7 of 7 read by the overseer; the host free for the light gate"
+}
+}
+]

@@ -1,0 +1,2 @@
+@none
+reason: The chunk changes no user-facing surface or CLI wording: the shared start prologue and the one trusted() moved the checks unchanged with their order kept, viola up's refusals go through viola open's byte-identical refusal writer with codes, exits and texts unchanged, and the rest is tests, the nextest verify class and the operator-fired r2-open.sh script (fct-xoaulb66, fct-pla7hbyi, fct-nxkklnm2, fct-pbmtkmpr); every row of layout-templates this session touches stays true.

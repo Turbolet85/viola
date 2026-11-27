@@ -1,7 +1,0 @@
---- a/.andromeda/a11y-plan.md
-+++ b/.andromeda/a11y-plan.md
-@@ -180,3 +180,3 @@
- decision/printed-names-are-parsed-arguments · Printed names are the parsed arguments — Names printed in hints and in link result lines are the verb's own parsed ViolaName arguments, never names read back from a reply or the log.
--decision/respawn-reap-bound · A switch's reap wait is bounded at 10 s — A `viola switch` waits at most 10 s (RESPAWN_REAP_BOUND) for the old child to exit after its hang-up; a child not exited is not replaced, and the switch is refused not-delivered child-not-ended, exit 13. The bound falls on the wrapper, never on the human. · provisional
-+decision/respawn-reap-bound · A switch's reap wait is bounded at 10 s — A `viola switch` waits at most 10 s (RESPAWN_REAP_BOUND) for the old child to exit after its hang-up; a child not exited is not replaced, and the switch is refused not-delivered child-not-ended, exit 13. The bound falls on the wrapper, never on the human.
- decision/socket-dir-refusal-before-any-frame · Socket-directory refusal before any frame — A refused socket directory stops the verb before any frame, snapshot, child or bind and leaves the directory as found: exit 21 for the frame verbs, exit 1 for the run, revive and adopt start.

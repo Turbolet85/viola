@@ -8,6 +8,16 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-11-27 — A pump case that asserts a skipped drain consumes the output end first
+In `viola-pty`'s pump tests, a case that asserts the exit-path drain was skipped (the pump returns at once because
+the host output already ended) kills its mutant only when the run loop has consumed the output-ended message before
+the child exits. If the message is still queued at the exit, the exit-path drain reads it and returns at once too,
+so the mutant passes. The case's child therefore exits only on its third look after the test's flag, and the test
+sets that flag only after the reader has ended (`pump_returns_at_once_when_the_output_ended_before_the_exit`,
+chunk 2026-11-27-epoch-5-cleanup, its control held).
+
+---
+
 ## 2026-11-25 — Architecture holds verify's process-exit codes twice under one boundary name
 The architecture master keeps two families of `viola verify`'s process-exit codes, `contract/verify-process-exit/*`
 (Conventions) and `contract/verify-exit-detail/*` (Occupied Resources), both with the boundary «viola verify

@@ -1,0 +1,7 @@
+--- a/.andromeda/obs-plan.md
++++ b/.andromeda/obs-plan.md
+@@ -893,3 +893,3 @@
+ decision/session-end-hook-budget · session-end hook budget — viola hook session-end completes in under 1.0 s. · guard: gate --require perf
+-decision/spine-hook-budget · Spine hook budget — The spine hooks and pre-tool-use on an unverified CLI complete under the tests-owned spine deadline, provisionally 1.0 s. · guard: gate --require perf
++decision/spine-hook-budget · Spine hook budget — The spine hooks and pre-tool-use on an unverified CLI complete under the tests-owned spine deadline, 1.0 s. · guard: gate --require perf
+ decision/surviving-obs-mutant-fails · Surviving obs mutant is a failure — A surviving cargo-mutants mutant in obs code at a run --mutants (the epoch-boundary audit or on demand) counts as an SLO invariant failure. · except: A missed mutant the host never compiles is not counted as surviving.

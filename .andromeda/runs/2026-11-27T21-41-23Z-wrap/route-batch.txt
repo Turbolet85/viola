@@ -1,0 +1,5 @@
+@chunk as=s after=chk-bbv2rwbm
+Epoch 5 cleanup — the three splits, each read by the next boundary's audit no longer over its size or complexity ceiling
+
+@carry in=@s
+CARRY: (the same word and record) (6) the three splits: `upped` in `src/cmd/up.rs`; the restart code out of `crates/viola-pty/src/pump.rs`; the window and trust steps out of `src/cmd/run.rs`; the next audit's `complexity.over_ceiling` and `sizes.over_800` rows (its M2, M3) read those three no longer over
