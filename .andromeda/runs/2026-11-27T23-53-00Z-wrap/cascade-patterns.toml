@@ -1,4 +1,0 @@
-[[pattern]]
-id = 'inline'
-regex = 'inline (unit )?tests?|tests? (sit|live|stand)s? inline|same source file|inline `?mod tests|cfg\(test\) tests module'
-ignore_case = true

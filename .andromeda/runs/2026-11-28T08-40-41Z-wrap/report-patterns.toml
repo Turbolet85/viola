@@ -1,0 +1,55 @@
+[[pattern]]
+id = 'roles'
+regex = '(?i)ObsProcess|\b4 (process )?roles\b|\brun, hook, mcp,? (and |or )?cli\b|\brun · hook · mcp · cli\b'
+
+[[pattern]]
+id = 'events'
+regex = 'ObsEvent|LOG_FORMAT_EVENTS|\b16 (event|events|kinds|words)\b'
+
+[[pattern]]
+id = 'help-board'
+regex = 'list, focus|verb-groups'
+
+[[pattern]]
+id = 'catch-site'
+regex = '(?i)only run and cli|run and cli own|internal_error_exit_line|panic-outcome-by-role'
+
+[[pattern]]
+id = 'relied'
+regex = 'RELIED_COUNT|\b29 (relied )?rows\b|relied rows'
+
+[[pattern]]
+id = 'paste'
+regex = 'paste_text|paste_turn|framing_turns'
+
+[[pattern]]
+id = 'errbodies'
+regex = 'NOT_ERROR_BODIES|CLI_DOCUMENTS|contract_error_bodies'
+
+[[pattern]]
+id = 'causes'
+regex = 'cross_exit_causes'
+
+[[pattern]]
+id = 'masterfd'
+regex = '(?i)as_raw_fd|master.s fd|tcgetattr|ICANON'
+
+[[pattern]]
+id = 'diagdetail'
+regex = 'diag-detail'
+
+[[pattern]]
+id = 'a11y-static'
+regex = 'static-linear-output|cli-not-keyboard-interactive|cli-no-interactive-input'
+
+[[pattern]]
+id = 'obs-tui'
+regex = '(?i)interactive-terminal-interface|interactive terminal'
+
+[[pattern]]
+id = 'console'
+regex = '(?i)Surface: console|fleet console|viola console'
+
+[[pattern]]
+id = 'keyreader'
+regex = '(?i)key reader|raw mode'

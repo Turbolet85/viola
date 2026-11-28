@@ -1,0 +1,69 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "c76de2ab",
+"ts": "2026-11-28T09:31:49Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-28-console-scaffold",
+"--date",
+"2026-11-28",
+"--run-dir",
+".andromeda/runs/2026-11-28T08-40-41Z-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-h6vzhlce strip CARRY: 521ch \"CARRY: (re-pinned from «Epoch 4 cleanup»\"",
+"pin cry-boujwuyr strip CARRY: 509ch \"CARRY: (from «Epoch 4 cleanup», its carr\"",
+"pin next markerless chk-brrns5xl holds CARRY:×2",
+"2026-11-28-console-scaffold · strip 2 block(s) · spent in the spine",
+"dry-run · would flip 2026-11-28-console-scaffold pending -> complete"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "c76de2ab",
+"ts": "2026-11-28T09:31:54Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-28-console-scaffold",
+"--date",
+"2026-11-28",
+"--run-dir",
+".andromeda/runs/2026-11-28T08-40-41Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin cry-h6vzhlce strip CARRY: 521ch \"CARRY: (re-pinned from «Epoch 4 cleanup»\"",
+"pin cry-boujwuyr strip CARRY: 509ch \"CARRY: (from «Epoch 4 cleanup», its carr\"",
+"pin next markerless chk-brrns5xl holds CARRY:×2",
+"flip 2026-11-28-console-scaffold pending -> complete · tx 5329",
+"compacted 1 complete line(s) — their freight spent in the spine, no archive (U61)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T00-47-43-2026-11-28-console-scaffold.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

@@ -1,0 +1,255 @@
+[
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "39afbf07",
+"ts": "2026-11-28T08:41:20Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-28T08-40-41Z-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-28T08-40-41Z-wrap",
+"--marker",
+"2026-11-28-console-scaffold"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: dbb0c40e — the parent of the oldest pre-CI commit 6b2d86be",
+"Cargo.toml — added 5 line(s) in 1 range(s)",
+"crates/viola-agent-claude/src/ledger.rs — added 3 line(s) in 1 range(s)",
+"crates/viola-agent-claude/src/ledger/test_cases_stamps.rs — added 5 line(s) in 4 range(s)",
+"crates/viola-core/src/obs.rs — added 17 line(s) in 12 range(s)",
+"schemas/diag-detail.v1.json — added 2 line(s) in 2 range(s)",
+"schemas/diag-line.v1.json — added 11 line(s) in 5 range(s)",
+"src/cmd/console.rs — new file · 92 line(s)",
+"src/cmd/mod.rs — added 9 line(s) in 4 range(s)",
+"src/cmd/verify.rs — added 52 line(s) in 14 range(s)",
+"src/cmd/verify/typed/turns.rs — added 145 line(s) in 15 range(s)",
+"src/console/frame.rs — new file · 32 line(s)",
+"src/console/keys.rs — new file · 128 line(s)",
+"src/console/mod.rs — new file · 308 line(s)",
+"src/human.rs — added 4 line(s) in 2 range(s)",
+"src/human/console.rs — new file · 79 line(s)",
+"src/main.rs — added 3 line(s) in 2 range(s)",
+"src/obs.rs — added 11 line(s) in 4 range(s)",
+"tests/cli_output_plain.rs — added 2 line(s) in 2 range(s)",
+"tests/contract_diag_schema.rs — added 3 line(s) in 2 range(s)",
+"tests/contract_error_bodies.rs — added 10 line(s) in 1 range(s)",
+"tests/cross_exit_causes.rs — added 18 line(s) in 4 range(s)",
+"tests/tui_console.rs — new file · 288 line(s)",
+"new text: 22 file(s) · 6 new · 81 added range(s) · 1227 line(s) · 118 block(s) → .andromeda/runs/2026-11-28T08-40-41Z-wrap/new-text.md (163 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-28T08-40-41Z-wrap/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "dbb0c40e3af2e2d80a577c3568f9425f9fdf6982",
+"counts": {
+"files": 22,
+"new": 6,
+"ranges": 81,
+"lines": 1227,
+"blocks": 118
+},
+"out": ".andromeda/runs/2026-11-28T08-40-41Z-wrap/new-text.md",
+"state": "written",
+"lines": 163
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "39afbf07",
+"ts": "2026-11-28T08:44:03Z",
+"argv": [
+"apply",
+"--dry-run",
+"--run-dir",
+".andromeda/runs/2026-11-28T08-40-41Z-wrap",
+"--marker",
+"2026-11-28-console-scaffold"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: dbb0c40e — the previous sweep (2026-11-27T23-53-00Z-wrap)",
+"masters: rows — a row holds no citation",
+"sites 1 (bare \":digits\" 144) over 54 file(s) · unmoved 0 · moved 0 · stretched 0 · changed 0",
+"out-of-range 0 · unresolved 0 · new 1 · repointed 0 · hand 0 · held 0 · INDETERMINATE 0 · listed, not written 0",
+"rows: 0 owed a read — the cites batch reads them from this call's trail record",
+"dry-run · would land 0 fact(s) · 0 edge(s)",
+"dry-run: 0 citation(s) in 0 file(s) — nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"mode": "sweep",
+"base": "dbb0c40e3af2e2d80a577c3568f9425f9fdf6982",
+"counts": {
+"unmoved": 0,
+"moved": 0,
+"stretched": 0,
+"changed": 0,
+"out-of-range": 0,
+"unresolved": 0,
+"new": 1,
+"repointed": 0,
+"hand": 0,
+"INDETERMINATE": 0,
+"held": 0,
+"listed": 0
+},
+"rows": [],
+"applied": false,
+"owed": []
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "39afbf07",
+"ts": "2026-11-28T08:44:09Z",
+"argv": [
+"apply",
+"--run-dir",
+".andromeda/runs/2026-11-28T08-40-41Z-wrap",
+"--marker",
+"2026-11-28-console-scaffold"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: dbb0c40e — the previous sweep (2026-11-27T23-53-00Z-wrap)",
+"masters: rows — a row holds no citation",
+"sites 1 (bare \":digits\" 144) over 54 file(s) · unmoved 0 · moved 0 · stretched 0 · changed 0",
+"out-of-range 0 · unresolved 0 · new 1 · repointed 0 · hand 0 · held 0 · INDETERMINATE 0 · listed, not written 0",
+"rows: 0 owed a read — the cites batch reads them from this call's trail record",
+"landed 0 fact(s) · 0 edge(s) · tx 5291",
+"re-pointed 0 citation(s) in 0 file(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"mode": "sweep",
+"base": "dbb0c40e3af2e2d80a577c3568f9425f9fdf6982",
+"counts": {
+"unmoved": 0,
+"moved": 0,
+"stretched": 0,
+"changed": 0,
+"out-of-range": 0,
+"unresolved": 0,
+"new": 1,
+"repointed": 0,
+"hand": 0,
+"INDETERMINATE": 0,
+"held": 0,
+"listed": 0
+},
+"rows": [],
+"applied": true,
+"owed": []
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "39afbf07",
+"ts": "2026-11-28T08:44:16Z",
+"argv": [
+"dispositions",
+"--write",
+"--run-dir",
+".andromeda/runs/2026-11-28T08-40-41Z-wrap",
+"--marker",
+"2026-11-28-console-scaffold"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dispositions: 0 row(s) · ",
+".andromeda/runs/2026-11-28T08-40-41Z-wrap/citation-dispositions.md (1 lines) · written",
+"hand re-points: 0 written in 0 file(s) · 0 already written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-28T08-40-41Z-wrap/citation-dispositions.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"rows": 0,
+"tally": {},
+"state": "written"
+}
+},
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "39afbf07",
+"ts": "2026-11-28T09:27:53Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-28T08-40-41Z-wrap/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-28T08-40-41Z-wrap",
+"--marker",
+"2026-11-28-console-scaffold"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: dbb0c40e — the parent of the oldest pre-CI commit 6b2d86be",
+"Cargo.toml — added 5 line(s) in 1 range(s)",
+"crates/viola-agent-claude/src/ledger.rs — added 3 line(s) in 1 range(s)",
+"crates/viola-agent-claude/src/ledger/test_cases_stamps.rs — added 5 line(s) in 4 range(s)",
+"crates/viola-core/src/obs.rs — added 17 line(s) in 12 range(s)",
+"schemas/diag-detail.v1.json — added 2 line(s) in 2 range(s)",
+"schemas/diag-line.v1.json — added 11 line(s) in 5 range(s)",
+"src/cmd/console.rs — new file · 92 line(s)",
+"src/cmd/mod.rs — added 9 line(s) in 4 range(s)",
+"src/cmd/verify.rs — added 52 line(s) in 14 range(s)",
+"src/cmd/verify/typed/turns.rs — added 145 line(s) in 15 range(s)",
+"src/console/frame.rs — new file · 32 line(s)",
+"src/console/keys.rs — new file · 128 line(s)",
+"src/console/mod.rs — new file · 308 line(s)",
+"src/human.rs — added 4 line(s) in 2 range(s)",
+"src/human/console.rs — new file · 79 line(s)",
+"src/main.rs — added 3 line(s) in 2 range(s)",
+"src/obs.rs — added 11 line(s) in 4 range(s)",
+"tests/cli_output_plain.rs — added 2 line(s) in 2 range(s)",
+"tests/contract_diag_schema.rs — added 3 line(s) in 2 range(s)",
+"tests/contract_error_bodies.rs — added 10 line(s) in 1 range(s)",
+"tests/cross_exit_causes.rs — added 18 line(s) in 4 range(s)",
+"tests/tui_console.rs — new file · 288 line(s)",
+"new text: 22 file(s) · 6 new · 81 added range(s) · 1227 line(s) · 118 block(s) → .andromeda/runs/2026-11-28T08-40-41Z-wrap/new-text.md (163 lines) · unchanged"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"base": "dbb0c40e3af2e2d80a577c3568f9425f9fdf6982",
+"counts": {
+"files": 22,
+"new": 6,
+"ranges": 81,
+"lines": 1227,
+"blocks": 118
+},
+"out": ".andromeda/runs/2026-11-28T08-40-41Z-wrap/new-text.md",
+"state": "unchanged",
+"lines": 163
+}
+}
+]

@@ -1,0 +1,100 @@
+@pick n=1 row=contract/trust-writer-words/config-absent v=no
+@pick n=2 row=contract/trust-writer-words/config-dir-unusable v=no
+@pick n=3 row=contract/trust-writer-words/config-foreign v=no
+@pick n=4 row=contract/trust-writer-words/config-link v=no
+@pick n=5 row=contract/trust-writer-words/config-malformed v=no
+@pick n=6 row=contract/trust-writer-words/config-not-regular v=no
+@pick n=7 row=contract/trust-writer-words/config-oversize v=no
+@pick n=8 row=contract/trust-writer-words/config-unreadable v=no
+@pick n=9 row=contract/trust-writer-words/home-unknown v=no
+@pick n=10 row=contract/trust-writer-words/key-present v=no
+@pick n=11 row=contract/trust-writer-words/lock-held v=no
+@pick n=12 row=contract/trust-writer-words/lost v=no
+@pick n=13 row=contract/trust-writer-words/removed v=no
+@pick n=14 row=contract/trust-writer-words/written v=no
+@pick n=15 row=contract/viola-open-exit-codes/0 v=no
+@pick n=16 row=contract/viola-open-exit-codes/1 v=no
+@pick n=17 row=contract/viola-open-exit-codes/2 v=no
+@pick n=18 row=contract/wrapper-channel-frames/conn v=no
+@pick n=19 row=contract/wrapper-channel-frames/envelope v=no
+@pick n=20 row=contract/wrapper-channel-frames/id-less-frames v=no
+@pick n=21 row=contract/wrapper-channel-frames/max-frame v=no
+@pick n=22 row=contract/wrapper-channel-frames/ok-result v=no
+@pick n=23 row=contract/wrapper-channel-frames/refusal-result v=no
+@pick n=24 row=contract/wrapper-channel-frames/unsupported-protocol-version v=no
+@pick n=25 row=contract/wrapper-event-appends/launch v=no
+@pick n=26 row=contract/wrapper-event-appends/link v=no
+@pick n=27 row=contract/wrapper-event-appends/send-records v=no
+@pick n=28 row=contract/wrapper-event-appends/unlink v=no
+@pick n=29 row=contract/wrapper-event-appends/wheel v=no
+@pick n=30 row=contract/wrapper-event-appends/window v=no
+@pick n=31 row=decision/automatic-verify-attempt-lock v=no
+@pick n=32 row=decision/board-refused-whole v=no
+@pick n=33 row=decision/chaos-home-outside-gates v=no
+@pick n=34 row=decision/child-env-claude-strip v=no
+@pick n=35 row=decision/chunk-diff-secret-scan-skip v=no
+@pick n=36 row=decision/claude-env-stripped-from-child v=no
+@pick n=37 row=decision/claude-flag-literals-in-agent-crate v=no
+@pick n=38 row=decision/cleanup-reads-refused-or-missing-socket-gone v=no
+@pick n=39 row=decision/codes-only-role-logs v=yes mode=add-to fact=F3
+@pick n=40 row=decision/colour-env-decides-only-sgr v=yes mode=stale
+@pick n=41 row=decision/config-bad-value-falls-back v=no
+@pick n=42 row=decision/config-falls-back-to-defaults v=no
+@pick n=43 row=decision/config-keys-match-schema v=no
+@pick n=44 row=decision/connect-to-recorded-endpoint v=no
+@pick n=45 row=decision/default-launch-pair v=no
+@pick n=46 row=decision/dev-host-e2e-home-on-tmpfs v=no
+@pick n=47 row=decision/diagnostics-open-checks-modes v=no
+@pick n=48 row=decision/e2e-home-headroom-floor v=no
+@pick n=49 row=decision/e2e-home-owner-only-headroom v=no
+@pick n=50 row=decision/e2e-noop-fake-agent-feature v=no
+@pick n=51 row=decision/end-to-end-homes-kept-after-each-job v=no
+@pick n=52 row=decision/env-strip-names-only v=no
+@pick n=53 row=decision/env-strip-reads-names-only v=no
+@pick n=54 row=decision/events-log-never-rotated v=no
+@pick n=55 row=decision/events-log-never-truncated v=no
+@pick n=56 row=decision/fake-agent-feature-on-named-members v=no
+@pick n=57 row=decision/fake-agent-hook-panic-seam v=no
+@pick n=58 row=decision/fake-agent-pump-delay-seam v=no
+@pick n=59 row=decision/harness-env-unread-by-product v=no
+@pick n=60 row=decision/hook-missing-instance-dir-exits-silently v=no
+@pick n=61 row=decision/linked-e2e-home-base-strict v=no
+@pick n=62 row=decision/list-home-read-rule v=yes mode=add-to fact=F2
+@pick n=63 row=decision/logged-session-id-on-child-argv v=no
+@pick n=64 row=decision/mcp-subcommand-hidden v=no
+@pick n=65 row=decision/mutants-own-target-dir v=no
+@pick n=66 row=decision/mutation-scratch-nocow v=no
+@pick n=67 row=decision/no-abstract-namespace-sockets v=no
+@pick n=68 row=decision/no-after-every-test-error-body-helper v=yes mode=add-to fact=F2
+@pick n=69 row=decision/no-deletion-of-pinned-copies v=no
+@pick n=70 row=decision/no-live-claude-in-ci v=no
+@pick n=71 row=decision/path-under-a-file-is-a-strict-modes-refusal v=no
+@pick n=72 row=decision/pinned-binary-copy v=no
+@pick n=73 row=decision/plugin-carries-no-hooks v=no
+@pick n=74 row=decision/plugin-env-vars-unused v=no
+@pick n=75 row=decision/plugin-install-rewrites-marketplace-whole v=no
+@pick n=76 row=decision/probe-capture-arms-inert v=no
+@pick n=77 row=decision/process-logs-hold-codes-only v=yes mode=add-to fact=F3
+@pick n=78 row=decision/profraw-census-dev-host-only v=no
+@pick n=79 row=decision/recorded-fixtures-scrubbed v=no
+@pick n=80 row=decision/recorded-pair-on-child-argv v=no
+@pick n=81 row=decision/refused-check-writes-no-line v=yes mode=add-to fact=F2
+@pick n=82 row=decision/revive-pair-from-record v=no
+@pick n=83 row=decision/root-tests-freeze-wrappers-with-one-guard v=no
+@pick n=84 row=decision/root-waits-share-one-bound v=yes mode=stale
+@pick n=85 row=decision/run-archive-never-uploaded v=no
+@pick n=86 row=decision/run-pins-checked-bytes v=no
+@pick n=87 row=decision/same-user-peers-only v=no
+@pick n=88 row=decision/screen-fixtures-signature-rows-only v=no
+@pick n=89 row=decision/secret-scan-skips-only-chunk-diff v=no
+@pick n=90 row=decision/session-home-from-viola-dir v=no
+@pick n=91 row=decision/socket-dir-owner-only v=no
+@pick n=92 row=decision/socket-file-owner-only v=no
+@pick n=93 row=decision/socket-in-per-user-dir v=no
+@pick n=94 row=decision/stale-socket-file-left v=no
+@pick n=95 row=decision/stamps-single-writer v=yes mode=stale
+@pick n=96 row=decision/strict-check-before-log-open v=yes mode=add-to fact=F2
+@pick n=97 row=decision/strict-modes-check-before-log v=yes mode=add-to fact=F2
+@pick n=98 row=decision/strict-read-rule v=yes mode=add-to fact=F2
+@pick n=99 row=decision/test-binaries-never-released v=no
+@pick n=100 row=decision/test-endpoints-outside-namespace v=no

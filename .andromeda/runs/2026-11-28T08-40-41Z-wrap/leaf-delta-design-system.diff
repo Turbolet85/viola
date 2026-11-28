@@ -1,0 +1,33 @@
+--- a/.andromeda/design-system.md
++++ b/.andromeda/design-system.md
+@@ -87,3 +87,3 @@
+ decision/linux-terminal-platform · Linux terminals as the CLI platform — The cli targets Linux terminals: the core on any current distribution, CI on `ubuntu-latest`.
+-decision/list-is-the-board · viola list is the board — `viola list` is the board, `verify` and `plugin install` act on no strip, `up` acts on the whole fleet or on the instances it names, and every other verb a person runs acts on one strip.
++decision/list-is-the-board · viola list is the board — `viola list` is the board, `verify`, `plugin install` and `console` act on no strip, `up` acts on the whole fleet or on the instances it names, and every other verb a person runs acts on one strip.
+ decision/list-refuses-board-on-strict-modes-failure · Strict-modes failure refuses the whole board — A failed strict-modes check of the home or any instance refuses the whole list board with exit 21, in the fixed unable and hint pair or, under --json, the instance-unreachable document with detail strict-modes-failed. · why: The MCP list tool reads the same refusal document through the shared board reader, and the list tests pin exit 21 and the document byte for byte.
+@@ -137,3 +137,3 @@
+ contract/cli-message-escaping/json · CLI message-mode escaping · --json — `--json` output stays serde-escaped.
+-contract/cli-refusal-line/fixed-unable-form · CLI refusal line · fixed unable form — The exit-1 refusals of `run`, `revive`, `adopt`, `open`, `focus`, `up` and `verify` and the exit-21 strict-modes refusals of `list`, `link`, `unlink`, `focus`, `send`, `wait`, `last`, `answer`, `pause`, `release` and `switch` print the fixed `unable: <text>` form.
++contract/cli-refusal-line/fixed-unable-form · CLI refusal line · fixed unable form — The exit-1 refusals of `run`, `revive`, `adopt`, `open`, `focus`, `up`, `verify` and `console` and the exit-21 strict-modes refusals of `list`, `link`, `unlink`, `focus`, `send`, `wait`, `last`, `answer`, `pause`, `release` and `switch` print the fixed `unable: <text>` form.
+ contract/cli-refusal-line/hint · CLI refusal line · hint — A refusal is followed directly by one `hint:` line per reason, detail or cause.
+@@ -160,3 +160,3 @@
+ contract/exit-21-cause/unwrapped-name · exit 21 cause · unwrapped-name — One of the closed set of causes named in exit 21's `detail`.
+-contract/help-output/verb-groups · viola --help output · verb groups — `viola --help` lists the served verbs as `board: list, focus` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: open, run, revive, adopt, up, switch, verify, plugin install`, then `Options:`.
++contract/help-output/verb-groups · viola --help output · verb groups — `viola --help` lists the served verbs as `board: list, focus, console` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: open, run, revive, adopt, up, switch, verify, plugin install`, then `Options:`.
+ contract/hook-verb/exit-code · The hook verb · exit code — `hook` always exits 0.
+@@ -189,2 +189,4 @@
+ contract/viola-adopt-refusals/session-live · viola adopt refusals · session-live — A session open in another `claude` is refused with exit 1 and no child started: `unable: that session is open in another claude` then `hint: close it there first, then adopt it again`.
++contract/viola-console-refusals/home-refused · viola console refusals · home failing its read rule — A home failing its read rule refuses `viola console` with exit 1: `unable: viola console could not use its home` then `hint: make the viola home readable by you alone, then run viola console again`; no line is written and the mode is left as found.
++contract/viola-console-refusals/no-terminal · viola console refusals · no terminal — With stdin or stdout not a terminal, `viola console` exits 1 before any home read with `unable: viola console needs a terminal` then `hint: run viola console in a terminal window`.
+ contract/viola-focus-exit-1-codes/malformed · viola focus exit-1 codes · malformed — `malformed` is one of the six closed exit-1 codes of `viola focus`: under `--json` `{"v":1,"error":"malformed","detail":null}`, in human mode its fixed `unable:` / `hint:` pair.
+@@ -312,3 +314,3 @@
+ contract/strict-modes/home-under-regular-file · strict-modes refusals · home under a regular file — A home under a regular file cannot be read and is a strict-modes refusal, not the catch-site line: `verify` prints the home-state pair (exit 1), the frame verbs the instance-state pair (exit 21).
+-contract/viola-help/verb-groups · viola --help · verb groups — `viola --help` lists the served verbs only, grouped `board: list, focus` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: open, run, revive, adopt, up, switch, verify, plugin install`, then `Options:`.
++contract/viola-help/verb-groups · viola --help · verb groups — `viola --help` lists the served verbs only, grouped `board: list, focus, console` / `traffic: send, wait, last, answer` / `wheel: pause, release` / `handoff: link, unlink` / `setup: open, run, revive, adopt, up, switch, verify, plugin install`, then `Options:`.
+ contract/viola-link-json/ok · viola link --json · ok — Exit 0 prints `{"v":1,"ok":{"since":<ts>,"already_linked":<bool>}}`, `<ts>` the time the wrapper recorded the link.
+@@ -402 +404,5 @@
+ decision/swap-test · Swap test — Before UI output is presented, a design that would not feel meaningfully different with a default typeface, default colours and a standard layout is redone with intent.
++## design-system · surface-console
++contract/fleet-console-keys/ctrl-c · Fleet console keys · Ctrl-C — Ctrl-C ends the fleet console with exit 0.
++contract/fleet-console-keys/q · Fleet console keys · q — `q` quits the fleet console with exit 0.
++contract/fleet-console-keys/unbound · Fleet console keys · any other key — Every key other than `q` and Ctrl-C is unbound and ignored; the end of the console's input also ends it with exit 0.

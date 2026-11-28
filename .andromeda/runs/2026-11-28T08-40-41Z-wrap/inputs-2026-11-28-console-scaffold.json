@@ -1,0 +1,209 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T08:41:16Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-console-scaffold",
+"--source",
+"~/dev/projects/additional/viola-overseer/wrap-console-scaffold-directive.md",
+"--kind",
+"sibling",
+"--why",
+"the wrap directive of the overseer, the operator away: six items the close, the card, the route dialog and the last card follow",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T08-40-41Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I7 · copy no-repo · ../additional/viola-overseer/wrap-console-scaffold-directive.md",
+"cite: inputs#I7"
+],
+"stderr": null,
+"wrote": [
+"inputs/I7-wrap-console-scaffold-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I7",
+"kind": "sibling",
+"repo": null,
+"path": "../additional/viola-overseer/wrap-console-scaffold-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "8c9a7a7bad20984beefb9071d30d625596d4032815fb5fee149fb4b93771bddd",
+"copy": "I7-wrap-console-scaffold-directive.md.txt",
+"link": false,
+"read_at": "2026-11-28T08:41:16Z",
+"step": "wrap",
+"why": "the wrap directive of the overseer, the operator away: six items the close, the card, the route dialog and the last card follow"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T08:41:17Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-28-console-scaffold",
+"--run-dir",
+".andromeda/runs/2026-11-28T08-40-41Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-console-scaffold-directive.md",
+"I1 cited scope.md:7 · scope.md:18 · scope.md:33 · scope.md:81 · research.md:11 · plan.md:175 · plan.md:301 (in fence) · plan.md:431",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-console-forks.md",
+"I2 cited scope.md:85 · scope.md:86 · research.md:90 · research.md:93 · plan.md:9 · plan.md:13 · plan.md:144 · plan.md:431 · plan.md:456 · report.md:79",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-console-f3b.md",
+"I3 cited scope.md:87 · research.md:90 · research.md:106 · plan.md:11 · plan.md:66 · plan.md:431 · plan.md:436 · plan.md:465",
+"I4 n/a — a message has no live source · copy message · message: the overseer, its review word on p5-card-3",
+"I4 cited plan.md:18 · plan.md:63 · plan.md:478",
+"I5 n/a — a message has no live source · copy message · message: the overseer, its yes on p5-card-4",
+"I5 cited report.md:80",
+"I6 n/a — a message has no live source · copy message · message: the /andromeda-implement invocation arguments (the overseer, the operator away)",
+"I6 cited report.md:79 · report.md:153",
+"I7 unchanged · copy no-repo · ../additional/viola-overseer/wrap-console-scaffold-directive.md",
+"I7 UNCITED",
+"inputs: 7 entries — unchanged 4 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 1 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 4,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 1,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T09:17:43Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-console-scaffold",
+"--message-file",
+".andromeda/runs/2026-11-28T08-40-41Z-wrap/relay-1.md",
+"--origin",
+"the overseer (viola-overseer), its answers to the wrap card Q1 and Q2",
+"--kind",
+"relay",
+"--why",
+"Q1 confirms F2 five rows inside his answer; Q2 makes the Surface: console area, delegate",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T08-40-41Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I8 · copy message · message: the overseer (viola-overseer), its answers to the wrap card Q1 and Q2",
+"cite: inputs#I8"
+],
+"stderr": null,
+"wrote": [
+"inputs/I8-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I8",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer (viola-overseer), its answers to the wrap card Q1 and Q2",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "facb92ee0a5b260e742e7a954a0442e25bb2c0976a54a6b1b511967a9d33eed0",
+"copy": "I8-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-28T09:17:43Z",
+"step": "wrap",
+"why": "Q1 confirms F2 five rows inside his answer; Q2 makes the Surface: console area, delegate"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T09:26:55Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-console-scaffold",
+"--message-file",
+".andromeda/runs/2026-11-28T08-40-41Z-wrap/relay-2.md",
+"--origin",
+"the overseer (viola-overseer), its answer to the wrap route dialog",
+"--kind",
+"relay",
+"--why",
+"the scaffold learnings pinned as CARRYs on Fleet console view and Console actions, delegate",
+"--step",
+"wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T08-40-41Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I9 · copy message · message: the overseer (viola-overseer), its answer to the wrap route dialog",
+"cite: inputs#I9"
+],
+"stderr": null,
+"wrote": [
+"inputs/I9-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I9",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer (viola-overseer), its answer to the wrap route dialog",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "515dd6b92203804ecf27f9ba19c2b38ad54e51f66a3a85cc39983bd35f66129a",
+"copy": "I9-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-28T09:26:54Z",
+"step": "wrap",
+"why": "the scaffold learnings pinned as CARRYs on Fleet console view and Console actions, delegate"
+}
+}
+]

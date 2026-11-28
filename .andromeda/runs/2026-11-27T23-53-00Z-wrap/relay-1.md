@@ -1,1 +1,0 @@
-Answer to the wrap's route-resolve dialog: "Confirm as read (Recommended)" — notes: delegate viola-overseer (technical, 2026-11-28T00:21:19Z): the route as read. CI on the pre-CI commit 1646c5bf read green 7 of 7 by the overseer (ci#46084813468, 685 s). The host is yours for the light gate.

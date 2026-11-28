@@ -1,0 +1,32 @@
+--- a/.andromeda/a11y-plan.md
++++ b/.andromeda/a11y-plan.md
+@@ -4,3 +4,3 @@
+ decision/ci-test-gate-no-skips · CI test gate allows no skips — The CI test job's gate requires coverage and doctest and never allows skips.
+-decision/cli-not-keyboard-interactive · CLI not keyboard-interactive — The CLI has no prompt, TUI mode or pager; its input comes only from stdin or --file.
++decision/cli-not-keyboard-interactive · CLI not keyboard-interactive — The CLI has no prompt, TUI mode or pager; its input comes only from stdin or --file. · except: the terminal fleet console (`viola console`), its own surface, which reads keys from stdin in raw mode
+ decision/cognitive-accessibility-not-triggered · Cognitive accessibility not triggered — The cognitive-accessibility trigger is none: no cognitive-accessibility rigor is required. · why: the brief has no cognitive, older-user or language-proficiency signal
+@@ -23,3 +23,3 @@
+ decision/single-vendor-content-boundary · Single vendor-content boundary — The viola run TUI passthrough, which a passed viola revive also enters, is the only boundary-only vendor-content zone.
+-decision/static-linear-output · Static linear output — viola's own output is static and linear, with no spinner or redraw.
++decision/static-linear-output · Static linear output — viola's own output is static and linear, with no spinner or redraw. · except: the terminal fleet console (`viola console`), its own surface, which redraws its frame when the terminal's size changes
+ decision/terminal-structural-equivalents · Terminal structural equivalents of ARIA roles — In place of ARIA roles, terminal structure is carried by the caption line, the unwrapped separator, the `-- LINKS --` separator of the related links, the plain-space NAME indent of tree depth and the --help group labels.
+@@ -68,3 +68,3 @@
+ contract/link-unlink/result-line · viola link and viola unlink · result line — `viola link` and `viola unlink` each print one plain-ASCII result line in one write, with no SGR in any mode.
+-contract/log-identity/process · log identity tags · process — `process:"cli"` for short-lived verbs with a resolved instance; `process:"run"` with `instance:<ViolaName>` for `viola run` and a `viola adopt` start.
++contract/log-identity/process · log identity tags · process — `process:"cli"` for short-lived verbs with a resolved instance; `process:"run"` with `instance:<ViolaName>` for `viola run` and a `viola adopt` start; `process:"console"` with no instance for `viola console`.
+ contract/log-identity/service-name · log identity tags · service_name — Records carry `service_name:"viola"` and `version`.
+@@ -130,3 +130,3 @@
+ N/A — viola has no web or graphical frontend; the terminal fleet console's keyboard reach is the route entry «Fleet a11y verification»'s.
+-decision/cli-no-interactive-input · No interactive CLI input — The CLI has no interactive prompt, pager or redraw, and takes input only from stdin or `--file`.
++decision/cli-no-interactive-input · No interactive CLI input — The CLI has no interactive prompt, pager or redraw, and takes input only from stdin or `--file`. · except: the terminal fleet console (`viola console`), its own surface, which reads keys from stdin in raw mode and redraws on a resize
+ decision/tui-terminal-belongs-to-child · Tui terminal belongs to the child — On the tui, the terminal belongs to the wrapped child process, not to viola.
+@@ -183,3 +183,3 @@
+ decision/start-verify-stop-grace-off-the-human · Start's verify stop grace never falls on the human — The start's verify stop grace, the wait before a stopped start's verify child is killed, falls on viola's own child, never blocking, refusing or delaying a human key and never moving the wheel.
+-decision/strict-modes-refusal-before-any-write · Strict-modes refusal before any write — A home or instance failing the strict-modes check is refused first, before any log opens, frame is sent or child starts, with no line written: exit 21 for frame verbs, link/unlink and focus, exit 1 for run, revive's and adopt's start and verify.
++decision/strict-modes-refusal-before-any-write · Strict-modes refusal before any write — A home or instance failing the strict-modes check is refused first, before any log opens, frame is sent or child starts, with no line written: exit 21 for frame verbs, link/unlink and focus, exit 1 for run, revive's and adopt's start, verify and console.
+ decision/thiserror-messages-interpolate-nothing · thiserror messages interpolate nothing — No thiserror message interpolates a value. · guard: thiserror_messages_interpolate_nothing
+@@ -196,3 +196,3 @@
+ contract/cli-exit-codes/21 · CLI exit codes · 21 — instance-unreachable: a frame verb, viola focus before any compositor read, or viola up on the board's strict-modes refusal, was refused before reaching the instance, the cause in detail.
+-contract/cli-fixed-message/form · CLI fixed-message refusal · form — viola revive's exit-1 refusals, viola adopt's strict-modes-failed, session-live and not-resumed refusals, viola run's socket-directory refusal and viola verify's untrusted-folder refusal print one unable: <text> line, then one hint: line last.
++contract/cli-fixed-message/form · CLI fixed-message refusal · form — viola revive's exit-1 refusals, viola adopt's strict-modes-failed, session-live and not-resumed refusals, viola run's socket-directory refusal, viola verify's untrusted-folder refusal and viola console's two refusals print one unable: <text> line, then one hint: line last.
+ contract/cli-refusal/stderr-layout · CLI refusal · stderr layout — unable  <reason>  <detail> on stderr, then hint: as the last stderr line, with a typed exit code.

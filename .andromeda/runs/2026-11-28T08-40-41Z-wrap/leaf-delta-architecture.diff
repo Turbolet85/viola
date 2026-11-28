@@ -1,0 +1,28 @@
+--- a/.andromeda/architecture.md
++++ b/.andromeda/architecture.md
+@@ -74,4 +74,4 @@
+ decision/cli-capability-ledger · Per-behaviour CLI capability ledger — Every load-bearing Claude Code CLI behaviour viola relies on is a row of a closed capability ledger, probed by viola verify and stamped per CLI version; a CLI version is verified only when every relied row of its stamp reads pass, or absent on browser-tools-prompt alone. · why: The docs lag the installed build, and several load-bearing behaviours are measured, not documented. · except: StopFailure is registered with no ledger row and no verify probe.
+-decision/cli-human-text-json-exit-codes · Human text by default, --json for agents — CLI verbs print human text by default and a machine document under --json, with a typed exit code per refusal; without --json the human output is unchanged. · why: Agents need machine-parseable refusals.
+-decision/cli-output-conventions · Human text by default, --json for agents — The CLI prints human text by default and `--json` for agents, with a typed exit code per refusal. · why: Agents need machine-parseable refusals.
++decision/cli-human-text-json-exit-codes · Human text by default, --json for agents — CLI verbs print human text by default and a machine document under --json, with a typed exit code per refusal; without --json the human output is unchanged. · why: Agents need machine-parseable refusals. · except: viola console, the terminal fleet console's own surface, takes no --json and draws its own screen.
++decision/cli-output-conventions · Human text by default, --json for agents — The CLI prints human text by default and `--json` for agents, with a typed exit code per refusal. · why: Agents need machine-parseable refusals. · except: viola console, the terminal fleet console's own surface, takes no --json and draws its own screen.
+ decision/closed-non-editing-byte-list · Closed list of non-editing bytes — Only a closed list of focus reports, mouse reports and terminal replies, each by exact grammar, never takes the wheel; every other byte does, a key answering the CLI's session-feedback survey included, and a reply no terminal was measured to write is not added on a guess. · why: Terminal replies read as typing took the wheel from a live driver with no key typed.
+@@ -383,3 +383,3 @@
+ contract/cli-exit-codes/0 · CLI exit codes · 0 — ok.
+-contract/cli-exit-codes/1 · CLI exit codes · 1 — Internal error, and the start, revive-preflight, open, focus, up and verify refusals, a refused home-tree check or socket directory of the start among them, each an unable and hint pair on stderr with no path, or under --json one refusal document; also an up whose lines are not all successes.
++contract/cli-exit-codes/1 · CLI exit codes · 1 — Internal error; the start, revive-preflight, open, focus, up, verify and console refusals, a refused home-tree check or socket directory of the start among them, each an unable and hint pair on stderr with no path, or under --json one refusal document; also an up whose lines are not all successes.
+ contract/cli-exit-codes/10 · CLI exit codes · 10 — The `human-typing` refusal.
+@@ -944,2 +944,3 @@
+ name/command/answer — answer
++name/command/console — console
+ name/command/focus — focus
+@@ -1015,3 +1016,3 @@
+ decision/cli-verbs-human-stderr · Short-lived CLI verbs may use stderr — Short-lived CLI verbs may use stderr for their human output.
+-decision/codes-only-process-logs · Codes-only process logs per role — Every role's codes-only process log goes to its home-level role file under diagnostics (run, hook, mcp or cli ndjson).
++decision/codes-only-process-logs · Codes-only process logs per role — Every role's codes-only process log goes to its home-level role file under diagnostics (run, hook, mcp, cli or console ndjson).
+ decision/config-precedence · Configuration precedence — CLI flags override the viola home's config.json, which overrides built-in defaults; config.json is parsed tolerantly and carries v.
+@@ -1048,3 +1049,3 @@
+ decision/modular-monolith-no-daemon · Modular monolith, no daemon — The product is one binary with compiler-enforced internal crates (pty, channel, state, agent-claude, mcp around core) and no daemon.
+-decision/new-capabilities-as-verbs · New capabilities as subcommands or channel verbs — New capabilities arrive as subcommands or channel verbs exposed consistently on the CLI with --json and, where a driver needs them, as MCP tools.
++decision/new-capabilities-as-verbs · New capabilities as subcommands or channel verbs — New capabilities arrive as subcommands or channel verbs exposed consistently on the CLI with --json and, where a driver needs them, as MCP tools. · except: viola console, the human's terminal fleet console, takes no --json.
+ decision/second-agent-sibling-crate · A second driven agent as a sibling crate — A second driven agent arrives as a sibling viola-agent crate, at which point the adapter trait is extracted into viola-core.
