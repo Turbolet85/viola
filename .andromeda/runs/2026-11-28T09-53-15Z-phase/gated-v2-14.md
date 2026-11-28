@@ -1,1 +1,0 @@
-the operator's live reading of viola console on his Hyprland host — the window opens tiled, stays whole and usable at a quarter of the screen and keeps the fleet current — at a moment he names (chunks/2026-11-28-fleet-console-view/inputs/I3-relay-console-view-forks.md.txt)

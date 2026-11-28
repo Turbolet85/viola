@@ -1,0 +1,78 @@
+[
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T13:21:59Z",
+"argv": [
+"query",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-28T12-37-34Z-wrap",
+"select * from blocked"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"status\tmarker\tversion\tblock",
+"pending\t2026-11-28-fleet-console-view\tviola-0.2.0\tBLOCKED-ON: the operator's live reading of viola console on his Hyprland host — the window opens tiled, stays whole and usable at a quarter of the screen and keeps the fleet current — at a moment he names (chunks/2026-11-28-fleet-console-view/inputs/I3-relay-console-view-forks.md.txt)",
+"markerless\tThe fleet on the founder's host\tviola-0.2.0\tBLOCKED-ON: R4, viola up once on a real compositor over a planted fleet (R4a) and once after a real reboot over a real parent and child (R4b), at the operator host, unlocked, its moments his to name (founder-forks U1-U5)",
+"2 row(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T13:26:39Z",
+"argv": [
+"outputs",
+"land",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-28T12-37-34Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed tx 5402 · 1202 record(s) of 156 payload(s)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-26-38-2026-11-28T12-37-34Z-wrap.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T13:26:46Z",
+"argv": [
+"seal",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-28T12-37-34Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"sealed 2026-11-28T08-40-41Z-wrap · 219 file(s) · 2026-11-28T08-40-41Z-wrap.parquet · tx 5403 · 219 removed · 299 set aside",
+"sealed 2026-11-28T09-53-15Z-phase · 394 file(s) · 2026-11-28T09-53-15Z-phase.parquet · tx 5404 · 394 removed · 534 set aside",
+"sealed 2026-11-28T12-01-10Z-implement · 9 file(s) · 2026-11-28T12-01-10Z-implement.parquet · tx 5405 · 9 removed · 0 set aside",
+"seal · 3 run(s) · own 2026-11-28T12-37-34Z-wrap left as files"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

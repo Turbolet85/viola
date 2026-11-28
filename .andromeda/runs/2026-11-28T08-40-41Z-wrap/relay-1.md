@@ -1,3 +1,0 @@
-Q1 (the answer card, F2): «Confirm all five (Recommended)» — notes: delegate viola-overseer (2026-11-28T09:17:19Z): confirmed — each of the five lies inside the operator's own F2 answer (his dialog, read 2026-11-28T07:20:23Z), whose chosen option named the four rows and said the obs absence leaves for a console decision row with the named exception. They land as HIS. The nine exceptions outside the four stay in founder-forks.md, not landed.
-
-Q2 (the new area): «Make Surface: console (Recommended)» — notes: delegate viola-overseer (technical, 2026-11-28T09:17:19Z): make the area — the route entry's own head orders «its surface section»; the five rows under it, PROVISIONAL for the epoch batch but for the 80x24 floor, which is his Q1.

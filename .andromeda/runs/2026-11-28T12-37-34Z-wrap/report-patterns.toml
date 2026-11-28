@@ -1,0 +1,21 @@
+# Phase 1 site sweep — one pattern per moved fact of the report (Counts / qualifiers moved)
+
+# F1: console-frame's fields 3 -> 5 (cols, rows, fits, then shown, hidden); name token console-frame
+[[pattern]]
+id = 'frame-fields'
+regex = '''console-frame|cols[`,· ]+[`]?rows[`,· ]+(and )?[`]?fits|three fields'''
+
+# F2: console-frame's cadence — once per draw -> first draw then only on a change of its fields
+[[pattern]]
+id = 'frame-cadence'
+regex = '''(every|each|per|one line (a|per)) (draw|redraw|frame)|on every draw'''
+
+# F3: the console's caption row — the board's six captions, then a seventh LAST
+[[pattern]]
+id = 'captions'
+regex = '''shared-captions-fixed|six captions|6 captions|`LAST`'''
+
+# F4: the console's own lines in console.ndjson — beyond console-frame / console-key
+[[pattern]]
+id = 'console-lines'
+regex = '''console\.ndjson|`console` role file|console-key'''

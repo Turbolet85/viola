@@ -1,0 +1,19 @@
+--- a/.andromeda/design-system.md
++++ b/.andromeda/design-system.md
+@@ -81,3 +81,3 @@
+ decision/flat-cli-verbs · Flat CLI verbs — CLI verbs are flat, each one lower-case word, with no nested subcommand groups. · except: `plugin install`
+-decision/fleet-console-not-verb-output · Fleet console is no verb's output — The terminal fleet console is no verb's output, so verb output rules do not govern its redraw.
++decision/fleet-console-not-verb-output · Fleet console governed by no verb-output rule — The terminal fleet console (`viola console`), its own surface, is governed by no verb-output rule.
+ decision/hand-written-sgr-module · Hand-written SGR styling module — Styling is a small hand-written SGR module in the `viola` bin. · why: adds no dependency
+@@ -385,3 +385,3 @@
+ decision/confirmations-carry-context · Confirmations carry context — Output never says "done" or "success" bare; it says what was read back, by whom, and at which cursor.
+-decision/escape-controls-in-human-output · Control characters escaped in human output — Human output of `last` and `list` escapes C0/C1 control characters.
++decision/escape-controls-in-human-output · Control characters escaped in human output — Human output of `last`, `list` and the fleet console escapes C0/C1 control characters.
+ decision/no-auto-sorting-strips · No auto-sorting of strips — Strips needing input or with recent sessions are never re-ranked to the top; a strip is cocked in place. · why: Re-ranking breaks the founder's memory of where each session lives, and the `DIALOG` word already says "needs you".
+@@ -408 +408,6 @@
+ contract/fleet-console-keys/unbound · Fleet console keys · any other key — Every key other than `q` and Ctrl-C is unbound and ignored; the end of the console's input also ends it with exit 0.
++contract/fleet-console-view/captions · Fleet console view · caption row — The console's caption row is the board's six captions, then a seventh, `LAST`.
++contract/fleet-console-view/last · Fleet console view · LAST — `LAST` is the age of the instance's newest log line in one unit (`12s`, `4m`, `2h`, `3d`); `unknown` on a wrapped row with no log line, `n/a` on an unwrapped row.
++contract/fleet-console-view/line-cut · Fleet console view · line cut — A console line wider than the terminal is cut whole at its columns ending in `...`, never inside an escape; an unwrapped NAME is not cut separately in the console.
++contract/fleet-console-view/more-line · Fleet console view · more line — A fleet taller than the console's body rows ends in a line of the form `... <n> more`.
++contract/viola-console-refusals/mid-run-home-widened · viola console refusals · home widened mid-run — A home widened while the console runs ends it with exit 1 and the home-state `unable:` / `hint:` pair after the terminal is restored; a board directory that cannot be listed ends it as `error: internal error`.
