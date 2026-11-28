@@ -126,5 +126,37 @@
 ],
 "before": null,
 "after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "4d0b5024",
+"ts": "2026-11-28T13:29:12Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-28T12-37-34Z-wrap",
+"--marker",
+"2026-11-28-fleet-console-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 5407 · 2026-11-28T09-54-24-2026-11-28-fleet-console-view.ndjson",
+"ts 2026-11-28T13:29:03Z · clock 2026-11-28T13:29:12Z · the builders' bound 2026-11-28T13:23:01Z (line 4537)",
+"ids 2026-11-28T13:29:03Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T09-54-24-2026-11-28-fleet-console-view.ndjson"
+],
+"before": null,
+"after": null
 }
 ]

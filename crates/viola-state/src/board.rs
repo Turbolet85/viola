@@ -207,6 +207,9 @@ pub struct Item {
     /// The pending dialog's kind word, for the human row; no field of the document.
     #[serde(skip)]
     pub dialog_kind: Option<String>,
+    /// The pending dialog's id, the one the console answers by; no field of the document.
+    #[serde(skip)]
+    pub dialog_id: Option<u64>,
     #[serde(skip)]
     pub join: JoinKeys,
     /// The `ts` of the newest whole line of the instance's log, for the console's row alone; no
@@ -235,6 +238,7 @@ impl Item {
             window: None,
             origin: None,
             dialog_kind: None,
+            dialog_id: None,
             join: JoinKeys::default(),
             last_activity: None,
         }
@@ -382,6 +386,7 @@ fn snapshot_item(
         window,
         origin,
         dialog_kind: snapshot.pending_dialog.as_ref().map(|d| d.kind.clone()),
+        dialog_id: snapshot.pending_dialog.as_ref().map(|d| d.dialog_id),
         join: JoinKeys {
             child_pid: snapshot.child_pid,
             agent_session_id: snapshot.agent_session_id.clone(),
@@ -410,6 +415,7 @@ fn replayed_item(name: &ViolaName, state: &Replayed, last_activity: Option<DateT
         window,
         origin,
         dialog_kind: None,
+        dialog_id: None,
         join: JoinKeys {
             child_pid: None,
             agent_session_id: state.agent_session_id.clone(),
@@ -967,6 +973,7 @@ mod tests {
         let board = read(&scanned(&home), beat_time(&dir));
         assert!(board.items[0].dialog_pending);
         assert_eq!(board.items[0].dialog_kind.as_deref(), Some("permission"));
+        assert_eq!(board.items[0].dialog_id, Some(7));
     }
 
     /// The snapshot cut mid-object, then re-versioned past this build: each reads through the
@@ -1000,6 +1007,7 @@ mod tests {
                     cli_version: None,
                     cli_verified: None,
                     dialog_kind: None,
+                    dialog_id: None,
                     join: JoinKeys::default(),
                     parent: None,
                     role: None,
@@ -1092,6 +1100,7 @@ mod tests {
             cli_version: None,
             cli_verified: None,
             dialog_kind: Some("plan".to_owned()),
+            dialog_id: None,
             join: JoinKeys::default(),
             parent: None,
             role: None,

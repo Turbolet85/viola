@@ -1,0 +1,206 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T13:47:45Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-console-actions",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-console-actions-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer directive this take-up runs under: operator away, forks to founder-forks.md, no live start, stop at P3 on a widening or product choice",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-28T13-46-51Z-phase",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-console-actions-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-console-actions-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-console-actions-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "5198e22e8cf2bbce8d2a2f9ce1b406c06461631a434be230c49bf2cb04c252fa",
+"copy": "I1-phase-console-actions-directive.md.txt",
+"link": false,
+"read_at": "2026-11-28T13:47:45Z",
+"step": "phase:P1",
+"why": "the overseer directive this take-up runs under: operator away, forks to founder-forks.md, no live start, stop at P3 on a widening or product choice"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T14:36:37Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-console-actions",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-console-actions-forks.md",
+"--kind",
+"relay",
+"--why",
+"the operator's own answers to F1-F7 (F2/F7 against the split: all eight v2-15 verbs plus switch in one entry) and the overseer's technical word (letters, two parts, the input forms measured first)",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-11-28T13-46-51Z-phase",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy no-repo · ../additional/viola-overseer/relay-console-actions-forks.md",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-console-actions-forks.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-console-actions-forks.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "9ab99518eea4c722cd31c29c55a7194702267391f044dc37e280e31c941ae79e",
+"copy": "I2-relay-console-actions-forks.md.txt",
+"link": false,
+"read_at": "2026-11-28T14:36:36Z",
+"step": "phase:P3",
+"why": "the operator's own answers to F1-F7 (F2/F7 against the split: all eight v2-15 verbs plus switch in one entry) and the overseer's technical word (letters, two parts, the input forms measured first)"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T14:49:09Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-28-console-actions",
+"--run-dir",
+".andromeda/runs/2026-11-28T13-46-51Z-phase",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-console-actions-directive.md",
+"I1 cited scope.md:100 · research.md:5 · research.md:7 · plan.md:9 · plan.md:192 · plan.md:306 (in fence) · plan.md:389",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-console-actions-forks.md",
+"I2 cited scope.md:17 · scope.md:32 · scope.md:75 · research.md:40 · research.md:65 · plan.md:8 · plan.md:366 · plan.md:389 · plan.md:430 · plan.md:435",
+"inputs: 2 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T14:51:27Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-console-actions",
+"--message-file",
+".andromeda/runs/2026-11-28T13-46-51Z-phase/relay-1.md",
+"--origin",
+"the overseer (delegate), in the session",
+"--kind",
+"relay",
+"--why",
+"the P5 word on .andromeda/runs/2026-11-28T13-46-51Z-phase/p5-card-1.md: yes to plan rev 3, by the delegate overseer; adopt not taken up, v2-31 not claimed; Part 2 revised on Q8/Q9 with one console-key line per read (class text and a count)",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-28T13-46-51Z-phase",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy message · message: the overseer (delegate), in the session",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer (delegate), in the session",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "dccd76e32d264e51e1904537455c42186046c7dcdafcb73eb2708eac55d13111",
+"copy": "I3-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-28T14:51:26Z",
+"step": "phase:P5",
+"why": "the P5 word on .andromeda/runs/2026-11-28T13-46-51Z-phase/p5-card-1.md: yes to plan rev 3, by the delegate overseer; adopt not taken up, v2-31 not claimed; Part 2 revised on Q8/Q9 with one console-key line per read (class text and a count)"
+}
+}
+]

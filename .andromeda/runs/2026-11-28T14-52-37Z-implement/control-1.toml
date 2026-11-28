@@ -1,0 +1,64 @@
+[[control]]
+id = "env-strip"
+entry = 5
+guard = "the removal of VIOLA_NAME and VIOLA_DIR from the child's env"
+case = "console::action::tests::action_child_env_drops_the_instance_names"
+
+[[control.edit]]
+path = "src/console/action.rs"
+old = '''
+        for name in STRIPPED {
+            command.env_remove(name);
+        }
+'''
+new = '''
+        let _ = STRIPPED;
+'''
+
+[[control]]
+id = "one-child"
+entry = 5
+guard = "the running-child check before an action starts"
+case = "console::tests::console_run_takes_one_action_at_a_time"
+
+[[control.edit]]
+path = "src/console/mod.rs"
+old = '''
+        if self.running.is_some() {
+            return ("busy", None);
+        }
+        let action = Action::on(verb, &name);
+'''
+new = '''
+        let action = Action::on(verb, &name);
+'''
+
+[[control]]
+id = "out-escape"
+entry = 5
+guard = "the escape of a captured line (the line raw)"
+case = "console::action::tests::action_output_escapes_every_control"
+
+[[control.edit]]
+path = "src/console/action.rs"
+old = '''text.split('\n').map(escape_row).collect()'''
+new = '''text.split('\n').map(|line| { let _ = escape_row; line.to_owned() }).collect()'''
+
+[[control]]
+id = "confirm"
+entry = 8
+guard = "the confirm mode before release (it runs at once)"
+case = "console_release_confirm_left_by_escape_runs_nothing"
+
+[[control.edit]]
+path = "src/console/mod.rs"
+old = '''
+        if matches!(verb, Verb::Release | Verb::Up) {
+            self.mode = Mode::Confirm(action);
+        } else {
+            self.start(action, act);
+        }
+'''
+new = '''
+        self.start(action, act);
+'''

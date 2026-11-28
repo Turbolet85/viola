@@ -1790,6 +1790,7 @@ dependencies = [
  "tempfile",
  "tracing",
  "tracing-subscriber",
+ "unicode-width",
  "viola-agent-claude",
  "viola-channel",
  "viola-core",

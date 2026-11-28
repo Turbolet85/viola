@@ -16,7 +16,7 @@ use support::piped::Piped;
 use support::watch::{WITHIN, Watch};
 
 /// test-plan §3 Log format + obs-plan D-01…D-05; `a11y-violation` is a harness-only row.
-const LOG_FORMAT_EVENTS: [&str; 18] = [
+const LOG_FORMAT_EVENTS: [&str; 19] = [
     "channel-request",
     "channel-response",
     "dialog-raised",
@@ -35,6 +35,7 @@ const LOG_FORMAT_EVENTS: [&str; 18] = [
     "trust-record",
     "console-frame",
     "console-key",
+    "console-action",
 ];
 
 fn line_schema() -> Value {

@@ -19,10 +19,12 @@ mod wait;
 pub(crate) use auto_verify::{AutoLine, NoStamp, write_auto_line};
 pub(crate) use board::{home_state_pair, instance_state_pair, write_board};
 pub(crate) use console::{
-    write_console_enter, write_console_frame, write_console_restore, write_console_too_small,
+    CONSOLE_KEYS, console_answer_prompt, console_confirm_prompt, console_editing_line,
+    console_editing_prompt, console_question_line, console_running_line, write_console_enter,
+    write_console_frame, write_console_restore, write_console_too_small,
 };
-pub(crate) use escape::escape_message;
-pub(crate) use fleet::{FleetLine, cut_line, fleet_lines};
+pub(crate) use escape::{escape_message, escape_row};
+pub(crate) use fleet::{FleetLine, Pending, cut_line, fleet_lines, gutter};
 pub(crate) use hints::{
     UP_NOT_LIVE_HINT, answer_hint, boot_time_unread_pair, focus_pair, not_live_pair, send_hint,
     terminal_not_found_pair,

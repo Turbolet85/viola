@@ -46,6 +46,12 @@ pub(crate) fn console(home: &Path) -> anyhow::Result<ExitCode> {
     if let Some(rejection) = rejection {
         obs::log_config_rejection(rejection);
     }
+    // The log has made the home, so this is its one canonical spelling, the one every action's
+    // child is handed, beside this exe's own canonical path.
+    let runner = console::action::Runner::new(
+        super::canonical_home(&std::env::current_exe()?),
+        super::canonical_home(&home),
+    );
     let mode = viola_pty::HostTerminal::enter().context("raw mode")?;
     let agents = console::fleet::spawn_agents(agents_read(&home), AGENTS_EVERY);
     let mut fleet = console::fleet::FleetSource::new(home, agents);
@@ -54,6 +60,7 @@ pub(crate) fn console(home: &Path) -> anyhow::Result<ExitCode> {
         board: move || fleet.read(SystemTime::now()),
         clock: Utc::now,
         read_every: console::READ_EVERY,
+        act: move |action| runner.spawn(action),
     };
     let end = console::run(viola_pty::host_stdin(), io::stdout(), mode, sources)?;
     // The run has restored the terminal before it returned, so the pair lands on the user's own

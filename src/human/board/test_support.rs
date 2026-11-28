@@ -22,6 +22,7 @@ pub(super) fn item(name: &str) -> Item {
         cli_version: Some("2.1.287".to_owned()),
         cli_verified: Some(true),
         dialog_kind: None,
+        dialog_id: None,
         join: viola_state::board::JoinKeys::default(),
         parent: None,
         role: None,

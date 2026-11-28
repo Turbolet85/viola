@@ -147,3 +147,4 @@
 2026-11-27-epoch-5-cleanup-2 · complete · the three Epoch 5 splits — `upped`, the pump's respawn, `run.rs`'s window and trust steps — as pure moves under the audit's ceilings · → chk:2026-11-27-epoch-5-cleanup-2
 2026-11-28-console-scaffold · complete · the fleet console's scaffold: its surface section, quarter-screen layout, redraw-ban reconciliation, a state-reading keystroke test driver and its own diagnostics role · → chk:2026-11-28-console-scaffold
 2026-11-28-fleet-console-view · gated · the fleet console's view — lineage trees, state, wheel and last activity in the board's words, kept current, control-escaped · → chk:2026-11-28-fleet-console-view
+2026-11-28-console-actions · pending · the fleet console's actions — every verb by keyboard from a selected row, through the CLI verbs, a send's readback, refusals as `unable` lines · → chk:2026-11-28-console-actions

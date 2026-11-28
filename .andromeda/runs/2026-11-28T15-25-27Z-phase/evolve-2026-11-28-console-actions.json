@@ -1,0 +1,98 @@
+[
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "4d0b5024",
+"ts": "2026-11-28T15:29:04Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-28T15-25-27Z-phase",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 5440 · 2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"ts 2026-11-28T15:28:56Z · clock 2026-11-28T15:29:04Z · the builders' bound 2026-11-28T15:16:20Z (line 4558)",
+"ids 2026-11-28T15:28:56Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "4d0b5024",
+"ts": "2026-11-28T15:34:48Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-28T15-25-27Z-phase",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 5442 · 2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"ts 2026-11-28T15:34:35Z · clock 2026-11-28T15:34:48Z · the builders' bound 2026-11-28T15:28:56Z (line 4559)",
+"ids 2026-11-28T15:34:35Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "4d0b5024",
+"ts": "2026-11-28T15:45:29Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-28T15-25-27Z-phase",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 5450 · 2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"ts 2026-11-28T15:45:17Z · clock 2026-11-28T15:45:29Z · the builders' bound 2026-11-28T15:34:35Z (line 4560)",
+"ids 2026-11-28T15:45:17Z-a … 2026-11-28T15:45:17Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson"
+],
+"before": null,
+"after": null
+}
+]

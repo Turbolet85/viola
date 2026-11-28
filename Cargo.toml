@@ -166,6 +166,7 @@ serde_json.workspace = true
 tempfile.workspace = true
 tracing.workspace = true
 tracing-subscriber.workspace = true
+unicode-width.workspace = true
 
 [dev-dependencies]
 insta.workspace = true
@@ -253,6 +254,9 @@ veil = "=0.3.0"
 # The screen model (viola-agent-claude only). 0.16, never 0.15: 0.15 wrote unhandled escapes to
 # STDERR, which is `run`'s terminal.
 vt100 = "=0.16.2"
+# The console's editing echo: one width a scalar, the rule vt100 places cells by (the same crate
+# and version vt100 brings into the lock).
+unicode-width = "=0.2.2"
 
 [workspace.lints.rust]
 unused_must_use = "deny"

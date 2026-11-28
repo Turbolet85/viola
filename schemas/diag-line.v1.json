@@ -33,6 +33,7 @@
     { "if": { "properties": { "event": { "const": "trust-record" } } }, "then": { "properties": { "message": { "const": "trust-record" } } } },
     { "if": { "properties": { "event": { "const": "console-frame" } } }, "then": { "properties": { "message": { "const": "console-frame" } } } },
     { "if": { "properties": { "event": { "const": "console-key" } } }, "then": { "properties": { "message": { "const": "console-key" } } } },
+    { "if": { "properties": { "event": { "const": "console-action" } } }, "then": { "properties": { "message": { "const": "console-action" } } } },
 
     { "if": { "properties": { "event": { "const": "channel-request" } } }, "then": { "properties": {
       "corr": { "$ref": "#/$defs/corr" }, "method": { "type": "string" }, "conn": { "type": "string" },
@@ -96,8 +97,14 @@
       "shown": { "$ref": "#/$defs/count" }, "hidden": { "$ref": "#/$defs/count" } },
       "required": ["cols", "rows", "fits", "shown", "hidden"] } },
     { "if": { "properties": { "event": { "const": "console-key" } } }, "then": { "properties": {
-      "key": { "enum": ["quit", "interrupt", "unbound"] } },
-      "required": ["key"] } },
+      "key": { "enum": ["quit", "interrupt", "unbound", "up", "down", "action", "busy", "yes", "no", "escape", "enter", "backspace", "text", "question"] },
+      "count": { "$ref": "#/$defs/count" } },
+      "required": ["key"],
+      "if": { "properties": { "key": { "const": "text" } } }, "then": { "required": ["count"] } } },
+    { "if": { "properties": { "event": { "const": "console-action" } } }, "then": { "properties": {
+      "verb": { "enum": ["last", "pause", "release", "focus", "up", "send", "switch", "answer", "open"] },
+      "exit_code": { "type": "integer" } },
+      "required": ["verb", "exit_code"] } },
 
     { "$comment": "corr is required wherever obs-plan §3 always defines it: dialog_id, the release request id.",
       "if": { "properties": { "event": { "enum": ["dialog-raised", "dialog-answered", "release-from-driver"] } } },
@@ -118,7 +125,7 @@
   "unevaluatedProperties": false,
   "$defs": {
     "event": {
-      "enum": ["channel-request", "channel-response", "dialog-raised", "dialog-answered", "hook-invoked", "hook-decision", "send-issued", "send-confirmed", "send-refused", "release-from-driver", "process-start", "process-exit", "panic", "state-recovered", "parse-rejected", "trust-record", "console-frame", "console-key"]
+      "enum": ["channel-request", "channel-response", "dialog-raised", "dialog-answered", "hook-invoked", "hook-decision", "send-issued", "send-confirmed", "send-refused", "release-from-driver", "process-start", "process-exit", "panic", "state-recovered", "parse-rejected", "trust-record", "console-frame", "console-key", "console-action"]
     },
     "corr": { "type": ["number", "string"] },
     "count": { "type": "integer", "minimum": 0 },

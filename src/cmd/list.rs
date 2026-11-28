@@ -150,6 +150,7 @@ mod tests {
                 cli_version: Some("2.1.287".to_owned()),
                 cli_verified: Some(true),
                 dialog_kind: None,
+                dialog_id: None,
                 join: JoinKeys::default(),
                 parent: None,
                 role: None,

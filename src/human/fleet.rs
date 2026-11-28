@@ -16,12 +16,35 @@ pub(crate) const LAST_CAPTION: &str = "LAST";
 /// What a wrapped row with no logged time shows in `LAST`.
 const UNKNOWN: &str = "unknown";
 
-/// One line of the fleet's text, and whether it is an instance's row (the caption, the empty-board
-/// line and the separator are not).
+/// One line of the fleet's text, whether it is an instance's row (the caption, the empty-board
+/// line and the separator are not), and a wrapped row's board item name, the one a selection
+/// names it by (never its drawn text).
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub(crate) struct FleetLine {
     pub(crate) text: String,
     pub(crate) row: bool,
+    pub(crate) name: Option<String>,
+    /// A wrapped row's pending dialog, its kind word and id, as the board read them; no text.
+    pub(crate) dialog: Option<Pending>,
+}
+
+/// A pending dialog as the console answers it: the snapshot's kind word and its id.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) struct Pending {
+    pub(crate) kind: String,
+    pub(crate) id: u64,
+}
+
+/// The selected row's gutter.
+pub(crate) const SELECTED_GUTTER: &str = "> ";
+
+/// Every other body line's gutter.
+pub(crate) const GUTTER: &str = "  ";
+
+/// `text` behind its gutter: `> ` on the selected row, two spaces on every other.
+pub(crate) fn gutter(text: &str, selected: bool) -> String {
+    let mark = if selected { SELECTED_GUTTER } else { GUTTER };
+    format!("{mark}{text}")
 }
 
 /// The age from `at` to `now` in one unit, whole and floored: `12s` under a minute, `4m` under an
@@ -89,11 +112,21 @@ pub(crate) fn fleet_lines(board: &Board, now: DateTime<Utc>) -> Vec<FleetLine> {
     let mut lines = vec![FleetLine {
         text: line(0, [name, live, status, wheel, dialog, cli, LAST_CAPTION]),
         row: false,
+        name: None,
+        dialog: None,
     }];
     let wrapped = rows.iter().filter(|row| row.item.wrapped).count();
     let drawn = rows.iter().zip(&cells).map(|(row, cells)| FleetLine {
         text: line(row.indent, cells.each_ref().map(String::as_str)),
         row: true,
+        name: row.item.wrapped.then(|| row.item.name.clone()),
+        dialog: match (row.item.wrapped, &row.item.dialog_kind, row.item.dialog_id) {
+            (true, Some(kind), Some(id)) => Some(Pending {
+                kind: kind.clone(),
+                id,
+            }),
+            _ => None,
+        },
     });
     let mut drawn = drawn.collect::<Vec<_>>().into_iter();
     lines.extend(drawn.by_ref().take(wrapped));
@@ -101,12 +134,16 @@ pub(crate) fn fleet_lines(board: &Board, now: DateTime<Utc>) -> Vec<FleetLine> {
         lines.push(FleetLine {
             text: EMPTY_BOARD.to_owned(),
             row: false,
+            name: None,
+            dialog: None,
         });
     }
     if wrapped < rows.len() {
         lines.push(FleetLine {
             text: UNWRAPPED_SEPARATOR.to_owned(),
             row: false,
+            name: None,
+            dialog: None,
         });
         lines.extend(drawn);
     }
@@ -153,6 +190,7 @@ mod tests {
             window: None,
             origin: None,
             dialog_kind: None,
+            dialog_id: None,
             join: JoinKeys::default(),
             last_activity: Some(now() - chrono::Duration::seconds(12)),
         }
@@ -305,13 +343,30 @@ mod tests {
                     text: "NAME  LIVE   STATUS   WHEEL                    DIALOG             CLI  LAST"
                         .to_owned(),
                     row: false,
+                    name: None,
+                    dialog: None,
                 },
                 FleetLine {
                     text: "no wrapped sessions  start one: viola run <name> -- claude".to_owned(),
                     row: false,
+                    name: None,
+                    dialog: None,
                 },
             ]
         );
+    }
+
+    #[test]
+    fn fleet_rows_name_only_wrapped_items() {
+        let lines = fleet_lines(&board(vec![item("builder"), unwrapped("s-1")]), now());
+        let names: Vec<Option<&str>> = lines.iter().map(|l| l.name.as_deref()).collect();
+        assert_eq!(names, [None, Some("builder"), None, None]);
+    }
+
+    #[test]
+    fn fleet_gutter_marks_the_selected_row_alone() {
+        assert_eq!(gutter("builder", true), "> builder");
+        assert_eq!(gutter("builder", false), "  builder");
     }
 
     #[rstest]

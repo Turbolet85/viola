@@ -9,8 +9,10 @@ use crate::ViolaName;
 /// The closed `event` enum; a new value needs an obs-plan Decisions Log entry and a
 /// `schemas/diag-line.v1.json` update. `a11y-violation` is a harness-only row, never a variant.
 /// `console-frame` (`cols`, `rows`, `fits`, and `shown` and `hidden`, the fleet's rows drawn and
-/// behind the more line) and `console-key` (`key`: `quit` · `interrupt` ·
-/// `unbound`) are the fleet console's own lines.
+/// behind the more line), `console-key` (`key`, the key's meaning in its mode, and `count` on an
+/// editing read's `text`, `backspace` and `unbound` lines: one line a class a read) and
+/// `console-action` (`verb` and `exit_code`, one a finished child) are the fleet console's own
+/// lines.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ObsEvent {
     ChannelRequest,
@@ -31,10 +33,11 @@ pub enum ObsEvent {
     TrustRecord,
     ConsoleFrame,
     ConsoleKey,
+    ConsoleAction,
 }
 
 impl ObsEvent {
-    pub const ALL: [Self; 18] = [
+    pub const ALL: [Self; 19] = [
         Self::ChannelRequest,
         Self::ChannelResponse,
         Self::DialogRaised,
@@ -53,6 +56,7 @@ impl ObsEvent {
         Self::TrustRecord,
         Self::ConsoleFrame,
         Self::ConsoleKey,
+        Self::ConsoleAction,
     ];
 
     pub const fn as_str(self) -> &'static str {
@@ -75,6 +79,7 @@ impl ObsEvent {
             Self::TrustRecord => "trust-record",
             Self::ConsoleFrame => "console-frame",
             Self::ConsoleKey => "console-key",
+            Self::ConsoleAction => "console-action",
         }
     }
 }
@@ -172,7 +177,7 @@ mod tests {
     use super::*;
 
     /// test-plan §3 Log format + obs-plan D-01…D-05, written out as the oracle.
-    const LOG_FORMAT_EVENTS: [&str; 18] = [
+    const LOG_FORMAT_EVENTS: [&str; 19] = [
         "channel-request",
         "channel-response",
         "dialog-raised",
@@ -191,6 +196,7 @@ mod tests {
         "trust-record",
         "console-frame",
         "console-key",
+        "console-action",
     ];
 
     #[test]
