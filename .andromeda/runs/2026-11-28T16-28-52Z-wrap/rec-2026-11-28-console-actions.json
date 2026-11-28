@@ -1,0 +1,1660 @@
+[
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T16:32:42Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-28-console-actions",
+"--section-file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-28-console-actions/report rev 3 · 10 new · 0 revised · 0 retired · 50 kept · tx 5462"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T16:32:46Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-28-console-actions",
+"--section-file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-28-console-actions/report rev 4 · 102 new · 0 revised · 0 retired · 60 kept · tx 5463"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T16:33:21Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/cites-land-2026-11-28-console-actions.ndjson",
+"--base",
+"a07542e9a4bf497b6fa6b2afc26157af3c5b4ba7",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T16:33:26Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/cites-land-2026-11-28-console-actions.ndjson",
+"--base",
+"a07542e9a4bf497b6fa6b2afc26157af3c5b4ba7",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 5465"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T16:36:04Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 1049 · packs 11 · pack 100 · 303478 B",
+"security-plan: rows 671 · packs 7 · pack 100 · 210268 B",
+"design-system: rows 371 · packs 4 · pack 100 · 92784 B",
+"layout-templates: rows 244 · packs 3 · pack 100 · 61103 B",
+"test-plan: rows 1391 · packs 14 · pack 100 · 384839 B",
+"obs-plan: rows 1063 · packs 11 · pack 100 · 297527 B",
+"a11y-plan: rows 244 · packs 3 · pack 100 · 72227 B",
+"rows-packs: 7 master(s) · 5033 row(s) · 53 pack(s) · 2 draw(s) a pack · pin 5465"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T16:57:25Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 1049 · packs 11 · picked 47 (27 by every draw) · standing 0 · 247060 B · Established Decisions: by boundary, the rest under `also here:`",
+"security-plan: rows 671 · packs 7 · picked 70 (25 by every draw) · standing 0 · 157488 B",
+"design-system: rows 371 · packs 4 · picked 14 (11 by every draw) · standing 0 · 68011 B",
+"layout-templates: rows 244 · packs 3 · picked 33 (24 by every draw) · standing 0 · 54822 B",
+"test-plan: rows 1391 · packs 14 · picked 112 (43 by every draw) · standing 0 · 314581 B",
+"obs-plan: rows 1063 · packs 11 · picked 77 (34 by every draw) · standing 0 · 248695 B",
+"a11y-plan: rows 244 · packs 3 · picked 44 (39 by every draw) · standing 0 · 60691 B",
+"rows-union: 7 master(s) · picked 397 of 5033 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/arch-rows.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/arch-standing.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/security-rows.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/security-standing.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/design-rows.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/design-standing.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/layouts-rows.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/tests-rows.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/tests-standing.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/obs-rows.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/obs-standing.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:06:56Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [
+"decision/unicode-width-column-widths: an add on a delegate word carries state: provisional — its `@row_add` takes `state: provisional` (master-rows.md `state`)"
+],
+"stderr": "rows-land: 1 disposition problem(s) under ops-architecture.md — nothing written",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:04Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/board-read-model-shape · rejected",
+"decision/console-runs-verbs-as-children · rejected",
+"decision/console-action-child-outlives-quit · rejected",
+"decision/console-answers-permission-and-plan · rejected",
+"decision/console-log-lines-codes-and-counts · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-28-console-actions — Stack and Technologies: 1 row(s)\n**Section:** Stack and Technologies\n**Change:** + decision/unicode-width-column-widths — unicode-width for terminal column widths\n**Why:** decision/unicode-width-column-widths: A library new to the root bin's direct dependencies is chosen for a role, and the stack must name it. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"patterns: none — the call sets and retires no row",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:04Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/refusals-never-block-human · rejected",
+"decision/board-dialog-id-never-serialised · rejected",
+"fit: fits 8 · not_master 0 · stands 0",
+"## 2026-11-28-console-actions — Input Validation: 4 row(s)\n**Section:** Input Validation\n**Change:** ~ decision/console-key-reader-bounded · rule: was «viola console reads the human's keys from its own terminal in raw mode in reads of at most 64 bytes, each read decoded to one closed class: 0x03 anywhere is interrupt, exactly q is quit, anything else is unbound; no key byte reaches any log line or output.»; now «viola console reads the human's keys from its own terminal in raw mode in reads of at most 64 bytes, each read decoded into keys of closed classes, an escape sequence bounded in its wait and its length; no key byte reaches any log line.»\n+ decision/console-runs-verbs-as-children — Console runs its actions as children of its own exe\n+ decision/console-typed-text-as-data — Console hands typed text to its verbs as data only\n+ decision/console-editing-line-bounded — Console editing line bounded\n**Why:** decision/console-key-reader-bounded: The decoder now reads each read as a sequence of closed key classes with a sequence wait and cap, and typed text now reaches the editing echo and the verbs, so «one closed class a read» and «no key byte reaches any output» no longer hold. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\ndecision/console-runs-verbs-as-children: The chunk adds the console's action runner as a new spawn and child-output boundary, which no row of Input Validation holds. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-28: confirmed, all 20 — the row rests on his answer to F1 «Дочерний, как человек (Recommended)», his dialog read 2026-11-28T14:32:05Z (inputs#I2); the confirm PROVISIONAL for the epoch batch\ndecision/console-typed-text-as-data: The chunk adds typed text crossing from the console onto its children's argv and stdin, a new input boundary no row holds. — on delegate overseer, 2026-11-28, inputs#I6, PROVISIONAL\ndecision/console-editing-line-bounded: The chunk adds an editing line of typed text with its own bound and read-ending rule, which no row holds. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"## 2026-11-28-console-actions — Threat Model Summary: 1 row(s)\n**Section:** Threat Model Summary\n**Change:** ~ decision/child-path-trust · except: was «»; now «viola console's action children are viola's own executable, never a PATH lookup.»\n**Why:** decision/child-path-trust: The console spawns each verb as a child of its own executable, a spawned child the PATH does not resolve, so the row needs its exception. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"## 2026-11-28-console-actions — Data Protection: 3 row(s)\n**Section:** Data Protection\n**Change:** + decision/console-action-child-outlives-quit — Console action child may outlive a quit\n+ decision/console-answer-reads-kind-and-id — Console answer prompt reads the dialog kind and id only\n+ decision/console-diagnostics-closed-words — Console diagnostics lines hold closed words and counts\n**Why:** decision/console-action-child-outlives-quit: The chunk adds action children of the console with no parent-death tie, a choice the standing row on the claude agents child does not cover. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-28: confirmed, all 20 — the row rests on his answer to F1 «Дочерний, как человек (Recommended)», his dialog read 2026-11-28T14:32:05Z (inputs#I2); the confirm PROVISIONAL for the epoch batch\ndecision/console-answer-reads-kind-and-id: The chunk adds an answer prompt over the board's pending dialog, and what of the dialog it may read is a data-protection decision no row holds. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-28: confirmed, all 20 — the row rests on his answer to Q8 «y/n, вопросы — в сессии (Recommended)», his dialog read 2026-11-28T15:24:31Z (inputs#I5); the confirm PROVISIONAL for the epoch batch\ndecision/console-diagnostics-closed-words: The chunk adds the console-action line and a count on the console-key line, and what they may carry is a data-protection decision no row holds. — on delegate overseer, 2026-11-28, inputs#I5, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"patterns: 1 in cascade-patterns-security-plan-1.toml",
+"dry-run · would land 8 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/cascade-patterns-security-plan-1.toml"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:05Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/console-typed-words-are-values · rejected",
+"contract/fleet-console-view/key-line · rejected",
+"fit: fits 20 · not_master 0 · stands 0",
+"## 2026-11-28-console-actions — Typography: 1 row(s)\n**Section:** Typography\n**Change:** ~ decision/cli-ascii-only · except: was «»; now «the fleet console's editing line echoes the typed text as typed, UTF-8 included, controls escaped»\n**Why:** decision/cli-ascii-only: The editing line now echoes UTF-8 text as typed, the named exception to plain ASCII, so the ASCII-only rule must carry it as its exception. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-28: confirmed, all 20 — the row rests on his answer to Q9 «Показывать как набрано (Recommended)», his dialog read 2026-11-28T15:24:31Z (inputs#I5); the confirm PROVISIONAL for the epoch batch\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"## 2026-11-28-console-actions — Surface: cli: 4 row(s)\n**Section:** Surface: cli\n**Change:** ~ decision/ascii-only-human-output · except: was «»; now «the fleet console's editing line echoes the typed text as typed, UTF-8 included, controls escaped»\n~ decision/list-is-the-board · rule: was «`viola list` is the board, `verify`, `plugin install` and `console` act on no strip, `up` acts on the whole fleet or on the instances it names, and every other verb a person runs acts on one strip.»; now «`viola list` is the board, `verify` and `plugin install` act on no strip, `console` acts on its selected strip only through the CLI verbs it runs as children, `up` acts on the whole fleet or on the instances it names, and every other verb a person runs acts on one strip.»\n~ decision/no-interactive-prompt-or-pager · except: was «»; now «`viola console` takes a selection, a confirm, an answer prompt and one editing line»\n~ decision/step-counter-only-progress-pattern · except: was «»; now «the fleet console's static running line while an action child runs»\n**Why:** decision/ascii-only-human-output: The editing line now echoes UTF-8 text as typed, the named exception to plain ASCII, so the ASCII-only human-output rule must carry it as its exception. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-28: confirmed, all 20 — the row rests on his answer to Q9 «Показывать как набрано (Recommended)», his dialog read 2026-11-28T15:24:31Z (inputs#I5); the confirm PROVISIONAL for the epoch batch\ndecision/list-is-the-board: The console now runs the verbs on its selected row, so the row's claim that `console` acts on no strip no longer holds. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-28: confirmed, all 20 — the row rests on his answers to F1 «Дочерний, как человек» and F2·F7 «Всё одним чанком», his dialogs read 2026-11-28T14:32:05Z and 14:35:31Z (inputs#I2); the confirm PROVISIONAL for the epoch batch\ndecision/no-interactive-prompt-or-pager: The console now asks a confirm, an answer prompt and an editing line, so the no-prompt rule must name it as its exception. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-28: confirmed, all 20 — the row rests on his answers F3–F6 (inputs#I2, dialogs read 2026-11-28T14:32:05Z and 14:35:31Z) and Q8 «y/n, вопросы — в сессии (Recommended)» (inputs#I5, dialog read 2026-11-28T15:24:31Z); the confirm PROVISIONAL for the epoch batch\ndecision/step-counter-only-progress-pattern: The console now draws a static running line while a child runs, a second progress pattern the rule must name as its exception. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"## 2026-11-28-console-actions — Surface: cli: 1 row(s)\n**Section:** Surface: cli\n**Change:** ~ decision/one-progress-pattern · except: was «»; now «the fleet console's static running line while an action child runs»\n**Why:** decision/one-progress-pattern: The console now draws a static running line while a child runs, a second progress pattern the rule must name as its exception. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"## 2026-11-28-console-actions — Surface: console: 5 row(s) (1 of 3)\n**Section:** Surface: console\n**Change:** ~ contract/fleet-console-keys/unbound · promise: was «Every key other than `q` and Ctrl-C is unbound and ignored; the end of the console's input also ends it with exit 0.»; now «Every key the fleet console binds to nothing in its mode is unbound and ignored, `a` with nothing pending included; the end of the console's input also ends it with exit 0.»\n~ contract/fleet-console-view/more-line · promise: was «A fleet taller than the console's body rows ends in a line of the form `... <n> more`.»; now «A fleet taller than the console's body rows, its scroll window not at the fleet's end, ends in a line of the form `... <n> more`.»\n~ contract/fleet-console-keys/ctrl-c · promise: was «Ctrl-C ends the fleet console with exit 0.»; now «Ctrl-C ends the fleet console with exit 0 from every mode: the list, a confirm, the editing line and the answer prompt.»\n+ decision/console-actions-run-cli-verbs — Fleet console actions run the CLI verbs\n+ contract/fleet-console-view/selection — Fleet console view · selection\n**Why:** contract/fleet-console-keys/unbound: The console now binds the selection, action, confirm, editing and answer keys, so every key other than `q` and Ctrl-C is no longer unbound. — on delegate overseer, 2026-11-28, inputs#I6, PROVISIONAL\ncontract/fleet-console-view/more-line: The view now scrolls with the selection and draws no more line once its window reaches the fleet's end. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-28: confirmed, all 20 — the row rests on his answer to F6 «Следует за выбором (Recommended)» (inputs#I2, his dialogs read 2026-11-28T14:32:05Z and 14:35:31Z); the confirm PROVISIONAL for the epoch batch\ncontract/fleet-console-keys/ctrl-c: The console gained modes, and Ctrl-C now ends it from each of them. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\ndecision/console-actions-run-cli-verbs: The console now acts on the selected row by keyboard, every action through its CLI verb, a decision later console work must respect. — on delegate overseer, 2026-11-28, inputs#I6, PROVISIONAL\ncontract/fleet-console-view/selection: The console now draws a selection, a promise of its view no row holds. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-28: confirmed, all 20 — the row rests on his answer to F3 «Стрелки/jk + буквы (Recommended)», his dialog of 2026-11-28T14:32:05Z/14:35:31Z (inputs#I2); the confirm PROVISIONAL for the epoch batch\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"## 2026-11-28-console-actions — Surface: console: 6 row(s) (2 of 3)\n**Section:** Surface: console\n**Change:** + contract/fleet-console-keys/confirm — Fleet console keys · confirm\n+ contract/fleet-console-keys/editing-line — Fleet console keys · editing line\n+ contract/fleet-console-view/editing-line-width — Fleet console view · editing line width\n+ contract/fleet-console-keys/answer — Fleet console keys · answer\n+ contract/fleet-console-keys/question — Fleet console keys · answer on a question\n+ decision/console-result-rows-are-verb-output — Console result rows are the verb's own output\n**Why:** contract/fleet-console-keys/confirm: The console now asks a confirm before release and revive, a key contract no row holds. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-28: confirmed, all 20 — the row rests on his answer to F5 «Только release и revive (Recommended)» (inputs#I2, his dialogs read 2026-11-28T14:32:05Z and 14:35:31Z); the confirm PROVISIONAL for the epoch batch\ncontract/fleet-console-keys/editing-line: The console now opens an editing line for send, switch and open, its prompts new printed wording no row holds. — on delegate overseer, 2026-11-28, inputs#I6, PROVISIONAL\ncontract/fleet-console-view/editing-line-width: The editing line is drawn by its own width rule rather than the console's whole-line cut, which the line-cut row cannot take within its bound. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-28: confirmed, all 20 — the row rests on his answer to Q9 «Показывать как набрано (Recommended)», his dialog read 2026-11-28T15:24:31Z (inputs#I5); the confirm PROVISIONAL for the epoch batch\ncontract/fleet-console-keys/answer: The console now answers a pending permission or plan by keyboard, its prompts new printed wording no row holds. — on delegate overseer, 2026-11-28, inputs#I6, PROVISIONAL\ncontract/fleet-console-keys/question: The console now draws a fixed line for a pending question instead of answering it, new printed wording no row holds. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-28: confirmed, all 20 — the row rests on his answer to Q8 «y/n, вопросы — в сессии (Recommended)», his dialog read 2026-11-28T15:24:31Z (inputs#I5); the confirm PROVISIONAL for the epoch batch\ndecision/console-result-rows-are-verb-output: The console now shows its children's output, and that it prints no wording of its own for a refusal is a convention later work must keep. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"## 2026-11-28-console-actions — Surface: console: 3 row(s) (3 of 3)\n**Section:** Surface: console\n**Change:** + decision/console-one-action-at-a-time — One console action at a time\n+ absence/console-adopt — An adopt action in the fleet console\n+ contract/fleet-console-view/above-line — Fleet console view · above line\n**Why:** decision/console-one-action-at-a-time: The console now runs actions as children, and one at a time with a busy key is a rule later console work must respect. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-28: confirmed, all 20 — the row rests on his answer to F1 «Дочерний, как человек (Recommended)», his dialog read 2026-11-28T14:32:05Z (inputs#I2); the confirm PROVISIONAL for the epoch batch\nabsence/console-adopt: The console gained every other verb but no adopt action, a whole capability's absence later work must not assume. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\ncontract/fleet-console-view/above-line: The view now scrolls with the selection and marks the rows above its window, a promise of the view no row holds. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-28: confirmed, all 20 — the row rests on his answer to F6 «Следует за выбором (Recommended)» (inputs#I2, his dialogs read 2026-11-28T14:32:05Z and 14:35:31Z); the confirm PROVISIONAL for the epoch batch\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"patterns: none: 9 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 20 operation(s) · 6 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:05Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/console-key-line · rejected",
+"decision/console-editing-line · rejected",
+"decision/console-selection · rejected",
+"decision/console-result-rows · rejected",
+"decision/console-no-key-trap · rejected",
+"contract/console-prompts/editing · rejected",
+"contract/console-prompts/answer · rejected",
+"absence/console-adopt · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"## 2026-11-28-console-actions — Surface: console: 2 row(s)\n**Section:** Surface: console\n**Change:** ~ decision/console-frame-floor · rule: was «The console's frame floor is 80x24: at or above it the whole frame is drawn from a cleared top-left, `viola console` on row 1 and `q quit` on the last row; below it one line, `viola console needs 80x24; this terminal is <cols>x<rows>`; an unread size counts as 0x0.»; now «The console's frame floor is 80x24: at or above it the whole frame is drawn from a cleared top-left, `viola console` on row 1 and the key line on the last row; below it one line, `viola console needs 80x24; this terminal is <cols>x<rows>`; an unread size counts as 0x0.»\n~ decision/console-own-surface · except: was «»; now «The editing line of send, switch and open echoes its text as typed through row escaping, each scalar 1, 2 or 0 columns wide.»\n**Why:** decision/console-frame-floor: The key line `q quit` alone is retired and the last row now holds the whole key line, so the row's `q quit` on the last row no longer states the frame. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\ndecision/console-own-surface: The editing line is the named exception to the console's plain ASCII, and the row states plain ASCII with no exception. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-28: confirmed, all 20 — the row rests on his answer to Q9 «Показывать как набрано (Recommended)», his dialog read 2026-11-28T15:24:31Z (inputs#I5); the confirm PROVISIONAL for the epoch batch\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"## 2026-11-28-console-actions — Surface: cli: 1 row(s)\n**Section:** Surface: cli\n**Change:** ~ decision/board-vs-strip · rule: was «`viola list` shows the whole bay, `viola up` re-opens the whole fleet or the instances it names, `verify`, `plugin install` and `console` name no strip, and every other verb a person runs acts on one strip named by its `ViolaName`.»; now «`viola list` shows the whole bay, `viola up` re-opens the whole fleet or the instances it names, `verify`, `plugin install` and `console` name no strip, and every other verb a person runs acts on one strip named by its `ViolaName`, the console running those verbs on its selected row.»\n**Why:** decision/board-vs-strip: The console now acts on its selected strip by running the strip verbs as CLI children, which the row does not say. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-28: confirmed, all 20 — the row rests on his answers to F1 «Дочерний, как человек» and F2·F7 «Всё одним чанком», his dialogs read 2026-11-28T14:32:05Z and 14:35:31Z (inputs#I2); the confirm PROVISIONAL for the epoch batch\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"patterns: none: 3 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 3 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:05Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 6 · not_master 0 · stands 0",
+"## 2026-11-28-console-actions — 6. Log Coverage: 2 row(s)\n**Section:** 6. Log Coverage\n**Change:** ~ contract/diag-line-fields/console-key · promise: was «Logged once per key read with key, one of quit, interrupt or unbound, required; the key's bytes never reach a line.»; now «Logged once per key read with key, a word of its closed set, required; on the editing line one read's keys write at most one line a class (text, backspace, unbound) with a count, the count required for text; the key's bytes and no typed text ever reach a line.»\n+ contract/diag-line-fields/console-action — diagnostic line additive fields · console-action\n**Why:** contract/diag-line-fields/console-key: The console-key arm gained a count, its word set grew past quit, interrupt and unbound, and the editing line folds a read's keys into one line a class, so the field row must say what the line now promises. — on delegate overseer, 2026-11-28, inputs#I5, PROVISIONAL\ncontract/diag-line-fields/console-action: The chunk adds the console-action event and its field arm to the diag-line schema, and no row of obs-plan holds that contract. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"## 2026-11-28-console-actions — 1. Obs Scope Summary: 1 row(s)\n**Section:** 1. Obs Scope Summary\n**Change:** ~ decision/no-interactive-terminal-interface · except: was «the terminal fleet console (`viola console`), its own surface, which reads keys in raw mode and redraws its frame»; now «the terminal fleet console (`viola console`), its own surface, which reads keys in raw mode, redraws its frame and takes a row selection, a confirm, an answer prompt and one editing line»\n**Why:** decision/no-interactive-terminal-interface: The console now takes a selection, a confirm, an answer prompt and one editing line, so the named exception must name what the console takes beyond its redraw. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-28: confirmed, all 20 — the row rests on his answers F3–F6 (inputs#I2, dialogs read 2026-11-28T14:32:05Z and 14:35:31Z) and Q8 «y/n, вопросы — в сессии (Recommended)» (inputs#I5, dialog read 2026-11-28T15:24:31Z); the confirm PROVISIONAL for the epoch batch\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"## 2026-11-28-console-actions — 3. Observability Harness Contract: 1 row(s)\n**Section:** 3. Observability Harness Contract\n**Change:** ~ contract/console-output/stdout · promise: was «viola console writes only its screen to stdout, in the alternate screen, plain ASCII with no colour; its refusals and its internal error go to stderr.»; now «viola console writes only its screen to stdout, in the alternate screen, with no colour and plain ASCII bar the editing line, which echoes the typed text as typed with every control escaped; its refusals and its internal error go to stderr.»\n**Why:** contract/console-output/stdout: The editing line echoes UTF-8 text as typed through the control escape under the width rule, the named exception to plain ASCII, so the stdout promise of plain ASCII no longer holds whole. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-28: confirmed, all 20 — the row rests on his answer to Q9 «Показывать как набрано (Recommended)», his dialog read 2026-11-28T15:24:31Z (inputs#I5); the confirm PROVISIONAL for the epoch batch\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"## 2026-11-28-console-actions — 6. Log Coverage: 1 row(s)\n**Section:** 6. Log Coverage\n**Change:** ~ decision/console-agents-probe-volume · rule: was «viola console reads claude agents on its own thread at most every 5 s and writes an agents-probe pair on each read, up to 720 pairs an hour into console.ndjson; its other lines are written only on a real change.»; now «viola console reads claude agents on its own thread at most every 5 s and writes an agents-probe pair on each read, up to 720 pairs an hour into console.ndjson; its other lines are written only on a real change, a key read or a finished action child.»\n**Why:** decision/console-agents-probe-volume: The console now writes one console-action line per finished action child and console-key lines per read, which are no change of state, so the volume rule must name them beside the probe pairs. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"## 2026-11-28-console-actions — 4. Span / Trace Coverage: 1 row(s)\n**Section:** 4. Span / Trace Coverage\n**Change:** + decision/console-action-untraced — Console actions have no span of their own\n**Why:** decision/console-action-untraced: The console now runs verbs as children, instrumented by one console-action line and the child's own cli log with no span over them, and no row says how a console action is traced. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"patterns: none: 4 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 6 operation(s) · 5 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:06Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/console-log-line/console-action · rejected",
+"contract/console-log-line/console-key-editing-line · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"## 2026-11-28-console-actions — 6. E2E Test Strategy: 2 row(s)\n**Section:** 6. E2E Test Strategy\n**Change:** ~ decision/tui-verdicts-from-records · rule: was «TUI verdicts come from events.ndjson, the fake-agent receipt and the exit status; the fleet console's verdicts come from its console.ndjson lines and its terminal's line mode, never from the screen.»; now «TUI verdicts come from events.ndjson, the fake-agent receipt and the exit status; the fleet console's verdicts come from its console.ndjson lines, its terminal's line mode and the records of the verbs it runs, never from the screen.»\n+ decision/console-actions-proven-live — Real console actions proven only by the live reading v2-15\n**Why:** decision/tui-verdicts-from-records: The console's action cases now read their verdicts also from the records the verbs it runs leave (the send's events, the hook's decision body and dialog-answered line, the switch's launch line), so the rule naming console.ndjson and the line mode alone is incomplete. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\ndecision/console-actions-proven-live: The chunk proves its actions over the fakes alone and leaves their real halves to the gated v2-15 reading, a gate no E2E row of test-plan states for the console. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:06Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/cli-not-keyboard-interactive · rejected",
+"decision/console-keyboard-reach · rejected",
+"decision/console-answer-through-viola-answer · rejected",
+"decision/console-editing-line-width · rejected",
+"decision/console-refusals-are-the-verbs-own · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"## 2026-11-28-console-actions — 1. A11y Scope Summary: 1 row(s)\n**Section:** 1. A11y Scope Summary\n**Change:** ~ decision/static-linear-output · except: was «the terminal fleet console (`viola console`), its own surface, which redraws its frame when the terminal's size changes or the fleet it shows changes»; now «the terminal fleet console (`viola console`), its own surface, which redraws its frame when the terminal's size changes, the fleet it shows changes or a key moves its selection or opens a prompt»\n**Why:** decision/static-linear-output: The console now redraws on a moved selection, a confirm, the answer prompt and the editing line, so its exception to static output must say so. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-28: confirmed, all 20 — the row rests on his answers to F3 and F6 (inputs#I2, dialogs read 2026-11-28T14:32:05Z and 14:35:31Z); the confirm PROVISIONAL for the epoch batch\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"## 2026-11-28-console-actions — 5. Keyboard Navigation: 2 row(s)\n**Section:** 5. Keyboard Navigation\n**Change:** + decision/console-no-key-trap — Fleet console has no key trap\n+ decision/console-editing-line-exception — Console editing line as the one interactive input\n**Why:** decision/console-no-key-trap: The chunk adds the confirm, the editing line and the answer prompt as modes, and the a11y acceptance holds that every one is left by one key. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\ndecision/console-editing-line-exception: The chunk adds one editing line to the console, the named exception to no interactive input, which the standing row's exception cannot hold within its bound. — resolved (Q1), PROVISIONAL: delegate viola-overseer, 2026-11-28: confirmed, all 20 — the row rests on his answer to F4 «Одна строка (Recommended)» (inputs#I2, his dialogs read 2026-11-28T14:32:05Z and 14:35:31Z); the confirm PROVISIONAL for the epoch batch\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"## 2026-11-28-console-actions — 6. Visual Design Verification: 1 row(s)\n**Section:** 6. Visual Design Verification\n**Change:** + decision/console-selection-by-gutter-mark — Console selection carried by a gutter mark\n**Why:** decision/console-selection-by-gutter-mark: The chunk adds a selection to the console, a new state that must not rest on colour alone. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 4 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:22Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"architecture",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-architecture.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/board-read-model-shape · rejected",
+"decision/console-runs-verbs-as-children · rejected",
+"decision/console-action-child-outlives-quit · rejected",
+"decision/console-answers-permission-and-plan · rejected",
+"decision/console-log-lines-codes-and-counts · rejected",
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 5466 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:22Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/refusals-never-block-human · rejected",
+"decision/board-dialog-id-never-serialised · rejected",
+"fit: fits 8 · not_master 0 · stands 0",
+"landed tx 5467 · 8 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:22Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-design-system.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/console-typed-words-are-values · rejected",
+"contract/fleet-console-view/key-line · rejected",
+"fit: fits 20 · not_master 0 · stands 0",
+"landed tx 5468 · 20 operation(s) · 6 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:23Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/console-key-line · rejected",
+"decision/console-editing-line · rejected",
+"decision/console-selection · rejected",
+"decision/console-result-rows · rejected",
+"decision/console-no-key-trap · rejected",
+"contract/console-prompts/editing · rejected",
+"contract/console-prompts/answer · rejected",
+"absence/console-adopt · rejected",
+"fit: fits 3 · not_master 0 · stands 0",
+"landed tx 5469 · 3 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:23Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 6 · not_master 0 · stands 0",
+"landed tx 5470 · 6 operation(s) · 5 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:24Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"contract/console-log-line/console-action · rejected",
+"contract/console-log-line/console-key-editing-line · rejected",
+"fit: fits 2 · not_master 0 · stands 0",
+"landed tx 5471 · 2 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:24Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"a11y-plan",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-a11y-plan.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"decision/cli-not-keyboard-interactive · rejected",
+"decision/console-keyboard-reach · rejected",
+"decision/console-answer-through-viola-answer · rejected",
+"decision/console-editing-line-width · rejected",
+"decision/console-refusals-are-the-verbs-own · rejected",
+"fit: fits 4 · not_master 0 · stands 0",
+"landed tx 5472 · 4 operation(s) · 3 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:29Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"## 2026-11-28-console-actions — Input Validation: 1 row(s)\n**Section:** Input Validation\n**Change:** ~ decision/console-key-reader-bounded · state: was «provisional»; now «provisional»\n**Why:** decision/console-key-reader-bounded: The row lands on the delegate overseer's technical word while the operator is away, so it carries the provisional mark until his own word at the epoch batch. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"## 2026-11-28-console-actions — Threat Model Summary: 1 row(s)\n**Section:** Threat Model Summary\n**Change:** ~ decision/child-path-trust · state: was «»; now «provisional»\n**Why:** decision/child-path-trust: The row lands on the delegate overseer's technical word while the operator is away, so it carries the provisional mark until his own word at the epoch batch. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:29Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-main-design-system.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"## 2026-11-28-console-actions — Surface: cli: 1 row(s)\n**Section:** Surface: cli\n**Change:** ~ decision/one-progress-pattern · state: was «»; now «provisional»\n**Why:** decision/one-progress-pattern: The row lands on the delegate overseer's technical word while the operator is away, so it carries the provisional mark until his own word at the epoch batch. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"## 2026-11-28-console-actions — Surface: cli: 1 row(s)\n**Section:** Surface: cli\n**Change:** ~ decision/step-counter-only-progress-pattern · state: was «»; now «provisional»\n**Why:** decision/step-counter-only-progress-pattern: The row lands on the delegate overseer's technical word while the operator is away, so it carries the provisional mark until his own word at the epoch batch. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"patterns: none: 2 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:29Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-main-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"## 2026-11-28-console-actions — Surface: console: 1 row(s)\n**Section:** Surface: console\n**Change:** ~ decision/console-frame-floor · state: was «»; now «provisional»\n**Why:** decision/console-frame-floor: The row lands on the delegate overseer's technical word while the operator is away, so it carries the provisional mark until his own word at the epoch batch. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:30Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"obs-plan",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-main-obs-plan.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"## 2026-11-28-console-actions — 6. Log Coverage: 1 row(s)\n**Section:** 6. Log Coverage\n**Change:** ~ decision/console-agents-probe-volume · state: was «provisional»; now «provisional»\n**Why:** decision/console-agents-probe-volume: The row lands on the delegate overseer's technical word while the operator is away, so it carries the provisional mark until his own word at the epoch batch. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:30Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-main-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"## 2026-11-28-console-actions — 6. E2E Test Strategy: 1 row(s)\n**Section:** 6. E2E Test Strategy\n**Change:** ~ decision/tui-verdicts-from-records · state: was «»; now «provisional»\n**Why:** decision/tui-verdicts-from-records: The row lands on the delegate overseer's technical word while the operator is away, so it carries the provisional mark until his own word at the epoch batch. — on delegate overseer, 2026-11-28, inputs#I7, PROVISIONAL\n**Ref:** .andromeda/runs/2026-11-28T16-28-52Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:39Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"security-plan",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-main-security-plan.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"landed tx 5473 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:40Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"design-system",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-main-design-system.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"landed tx 5474 · 2 operation(s) · 2 entries · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:40Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"layout-templates",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-main-layout-templates.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"landed tx 5475 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:08:40Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/ops-main-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 0 · not_master 0 · stands 0",
+"landed tx 5476 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:13:22Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/a11y.md",
+"--file",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap/staged-leaf-.claude__rules__a11y.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/a11y.md rev 16 · 0 new · 2 revised · 0 retired · tx 5477"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"./.claude/rules/a11y.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:13:22Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/services/viola.md",
+"--file",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap/staged-leaf-.claude__docs__services__viola.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/services/viola.md rev 37 · 0 new · 1 revised · 0 retired · tx 5478"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"./.claude/docs/services/viola.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:13:23Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/frontend.md",
+"--file",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap/staged-leaf-.claude__rules__frontend.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/frontend.md rev 23 · 0 new · 1 revised · 0 retired · tx 5479"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"./.claude/rules/frontend.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:13:24Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/api.md",
+"--file",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap/staged-leaf-.claude__rules__api.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/api.md rev 29 · 0 new · 1 revised · 0 retired · tx 5480"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"./.claude/rules/api.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:13:25Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/commands.md",
+"--file",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap/staged-leaf-.claude__docs__commands.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/commands.md rev 41 · 0 new · 1 revised · 0 retired · tx 5481"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"./.claude/docs/commands.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:13:25Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/design-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap/staged-leaf-.claude__docs__design-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/design-summary.md rev 30 · 0 new · 3 revised · 0 retired · tx 5482"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"./.claude/docs/design-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:13:26Z",
+"argv": [
+"harness",
+"land",
+"CLAUDE.md",
+"--file",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap/staged-leaf-CLAUDE.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed CLAUDE.md rev 35 · 0 new · 2 revised · 0 retired · tx 5483"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"./CLAUDE.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:13:27Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/obs-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap/staged-leaf-.claude__docs__obs-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/obs-summary.md rev 31 · 0 new · 1 revised · 0 retired · tx 5484"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"./.claude/docs/obs-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:13:28Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/security-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap/staged-leaf-.claude__docs__security-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/security-summary.md rev 56 · 0 new · 1 revised · 0 retired · tx 5485"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"./.claude/docs/security-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:13:29Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/security.md",
+"--file",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap/staged-leaf-.claude__rules__security.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/security.md rev 58 · 0 new · 1 revised · 0 retired · tx 5486"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"./.claude/rules/security.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:13:29Z",
+"argv": [
+"harness",
+"land",
+".claude/docs/tests-summary.md",
+"--file",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap/staged-leaf-.claude__docs__tests-summary.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/docs/tests-summary.md rev 52 · 0 new · 2 revised · 0 retired · tx 5487"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"./.claude/docs/tests-summary.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:13:30Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/testing.md",
+"--file",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap/staged-leaf-.claude__rules__testing.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/testing.md rev 68 · 0 new · 1 revised · 0 retired · tx 5488"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"./.claude/rules/testing.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:13:30Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/observability.md",
+"--file",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap/staged-leaf-.claude__rules__observability.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/observability.md rev 38 · 0 new · 1 revised · 0 retired · tx 5489"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"./.claude/rules/observability.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:18:01Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/route-watch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 1 record(s) · 1 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:18:07Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/route-watch.txt",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 1 edge(s) · tx 5494 · cry-wuy6ly7z … cry-wuy6ly7z"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:18:55Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 5496 · run-enzi34wv … run-enzi34wv"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T17:22:22Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-28-console-actions",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unchanged · 15 file(s) of 2026-11-28-console-actions"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

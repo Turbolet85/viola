@@ -1,0 +1,59 @@
+[
+{
+"tool": "matrix",
+"v": "1.14",
+"sha8": "95afc9a2",
+"ts": "2026-11-28T17:22:03Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-28-console-actions",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--gated",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-28-console-actions: 1 · to flip 0 · already verified 0 · below 0 · gated held 1",
+"gated v2-15 (planned) — held below verified — BLOCKED-ON: the operator's live reading of viola console's a… (356 chars)",
+"nothing to write — 1 gated cap(s) held below verified, 0 already verified",
+"version: verified 29/37"
+],
+"stderr": null,
+"wrote": [],
+"before": [],
+"after": []
+},
+{
+"tool": "matrix",
+"v": "1.14",
+"sha8": "95afc9a2",
+"ts": "2026-11-28T17:22:08Z",
+"argv": [
+"flip",
+"--dir",
+"viola-0.2.0",
+"--chunk",
+"2026-11-28-console-actions",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--gated"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-11-28-console-actions: 1 · to flip 0 · already verified 0 · below 0 · gated held 1",
+"gated v2-15 (planned) — held below verified — BLOCKED-ON: the operator's live reading of viola console's a… (356 chars)",
+"nothing to write — 1 gated cap(s) held below verified, 0 already verified",
+"version: verified 29/37"
+],
+"stderr": null,
+"wrote": [],
+"before": [],
+"after": []
+}
+]

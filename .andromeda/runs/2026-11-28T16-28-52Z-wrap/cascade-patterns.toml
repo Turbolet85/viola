@@ -1,0 +1,17 @@
+# Main's own cascade patterns: the old cell terms of the prose-only sets the landing wrote no file for.
+
+[[pattern]]
+id = 'own-qquit'
+regex = 'q quit` on the last row|q quit on the last row'
+
+[[pattern]]
+id = 'own-nostrip'
+regex = 'console` act on no strip|console` name no strip|and console act on no strip'
+
+[[pattern]]
+id = 'own-ascii'
+regex = 'plain ASCII,? (with )?no colour'
+
+[[pattern]]
+id = 'own-unbound'
+regex = 'other than `q` and Ctrl-C|anything else (is )?unbound'

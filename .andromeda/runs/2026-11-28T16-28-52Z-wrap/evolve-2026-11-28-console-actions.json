@@ -1,0 +1,130 @@
+[
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "4d0b5024",
+"ts": "2026-11-28T16:33:07Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 5464 · 2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"ts 2026-11-28T16:32:57Z · clock 2026-11-28T16:33:07Z · the builders' bound 2026-11-28T16:04:32Z (line 4566)",
+"ids 2026-11-28T16:32:57Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "4d0b5024",
+"ts": "2026-11-28T17:14:19Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"4",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 4 record(s) in the store · tx 5490 · 2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"ts 2026-11-28T17:13:53Z · clock 2026-11-28T17:14:19Z · the builders' bound 2026-11-28T16:32:57Z (line 4567)",
+"ids 2026-11-28T17:13:53Z-a … 2026-11-28T17:13:53Z-d (4)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "4d0b5024",
+"ts": "2026-11-28T17:17:10Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 5493 · 2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"ts 2026-11-28T17:17:09Z · clock 2026-11-28T17:17:09Z · the builders' bound 2026-11-28T17:13:53Z (line 4571)",
+"ids 2026-11-28T17:17:09Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "4d0b5024",
+"ts": "2026-11-28T17:18:49Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--marker",
+"2026-11-28-console-actions"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 5495 · 2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"ts 2026-11-28T17:18:49Z · clock 2026-11-28T17:18:49Z · the builders' bound 2026-11-28T17:17:09Z (line 4572)",
+"ids 2026-11-28T17:18:49Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson"
+],
+"before": null,
+"after": null
+}
+]

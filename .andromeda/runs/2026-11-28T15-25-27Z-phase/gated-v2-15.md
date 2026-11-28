@@ -1,1 +1,0 @@
-BLOCKED-ON: the operator's live reading of viola console's actions on his Hyprland host — open a child, focus, send, answer (a permission and a plan), last, pause, release, revive and switch from a selected row, against his real claude and terminal — at a moment he names (chunks/2026-11-28-console-actions/inputs/I1-phase-console-actions-directive.md.txt)

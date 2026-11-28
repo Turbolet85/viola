@@ -1,0 +1,17 @@
+@fit n=1 row=decision/cli-ascii-only sha=2e26df0f5e49 v=fits type=2
+@fit n=2 row=decision/ascii-only-human-output sha=615e74247bd1 v=fits type=2
+@fit n=3 row=decision/list-is-the-board sha=354456c8d2fa v=fits type=1
+@fit n=4 row=decision/no-interactive-prompt-or-pager sha=a7381ffbf909 v=fits type=2
+@fit n=5 row=decision/one-progress-pattern sha=b84e4b246849 v=fits type=2
+@fit n=6 row=decision/step-counter-only-progress-pattern sha=71d12ed71966 v=fits type=2
+@fit n=7 row=contract/fleet-console-keys/unbound sha=c96d5dc11d8c v=fits type=3
+@fit n=8 row=contract/fleet-console-view/more-line sha=54d4340dffe4 v=fits type=3
+@fit n=9 row=contract/fleet-console-keys/ctrl-c sha=a76fdc1c96c9 v=fits type=3
+@fit n=10 row=decision/console-actions-run-cli-verbs sha=65ed69310775 v=fits type=1
+@fit n=11 row=contract/fleet-console-keys/confirm sha=a56748f4a332 v=fits type=3
+@fit n=12 row=contract/fleet-console-keys/editing-line sha=a9d39bed4d55 v=fits type=3
+@fit n=13 row=contract/fleet-console-keys/answer sha=dae7418c2781 v=fits type=3
+@fit n=14 row=contract/fleet-console-keys/question sha=a3d0efd2b4de v=fits type=3
+@fit n=15 row=decision/console-result-rows-are-verb-output sha=b36786289066 v=fits type=1
+@fit n=16 row=decision/console-one-action-at-a-time sha=c2141dd4ce38 v=fits type=1
+@fit n=17 row=absence/console-adopt sha=6322ca5718cb v=fits type=7

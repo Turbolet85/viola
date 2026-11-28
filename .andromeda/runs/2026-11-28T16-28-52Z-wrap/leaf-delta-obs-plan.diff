@@ -1,0 +1,28 @@
+--- a/.andromeda/obs-plan.md
++++ b/.andromeda/obs-plan.md
+@@ -157,3 +157,3 @@
+ decision/no-formal-slo · No formal SLO — No formal latency or availability SLO is held beyond the tests perf gates.
+-decision/no-interactive-terminal-interface · No interactive terminal interface — viola offers no interactive terminal interface: no prompt, TUI or pager. · except: the terminal fleet console (`viola console`), its own surface, which reads keys in raw mode and redraws its frame
++decision/no-interactive-terminal-interface · No interactive terminal interface — viola offers no interactive terminal interface: no prompt, TUI or pager. · except: the terminal fleet console (`viola console`), its own surface, which reads keys in raw mode, redraws its frame and takes a row selection, a confirm, an answer prompt and one editing line
+ decision/no-log-rotation-v1 · No log rotation in v1 — events.ndjson and diagnostics/*.ndjson are not rotated in v1; any future rotation keeps 0600/0700 permissions and keeps wait after and send cursor offsets valid. · why: The trigger is operational, not compliance: the security tier is Minimal with no compliance triggers.
+@@ -353,3 +353,3 @@
+ decision/short-lived-verbs-stderr · Short-lived verbs use stderr for humans — Short-lived CLI verbs may use stderr for their human output.
+-contract/console-output/stdout · console output streams · stdout — viola console writes only its screen to stdout, in the alternate screen, plain ASCII with no colour; its refusals and its internal error go to stderr.
++contract/console-output/stdout · console output streams · stdout — viola console writes only its screen to stdout, in the alternate screen, with no colour and plain ASCII bar the editing line, which echoes the typed text as typed with every control escaped; its refusals and its internal error go to stderr.
+ contract/hook-output/stderr · hook output streams · stderr — A hook writes nothing to stderr.
+@@ -369,2 +369,3 @@
+ decision/compact-confirm-window · Compact confirmation window — A /compact send waits 40 s for its compacted-session post-condition, while every other confirmed send waits 10 s.
++decision/console-action-untraced · Console actions have no span of their own — A console action opens no span of its own; it is observed by the console's console-action line and the child verb's own cli process log, the console running each verb as a child of its own executable, one at a time. · provisional
+ decision/dependency-targets-off-in-sink · rmcp and portable-pty targets off — The rmcp and portable-pty log targets are switched OFF in the sink.
+@@ -619,4 +620,5 @@
+ contract/child-spawn-log/subject · child and shell spawn log events · subject — process-start and process-exit lines for child spawns carry a subject from a closed set.
++contract/diag-line-fields/console-action · diagnostic line additive fields · console-action — One line per finished action child, with verb (a closed enum of the nine CLI verb words the console runs) and exit_code (integer), both required; no name, argument or output reaches the line.
+ contract/diag-line-fields/console-frame · diagnostic line additive fields · console-frame — Logged on the first draw and then only when one of its fields changes, with cols, rows, shown and hidden (counts) and fits (boolean), all required; an unread terminal size logs 0x0, not fitting.
+-contract/diag-line-fields/console-key · diagnostic line additive fields · console-key — Logged once per key read with key, one of quit, interrupt or unbound, required; the key's bytes never reach a line.
++contract/diag-line-fields/console-key · diagnostic line additive fields · console-key — Logged once per key read with key, a word of its closed set, required; on the editing line one read's keys write at most one line a class (text, backspace, unbound) with a count, the count required for text; the key's bytes and no typed text ever reach a line.
+ contract/ipc-invocation-log/fields · IPC invocation log lines · fields — Channel-request and channel-response lines carry method, conn (srv_conn when the client sent none) and the corr of a frame with an id; a request line adds sender, a response line result class and an error's error code but never sender.
+@@ -644,3 +646,3 @@
+ ## obs-plan · log-coverage · twin 6-log-coverage
+-decision/console-agents-probe-volume · Console agents-probe log volume accepted — viola console reads claude agents on its own thread at most every 5 s and writes an agents-probe pair on each read, up to 720 pairs an hour into console.ndjson; its other lines are written only on a real change. · why: The console's log volume is narrowed to these pairs and the lines of real changes, and is accepted as built. · provisional
++decision/console-agents-probe-volume · Console agents-probe log volume accepted — viola console reads claude agents on its own thread at most every 5 s and writes an agents-probe pair on each read, up to 720 pairs an hour into console.ndjson; its other lines are written only on a real change, a key read or a finished action child. · why: The console's log volume is narrowed to these pairs and the lines of real changes, and is accepted as built. · provisional
+ decision/revive-preflight-order · Revive start preflight order — Revive's start preflight reads the holder, then the session, then session-live, then the directory, and stops at the first refusal.

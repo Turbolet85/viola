@@ -1,0 +1,64 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "c76de2ab",
+"ts": "2026-11-28T17:24:11Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-28-console-actions",
+"--date",
+"2026-11-28",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--to",
+"gated",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would flip 2026-11-28-console-actions pending -> gated"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "c76de2ab",
+"ts": "2026-11-28T17:24:15Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-11-28-console-actions",
+"--date",
+"2026-11-28",
+"--run-dir",
+".andromeda/runs/2026-11-28T16-28-52Z-wrap",
+"--to",
+"gated"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip 2026-11-28-console-actions pending -> gated · tx 5503"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T13-47-40-2026-11-28-console-actions.ndjson",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

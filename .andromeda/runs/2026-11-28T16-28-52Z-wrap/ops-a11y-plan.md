@@ -1,0 +1,51 @@
+@row_set n=1 row=decision/cli-not-keyboard-interactive cell=except seen=2 detector=D-a11y-surface
+value: the terminal fleet console (`viola console`), its own surface, which reads keys from stdin in raw mode for its selection, y/n confirms, answer prompts and one editing line
+basis: fct-pabjcb3k
+because: The console now takes a selection, a confirm, an answer prompt and one editing line, so the exception to the no-prompt rule must name them.
+@row_set n=2 row=decision/static-linear-output cell=except seen=3 detector=D-a11y-surface
+value: the terminal fleet console (`viola console`), its own surface, which redraws its frame when the terminal's size changes, the fleet it shows changes or a key moves its selection or opens a prompt
+basis: fct-pabjcb3k
+because: The console now redraws on a moved selection, a confirm, the answer prompt and the editing line, so its exception to static output must say so.
+@row_add n=1 row=decision/console-keyboard-reach area=5-keyboard-navigation fact=F1 detector=D-a11y-surface
+name: Fleet console driven by the keyboard
+rule: The terminal fleet console (`viola console`) is driven by the keyboard alone: j/k or the arrows move a selection over the wrapped rows, one letter runs each verb on the selected row (l p r f v s m a o), release and revive ask y/n first, and q quits.
+basis: fct-zcv5bkss
+because: The chunk adds the console's selection and its verb keys, a new interactive element whose keyboard reach §5 must hold.
+@row_add n=2 row=decision/console-no-key-trap area=5-keyboard-navigation fact=F2 detector=D-a11y-surface
+name: Fleet console has no key trap
+rule: The fleet console has no key trap: n or Escape leaves a confirm, Escape leaves the editing line and the answer prompt running nothing, and Ctrl-C ends the console from every mode with the terminal restored.
+guard: console_ctrl_c_ends_from_every_mode
+state: provisional
+basis: fct-c6y5k4zm
+because: The chunk adds the confirm, the editing line and the answer prompt as modes, and the a11y acceptance holds that every one is left by one key.
+@row_add n=3 row=decision/console-editing-line-exception area=5-keyboard-navigation fact=F3 detector=D-a11y-surface
+name: Console editing line as the one interactive input
+rule: The fleet console's one editing line, for send, switch and open, takes one line, echoed as typed; Enter hands it to the verb and Escape cancels and runs nothing.
+why: the named exception to the rule of no interactive CLI input
+basis: fct-pabjcb3k
+because: The chunk adds one editing line to the console, the named exception to no interactive input, which the standing row's exception cannot hold within its bound.
+@row_add n=4 row=decision/console-answer-through-viola-answer area=5-keyboard-navigation fact=F4 detector=D-a11y-surface
+name: Console answers permissions and plans only
+rule: The fleet console answers a pending permission (y allow, n deny) or plan (y approve, n revise) through viola answer; a question is never answered in the console, and one line sends the human to the session by f.
+basis: fct-ewvlmjfa
+because: The chunk adds the answer prompt and the question line, a new keyboard path onto the dialog critical path.
+@row_add n=5 row=decision/console-editing-line-width area=6-visual-design-verification fact=F5 detector=D-a11y-surface
+name: Console editing line width rule
+rule: The editing line draws each scalar at its terminal width (1, 2 or 0 columns); past the edge it draws the prompt, an ellipsis and the longest tail that fits, leaving out a wide scalar that would straddle the edge.
+basis: fct-pabjcb3k
+because: The chunk adds the editing line's echo, whose drawing rule decides what a human sees of the text typed.
+@row_none n=1 fact=F6 type=9
+what: whether the 80-column floor's key line shows every binding is the operator's open fork, owned by the run's founder-forks; the key line itself is the layout master's
+@row_add n=6 row=decision/console-selection-by-gutter-mark area=6-visual-design-verification fact=F7 detector=D-a11y-surface
+name: Console selection carried by a gutter mark
+rule: The fleet console's selection is carried by a gutter mark on the selected row alone, never by colour.
+state: provisional
+basis: fct-zcv5bkss
+because: The chunk adds a selection to the console, a new state that must not rest on colour alone.
+@row_add n=7 row=decision/console-refusals-are-the-verbs-own area=2-a11y-strategy fact=F8 detector=D-a11y-surface
+name: Console refusals are the verb's own lines
+rule: A verb refused from the fleet console is drawn as that verb's own unable and hint lines in the result rows; the console adds no refusal copy of its own.
+basis: fct-zm6p7xp3
+because: The chunk draws refusals as unable lines in the console's result rows, so the refusal copy the a11y strategy relies on stays the verb's alone.
+@row_none n=2 fact=F9 type=5
+what: an inventory of the console's no-key-trap test cases; the Ctrl-C case is the guard of the no-key-trap decision, and a11y failures as nextest failures already stand

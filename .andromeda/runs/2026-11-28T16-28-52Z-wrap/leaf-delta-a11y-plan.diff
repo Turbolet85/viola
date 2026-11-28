@@ -1,0 +1,16 @@
+--- a/.andromeda/a11y-plan.md
++++ b/.andromeda/a11y-plan.md
+@@ -23,3 +23,3 @@
+ decision/single-vendor-content-boundary · Single vendor-content boundary — The viola run TUI passthrough, which a passed viola revive also enters, is the only boundary-only vendor-content zone.
+-decision/static-linear-output · Static linear output — viola's own output is static and linear, with no spinner or redraw. · except: the terminal fleet console (`viola console`), its own surface, which redraws its frame when the terminal's size changes or the fleet it shows changes
++decision/static-linear-output · Static linear output — viola's own output is static and linear, with no spinner or redraw. · except: the terminal fleet console (`viola console`), its own surface, which redraws its frame when the terminal's size changes, the fleet it shows changes or a key moves its selection or opens a prompt
+ decision/terminal-structural-equivalents · Terminal structural equivalents of ARIA roles — In place of ARIA roles, terminal structure is carried by the caption line, the unwrapped separator, the `-- LINKS --` separator of the related links, the plain-space NAME indent of tree depth and the --help group labels.
+@@ -131,2 +131,4 @@
+ decision/cli-no-interactive-input · No interactive CLI input — The CLI has no interactive prompt, pager or redraw, and takes input only from stdin or `--file`. · except: the terminal fleet console (`viola console`), its own surface, which reads keys from stdin in raw mode and redraws on a resize or a change in the fleet it shows
++decision/console-editing-line-exception · Console editing line as the one interactive input — The fleet console's one editing line, for send, switch and open, takes one line, echoed as typed; Enter hands it to the verb and Escape cancels and runs nothing. · why: the named exception to the rule of no interactive CLI input
++decision/console-no-key-trap · Fleet console has no key trap — The fleet console has no key trap: n or Escape leaves a confirm, Escape leaves the editing line and the answer prompt running nothing, and Ctrl-C ends the console from every mode with the terminal restored. · guard: console_ctrl_c_ends_from_every_mode · provisional
+ decision/tui-terminal-belongs-to-child · Tui terminal belongs to the child — On the tui, the terminal belongs to the wrapped child process, not to viola.
+@@ -134,2 +136,3 @@
+ N/A — viola has no web or graphical frontend, so no page token pair or layout to verify.
++decision/console-selection-by-gutter-mark · Console selection carried by a gutter mark — The fleet console's selection is carried by a gutter mark on the selected row alone, never by colour. · provisional
+ decision/dialog-amber-sgr · Amber only on the DIALOG word — Amber SGR is applied only to the `DIALOG` word.

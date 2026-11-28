@@ -1,46 +1,44 @@
 # Session Handoff
 
-**Last Updated:** 2026-11-28T13:23:26Z
+**Last Updated:** 2026-11-28T17:18:59Z
 **Branch:** build/viola-0.2.0 · 0 ahead of origin/build/viola-0.2.0 as read at this wrap's Setup (this wrap's push lands its commit)
 **Status:** clean
-**Last Commit:** 2026-11-28-fleet-console-view — the fleet console's view over the fakes, gated on his live reading
+**Last Commit:** 2026-11-28-console-actions — the fleet console's actions over the fakes, gated on his live reading
 
 ## Position
-- Done: 2026-11-28-fleet-console-view — record `gated`. The view is built and proven over the fakes: the board's rows
-  in its order with a seventh `LAST` cell, every cell escaped, the `...` cut, `... <n> more`, the one-second re-read
-  that skips an unchanged log, redraws and `console-frame` only on a change, the 5 s agents thread, the mid-run
-  refusals. CI on `5e9e3c20` green 7/7 (ci#46144426786). matrix#v2-14 is claimed GATED, with no ref and no flip.
-  `BLOCKED-ON` (STANDING): his live reading on his Hyprland host — tiled, whole and usable at a quarter screen, the
-  fleet kept current, at a moment he names. Unproven until then: the real `claude agents --json` every 5 s, and his
-  real logs' sizes against the one-second read.
-- Next: «Console actions» (`chk-7bdqpplh`), not started. It carries `cry-mf2w3ioc` (v2-31's console leg),
-  `cry-pjtbjcco` (the key decoder; the restore reading) and the new `cry-qjw64paz` (no scroll is built past
-  `... <n> more`; a selection names its row by the board item; a send's readback is its frame verb's reply, never
-  STATUS; console test starts keep the test-scoped PATH).
+- Done: 2026-11-28-console-actions — record `gated`. Every verb of v2-15 but a question's answer is reachable from the
+  console by keyboard — the selection and the scroll; last, pause, focus at once; release and revive (`viola up`)
+  behind `y/n`; send, switch and open through one editing line echoed as typed; a permission and a plan by `y/n`; a
+  question left to the session — each a direct child `viola` acting as the human, one at a time, its output escaped.
+  Proven over the fakes with six controls. CI on `fa675a8a` green 7/7 (ci#46163774540). matrix#v2-15 claimed GATED,
+  no ref, no flip. `BLOCKED-ON` (STANDING): his live reading on his Hyprland host — real focus and terminals, a real
+  claude's reply and dialogs, the editing line under his terminal and input method, the key line at his tile width.
+- Next: «The fleet on the founder's host» (Epoch 7 head, BLOCKED-ON R4), taken up for what is doable now; then
+  «Fleet a11y verification» (buildable over the fakes); «Version done-check» cannot close while a gated record stands.
+  Epoch 6 holds no markerless entry: both its gated records wait on his live readings.
 
 ## Work done
-- Reconcile: 34 operations in 11 row TXs (5374–5384) over all seven masters. His rows (a) · F1 · F2 · F4 · F5 · F6 ·
-  F7 landed on ONE answer card the overseer confirmed. The eight verb-output rows were left untouched (his «Не
-  трогать»). 20 leaf findings applied. Curation: no new learnings.
-  Records: `.andromeda/runs/2026-11-28T12-37-34Z-wrap/`.
+- Reconcile: 49 operations in 11 row TXs (5466–5476) over all seven masters; 20 rows on ONE answer card the overseer
+  confirmed, each naming his own answer and dialog (F1–F7, Q8, Q9); the delegate's technical rows land PROVISIONAL.
+  28 leaf findings applied over 13 leaves. Curation: T2 testing.md +1, T3 session-learnings extended (the fake-agent
+  profile writer). Records: `.andromeda/runs/2026-11-28T16-28-52Z-wrap/`.
 
 ## Drift resolved
-- Escalations: 18 resolved (Q1, the card, 17; Q2, the empty list, 1). Fit judged 36: 2 `not_master` (the
-  last-activity row and the unchanged-log skip, both held by the code). 28 duplicate offers were kept to one home.
-  Route: 1 CARRY (delegate, PROVISIONAL).
+- Escalations: 20 resolved (Q1, the card). Fit judged 60 over 3 waves: 7 `not_master`, each rejected before landing
+  (2 of them his own-word rows, named in founder-forks F-N). 16 duplicate offers kept to one home. Route: 1 WATCH.
 
 ## Notes
-- **Founder forks:** `.andromeda/runs/2026-11-28T12-37-34Z-wrap/founder-forks.md` — no fork of his was met outside
-  his answers; it lists the PROVISIONAL rows for the epoch batch. The 2026-11-28T08-40-41Z-wrap file is answered by
-  inputs (a)/(b) and landed here. The 2026-11-27T21-41-23Z-wrap file's items 1–2 (architecture) still stand unlanded.
-- **PROVISIONAL for the epoch batch:** the card's confirm; the delegate's technical rows (the empty agents list, the
-  mid-run refusals, the `console-frame` cadence, the `state-recovered` line, the log volume, an agents child
-  outliving a quit); the route CARRYs — `rec.py marks --root .`.
+- **Founder forks:** `.andromeda/runs/2026-11-28T16-28-52Z-wrap/founder-forks.md` — F-K the key line at the 80-column
+  floor (as built while unanswered), F-R `refusals-never-block-human` and the console (no change while unanswered),
+  F-N two of his rows fit kept out. The 2026-11-28T12-37-34Z-wrap and 2026-11-27T21-41-23Z-wrap files still stand.
+- **PROVISIONAL for the epoch batch:** the card's confirm; the delegate's technical rows (letters `a` `o`, open's form,
+  switch's word rule, the prompts, `a` with nothing pending, the `...` lead, the decoder, `console-action`, `count`);
+  the route confirm — `rec.py marks --root .`.
+- **WATCH:** the pre-push truncated fake-agent profile red (since this chunk, 0/3), on «The fleet on the founder's host».
 - **Deferred learnings (carried, not curated here):** recurrence-despite-learning, host-linux.md §Processes (the
-  `pgrep -f` self-match, again at this chunk's implement); recurrence-despite-learning, the `date -u` timestamp rule;
-  host-linux «Transports»; verification-harness.md 2026-10-04 «a socket-binding test under a short /tmp root»;
-  testing.md 2026-09-24 «wait on the exact line asserted». Review with `/andromeda-wrap-session --review`.
-- **Blocked ahead:** «The fleet on the founder's host» `BLOCKED-ON: R4`, standing.
+  `pgrep -f` self-match); recurrence-despite-learning, the `date -u` timestamp rule; host-linux «Transports»;
+  verification-harness.md 2026-10-04 «a socket-binding test under a short /tmp root»; testing.md 2026-09-24 «wait on
+  the exact line asserted». Review with `/andromeda-wrap-session --review`.
 - **Desk (his to remove; nothing removed):** `$XDG_RUNTIME_DIR/viola-r7/`; `~/.viola/instances/adopt-probe`;
   `$XDG_RUNTIME_DIR/viola-r5a/` and the trust record for its `typed-in/` folder; `$XDG_RUNTIME_DIR/viola-r5a1-kept/`,
   `viola-r5a2/`, `viola-r5a3/`, `viola-r5b/`, `viola-r3/`, `~/.cache/viola-adopt-probe-kept/`,
@@ -48,6 +46,3 @@
   `~/dev/projects/viola-mutants-scratch/m5/`, `m6/` and `m6-out/`, the r2 entries' `mktemp -d` dirs under `/tmp`.
 - **Last failed command:** none.
 - **Host:** PATH's claude is 2.1.332 (stamped, 29 rows).
-
-## Session End Status
-Completed normally at 2026-11-28 16:45:38

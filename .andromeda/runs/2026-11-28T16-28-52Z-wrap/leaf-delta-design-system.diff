@@ -1,0 +1,56 @@
+--- a/.andromeda/design-system.md
++++ b/.andromeda/design-system.md
+@@ -51,3 +51,3 @@
+ decision/bold-only-name-column · Bold only for the NAME column — In the cli, bold is used only for the NAME column.
+-decision/cli-ascii-only · ASCII-only CLI output — CLI output is ASCII only, separators included, at high density.
++decision/cli-ascii-only · ASCII-only CLI output — CLI output is ASCII only, separators included, at high density. · except: the fleet console's editing line echoes the typed text as typed, UTF-8 included, controls escaped
+ decision/cli-terminal-font · CLI uses the terminal's own font — The cli uses the user's configured terminal monospace; the brand shows through the fixed-column structure and the phraseology words.
+@@ -77,3 +77,3 @@
+ decision/ascii-mirror-words-always-print · ASCII mirror marks are words, not glyphs — A glyph is a non-ASCII symbol; the ASCII readback mirror `[RB]` / `[  ]` / `[/ ]` and `->` are words that print in every human output, piped, `NO_COLOR` and `TERM=dumb` included, and only `--json` replaces them with its JSON document.
+-decision/ascii-only-human-output · ASCII-only human output — Human output is ASCII only (`->`, `[RB]`, `[/ ]`, `[  ]`).
++decision/ascii-only-human-output · ASCII-only human output — Human output is ASCII only (`->`, `[RB]`, `[/ ]`, `[  ]`). · except: the fleet console's editing line echoes the typed text as typed, UTF-8 included, controls escaped
+ decision/clap-without-colour-feature · clap built without its colour feature — Argument parsing uses clap (derive) built without its `color` feature, so clap's help and usage output is plain in every mode and no dependency reads a colour or terminal variable. · why: every styled byte of human output is viola's own SGR module's
+@@ -87,3 +87,3 @@
+ decision/linux-terminal-platform · Linux terminals as the CLI platform — The cli targets Linux terminals: the core on any current distribution, CI on `ubuntu-latest`.
+-decision/list-is-the-board · viola list is the board — `viola list` is the board, `verify`, `plugin install` and `console` act on no strip, `up` acts on the whole fleet or on the instances it names, and every other verb a person runs acts on one strip.
++decision/list-is-the-board · viola list is the board — `viola list` is the board, `verify` and `plugin install` act on no strip, `console` acts on its selected strip only through the CLI verbs it runs as children, `up` acts on the whole fleet or on the instances it names, and every other verb a person runs acts on one strip.
+ decision/list-refuses-board-on-strict-modes-failure · Strict-modes failure refuses the whole board — A failed strict-modes check of the home or any instance refuses the whole list board with exit 21, in the fixed unable and hint pair or, under --json, the instance-unreachable document with detail strict-modes-failed. · why: The MCP list tool reads the same refusal document through the shared board reader, and the list tests pin exit 21 and the document byte for byte.
+@@ -95,3 +95,3 @@
+ decision/no-hint-under-json · No hint line under --json — No `hint:` line is printed under `--json`; the typed `refusal` / `error` fields and their `detail` are the whole answer, exit 21's cause being its `detail`.
+-decision/no-interactive-prompt-or-pager · No interactive prompt or pager — No verb has an interactive prompt or a pager.
++decision/no-interactive-prompt-or-pager · No interactive prompt or pager — No verb has an interactive prompt or a pager. · except: `viola console` takes a selection, a confirm, an answer prompt and one editing line
+ decision/no-spinner · No spinner or elapsed-time counter — The CLI shows no spinner and no elapsed-time counter.
+@@ -103,3 +103,3 @@
+ decision/start-refusals-show-no-path-or-pid · Start refusals show no path or pid — The exit-1 refusals of `viola run`, `viola revive` and `viola adopt` print one fixed-message line and one hint per cause, and none shows a path, a pid, the recorded directory or a logged id.
+-decision/step-counter-only-progress-pattern · Step counter as the one progress pattern — The step counter of `verify` is the project's one progress pattern.
++decision/step-counter-only-progress-pattern · Step counter as the one progress pattern — The step counter of `verify` is the project's one progress pattern. · except: the fleet console's static running line while an action child runs · provisional
+ decision/truncate-only-unwrapped-name · Only an unwrapped NAME is truncated — Where stdout's own terminal width is known, human tables truncate only the NAME of unwrapped rows (`...`); otherwise nothing is truncated.
+@@ -259,3 +259,3 @@
+ decision/no-json-after-child-held-terminal · No document once the child held the terminal — An error while pumping the child under `viola revive --json` or `viola adopt --json` prints no document. · why: The child has held the terminal and viola writes nothing past it. · except: `viola adopt`'s not-resumed end writes its fixed pair or `--json` document after the child released the terminal; `run` and `revive` still write nothing past the child.
+-decision/one-progress-pattern · One progress pattern — A step counter with static appended stdout lines is the project's one progress pattern.
++decision/one-progress-pattern · One progress pattern — A step counter with static appended stdout lines is the project's one progress pattern. · except: the fleet console's static running line while an action child runs · provisional
+ decision/terminal-background-never-set · Terminal background never set — The CLI never sets a background colour, at any colour depth. · why: The terminal background belongs to the user.
+@@ -405,9 +405,20 @@
+ ## design-system · surface-console
+-contract/fleet-console-keys/ctrl-c · Fleet console keys · Ctrl-C — Ctrl-C ends the fleet console with exit 0.
++decision/console-actions-run-cli-verbs · Fleet console actions run the CLI verbs — The fleet console's j, k and the arrows move the selection, and l last, p pause, r release, f focus, v revive (`viola up`), s send, m switch, a answer and o open each run on the selected row as its CLI verb in a child, one at a time. · provisional
++decision/console-one-action-at-a-time · One console action at a time — While a fleet console action child runs, a static running line stands and any other action key reads busy; no second child starts.
++decision/console-result-rows-are-verb-output · Console result rows are the verb's own output — An action child's output lines are the fleet console's result rows, each escaped; a refusal shows as the verb's own unable lines, never a console-made message. · provisional
++contract/fleet-console-keys/answer · Fleet console keys · answer — `a` on a pending permission opens `answer <name> permission? y allow  n deny`, on a plan `answer <name> plan? y approve  n revise`; Escape leaves it answering nothing.
++contract/fleet-console-keys/confirm · Fleet console keys · confirm — Release and revive ask a confirm naming the verb and the session; `y` runs it, `n` or Escape leaves it and runs nothing.
++contract/fleet-console-keys/ctrl-c · Fleet console keys · Ctrl-C — Ctrl-C ends the fleet console with exit 0 from every mode: the list, a confirm, the editing line and the answer prompt.
++contract/fleet-console-keys/editing-line · Fleet console keys · editing line — `s`, `m` and `o` open one editing line with the prompt `send <name>: `, `switch <name>: ` or `open child of <name>: `; Enter hands the text to the verb, Escape cancels and runs nothing.
+ contract/fleet-console-keys/q · Fleet console keys · q — `q` quits the fleet console with exit 0.
+-contract/fleet-console-keys/unbound · Fleet console keys · any other key — Every key other than `q` and Ctrl-C is unbound and ignored; the end of the console's input also ends it with exit 0.
++contract/fleet-console-keys/question · Fleet console keys · answer on a question — `a` on a pending question draws the one line `<name>  question - answer it in the session (f)` and runs nothing; no question or option text is read or shown.
++contract/fleet-console-keys/unbound · Fleet console keys · any other key — Every key the fleet console binds to nothing in its mode is unbound and ignored, `a` with nothing pending included; the end of the console's input also ends it with exit 0.
++contract/fleet-console-view/above-line · Fleet console view · above line — A scroll window past the top of the fleet begins with a line of the form `... <n> above`.
+ contract/fleet-console-view/captions · Fleet console view · caption row — The console's caption row is the board's six captions, then a seventh, `LAST`.
++contract/fleet-console-view/editing-line-width · Fleet console view · editing line width — The editing line echoes the text as typed, UTF-8 included, controls escaped, each scalar 1, 2 or 0 columns by unicode-width; past the edge it draws the prompt, `...`, and the longest tail that fits, a straddling wide scalar left out.
+ contract/fleet-console-view/last · Fleet console view · LAST — `LAST` is the age of the instance's newest log line in one unit (`12s`, `4m`, `2h`, `3d`); `unknown` on a wrapped row with no log line, `n/a` on an unwrapped row.
+ contract/fleet-console-view/line-cut · Fleet console view · line cut — A console line wider than the terminal is cut whole at its columns ending in `...`, never inside an escape; an unwrapped NAME is not cut separately in the console.
+-contract/fleet-console-view/more-line · Fleet console view · more line — A fleet taller than the console's body rows ends in a line of the form `... <n> more`.
++contract/fleet-console-view/more-line · Fleet console view · more line — A fleet taller than the console's body rows, its scroll window not at the fleet's end, ends in a line of the form `... <n> more`.
++contract/fleet-console-view/selection · Fleet console view · selection — The selected row is marked by its gutter alone; the selection moves over wrapped rows only, and none stands on a board with no wrapped row.
+ contract/viola-console-refusals/mid-run-home-widened · viola console refusals · home widened mid-run — A home widened while the console runs ends it with exit 1 and the home-state `unable:` / `hint:` pair after the terminal is restored; a board directory that cannot be listed ends it as `error: internal error`.
++absence/console-adopt — An adopt action in the fleet console

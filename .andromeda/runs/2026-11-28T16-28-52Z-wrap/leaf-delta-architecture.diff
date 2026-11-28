@@ -1,0 +1,6 @@
+--- a/.andromeda/architecture.md
++++ b/.andromeda/architecture.md
+@@ -51,2 +51,3 @@
+ decision/typed-errors-per-crate · thiserror per crate, anyhow at the bin edge — Each crate has typed errors callers can branch on through thiserror; anyhow is used at the bin edge only. · except: viola-pty's error type is hand-written
++decision/unicode-width-column-widths · unicode-width for terminal column widths — unicode-width is a direct, exactly pinned dependency of the root bin, used for terminal column widths of the console's editing line. · why: already in the lock through vt100, so no crate is added · provisional
+ decision/versioned-records-no-migrations · Versioned records instead of migrations — Every record carries v, readers skip unknown kinds and fields, and a snapshot with an unsupported v is rebuilt by replaying the log. · except: process-log lines carry no v; their version lives in the schema filename, because obs's default-deny field list admits no v key

@@ -1,0 +1,66 @@
+# The site sweep's patterns: one per moved fact of the report (implement's Counts / qualifiers moved, Spec claims
+# disproved, Expected amendments, and the close's own), its wording, its verbs and its name token in one regex.
+
+[[pattern]]
+id = 'C-events'
+regex = 'ObsEvent::ALL|LOG_FORMAT_EVENTS|\b1[89] (closed )?(event|kind)s?\b|closed event list'
+
+[[pattern]]
+id = 'C-keyword'
+regex = 'console-key'
+
+[[pattern]]
+id = 'C-keycount'
+regex = 'console-key[^\n]{0,80}\bcount\b|\bcount\b[^\n]{0,80}console-key'
+
+[[pattern]]
+id = 'C-action'
+regex = 'console-action|exit_code'
+
+[[pattern]]
+id = 'C-keyline'
+regex = 'CONSOLE_KEYS|q quit|key line|bindings line'
+
+[[pattern]]
+id = 'D-gone'
+regex = 'console_refused_action|gone instance|has no row'
+
+[[pattern]]
+id = 'E-board'
+regex = 'list-is-the-board|board-vs-strip|acts on no strip|selected strip|on the selected row'
+
+[[pattern]]
+id = 'E-child'
+regex = 'console-runs-verbs-as-children|console-action-child-outlives-quit|as a child|direct child'
+
+[[pattern]]
+id = 'E-keys'
+regex = 'fleet-console-keys|\bunbound\b'
+
+[[pattern]]
+id = 'E-view'
+regex = 'more-line|above-line|\.\.\. <n> (more|above)'
+
+[[pattern]]
+id = 'E-a11y'
+regex = 'cli-no-interactive-input|cli-not-keyboard-interactive|static-linear-output|no-interactive-terminal-interface|keyboard-interactive|interactive input'
+
+[[pattern]]
+id = 'E-floor'
+regex = 'console-frame-floor|console-own-surface|plain ASCII|80 columns|80x24'
+
+[[pattern]]
+id = 'E-answer'
+regex = 'dialog_id|console[^\n]{0,60}\banswer'
+
+[[pattern]]
+id = 'E-decoder'
+regex = 'console-key-reader-bounded|ESC_WAIT|READ_CAP|64 bytes'
+
+[[pattern]]
+id = 'E-diag'
+regex = 'diag-line-fields|harness-log-fields-owned-by-test-plan'
+
+[[pattern]]
+id = 'N-width'
+regex = 'unicode-width'
