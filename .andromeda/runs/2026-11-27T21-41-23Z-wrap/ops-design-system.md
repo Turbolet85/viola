@@ -1,2 +1,0 @@
-@none
-reason: The chunk changes no CLI output: no refusal, hint, printed word, exit code or token is added or changed, and no new UI is rendered (Coverage tokens n/a, fct-nxkklnm2). The shared start prologue moves the trust and strict-modes checks unchanged and in the same order, and the one refused helper is byte-identical (fct-xoaulb66, fct-pla7hbyi). The only new output is the test-only r2-open.sh verdict line (fct-pbmtkmpr), which is no product surface. So every picked design-system row, the stale-marked ones included, stays true as it reads.

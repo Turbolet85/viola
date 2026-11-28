@@ -1,1 +1,0 @@
-yes — apply rev 3 as it stands. One note, no plan change: evidence/moved-bodies.md names EVERY moved function and test, one line each ending equal or differs, and its first line states their count, so an empty record cannot read green; the overseer reads that file before the operator pass. End the phase; start no implement.

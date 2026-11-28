@@ -1,0 +1,379 @@
+[
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-27T23:55:33Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-27-epoch-5-cleanup-2",
+"--section-file",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/after-implement.md",
+"--heading",
+"## After implement",
+"--before",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap",
+"--marker",
+"2026-11-27-epoch-5-cleanup-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-27-epoch-5-cleanup-2/report rev 2 · 10 new · 0 revised · 0 retired · 54 kept · tx 5225"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-27T22-44-04-2026-11-27-epoch-5-cleanup-2.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-27T23:55:33Z",
+"argv": [
+"put",
+"--root",
+".",
+"--doc",
+"report",
+"--owner",
+"chk:2026-11-27-epoch-5-cleanup-2",
+"--section-file",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/new-text.md",
+"--heading",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap",
+"--marker",
+"2026-11-27-epoch-5-cleanup-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-27-epoch-5-cleanup-2/report rev 3 · 144 new · 0 revised · 0 retired · 64 kept · tx 5226"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-27T22-44-04-2026-11-27-epoch-5-cleanup-2.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-27T23:56:01Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/cites-land-2026-11-27-epoch-5-cleanup-2.ndjson",
+"--base",
+"509eeca148c3ef174c303a1051322de60bd85e91",
+"--run-dir",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap",
+"--marker",
+"2026-11-27-epoch-5-cleanup-2",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"dry-run · would land 0 fact(s) · 0 edge(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-27T23:56:06Z",
+"argv": [
+"cites-land",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/cites-land-2026-11-27-epoch-5-cleanup-2.ndjson",
+"--base",
+"509eeca148c3ef174c303a1051322de60bd85e91",
+"--run-dir",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap",
+"--marker",
+"2026-11-27-epoch-5-cleanup-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 0 fact(s) · 0 edge(s) · tx 5228"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-27T22-44-04-2026-11-27-epoch-5-cleanup-2.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-27T23:57:37Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-27-epoch-5-cleanup-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 1049 · packs 11 · pack 100 · 302772 B",
+"security-plan: rows 667 · packs 7 · pack 100 · 208690 B",
+"design-system: rows 361 · packs 4 · pack 100 · 90162 B",
+"layout-templates: rows 238 · packs 3 · pack 100 · 59154 B",
+"test-plan: rows 1388 · packs 14 · pack 100 · 382424 B",
+"obs-plan: rows 1056 · packs 11 · pack 100 · 294615 B",
+"a11y-plan: rows 244 · packs 3 · pack 100 · 71431 B",
+"rows-packs: 7 master(s) · 5003 row(s) · 53 pack(s) · 2 draw(s) a pack · pin 5228"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T00:11:16Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap",
+"--side",
+"wrap",
+"--marker",
+"2026-11-27-epoch-5-cleanup-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 1049 · packs 11 · picked 101 (11 by every draw) · standing 0 · 249661 B · Established Decisions: by boundary, the rest under `also here:`",
+"security-plan: rows 667 · packs 7 · picked 15 (6 by every draw) · standing 0 · 107888 B",
+"design-system: rows 361 · packs 4 · picked 76 (33 by every draw) · standing 0 · 80522 B",
+"layout-templates: rows 238 · packs 3 · picked 44 (6 by every draw) · standing 0 · 53105 B",
+"test-plan: rows 1388 · packs 14 · picked 68 (24 by every draw) · standing 0 · 291043 B",
+"obs-plan: rows 1056 · packs 11 · picked 22 (11 by every draw) · standing 0 · 135759 B",
+"a11y-plan: rows 244 · packs 3 · picked 3 (1 by every draw) · standing 0 · 23124 B",
+"rows-union: 7 master(s) · picked 329 of 5003 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/arch-rows.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/arch-standing.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/arch-pick-counts.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/security-rows.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/security-standing.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/security-pick-counts.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/design-rows.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/design-standing.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/design-pick-counts.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/layouts-rows.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/layouts-standing.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/layouts-pick-counts.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/tests-rows.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/tests-standing.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/tests-pick-counts.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/obs-rows.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/obs-standing.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/obs-pick-counts.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/a11y-rows.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/a11y-standing.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/a11y-pick-counts.md",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T00:13:38Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap",
+"--marker",
+"2026-11-27-epoch-5-cleanup-2",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"## 2026-11-27-epoch-5-cleanup-2 — 2. Test Strategy: 1 row(s)\n**Section:** 2. Test Strategy\n**Change:** ~ decision/unit-tests-inline · except: was «»; now «A unit-test module too large for one file is split into sibling path files that keep its module path, its cases grouped into child modules, each helper standing once beside its only users.»\n**Why:** decision/unit-tests-inline: The pump's and viola run's unit-test modules now live in #[path] files that keep their module paths, with cases in child modules and helpers beside their only users, so the inline rule must name this exception.\n**Ref:** .andromeda/runs/2026-11-27T23-53-00Z-wrap/",
+"patterns: none: 1 set(s) and retire(s) changed prose alone — no file; step 3's leaves read each changed row's delta",
+"dry-run · would land 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T00:13:42Z",
+"argv": [
+"rows-land",
+"--root",
+".",
+"--doc",
+"test-plan",
+"--file",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/ops-test-plan.md",
+"--results",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/fanout-results.md",
+"--fit",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap",
+"--run-dir",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap",
+"--marker",
+"2026-11-27-epoch-5-cleanup-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"fit: fits 1 · not_master 0 · stands 0",
+"landed tx 5229 · 1 operation(s) · 1 entry · landed before: 0"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-27T22-44-04-2026-11-27-epoch-5-cleanup-2.ndjson",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T00:17:07Z",
+"argv": [
+"harness",
+"land",
+".claude/rules/testing.md",
+"--file",
+"./.andromeda/runs/2026-11-27T23-53-00Z-wrap/staged-leaf-.claude__rules__testing.md",
+"--root",
+".",
+"--run-dir",
+"./.andromeda/runs/2026-11-27T23-53-00Z-wrap",
+"--marker",
+"2026-11-27-epoch-5-cleanup-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed .claude/rules/testing.md rev 65 · 0 new · 1 revised · 0 retired · tx 5230"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-27T22-44-04-2026-11-27-epoch-5-cleanup-2.ndjson",
+"./.claude/rules/testing.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T00:21:47Z",
+"argv": [
+"put",
+"--root",
+".",
+"--file",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap/run-node.txt",
+"--run-dir",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap",
+"--marker",
+"2026-11-27-epoch-5-cleanup-2"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) · 0 edge(s) · tx 5237 · run-ovfvzsar … run-ovfvzsar"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-27T22-44-04-2026-11-27-epoch-5-cleanup-2.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T00:25:37Z",
+"argv": [
+"land",
+"--root",
+".",
+"--chunk",
+"2026-11-27-epoch-5-cleanup-2",
+"--run-dir",
+".andromeda/runs/2026-11-27T23-53-00Z-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2026-11-27-epoch-5-cleanup-2 · 0 new · 1 changed · 0 gone · 9 kept · tx 5238"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-27T22-44-04-2026-11-27-epoch-5-cleanup-2.ndjson"
+],
+"before": null,
+"after": null
+}
+]

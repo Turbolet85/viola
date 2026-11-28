@@ -1,0 +1,2 @@
+@none
+reason: The chunk is pure moves (the `upped` split, the pump's respawn into `pump/restart.rs`, `open_window` and `trust_folder` out of `cmd::run`) with no public API, CLI output wording, refusal, exit code, `--json` document or user-facing surface changed (fct-yywxyqng, fct-twki3rrg, fct-xdmslmdl), so every picked row, the stale-marked `viola run` / `viola revive` / `viola up` / `viola verify` rows included, still reads true; the one moved log line's tracing target is no layout-templates matter (fct-xxbkv7ts).

@@ -1,0 +1,2 @@
+@none
+reason: the chunk is pure moves (the `upped` split, the pump's respawn into `pump::restart`, `open_window` and `trust_folder` out of `cmd::run`) with no public API, output wording, refusal pair, outcome or placement word, colour or UI element changed (fct-yywxyqng, fct-twki3rrg tokens n/a, fct-xdmslmdl); the one moved log line's `target` is no design-system row (fct-xxbkv7ts), so every design-system row the pickers touched stands as it reads and D-design-tokens and D-design-cli-wording find nothing.

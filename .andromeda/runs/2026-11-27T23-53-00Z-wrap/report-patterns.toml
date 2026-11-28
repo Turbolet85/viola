@@ -1,0 +1,31 @@
+[[pattern]]
+id = 'pumprs'
+regex = 'pump\.rs|pump/restart|pump::restart|pump/test_cases'
+
+[[pattern]]
+id = 'runrs'
+regex = 'cmd/run\.rs|cmd::run\b|run/test_cases'
+
+[[pattern]]
+id = 'uprs'
+regex = 'cmd/up\.rs|\bupped\b|cmd::up::'
+
+[[pattern]]
+id = 'movedfn'
+regex = 'open_window|trust_folder|trust_word|reap_within|next_request|Pumping::run|Pumping::respawn|RespawnRequest'
+
+[[pattern]]
+id = 'windowrs'
+regex = 'run/window\.rs|trust_record\.rs|run::window|trust_record::|WindowAsk|mod run;'
+
+[[pattern]]
+id = 'logtarget'
+regex = 'viola::trust_record|viola::cmd|tracing target|log target|`target`|\btarget\b(?![/-])'
+
+[[pattern]]
+id = 'sizecx'
+regex = 'tokei|cognitive|code lines|\b800\b'
+
+[[pattern]]
+id = 'ctlpty'
+regex = 'viola-pty|viola_pty'

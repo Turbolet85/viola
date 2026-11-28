@@ -35,8 +35,9 @@ No viola crate. Tokio banned in its graph.
 ## Entry points for modification
 - **Seam trait + portable-pty adapter:** `crates/viola-pty/src/`
 - **Pump (`pump_with_paste`, `PasteHandle`):** `crates/viola-pty/src/pump.rs`
+- **Respawn (`Respawn`, `RespawnHandle`, `RESPAWN_REAP_BOUND`, re-exported by `pump.rs`; `Pumping::respawn`, `reap_within`, `drain`):** `crates/viola-pty/src/pump/restart.rs`, the private module `pump::restart`
 - **Host terminal (`HostTerminal`, `host_stdin`, `host_size`, `pty_backend`):** `crates/viola-pty/src/lib.rs`
-- **Tests:** the crate's inline `mod tests` (the real-PTY rig) and the root `tests/tui_pty_seam.rs`, which spawns `viola-fake-agent` through a real openpty (no-EOF mode, resize)
+- **Tests:** the crate's inline `mod tests` (the real-PTY rig; the pump's own cases, `pump::tests`, in the path files `pump/test_cases.rs`, `test_cases_paste.rs` and `test_cases_respawn.rs`) and the root `tests/tui_pty_seam.rs`, which spawns `viola-fake-agent` through a real openpty (no-EOF mode, resize)
 
 ## Testing this crate
 - **Unit tests:** `cargo nextest run -p viola-pty`

@@ -1,0 +1,2 @@
+@none
+reason: The chunk is three pure moves (fct-zc2jdwsx, fct-yywxyqng): no public API, IPC method, endpoint, env var, socket, port or workspace crate changed, no dependency was added (fct-xy2npo5j), the new modules are private modules of existing crates (fct-y5ceijcr), and the trust-record line's moved target is pinned by no row (fct-xxbkv7ts, fct-vlnkjiuq); every architecture row the pickers touched still reads true, and no master states the moved sizes or counts (fct-x4pij6id).

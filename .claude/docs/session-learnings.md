@@ -8,6 +8,23 @@ _This file is entirely wrap-session's territory. `/setup-project` creates it if 
 
 ---
 
+## 2026-11-28 — A whitespace-free comparison of moved Rust still differs by the commas rustfmt drops
+A pure-move check that compares a moved body with its old text after removing all whitespace still reads a
+difference when the move dedented the code: `cargo fmt` lets a wrapped list fit one line and drops its trailing
+comma. Name a second rule beside the measure — also drop a comma before `)`, `]` or `}` — apply it only where the
+first rule reads a difference, and mark each item it settles, so the record's count states which rule each match
+stands on (chunk 2026-11-27-epoch-5-cleanup-2, 3 of 159 items).
+
+---
+
+## 2026-11-28 — A move into a sibling module tree needs every module on the path opened
+Widening a moved item's type to `pub(crate)` does not let a sibling module tree name it while a parent module on the
+path stays private: `crate::cmd::run::WindowAsk` stayed unnameable from `crate::run::window` until `cmd`'s own
+`mod run;` became `pub(crate) mod run;`. Before planning a cross-tree move, read the visibility of each module on the
+path, not the item alone (chunk 2026-11-27-epoch-5-cleanup-2, plan step 7).
+
+---
+
 ## 2026-11-27 — A pump case that asserts a skipped drain consumes the output end first
 In `viola-pty`'s pump tests, a case that asserts the exit-path drain was skipped (the pump returns at once because
 the host output already ended) kills its mutant only when the run loop has consumed the output-ended message before

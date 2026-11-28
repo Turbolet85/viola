@@ -1,0 +1,2 @@
+@none
+reason: The chunk is pure moves and extractions (fct-zc2jdwsx, fct-yywxyqng): no public API, IPC method, endpoint, env var, socket or port changed, no dependency was added (fct-xy2npo5j), no schema or config changed (fct-xxbkv7ts), no new external surface (fct-twki3rrg), and every guard test keeps its name, so every touched security-plan row, the picker-marked ones included, stays true as it reads.

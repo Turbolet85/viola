@@ -1,0 +1,2 @@
+@none
+reason: The chunk only moves code. It splits `upped`, the pump's respawn and `run.rs`'s window and trust steps and changes no behaviour, public API, IPC method, schema or UI element (fct-yywxyqng, fct-xxbkv7ts, fct-twki3rrg). RESPAWN_REAP_BOUND is still re-exported with its bound and refusal unchanged. Keystroke handling and the outer-PTY boundary are untouched. The only moved log target is in obs, not the a11y violation schema. Every picked a11y-plan row still reads true, and the task brings no new fact.

@@ -1,0 +1,2 @@
+@none
+reason: The chunk is pure moves and two private extractions (fct-yywxyqng, fct-twki3rrg): no dependency (fct-xy2npo5j), no new hot-path op or span, the cli.up span still on upped and run.start's spans unchanged, and the one log line moved keeps its event and detail word with its target still the module path under the viola prefix (fct-xxbkv7ts, fct-vlnkjiuq); every obs-plan row read, the picker-marked ones included, stands true.
