@@ -10,6 +10,11 @@ pub(crate) fn fits(size: Size) -> bool {
     size.cols >= FLOOR.cols && size.rows >= FLOOR.rows
 }
 
+/// The rows between the title row and the key line: `rows` − 2.
+pub(crate) fn body_rows(size: Size) -> usize {
+    usize::from(size.rows).saturating_sub(2)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -28,5 +33,16 @@ mod tests {
         #[case] expected: bool,
     ) {
         assert_eq!(fits(Size { cols, rows }), expected);
+    }
+
+    #[rstest]
+    #[case::at_the_floor(24, 22)]
+    #[case::taller(30, 28)]
+    #[case::none(0, 0)]
+    fn body_rows_are_the_rows_less_the_title_and_the_key_line(
+        #[case] rows: u16,
+        #[case] body: usize,
+    ) {
+        assert_eq!(body_rows(Size { cols: 80, rows }), body);
     }
 }

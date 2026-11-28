@@ -12,14 +12,14 @@ const STATUS_WIDTH: usize = 7;
 const WHEEL_WIDTH: usize = 23;
 const DIALOG_WIDTH: usize = 17;
 
-pub(super) fn wheel_cell(item: &Item) -> String {
+pub(crate) fn wheel_cell(item: &Item) -> String {
     item.wheel.map_or("unknown", Wheel::as_str).to_owned()
 }
 
 /// The caption, and the one word the attention token marks.
-pub(super) const DIALOG_WORD: &str = "DIALOG";
+pub(crate) const DIALOG_WORD: &str = "DIALOG";
 
-pub(super) fn dialog_cell(item: &Item) -> String {
+pub(crate) fn dialog_cell(item: &Item) -> String {
     if !item.dialog_pending {
         return "none".to_owned();
     }
@@ -29,7 +29,7 @@ pub(super) fn dialog_cell(item: &Item) -> String {
     }
 }
 
-pub(super) fn cli_cell(item: &Item) -> String {
+pub(crate) fn cli_cell(item: &Item) -> String {
     match &item.cli_version {
         Some(version) => {
             let verdict = if item.cli_verified == Some(true) {
@@ -45,13 +45,13 @@ pub(super) fn cli_cell(item: &Item) -> String {
 
 /// Which of a row's words carry a span (design-system §Tokens (platform-specific)).
 #[derive(Clone, Copy)]
-pub(super) struct Spans {
+pub(crate) struct Spans {
     /// The callsign on the NAME value.
-    pub(super) name: bool,
+    pub(crate) name: bool,
     /// The attention token on the `DIALOG` word, its kind word plain.
-    pub(super) dialog: bool,
+    pub(crate) dialog: bool,
     /// The whole row dim, every span inside it opening dim again after its reset.
-    pub(super) stale: bool,
+    pub(crate) stale: bool,
 }
 
 fn padding(text: &str, width: usize) -> String {
@@ -61,7 +61,7 @@ fn padding(text: &str, width: usize) -> String {
 /// One row: its NAME cell indented `indent` spaces, its cells padded by their plain text, then, at
 /// a depth, its spans around their words (the indent inside a stale row's dim span, outside the
 /// NAME's own).
-pub(super) fn board_line(
+pub(crate) fn board_line(
     width: usize,
     indent: usize,
     cells: [&str; 6],
@@ -99,9 +99,9 @@ pub(super) fn board_line(
 }
 
 /// What an unwrapped row shows in WHEEL, DIALOG and CLI.
-pub(super) const NOT_APPLICABLE: &str = "n/a";
+pub(crate) const NOT_APPLICABLE: &str = "n/a";
 
-pub(super) const NAME_CAPTION: &str = "NAME";
+pub(crate) const NAME_CAPTION: &str = "NAME";
 
 /// The columns an unwrapped row takes beside NAME: LIVE, STATUS, WHEEL and DIALOG padded, five
 /// two-space gutters and the `n/a` CLI cell.
@@ -121,7 +121,7 @@ fn escape_at(chars: &[char], at: usize) -> bool {
 
 /// An escaped name cut to `column` characters ending in `...`; a cut that would fall inside an
 /// escape falls before its backslash.
-pub(super) fn cut(name: &str, column: usize) -> String {
+pub(crate) fn cut(name: &str, column: usize) -> String {
     let chars: Vec<char> = name.chars().collect();
     let mut keep = column.saturating_sub(ELLIPSIS.len());
     if let Some(at) = (keep.saturating_sub(3)..keep).find(|&at| escape_at(&chars, at)) {

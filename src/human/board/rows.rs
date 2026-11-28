@@ -72,6 +72,43 @@ fn forest(items: &[Item]) -> Vec<(usize, usize)> {
     rows
 }
 
+/// One row of the forest: its item, its NAME indent and its six cells, the NAME raw (the caller
+/// escapes it), `n/a` in WHEEL, DIALOG and CLI on an unwrapped row.
+pub(crate) struct ForestRow<'a> {
+    pub(crate) item: &'a Item,
+    pub(crate) indent: usize,
+    pub(crate) cells: [String; 6],
+}
+
+/// The items in the forest's order ([`forest`]), each as its six cells and its NAME indent, two
+/// spaces per depth.
+pub(crate) fn forest_rows(items: &[Item]) -> Vec<ForestRow<'_>> {
+    forest(items)
+        .into_iter()
+        .map(|(at, depth)| {
+            let item = &items[at];
+            let (wheel, dialog, cli) = if item.wrapped {
+                (wheel_cell(item), dialog_cell(item), cli_cell(item))
+            } else {
+                let na = || NOT_APPLICABLE.to_owned();
+                (na(), na(), na())
+            };
+            ForestRow {
+                item,
+                indent: depth * INDENT,
+                cells: [
+                    item.name.clone(),
+                    item.liveness.as_str().to_owned(),
+                    item.status.as_str().to_owned(),
+                    wheel,
+                    dialog,
+                    cli,
+                ],
+            }
+        })
+        .collect()
+}
+
 /// The caption row and one row per item, the wrapped ones as a forest (each child under its parent,
 /// its NAME indented two spaces per depth), then the unwrapped ones in the order given; every NAME
 /// is escaped as a row field and padded to the longer of its caption and the widest NAME cell on
@@ -84,17 +121,13 @@ pub(crate) fn board_rows(
     width: Option<usize>,
     depth: Option<Depth>,
 ) -> Vec<String> {
-    let order = forest(items);
-    let items: Vec<&Item> = order.iter().map(|&(at, _)| &items[at]).collect();
-    let indents: Vec<usize> = order.iter().map(|&(_, depth)| depth * INDENT).collect();
-    let names: Vec<String> = items.iter().map(|item| escape_row(&item.name)).collect();
+    let rows = forest_rows(items);
+    let names: Vec<String> = rows.iter().map(|row| escape_row(&row.cells[0])).collect();
     let longest = |wrapped: bool| {
-        items
-            .iter()
+        rows.iter()
             .zip(&names)
-            .zip(&indents)
-            .filter(|((item, _), _)| item.wrapped == wrapped)
-            .map(|((_, name), indent)| indent + name.chars().count())
+            .filter(|(row, _)| row.item.wrapped == wrapped)
+            .map(|(row, name)| row.indent + name.chars().count())
             .fold(0, usize::max)
     };
     let unwrapped = match width {
@@ -102,19 +135,9 @@ pub(crate) fn board_rows(
         None => longest(false),
     };
     let column = longest(true).max(unwrapped).max(NAME_CAPTION.len());
-    let mut rows = vec![board_line(
-        column,
-        0,
-        [NAME_CAPTION, "LIVE", "STATUS", "WHEEL", DIALOG_WORD, "CLI"],
-        None,
-    )];
-    for ((item, name), indent) in items.iter().zip(names).zip(indents) {
-        let (wheel, dialog, cli) = if item.wrapped {
-            (wheel_cell(item), dialog_cell(item), cli_cell(item))
-        } else {
-            let na = || NOT_APPLICABLE.to_owned();
-            (na(), na(), na())
-        };
+    let mut lines = vec![board_line(column, 0, CAPTIONS, None)];
+    for (row, name) in rows.iter().zip(names) {
+        let item = row.item;
         let name = if !item.wrapped && name.chars().count() > column {
             cut(&name, column)
         } else {
@@ -125,26 +148,24 @@ pub(crate) fn board_rows(
             dialog: item.wrapped && item.dialog_pending,
             stale: item.wrapped && item.liveness == RowLiveness::Stale,
         };
-        rows.push(board_line(
+        let [_, live, status, wheel, dialog, cli] = &row.cells;
+        lines.push(board_line(
             column,
-            indent,
-            [
-                &name,
-                item.liveness.as_str(),
-                item.status.as_str(),
-                &wheel,
-                &dialog,
-                &cli,
-            ],
+            row.indent,
+            [&name, live, status, wheel, dialog, cli],
             depth.map(|depth| (depth.tokens(), spans)),
         ));
     }
-    rows
+    lines
 }
 
-const EMPTY_BOARD: &str = "no wrapped sessions  start one: viola run <name> -- claude";
+/// The board's six captions, in their slots.
+pub(crate) const CAPTIONS: [&str; 6] =
+    [NAME_CAPTION, "LIVE", "STATUS", "WHEEL", DIALOG_WORD, "CLI"];
 
-const UNWRAPPED_SEPARATOR: &str = "-- UNWRAPPED - READ-ONLY --";
+pub(crate) const EMPTY_BOARD: &str = "no wrapped sessions  start one: viola run <name> -- claude";
+
+pub(crate) const UNWRAPPED_SEPARATOR: &str = "-- UNWRAPPED - READ-ONLY --";
 
 const LINKS_SEPARATOR: &str = "-- LINKS --";
 

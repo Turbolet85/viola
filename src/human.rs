@@ -9,6 +9,7 @@ mod auto_verify;
 mod board;
 mod console;
 mod escape;
+mod fleet;
 mod hints;
 mod mirror;
 mod style;
@@ -21,6 +22,7 @@ pub(crate) use console::{
     write_console_enter, write_console_frame, write_console_restore, write_console_too_small,
 };
 pub(crate) use escape::escape_message;
+pub(crate) use fleet::{FleetLine, cut_line, fleet_lines};
 pub(crate) use hints::{
     UP_NOT_LIVE_HINT, answer_hint, boot_time_unread_pair, focus_pair, not_live_pair, send_hint,
     terminal_not_found_pair,

@@ -1,0 +1,59 @@
+[
+{
+"tool": "cites",
+"v": "1.17",
+"sha8": "39afbf07",
+"ts": "2026-11-28T12:18:29Z",
+"argv": [
+"added",
+"--out",
+".andromeda/runs/2026-11-28T12-01-10Z-implement/new-text.md",
+"--run-dir",
+".andromeda/runs/2026-11-28T12-01-10Z-implement",
+"--marker",
+"2026-11-28-fleet-console-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"base: be4a06e2 — no pre-CI commit",
+"crates/viola-core/src/obs.rs — added 2 line(s) in 1 range(s)",
+"crates/viola-state/src/board.rs — added 296 line(s) in 22 range(s)",
+"schemas/diag-line.v1.json — added 3 line(s) in 1 range(s)",
+"src/cmd/console.rs — added 34 line(s) in 5 range(s)",
+"src/cmd/list.rs — added 2 line(s) in 2 range(s)",
+"src/console/fleet.rs — new file · 359 line(s)",
+"src/console/frame.rs — added 16 line(s) in 2 range(s)",
+"src/console/mod.rs — added 329 line(s) in 33 range(s)",
+"src/console/view.rs — new file · 139 line(s)",
+"src/human.rs — added 2 line(s) in 2 range(s)",
+"src/human/board.rs — added 4 line(s) in 2 range(s)",
+"src/human/board/cells.rs — added 12 line(s) in 12 range(s)",
+"src/human/board/rows.rs — added 56 line(s) in 10 range(s)",
+"src/human/board/test_support.rs — added 1 line(s) in 1 range(s)",
+"src/human/console.rs — added 25 line(s) in 3 range(s)",
+"src/human/fleet.rs — new file · 349 line(s)",
+"tests/tui_console.rs — added 93 line(s) in 9 range(s)",
+"new text: 17 file(s) · 3 new · 108 added range(s) · 1722 line(s) · 139 block(s) → .andromeda/runs/2026-11-28T12-01-10Z-implement/new-text.md (178 lines) · written"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-28T12-01-10Z-implement/new-text.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"base": "be4a06e2ae2528d1d45148ccdf27323b2b8d8c49",
+"counts": {
+"files": 17,
+"new": 3,
+"ranges": 108,
+"lines": 1722,
+"blocks": 139
+},
+"out": ".andromeda/runs/2026-11-28T12-01-10Z-implement/new-text.md",
+"state": "written",
+"lines": 178
+}
+}
+]

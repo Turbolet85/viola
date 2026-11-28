@@ -9,5 +9,8 @@ mod rows;
 #[cfg(test)]
 mod test_support;
 
+pub(crate) use cells::{NOT_APPLICABLE, board_line, cut};
 pub(crate) use pairs::{home_state_pair, instance_state_pair};
-pub(crate) use rows::write_board;
+pub(crate) use rows::{
+    CAPTIONS, EMPTY_BOARD, ForestRow, UNWRAPPED_SEPARATOR, forest_rows, write_board,
+};

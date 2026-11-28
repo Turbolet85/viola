@@ -11,10 +11,13 @@ use std::fs;
 use std::path::{Path, PathBuf};
 use std::time::Instant;
 
+use rstest::rstest;
 use serde_json::Value;
 use support::cli::viola;
+use support::fake;
 use support::home::{
-    TestHome, UNWRAPPED, VIOLA, private_dir, still_widened, unwiden, widen, workspace_path,
+    StampedHome, TestHome, UNWRAPPED, VIOLA, private_dir, stamped_home, still_widened, unwiden,
+    widen, workspace_path,
 };
 use support::hygiene::load_schema;
 use support::outer_pty::{EXIT_WITHIN, OuterPty};
@@ -38,17 +41,33 @@ fn lines(home: &Path) -> Vec<Value> {
 }
 
 /// `viola --home <home> console` under an outer PTY of `size`, with none of a wrapped session's
-/// names inherited.
+/// names inherited and `PATH` an empty test-scoped bin dir beside the home, so its agents read
+/// finds no `claude`.
 fn start(home: &Path, size: Size) -> OuterPty {
+    let scratch = home.parent().expect("the home has a parent");
+    start_on(home, size, &fake::empty_bin(scratch))
+}
+
+/// `start` with `PATH` the bin dir `bin` alone.
+fn start_on(home: &Path, size: Size, bin: &Path) -> OuterPty {
     let args: Vec<OsString> = vec!["--home".into(), home.into(), "console".into()];
+    let path = bin.to_str().expect("utf-8 bin dir");
     OuterPty::spawn_without(
         Path::new(VIOLA),
         &args,
-        &[],
+        &[("PATH", path)],
         &UNWRAPPED,
         size,
         &std::env::current_dir().expect("cwd"),
     )
+}
+
+/// The fleet's rows drawn, as the frame lines say, in order.
+fn shown(lines: &[Value]) -> Vec<u64> {
+    frames(lines)
+        .iter()
+        .map(|l| l["shown"].as_u64().expect("shown"))
+        .collect()
 }
 
 fn frames(lines: &[Value]) -> Vec<&Value> {
@@ -285,4 +304,75 @@ fn console_with_a_widened_home_refuses_and_writes_no_line() {
     let text = String::from_utf8_lossy(&shown);
     assert!(text.contains(HOME_UNABLE), "{text:?}");
     assert!(text.contains(HOME_HINT), "{text:?}");
+}
+
+/// The empty home's first frame draws no row; a booted wrapper brings a frame drawing one, and its
+/// stop one drawing none.
+#[rstest]
+fn console_draws_a_booted_wrapper_and_its_end(stamped_home: StampedHome) {
+    let home = stamped_home.home.path().to_owned();
+    let mut pty = start(&home, Size::DEFAULT);
+    let seen = wait_lines(&mut pty, &home, "a frame", |l| !frames(l).is_empty());
+    assert_eq!(shown(&seen), [0]);
+    assert_eq!(frames(&seen)[0]["hidden"], 0);
+    let wrapper = support::events::boot(stamped_home, None, &[]);
+    wait_lines(&mut pty, &home, "a frame drawing the wrapper", |l| {
+        shown(l).last() == Some(&1)
+    });
+    let (_, kept) = wrapper.stop_keep();
+    let seen = wait_lines(&mut pty, &home, "a frame drawing none again", |l| {
+        shown(l).ends_with(&[1, 0])
+    });
+    assert_eq!(shown(&seen), [0, 1, 0]);
+    pty.write(b"q");
+    assert_eq!(pty.wait_exit(EXIT_WITHIN), 0);
+    let all = lines(&home);
+    assert_exited(&all, 0);
+    assert_schema(&all);
+    drop(kept);
+}
+
+/// With the fake agent as `claude` on its `PATH`, the console makes its agents read off its loop,
+/// one `agents-probe` pair, and `q` still quits at once.
+#[test]
+fn console_reads_the_agents_list_off_the_loop() {
+    let home = TestHome::new();
+    let bin = fake::claude_bin(home.scratch(), "claude-agents", None, None);
+    let mut pty = start_on(home.path(), Size::DEFAULT, &bin);
+    let probe = |l: &Value, event: &str| l["event"] == event && l["subject"] == "agents-probe";
+    wait_lines(&mut pty, home.path(), "the agents-probe exit", |l| {
+        l.iter().any(|line| probe(line, "process-exit"))
+    });
+    pty.write(b"q");
+    assert_eq!(pty.wait_exit(EXIT_WITHIN), 0);
+    let all = lines(home.path());
+    assert!(all.iter().any(|line| probe(line, "process-start")));
+    assert_eq!(keys(&all), ["quit"]);
+    assert_exited(&all, 0);
+    assert_schema(&all);
+}
+
+/// A home widened after the first frame ends the console: exit 1, the home pair on its terminal
+/// and one `process-exit` carrying `strict-modes-failed`.
+#[test]
+fn console_ends_one_on_a_home_widened_mid_run() {
+    let home = TestHome::new();
+    let mut pty = start(home.path(), Size::DEFAULT);
+    wait_lines(&mut pty, home.path(), "a frame", |l| !frames(l).is_empty());
+    widen(home.path());
+    let code = pty.wait_exit(EXIT_WITHIN);
+    let text = String::from_utf8_lossy(&pty.finish()).into_owned();
+    unwiden(home.path());
+    assert_eq!(code, 1);
+    assert!(text.contains(HOME_UNABLE), "{text:?}");
+    assert!(text.contains(HOME_HINT), "{text:?}");
+    let all = lines(home.path());
+    let exits: Vec<&Value> = all
+        .iter()
+        .filter(|l| l["event"] == "process-exit" && l["subject"] == "self")
+        .collect();
+    assert_eq!(exits.len(), 1, "{all:?}");
+    assert_eq!(exits[0]["exit_code"], 1);
+    assert_eq!(exits[0]["detail"], "strict-modes-failed");
+    assert_schema(&all);
 }

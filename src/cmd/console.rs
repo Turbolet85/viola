@@ -6,10 +6,13 @@
 use std::io::{self, IsTerminal as _};
 use std::path::Path;
 use std::process::ExitCode;
+use std::time::{Duration, SystemTime};
 
 use anyhow::Context as _;
+use chrono::Utc;
 use viola_core::obs::{ObsEvent, ObsProcess};
 use viola_core::{SERVICE_NAME, VERSION, obs_event};
+use viola_state::board::Observation;
 
 use crate::{console, human, obs, run};
 
@@ -44,14 +47,39 @@ pub(crate) fn console(home: &Path) -> anyhow::Result<ExitCode> {
         obs::log_config_rejection(rejection);
     }
     let mode = viola_pty::HostTerminal::enter().context("raw mode")?;
-    console::run(
-        viola_pty::host_stdin(),
-        io::stdout(),
-        mode,
-        viola_pty::host_size,
-    )?;
+    let agents = console::fleet::spawn_agents(agents_read(&home), AGENTS_EVERY);
+    let mut fleet = console::fleet::FleetSource::new(home, agents);
+    let sources = console::Sources {
+        size: viola_pty::host_size,
+        board: move || fleet.read(SystemTime::now()),
+        clock: Utc::now,
+        read_every: console::READ_EVERY,
+    };
+    let end = console::run(viola_pty::host_stdin(), io::stdout(), mode, sources)?;
+    // The run has restored the terminal before it returned, so the pair lands on the user's own
+    // screen.
+    if end == console::End::Refused {
+        run::log_self_exit(1, Some("strict-modes-failed"));
+        human::refuse(HOME_REFUSED.0, HOME_REFUSED.1);
+        return Ok(ExitCode::from(1));
+    }
     run::log_self_exit(0, None);
     Ok(ExitCode::SUCCESS)
+}
+
+/// The least time between two `claude agents --json` reads.
+const AGENTS_EVERY: Duration = Duration::from_secs(5);
+
+/// The agents read `list` makes, from the console's current directory; a read that fails, or a
+/// directory that cannot be read, gives no list.
+fn agents_read(home: &Path) -> impl FnMut() -> Option<Vec<Observation>> + Send + 'static {
+    let home = home.to_owned();
+    move || {
+        let cwd = std::env::current_dir().ok()?;
+        run::agents::read_here(&home, &cwd)
+            .ok()
+            .map(super::list::observations)
+    }
 }
 
 /// A home that exists and fails the read rule; an absent one is made by the log, owner-only.

@@ -106,7 +106,7 @@ fn read(home: &Path, scan: &Scan, json: bool) -> Board {
 }
 
 /// Each listed session as the board reads it: the name is the session id, never the CLI's title.
-fn observations(list: AgentsList) -> Vec<Observation> {
+pub(crate) fn observations(list: AgentsList) -> Vec<Observation> {
     list.rows
         .into_iter()
         .map(|row| Observation {
@@ -157,6 +157,7 @@ mod tests {
                 effort: None,
                 window: None,
                 origin: None,
+                last_activity: None,
             }],
             skipped: SkippedTotal {
                 unknown_kinds: 1,

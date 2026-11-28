@@ -1,0 +1,404 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T09:54:36Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-fleet-console-view",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-console-view-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer phase directive for this take-up: the operator away, his forks to founder-forks.md, measurements first at P3, STOP at P3 end on a fork of his the build stands on, no live start or desktop act",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-28T09-53-15Z-phase",
+"--marker",
+"2026-11-28-fleet-console-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-console-view-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-console-view-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-console-view-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "3821c82044556ce138955ce7b84adf6fa0d75959f2a3c3b9c191f8f1b1361cdc",
+"copy": "I1-phase-console-view-directive.md.txt",
+"link": false,
+"read_at": "2026-11-28T09:54:35Z",
+"step": "phase:P1",
+"why": "the overseer phase directive for this take-up: the operator away, his forks to founder-forks.md, measurements first at P3, STOP at P3 end on a fork of his the build stands on, no live start or desktop act"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T09:54:36Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-fleet-console-view",
+"--message-file",
+".andromeda/runs/2026-11-28T09-53-15Z-phase/relay-1.md",
+"--origin",
+"viola-overseer, its session message of 2026-11-28",
+"--kind",
+"relay",
+"--why",
+"the take-up direction: take up the head entry under the directive, the operator away, no dialog for him",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-28T09-53-15Z-phase",
+"--marker",
+"2026-11-28-fleet-console-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: viola-overseer, its session message of 2026-11-28",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: viola-overseer, its session message of 2026-11-28",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "dc716579f79f6696e9dd49e0745af471fbe35b1dd1f67d846726924a69cb0e7c",
+"copy": "I2-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-28T09:54:36Z",
+"step": "phase:P1",
+"why": "the take-up direction: take up the head entry under the directive, the operator away, no dialog for him"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T11:06:31Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-fleet-console-view",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-console-view-forks.md",
+"--kind",
+"relay",
+"--why",
+"the operator own answers to F1-F8 and the scaffold wrap fork (a) reword the two scoping rows, (b) leave the eight; T1-T4 the overseer technical leans; v2-14 claimed gated on his live reading",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-11-28T09-53-15Z-phase",
+"--marker",
+"2026-11-28-fleet-console-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy no-repo · ../additional/viola-overseer/relay-console-view-forks.md",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-console-view-forks.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-console-view-forks.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "0446b7d5caecd59db5b909885a4559291a5451c02ce1a0ceb3b2567504a1dee4",
+"copy": "I3-relay-console-view-forks.md.txt",
+"link": false,
+"read_at": "2026-11-28T11:06:31Z",
+"step": "phase:P3",
+"why": "the operator own answers to F1-F8 and the scaffold wrap fork (a) reword the two scoping rows, (b) leave the eight; T1-T4 the overseer technical leans; v2-14 claimed gated on his live reading"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T11:47:24Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-28-fleet-console-view",
+"--run-dir",
+".andromeda/runs/2026-11-28T09-53-15Z-phase",
+"--marker",
+"2026-11-28-fleet-console-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-console-view-directive.md",
+"I1 cited scope.md:52 · scope.md:123 · scope.md:126 · research.md:6 · research.md:8 · research.md:62 · research.md:66 · research.md:84 · plan.md:10 · plan.md:150 · plan.md:240 (in fence) · plan.md:377",
+"I2 n/a — a message has no live source · copy message · message: viola-overseer, its session message of 2026-11-28",
+"I2 cited scope.md:123 · scope.md:126 · research.md:9 · plan.md:377",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-console-view-forks.md",
+"I3 cited scope.md:9 · scope.md:19 · scope.md:26 · scope.md:32 · scope.md:41 · scope.md:44 · scope.md:45 · scope.md:53 · scope.md:67 · scope.md:72 · scope.md:82 · scope.md:106 · scope.md:110 · scope.md:123 · scope.md:127 · plan.md:10 · plan.md:20 · plan.md:150 · plan.md:358 · plan.md:377 · plan.md:399 · plan.md:406",
+"inputs: 3 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T11:50:56Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-28-fleet-console-view",
+"--run-dir",
+".andromeda/runs/2026-11-28T09-53-15Z-phase",
+"--marker",
+"2026-11-28-fleet-console-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-console-view-directive.md",
+"I1 cited scope.md:52 · scope.md:123 · scope.md:126 · research.md:6 · research.md:8 · research.md:63 · research.md:67 · research.md:85 · plan.md:10 · plan.md:150 · plan.md:249 (in fence) · plan.md:386",
+"I2 n/a — a message has no live source · copy message · message: viola-overseer, its session message of 2026-11-28",
+"I2 cited scope.md:123 · scope.md:126 · research.md:9 · plan.md:386",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-console-view-forks.md",
+"I3 cited scope.md:9 · scope.md:19 · scope.md:26 · scope.md:32 · scope.md:41 · scope.md:44 · scope.md:45 · scope.md:53 · scope.md:67 · scope.md:72 · scope.md:82 · scope.md:106 · scope.md:110 · scope.md:123 · scope.md:127 · research.md:9 · plan.md:10 · plan.md:20 · plan.md:150 · plan.md:367 · plan.md:386 · plan.md:408 · plan.md:415",
+"inputs: 3 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T11:54:37Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-fleet-console-view",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-console-view-p5.md",
+"--kind",
+"relay",
+"--why",
+"the overseer technical review of card 1: console-frame logged on a change of its fields, the one-second read skips an unchanged log, measure first and stop at the card if it does not fit; conditional yes on planlint 0 hits and no unnamed reached row",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-28T09-53-15Z-phase",
+"--marker",
+"2026-11-28-fleet-console-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy no-repo · ../additional/viola-overseer/relay-console-view-p5.md",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-console-view-p5.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-console-view-p5.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "afdca11cf11d7981df9ec94153dfcdd3feffd9afdc129115a50b942292e2cc26",
+"copy": "I4-relay-console-view-p5.md.txt",
+"link": false,
+"read_at": "2026-11-28T11:54:36Z",
+"step": "phase:P5",
+"why": "the overseer technical review of card 1: console-frame logged on a change of its fields, the one-second read skips an unchanged log, measure first and stop at the card if it does not fit; conditional yes on planlint 0 hits and no unnamed reached row"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T11:58:39Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-28-fleet-console-view",
+"--run-dir",
+".andromeda/runs/2026-11-28T09-53-15Z-phase",
+"--marker",
+"2026-11-28-fleet-console-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-console-view-directive.md",
+"I1 cited scope.md:52 · scope.md:123 · scope.md:126 · research.md:6 · research.md:8 · research.md:63 · research.md:67 · research.md:85 · plan.md:11 · plan.md:172 · plan.md:271 (in fence) · plan.md:412",
+"I2 n/a — a message has no live source · copy message · message: viola-overseer, its session message of 2026-11-28",
+"I2 cited scope.md:123 · scope.md:126 · research.md:9 · plan.md:412",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-console-view-forks.md",
+"I3 cited scope.md:9 · scope.md:19 · scope.md:26 · scope.md:32 · scope.md:41 · scope.md:44 · scope.md:45 · scope.md:53 · scope.md:67 · scope.md:72 · scope.md:82 · scope.md:106 · scope.md:110 · scope.md:123 · scope.md:127 · research.md:9 · plan.md:10 · plan.md:21 · plan.md:172 · plan.md:393 · plan.md:412 · plan.md:434 · plan.md:454",
+"I4 unchanged · copy no-repo · ../additional/viola-overseer/relay-console-view-p5.md",
+"I4 cited plan.md:11 · plan.md:77 · plan.md:98 · plan.md:378 · plan.md:437 · plan.md:442 · plan.md:445 · plan.md:473",
+"inputs: 4 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T11:59:21Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-fleet-console-view",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-console-view-p5.md",
+"--kind",
+"relay",
+"--why",
+"the P5 word: yes for plan rev 6 on its two conditions (planlint 0 hits, no unnamed reached row), both met; answers .andromeda/runs/2026-11-28T09-53-15Z-phase/p5-card-1.md, recorded in .andromeda/runs/2026-11-28T09-53-15Z-phase/p5-card-2.md; authority delegate viola-overseer (technical; his product forks are his own, inputs#I3)",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-28T09-53-15Z-phase",
+"--marker",
+"2026-11-28-fleet-console-view"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy no-repo · ../additional/viola-overseer/relay-console-view-p5.md",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-console-view-p5.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-console-view-p5.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "afdca11cf11d7981df9ec94153dfcdd3feffd9afdc129115a50b942292e2cc26",
+"copy": "I5-relay-console-view-p5.md.txt",
+"link": false,
+"read_at": "2026-11-28T11:59:20Z",
+"step": "phase:P5",
+"why": "the P5 word: yes for plan rev 6 on its two conditions (planlint 0 hits, no unnamed reached row), both met; answers .andromeda/runs/2026-11-28T09-53-15Z-phase/p5-card-1.md, recorded in .andromeda/runs/2026-11-28T09-53-15Z-phase/p5-card-2.md; authority delegate viola-overseer (technical; his product forks are his own, inputs#I3)"
+}
+}
+]

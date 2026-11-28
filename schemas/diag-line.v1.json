@@ -92,8 +92,9 @@
       "detail": { "enum": ["written", "already-trusted", "parent-trusted", "unverified-cli", "home-folder", "config-absent", "config-unreadable", "config-link", "config-not-regular", "config-foreign", "config-oversize", "config-malformed", "config-dir-unusable", "home-unknown", "lock-held", "lost"] } },
       "required": ["detail"] } },
     { "if": { "properties": { "event": { "const": "console-frame" } } }, "then": { "properties": {
-      "cols": { "$ref": "#/$defs/count" }, "rows": { "$ref": "#/$defs/count" }, "fits": { "type": "boolean" } },
-      "required": ["cols", "rows", "fits"] } },
+      "cols": { "$ref": "#/$defs/count" }, "rows": { "$ref": "#/$defs/count" }, "fits": { "type": "boolean" },
+      "shown": { "$ref": "#/$defs/count" }, "hidden": { "$ref": "#/$defs/count" } },
+      "required": ["cols", "rows", "fits", "shown", "hidden"] } },
     { "if": { "properties": { "event": { "const": "console-key" } } }, "then": { "properties": {
       "key": { "enum": ["quit", "interrupt", "unbound"] } },
       "required": ["key"] } },

@@ -8,7 +8,8 @@ use crate::ViolaName;
 
 /// The closed `event` enum; a new value needs an obs-plan Decisions Log entry and a
 /// `schemas/diag-line.v1.json` update. `a11y-violation` is a harness-only row, never a variant.
-/// `console-frame` (`cols`, `rows`, `fits`) and `console-key` (`key`: `quit` · `interrupt` ·
+/// `console-frame` (`cols`, `rows`, `fits`, and `shown` and `hidden`, the fleet's rows drawn and
+/// behind the more line) and `console-key` (`key`: `quit` · `interrupt` ·
 /// `unbound`) are the fleet console's own lines.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ObsEvent {

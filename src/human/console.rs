@@ -25,10 +25,19 @@ pub(crate) fn write_console_restore(out: &mut impl Write) -> io::Result<()> {
     out.flush()
 }
 
-/// The whole frame from the top-left of a cleared screen: the title on the first row and the key
-/// line on row `rows`.
-pub(crate) fn write_console_frame(out: &mut impl Write, rows: u16) -> io::Result<()> {
-    out.write_all(format!("\x1b[H\x1b[2J{CONSOLE_TITLE}\x1b[{rows};1H{CONSOLE_KEYS}").as_bytes())?;
+/// The whole frame from the top-left of a cleared screen, as one write: the title on the first
+/// row, the body lines from row 2, one a row, and the key line on row `rows`.
+pub(crate) fn write_console_frame(
+    out: &mut impl Write,
+    rows: u16,
+    body: &[String],
+) -> io::Result<()> {
+    let mut frame = format!("\x1b[H\x1b[2J{CONSOLE_TITLE}");
+    for (at, line) in (2u32..).zip(body) {
+        frame.push_str(&format!("\x1b[{at};1H{line}"));
+    }
+    frame.push_str(&format!("\x1b[{rows};1H{CONSOLE_KEYS}"));
+    out.write_all(frame.as_bytes())?;
     out.flush()
 }
 
@@ -55,8 +64,19 @@ mod tests {
     #[test]
     fn console_frame_holds_the_title_then_the_key_line_on_the_last_row() {
         let mut out = Vec::new();
-        write_console_frame(&mut out, 24).expect("write");
+        write_console_frame(&mut out, 24, &[]).expect("write");
         assert_eq!(out, b"\x1b[H\x1b[2Jviola console\x1b[24;1Hq quit");
+    }
+
+    #[test]
+    fn console_frame_draws_the_body_lines_from_row_two() {
+        let mut out = Vec::new();
+        let body = ["NAME".to_owned(), "builder".to_owned()];
+        write_console_frame(&mut out, 24, &body).expect("write");
+        assert_eq!(
+            out,
+            b"\x1b[H\x1b[2Jviola console\x1b[2;1HNAME\x1b[3;1Hbuilder\x1b[24;1Hq quit"
+        );
     }
 
     #[test]

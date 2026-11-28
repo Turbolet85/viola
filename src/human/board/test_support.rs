@@ -29,5 +29,6 @@ pub(super) fn item(name: &str) -> Item {
         effort: None,
         window: None,
         origin: None,
+        last_activity: None,
     }
 }

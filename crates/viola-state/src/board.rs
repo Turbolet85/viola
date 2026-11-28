@@ -9,6 +9,7 @@ use std::io;
 use std::path::{Path, PathBuf};
 use std::time::SystemTime;
 
+use chrono::{DateTime, Utc};
 use serde::Serialize;
 use serde_json::Value;
 use viola_core::obs::ObsEvent;
@@ -18,7 +19,7 @@ use crate::StateError;
 use crate::events::{Skipped, read_from};
 use crate::heartbeat::beat_age;
 use crate::liveness::{Liveness, STALE_AFTER, classify, same_process};
-use crate::replay::{Recovered, read_snapshot_or_replay};
+use crate::replay::{Recovered, Replayed, read_snapshot_or_replay};
 use crate::snapshot::{InstanceSnapshot, Launch, Lineage, Wheel, Window};
 use crate::strict::{Refused, check_instance, check_path, check_read};
 
@@ -208,6 +209,10 @@ pub struct Item {
     pub dialog_kind: Option<String>,
     #[serde(skip)]
     pub join: JoinKeys,
+    /// The `ts` of the newest whole line of the instance's log, for the console's row alone; no
+    /// field of the document.
+    #[serde(skip)]
+    pub last_activity: Option<DateTime<Utc>>,
 }
 
 impl Item {
@@ -231,6 +236,7 @@ impl Item {
             origin: None,
             dialog_kind: None,
             join: JoinKeys::default(),
+            last_activity: None,
         }
     }
 }
@@ -351,7 +357,12 @@ fn add_links(board: &mut Vec<BoardLink>, links: &[Value]) {
     }
 }
 
-fn snapshot_item(name: &ViolaName, snapshot: &InstanceSnapshot, liveness: RowLiveness) -> Item {
+fn snapshot_item(
+    name: &ViolaName,
+    snapshot: &InstanceSnapshot,
+    liveness: RowLiveness,
+    last_activity: Option<DateTime<Utc>>,
+) -> Item {
     let (parent, role) = shown_lineage(name, snapshot.lineage.as_ref());
     let (model, effort) = shown_launch(snapshot.launch.as_ref());
     let (window, origin) = shown_window(snapshot.window.as_ref());
@@ -375,78 +386,163 @@ fn snapshot_item(name: &ViolaName, snapshot: &InstanceSnapshot, liveness: RowLiv
             child_pid: snapshot.child_pid,
             agent_session_id: snapshot.agent_session_id.clone(),
         },
+        last_activity,
     }
 }
 
-/// One whole pass over the log for its counts; a log that cannot be read counts what it gave.
-fn log_pass(instance_dir: &Path) -> Skipped {
+fn replayed_item(name: &ViolaName, state: &Replayed, last_activity: Option<DateTime<Utc>>) -> Item {
+    let (parent, role) = shown_lineage(name, state.lineage.as_ref());
+    let (model, effort) = shown_launch(state.launch.as_ref());
+    let (window, origin) = shown_window(state.window.as_ref());
+    Item {
+        name: name.as_ref().to_owned(),
+        wrapped: true,
+        liveness: RowLiveness::Live,
+        status: SessionStatus::Unknown,
+        wheel: state.wheel,
+        dialog_pending: false,
+        cli_version: None,
+        cli_verified: None,
+        parent,
+        role,
+        model,
+        effort,
+        window,
+        origin,
+        dialog_kind: None,
+        join: JoinKeys {
+            child_pid: None,
+            agent_session_id: state.agent_session_id.clone(),
+        },
+        last_activity,
+    }
+}
+
+/// One whole pass over the log for its counts and the `ts` of its newest whole line that parses
+/// as RFC 3339; a log that cannot be read counts what it gave.
+fn log_pass(instance_dir: &Path) -> (Skipped, Option<DateTime<Utc>>) {
     let Ok(mut lines) = read_from(instance_dir, 0) else {
-        return Skipped::default();
+        return (Skipped::default(), None);
     };
+    let mut newest = None;
     for line in lines.by_ref() {
-        if line.is_err() {
+        let Ok(line) = line else {
             break;
+        };
+        if let Some(at) = line.value["ts"]
+            .as_str()
+            .and_then(|ts| DateTime::parse_from_rfc3339(ts).ok())
+        {
+            newest = Some(at.with_timezone(&Utc));
         }
     }
-    lines.skipped()
+    (lines.skipped(), newest)
 }
 
-/// Each scanned instance read at `now`: a snapshot that reads gives a row unless the instance is
-/// gone; a replayed one gives a `live` row only on a beat at most `STALE_AFTER` old, never a
-/// `stale` one; an absent snapshot gives none. Then one `parse-rejected` line per nonzero count of
-/// entries the scan stepped over, naming no entry.
-pub fn read(scan: &Scan, now: SystemTime) -> Board {
+/// What one instance's read found on disk: its snapshot, its replayed state, or neither.
+#[derive(Debug, Clone)]
+enum Found {
+    Snapshot(Box<InstanceSnapshot>),
+    Replayed(Box<Replayed>),
+    Absent,
+}
+
+/// One scanned instance's read: what it found, its row as of the read's instant, its log's skip
+/// counts and the time of its newest line.
+#[derive(Debug, Clone)]
+pub struct InstanceRead {
+    name: ViolaName,
+    found: Found,
+    item: Option<Item>,
+    skipped: Skipped,
+    last_activity: Option<DateTime<Utc>>,
+}
+
+impl InstanceRead {
+    /// The row as of the read's instant: none for a gone, an absent or an old replayed instance.
+    pub fn item(&self) -> Option<&Item> {
+        self.item.as_ref()
+    }
+
+    /// The held links of the snapshot or the replay, as recorded.
+    fn links(&self) -> &[Value] {
+        match &self.found {
+            Found::Snapshot(snapshot) => &snapshot.links,
+            Found::Replayed(state) => &state.links,
+            Found::Absent => &[],
+        }
+    }
+}
+
+/// The row of `read`'s snapshot or replay at `now`, from the heartbeat and the snapshot's pid and
+/// start time alone: a snapshot gives a row unless the instance is gone; a replay gives a `live`
+/// row only on a beat at most `STALE_AFTER` old, never a `stale` one. No log is opened.
+pub fn relive(read: &InstanceRead, dir: &Path, now: SystemTime) -> Option<Item> {
+    match &read.found {
+        Found::Snapshot(snapshot) => {
+            let liveness = match classify(beat_age(dir, now), same_process(snapshot)) {
+                Liveness::Live => RowLiveness::Live,
+                Liveness::Stale => RowLiveness::Stale,
+                Liveness::Gone => return None,
+            };
+            Some(snapshot_item(
+                &read.name,
+                snapshot,
+                liveness,
+                read.last_activity,
+            ))
+        }
+        Found::Replayed(state) => beat_age(dir, now)
+            .is_some_and(|age| age <= STALE_AFTER)
+            .then(|| replayed_item(&read.name, state, read.last_activity)),
+        Found::Absent => None,
+    }
+}
+
+/// One scanned instance read at `now`: its snapshot, or its replay (with that replay's one
+/// `state-recovered` line), and one pass over its log; an absent snapshot gives no row.
+pub fn read_one(name: &ViolaName, dir: &Path, now: SystemTime) -> InstanceRead {
+    let (found, skipped, last_activity) = match read_snapshot_or_replay(dir) {
+        Ok(Recovered::Snapshot(snapshot)) => {
+            let (skipped, last_activity) = log_pass(dir);
+            (Found::Snapshot(snapshot), skipped, last_activity)
+        }
+        Ok(Recovered::Replayed { state, .. }) => {
+            let skipped = state.skipped;
+            let (_, last_activity) = log_pass(dir);
+            (Found::Replayed(state), skipped, last_activity)
+        }
+        Ok(Recovered::Absent) | Err(_) => {
+            let (skipped, _) = log_pass(dir);
+            (Found::Absent, skipped, None)
+        }
+    };
+    let mut read = InstanceRead {
+        name: name.clone(),
+        found,
+        item: None,
+        skipped,
+        last_activity,
+    };
+    read.item = relive(&read, dir, now);
+    read
+}
+
+/// The board of the instances' reads, each with its row as of the caller's instant: the rows in
+/// the reads' order, the held links of every row's instance sorted by `(driver, driven)` and
+/// deduplicated, and the skip counts of every read summed.
+pub fn assemble<'a>(rows: impl IntoIterator<Item = (&'a InstanceRead, Option<Item>)>) -> Board {
     let mut board = Board {
         items: Vec::new(),
         links: Vec::new(),
         skipped: SkippedTotal::default(),
     };
-    for (name, dir) in &scan.instances {
-        match read_snapshot_or_replay(dir) {
-            Ok(Recovered::Snapshot(snapshot)) => {
-                let liveness = match classify(beat_age(dir, now), same_process(&snapshot)) {
-                    Liveness::Live => Some(RowLiveness::Live),
-                    Liveness::Stale => Some(RowLiveness::Stale),
-                    Liveness::Gone => None,
-                };
-                if let Some(liveness) = liveness {
-                    board.items.push(snapshot_item(name, &snapshot, liveness));
-                    add_links(&mut board.links, &snapshot.links);
-                }
-                board.skipped.add(log_pass(dir));
-            }
-            Ok(Recovered::Replayed { state, .. }) => {
-                if beat_age(dir, now).is_some_and(|age| age <= STALE_AFTER) {
-                    let (parent, role) = shown_lineage(name, state.lineage.as_ref());
-                    let (model, effort) = shown_launch(state.launch.as_ref());
-                    let (window, origin) = shown_window(state.window.as_ref());
-                    add_links(&mut board.links, &state.links);
-                    board.items.push(Item {
-                        name: name.as_ref().to_owned(),
-                        wrapped: true,
-                        liveness: RowLiveness::Live,
-                        status: SessionStatus::Unknown,
-                        wheel: state.wheel,
-                        dialog_pending: false,
-                        cli_version: None,
-                        cli_verified: None,
-                        parent,
-                        role,
-                        model,
-                        effort,
-                        window,
-                        origin,
-                        dialog_kind: None,
-                        join: JoinKeys {
-                            child_pid: None,
-                            agent_session_id: state.agent_session_id.clone(),
-                        },
-                    });
-                }
-                board.skipped.add(state.skipped);
-            }
-            Ok(Recovered::Absent) | Err(_) => board.skipped.add(log_pass(dir)),
+    for (read, item) in rows {
+        if let Some(item) = item {
+            board.items.push(item);
+            add_links(&mut board.links, read.links());
         }
+        board.skipped.add(read.skipped);
     }
     board
         .links
@@ -454,6 +550,16 @@ pub fn read(scan: &Scan, now: SystemTime) -> Board {
     board
         .links
         .dedup_by(|a, b| a.driver == b.driver && a.driven == b.driven);
+    board
+}
+
+/// The entries the scan stepped over, as `(symlink-ignored, malformed)`.
+pub fn scan_skips(scan: &Scan) -> (u64, u64) {
+    (scan.links_ignored, scan.malformed)
+}
+
+/// One `parse-rejected` line per nonzero count of entries the scan stepped over, naming no entry.
+pub fn log_skips(scan: &Scan) {
     for (detail, count) in [
         ("symlink-ignored", scan.links_ignored),
         ("malformed", scan.malformed),
@@ -468,6 +574,18 @@ pub fn read(scan: &Scan, now: SystemTime) -> Board {
             );
         }
     }
+}
+
+/// Each scanned instance read at `now` ([`read_one`]), the board assembled ([`assemble`]), then
+/// the scan's skip lines ([`log_skips`]).
+pub fn read(scan: &Scan, now: SystemTime) -> Board {
+    let reads: Vec<InstanceRead> = scan
+        .instances
+        .iter()
+        .map(|(name, dir)| read_one(name, dir, now))
+        .collect();
+    let board = assemble(reads.iter().map(|read| (read, read.item.clone())));
+    log_skips(scan);
     board
 }
 
@@ -548,11 +666,15 @@ mod tests {
         }
     }
 
-    fn log(dir: &Path, lines: &[(EventKind, Value)]) {
-        let at = Utc
-            .with_ymd_and_hms(2026, 10, 11, 1, 2, 3)
+    /// The instant every line [`log`] appends carries.
+    fn logged_at() -> DateTime<Utc> {
+        Utc.with_ymd_and_hms(2026, 10, 11, 1, 2, 3)
             .single()
-            .expect("valid date");
+            .expect("valid date")
+    }
+
+    fn log(dir: &Path, lines: &[(EventKind, Value)]) {
+        let at = logged_at();
         for (kind, data) in lines {
             let line = EventLine::new(&name("builder"), *kind, Source::Wrapper, data.clone(), at);
             append_event(dir, &line).expect("append");
@@ -885,6 +1007,7 @@ mod tests {
                     effort: None,
                     window: None,
                     origin: None,
+                    last_activity: Some(logged_at()),
                 }],
                 "{detail}"
             );
@@ -976,6 +1099,7 @@ mod tests {
             effort: None,
             window: None,
             origin: None,
+            last_activity: None,
         };
         assert_eq!(
             serde_json::to_string(&none).expect("serialise"),
@@ -1244,6 +1368,117 @@ mod tests {
         assert_eq!(board.links, Vec::new());
     }
 
+    fn appended_at(dir: &Path, at: DateTime<Utc>) {
+        let line = EventLine::new(
+            &name("builder"),
+            EventKind::Wheel,
+            Source::Wrapper,
+            json!({"holder": "driver", "cause": "send"}),
+            at,
+        );
+        append_event(dir, &line).expect("append");
+    }
+
+    /// The newest whole line's `ts` is the row's time: a later line moves it, a torn tail after it
+    /// does not, and a log of no line gives none.
+    #[rstest::rstest]
+    #[case::one_line(false, false, Some(0))]
+    #[case::a_later_line(true, false, Some(90))]
+    #[case::a_torn_tail_after_it(true, true, Some(90))]
+    fn board_read_takes_the_newest_line_time_as_last_activity(
+        #[case] later: bool,
+        #[case] torn: bool,
+        #[case] seconds_after: Option<i64>,
+    ) {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = home(&tmp);
+        let dir = booted(&home, "builder", &own_snapshot());
+        if later {
+            appended_at(&dir, logged_at() + chrono::Duration::seconds(90));
+        }
+        if torn {
+            let mut bytes = fs::read(dir.join("events.ndjson")).expect("log");
+            bytes.extend_from_slice(b"{\"v\":1,\"ts\":\"2030-01-01T00:00:00.000Z\"");
+            fs::write(dir.join("events.ndjson"), bytes).expect("torn");
+        }
+        let board = read(&scanned(&home), beat_time(&dir));
+        assert_eq!(
+            board.items[0].last_activity,
+            seconds_after.map(|s| logged_at() + chrono::Duration::seconds(s))
+        );
+    }
+
+    #[test]
+    fn board_read_of_an_instance_with_no_log_line_has_no_last_activity() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = home(&tmp);
+        let dir = instance(&home, "builder");
+        write_snapshot(&dir, &own_snapshot()).expect("snapshot");
+        touch_heartbeat(&dir).expect("beat");
+        let board = read(&scanned(&home), beat_time(&dir));
+        assert_eq!(board.items[0].last_activity, None);
+        let unwrapped = Item::unwrapped(seen(Some(7), "s-1", SessionStatus::Idle));
+        assert_eq!(unwrapped.last_activity, None);
+    }
+
+    #[test]
+    fn board_read_item_never_serialises_last_activity() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = home(&tmp);
+        let dir = booted(&home, "builder", &own_snapshot());
+        let board = read(&scanned(&home), beat_time(&dir));
+        assert_eq!(board.items[0].last_activity, Some(logged_at()));
+        assert_eq!(
+            serde_json::to_string(&board.items[0]).expect("serialise"),
+            r#"{"name":"builder","wrapped":true,"liveness":"live","status":"unknown","wheel":"driver","dialog_pending":false,"cli_version":"2.1.287","cli_verified":true}"#
+        );
+    }
+
+    /// A live, a stale and a replayed instance: each reads the same through `read_one` then
+    /// `relive` as through `read`, and `relive` writes no line.
+    #[test]
+    fn board_read_one_then_relive_matches_the_read() {
+        let tmp = tempfile::tempdir().expect("tempdir");
+        let home = home(&tmp);
+        let live = booted(&home, "builder", &own_snapshot());
+        let replayed = booted(&home, "tester", &own_snapshot());
+        let path = replayed.join("snapshot.json");
+        let written = fs::read_to_string(&path).expect("snapshot");
+        fs::write(&path, &written[..written.len() / 2]).expect("cut");
+        let scan = scanned(&home);
+        let at = beat_time(&live).max(beat_time(&replayed));
+        for now in [at, at + Duration::from_secs(6)] {
+            let (whole, whole_lines) = capture(|| read(&scan, now));
+            let (reads, read_lines) = capture(|| {
+                scan.instances()
+                    .iter()
+                    .map(|(n, dir)| (read_one(n, dir, at), dir.clone()))
+                    .collect::<Vec<_>>()
+            });
+            assert_eq!(
+                whole_lines, read_lines,
+                "the replay's one line, as read writes it"
+            );
+            let (relived, relive_lines) = capture(|| {
+                reads
+                    .iter()
+                    .map(|(read, dir)| relive(read, dir, now))
+                    .collect::<Vec<_>>()
+            });
+            assert_eq!(relive_lines, Vec::<Value>::new());
+            let assembled = assemble(reads.iter().map(|(read, _)| read).zip(relived));
+            assert_eq!(assembled, whole);
+        }
+        let stale = read(&scan, at + Duration::from_secs(6));
+        assert_eq!(
+            stale
+                .items
+                .iter()
+                .map(|item| (item.name.as_str(), item.liveness))
+                .collect::<Vec<_>>(),
+            [("builder", RowLiveness::Stale)]
+        );
+    }
     #[test]
     fn board_read_words_are_their_serde_values() {
         for (word, text) in [(RowLiveness::Live, "live"), (RowLiveness::Stale, "stale")] {
