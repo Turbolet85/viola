@@ -1,22 +1,20 @@
 # Coverage — viola-0.2.0
 
-verified 29/37 · deferred 2 · planned 6 · implemented 0 · unclaimed 4
+verified 29/37 · deferred 2 · planned 6 · implemented 0 · unclaimed 2
 
 ## deferred (2)
 - v2-21 · A key answering the CLI's session-feedback survey keeps the wheel
 - v2-22 · Product-owned session settings
 
-## planned, gated (2)
+## planned, gated (4)
+- v2-12 · Restore the fleet after a reboot · 2026-11-28-the-fleet-on-the-founder-s-host
 - v2-14 · The fleet console · 2026-11-28-fleet-console-view
 - v2-15 · Every verb from the console · 2026-11-28-console-actions
+- v2-28 · The fleet run by viola · 2026-11-28-the-fleet-on-the-founder-s-host
 
-## planned, unclaimed (3)
-- v2-28 · The fleet run by viola
+## planned, unclaimed (2)
 - v2-30 · Model and effort named at launch
 - v2-31 · Switch a session's model and effort
-
-## planned, unclaimed, gated (1)
-- v2-12 · Restore the fleet after a reboot
 
 ## verified (29)
 - v2-01 · Epoch 8 cleanup · 2026-11-13-epoch-8-cleanup

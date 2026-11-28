@@ -1,0 +1,37 @@
+[
+{
+"tool": "route",
+"v": "1.14",
+"sha8": "c76de2ab",
+"ts": "2026-11-28T19:25:48Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-11-28-the-fleet-on-the-founder-s-host",
+"--id",
+"chk-75xg3mgo",
+"--desc-file",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/master-desc.txt",
+"--scope-file",
+".andromeda/cache/docs/2026-11-28-the-fleet-on-the-founder-s-host/scope.md",
+"--run-dir",
+".andromeda/runs/2026-11-28T19-24-16Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"promoted 2026-11-28-the-fleet-on-the-founder-s-host · chk-75xg3mgo · The fleet on the founder's host · tx 5507"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T19-25-47-2026-11-28-the-fleet-on-the-founder-s-host.ndjson",
+"./.andromeda/master-route.md",
+"./viola-0.2.0/working-route.md"
+],
+"before": null,
+"after": null
+}
+]

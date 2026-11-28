@@ -1,0 +1,1 @@
+On the founder's Omarchy host Viola's own sessions under the product are started by viola, restored by his one `viola up` after a real reboot (the R4b green line in the chunk's evidence/r4.md), and seen and driven from one console (his readings of v2-14 and v2-15); the founder confirms it.

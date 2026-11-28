@@ -1,0 +1,130 @@
+[
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "4d0b5024",
+"ts": "2026-11-28T20:36:38Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-28T20-33-21Z-implement",
+"--marker",
+"2026-11-28-the-fleet-on-the-founder-s-host"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 5533 · 2026-11-28T19-25-47-2026-11-28-the-fleet-on-the-founder-s-host.ndjson",
+"ts 2026-11-28T20:36:31Z · clock 2026-11-28T20:36:38Z · the builders' bound 2026-11-28T20:32:56Z (line 4588)",
+"ids 2026-11-28T20:36:31Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T19-25-47-2026-11-28-the-fleet-on-the-founder-s-host.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "4d0b5024",
+"ts": "2026-11-28T20:41:31Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-28T20-33-21Z-implement",
+"--marker",
+"2026-11-28-the-fleet-on-the-founder-s-host"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 3 record(s) in the store · tx 5534 · 2026-11-28T19-25-47-2026-11-28-the-fleet-on-the-founder-s-host.ndjson",
+"ts 2026-11-28T20:41:17Z · clock 2026-11-28T20:41:31Z · the builders' bound 2026-11-28T20:36:31Z (line 4589)",
+"ids 2026-11-28T20:41:17Z-a … 2026-11-28T20:41:17Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T19-25-47-2026-11-28-the-fleet-on-the-founder-s-host.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "4d0b5024",
+"ts": "2026-11-28T20:41:41Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-28T20-33-21Z-implement",
+"--marker",
+"2026-11-28-the-fleet-on-the-founder-s-host"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 5535 · 2026-11-28T19-25-47-2026-11-28-the-fleet-on-the-founder-s-host.ndjson",
+"ts 2026-11-28T20:41:17Z · clock 2026-11-28T20:41:41Z · the builders' bound 2026-11-28T20:41:17Z (line 4592)",
+"ids 2026-11-28T20:41:17Z-d"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T19-25-47-2026-11-28-the-fleet-on-the-founder-s-host.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "4d0b5024",
+"ts": "2026-11-28T20:43:38Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-28T20-33-21Z-implement",
+"--marker",
+"2026-11-28-the-fleet-on-the-founder-s-host"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 5538 · 2026-11-28T19-25-47-2026-11-28-the-fleet-on-the-founder-s-host.ndjson",
+"ts 2026-11-28T20:43:32Z · clock 2026-11-28T20:43:38Z · the builders' bound 2026-11-28T20:41:17Z (line 4593)",
+"ids 2026-11-28T20:43:32Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T19-25-47-2026-11-28-the-fleet-on-the-founder-s-host.ndjson"
+],
+"before": null,
+"after": null
+}
+]

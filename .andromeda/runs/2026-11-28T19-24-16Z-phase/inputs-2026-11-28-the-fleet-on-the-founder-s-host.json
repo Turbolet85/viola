@@ -1,0 +1,423 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T19:26:06Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-the-fleet-on-the-founder-s-host",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-fleet-host-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer's phase directive: the operator away, his take-up word, F-K and F-R answers, the three scripts' facts, items 1-8",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-28T19-24-16Z-phase",
+"--marker",
+"2026-11-28-the-fleet-on-the-founder-s-host"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-fleet-host-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-fleet-host-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-fleet-host-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "f6f57c0dbd7b19050cb1d2105de043d04391c88c1319dfc14fb2af2e75c940b8",
+"copy": "I1-phase-fleet-host-directive.md.txt",
+"link": false,
+"read_at": "2026-11-28T19:26:06Z",
+"step": "phase:P1",
+"why": "the overseer's phase directive: the operator away, his take-up word, F-K and F-R answers, the three scripts' facts, items 1-8"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T19:26:07Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-the-fleet-on-the-founder-s-host",
+"--message-file",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/relay-1.md",
+"--kind",
+"relay",
+"--origin",
+"the overseer, the /andromeda-phase invocation in this session",
+"--why",
+"the take-up order: the blocked head for what is doable, under the directive, forks to founder-forks.md",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-28T19-24-16Z-phase",
+"--marker",
+"2026-11-28-the-fleet-on-the-founder-s-host"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy message · message: the overseer, the /andromeda-phase invocation in this session",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer, the /andromeda-phase invocation in this session",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "a7697e9d4e3f8d6631ae2721817a19c5ad8a7e2240e0aa0531931f60ac284aeb",
+"copy": "I2-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-28T19:26:06Z",
+"step": "phase:P1",
+"why": "the take-up order: the blocked head for what is doable, under the directive, forks to founder-forks.md"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T20:12:14Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-the-fleet-on-the-founder-s-host",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-fleet-host-scripts.md",
+"--kind",
+"relay",
+"--why",
+"the scripts' owner's facts on up.sh and vstart.sh, replacing the directive's description, and THE BOUND: this entry retires and edits neither script",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-11-28T19-24-16Z-phase",
+"--marker",
+"2026-11-28-the-fleet-on-the-founder-s-host"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy no-repo · ../additional/viola-overseer/relay-fleet-host-scripts.md",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-fleet-host-scripts.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-fleet-host-scripts.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "48936e543295bff21a83bb47708a9be77c0803b854da4b46ffdd389fa64402b4",
+"copy": "I3-relay-fleet-host-scripts.md.txt",
+"link": false,
+"read_at": "2026-11-28T20:12:14Z",
+"step": "phase:P3",
+"why": "the scripts' owner's facts on up.sh and vstart.sh, replacing the directive's description, and THE BOUND: this entry retires and edits neither script"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T20:12:15Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-the-fleet-on-the-founder-s-host",
+"--message-file",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/relay-2.md",
+"--kind",
+"relay",
+"--origin",
+"the overseer, its message at the P3 hold in this session",
+"--why",
+"HOLD at P3; a fifth fork owed; technical answer: the other builders and the worker run under an older prototype binary and its own store, viola up today restores viola-builder alone",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-11-28T19-24-16Z-phase",
+"--marker",
+"2026-11-28-the-fleet-on-the-founder-s-host"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the overseer, its message at the P3 hold in this session",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer, its message at the P3 hold in this session",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "c2728e93a610a8f0ad154461cd4151e8442d8ae7612f94e73df190ec62829d25",
+"copy": "I4-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-28T20:12:14Z",
+"step": "phase:P3",
+"why": "HOLD at P3; a fifth fork owed; technical answer: the other builders and the worker run under an older prototype binary and its own store, viola up today restores viola-builder alone"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T20:17:23Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-the-fleet-on-the-founder-s-host",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-fleet-host-forks.md",
+"--kind",
+"relay",
+"--why",
+"the operator's own answers: scope narrowed to Viola's own sessions, U-R one viola up, U-M no message, U-S as built, U-B his real fleet read-only; what builds now",
+"--step",
+"phase:P3",
+"--run-dir",
+".andromeda/runs/2026-11-28T19-24-16Z-phase",
+"--marker",
+"2026-11-28-the-fleet-on-the-founder-s-host"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy no-repo · ../additional/viola-overseer/relay-fleet-host-forks.md",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-fleet-host-forks.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-fleet-host-forks.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "5e1236ec4eaa1c569ac4e7e74576c5fba8dbcbe26c27197b2ae0c873d35f43c2",
+"copy": "I5-relay-fleet-host-forks.md.txt",
+"link": false,
+"read_at": "2026-11-28T20:17:22Z",
+"step": "phase:P3",
+"why": "the operator's own answers: scope narrowed to Viola's own sessions, U-R one viola up, U-M no message, U-S as built, U-B his real fleet read-only; what builds now"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T20:26:44Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-28-the-fleet-on-the-founder-s-host",
+"--run-dir",
+".andromeda/runs/2026-11-28T19-24-16Z-phase",
+"--marker",
+"2026-11-28-the-fleet-on-the-founder-s-host"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-fleet-host-directive.md",
+"I1 cited scope.md:6 · scope.md:17 · scope.md:37 · scope.md:56 · scope.md:61 · research.md:8 · research.md:59 · plan.md:39 · plan.md:49 · plan.md:113 · plan.md:213 (in fence) · plan.md:291 · plan.md:317 · plan.md:354",
+"I2 n/a — a message has no live source · copy message · message: the overseer, the /andromeda-phase invocation in this session",
+"I2 cited scope.md:6 · research.md:9",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-fleet-host-scripts.md",
+"I3 cited scope.md:18 · scope.md:23 · scope.md:45 · research.md:112 · plan.md:11 · plan.md:317 · plan.md:327",
+"I4 n/a — a message has no live source · copy message · message: the overseer, its message at the P3 hold in this session",
+"I4 cited scope.md:36 · scope.md:44 · research.md:112 · research.md:122 · plan.md:317 · plan.md:349",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/relay-fleet-host-forks.md",
+"I5 cited scope.md:21 · scope.md:38 · research.md:111 · research.md:122 · plan.md:10 · plan.md:17 · plan.md:295 · plan.md:308 · plan.md:318 · plan.md:327 · plan.md:329 · plan.md:354 · plan.md:358",
+"inputs: 5 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 5,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T20:28:07Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-28-the-fleet-on-the-founder-s-host",
+"--run-dir",
+".andromeda/runs/2026-11-28T19-24-16Z-phase",
+"--marker",
+"2026-11-28-the-fleet-on-the-founder-s-host"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-fleet-host-directive.md",
+"I1 cited scope.md:6 · scope.md:17 · scope.md:37 · scope.md:56 · scope.md:61 · research.md:8 · research.md:59 · plan.md:39 · plan.md:49 · plan.md:113 · plan.md:238 (in fence) · plan.md:316 · plan.md:342 · plan.md:379",
+"I2 n/a — a message has no live source · copy message · message: the overseer, the /andromeda-phase invocation in this session",
+"I2 cited scope.md:6 · research.md:9",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-fleet-host-scripts.md",
+"I3 cited scope.md:18 · scope.md:23 · scope.md:45 · research.md:112 · plan.md:11 · plan.md:342 · plan.md:352",
+"I4 n/a — a message has no live source · copy message · message: the overseer, its message at the P3 hold in this session",
+"I4 cited scope.md:36 · scope.md:44 · research.md:112 · research.md:122 · plan.md:342 · plan.md:374",
+"I5 unchanged · copy no-repo · ../additional/viola-overseer/relay-fleet-host-forks.md",
+"I5 cited scope.md:21 · scope.md:38 · research.md:111 · research.md:122 · plan.md:10 · plan.md:17 · plan.md:320 · plan.md:333 · plan.md:343 · plan.md:352 · plan.md:354 · plan.md:379 · plan.md:383",
+"inputs: 5 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 2 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 5,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 2
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T20:31:45Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-the-fleet-on-the-founder-s-host",
+"--message-file",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/relay-3.md",
+"--kind",
+"relay",
+"--origin",
+"the overseer, the P5 word in this session",
+"--why",
+"the P5 word yes on .andromeda/runs/2026-11-28T19-24-16Z-phase/p5-card-1.md (its Beyond the plan rows included), the overseer's word as delegate overseer; U-B2 to the operator, step 8 held, no implement",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-28T19-24-16Z-phase",
+"--marker",
+"2026-11-28-the-fleet-on-the-founder-s-host"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I6 · copy message · message: the overseer, the P5 word in this session",
+"cite: inputs#I6"
+],
+"stderr": null,
+"wrote": [
+"inputs/I6-relay-3.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I6",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer, the P5 word in this session",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "c03eac2b2e30ad90b56bd4396dac1b3c8d0788e57f19cc9cafedcacebccba17b",
+"copy": "I6-relay-3.md.txt",
+"link": false,
+"read_at": "2026-11-28T20:31:45Z",
+"step": "phase:P5",
+"why": "the P5 word yes on .andromeda/runs/2026-11-28T19-24-16Z-phase/p5-card-1.md (its Beyond the plan rows included), the overseer's word as delegate overseer; U-B2 to the operator, step 8 held, no implement"
+}
+}
+]

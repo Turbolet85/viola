@@ -1,0 +1,148 @@
+[
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T19:28:15Z",
+"argv": [
+"rows-packs",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-28T19-24-16Z-phase",
+"--side",
+"phase",
+"--marker",
+"2026-11-28-the-fleet-on-the-founder-s-host"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 1050 · packs 11 · pack 100 · 303830 B",
+"security-plan: rows 677 · packs 7 · pack 100 · 212400 B",
+"design-system: rows 381 · packs 4 · pack 100 · 96428 B",
+"layout-templates: rows 244 · packs 3 · pack 100 · 61311 B",
+"test-plan: rows 1392 · packs 14 · pack 100 · 385323 B",
+"obs-plan: rows 1065 · packs 11 · pack 100 · 298573 B",
+"a11y-plan: rows 247 · packs 3 · pack 100 · 73318 B",
+"rows-packs: 7 master(s) · 5056 row(s) · 53 pack(s) · 3 draw(s) a pack · pin 5476"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-28T19-24-16Z-phase/rows-packs.json"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T19:55:39Z",
+"argv": [
+"rows-union",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-28T19-24-16Z-phase",
+"--side",
+"phase",
+"--marker",
+"2026-11-28-the-fleet-on-the-founder-s-host"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"architecture: rows 1050 · packs 11 · picked 491 (297 by every draw) · standing 30 · 129098 B",
+"security-plan: rows 677 · packs 7 · picked 270 (186 by every draw) · standing 23 · 79295 B",
+"design-system: rows 381 · packs 4 · picked 192 (124 by every draw) · standing 5 · 45773 B",
+"layout-templates: rows 244 · packs 3 · picked 102 (59 by every draw) · standing 3 · 22498 B",
+"test-plan: rows 1392 · packs 14 · picked 220 (111 by every draw) · standing 54 · 59363 B",
+"obs-plan: rows 1065 · packs 11 · picked 471 (290 by every draw) · standing 65 · 115170 B",
+"a11y-plan: rows 247 · packs 3 · picked 138 (83 by every draw) · standing 20 · 36940 B",
+"rows-union: 7 master(s) · picked 1884 of 5056 · rule any"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-11-28T19-24-16Z-phase/arch-rows.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/arch-standing.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/arch-pick-counts.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/security-rows.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/security-standing.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/security-pick-counts.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/design-rows.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/design-standing.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/design-pick-counts.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/layouts-rows.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/layouts-standing.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/layouts-pick-counts.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/tests-rows.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/tests-standing.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/tests-pick-counts.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/obs-rows.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/obs-standing.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/obs-pick-counts.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/a11y-rows.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/a11y-standing.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/a11y-pick-counts.md",
+".andromeda/runs/2026-11-28T19-24-16Z-phase/cascade-tally.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T20:31:45Z",
+"argv": [
+"query",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-28T19-24-16Z-phase",
+"--marker",
+"2026-11-28-the-fleet-on-the-founder-s-host",
+"select line from coverage_line where version = 'viola-0.2.0'"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"verified 29/37 · deferred 2 · planned 6 · implemented 0 · unclaimed 4",
+"1 row(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T20:31:45Z",
+"argv": [
+"query",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-28T19-24-16Z-phase",
+"--marker",
+"2026-11-28-the-fleet-on-the-founder-s-host",
+"select * from blocked"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"status\tmarker\tversion\tblock",
+"pending\t2026-11-28-the-fleet-on-the-founder-s-host\tviola-0.2.0\tBLOCKED-ON: R4, viola up once on a real compositor over a planted fleet (R4a) and once after a real reboot over a real parent and child (R4b), at the operator host, unlocked, its moments his to name (founder-forks U1-U5)",
+"gated\t2026-11-28-fleet-console-view\tviola-0.2.0\tBLOCKED-ON: the operator's live reading of viola console on his Hyprland host — the window opens tiled, stays whole and usable at a quarter of the screen and keeps the fleet current — at a moment he names (chunks/2026-11-28-fleet-console-view/inputs/I3-relay-console-view-forks.md.txt)",
+"gated\t2026-11-28-console-actions\tviola-0.2.0\tBLOCKED-ON: the operator's live reading of viola console's actions on his Hyprland host — open a child, focus, send, answer (a permission and a plan), last, pause, release, revive and switch from a selected row, against his real claude and terminal — at a moment he names (chunks/2026-11-28-console-actions/inputs/I1-phase-console-actions-directive.md.txt)",
+"3 row(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

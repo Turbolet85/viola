@@ -1,0 +1,11 @@
+[[control]]
+id = 'width'
+entry = 4
+guard = 'the 79-column key line, restored to the 98-column one at HEAD'
+case = 'console_keys_fit_the_80_column_floor'
+
+[[control.edit]]
+path = 'src/human/console.rs'
+old = '''pub(crate) const CONSOLE_KEYS: &str =
+    "q quit  jk  l last  p pause  r rel  f focus  v rev  s send  m sw  a ans  o open";'''
+new = '''pub(crate) const CONSOLE_KEYS: &str = "q quit  jk move  l last  p pause  r release  f focus  v revive  s send  m switch  a answer  o open";'''

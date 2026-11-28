@@ -148,3 +148,4 @@
 2026-11-28-console-scaffold · complete · the fleet console's scaffold: its surface section, quarter-screen layout, redraw-ban reconciliation, a state-reading keystroke test driver and its own diagnostics role · → chk:2026-11-28-console-scaffold
 2026-11-28-fleet-console-view · gated · the fleet console's view — lineage trees, state, wheel and last activity in the board's words, kept current, control-escaped · → chk:2026-11-28-fleet-console-view
 2026-11-28-console-actions · gated · the fleet console's actions — every verb by keyboard from a selected row, through the CLI verbs, a send's readback, refusals as `unable` lines · → chk:2026-11-28-console-actions
+2026-11-28-the-fleet-on-the-founder-s-host · pending · the fleet on the founder's host — what is doable over the fakes toward a fleet started, restored and driven by viola; its live readings gated on R4 · → chk:2026-11-28-the-fleet-on-the-founder-s-host

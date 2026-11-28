@@ -3,49 +3,84 @@
 # operator's own entries).
 #
 #   bash scripts/r4-up.sh <scratch root> <built viola> windows <ws-parent> <ws-child> [--rehearse]
-#   bash scripts/r4-up.sh <scratch root> <built viola> plant|after
+#   bash scripts/r4-up.sh <scratch root> <built viola> after <home> --granted
+#   bash scripts/r4-up.sh <scratch root> <built viola> after --rehearse
+#   bash scripts/r4-up.sh <scratch root> <built viola> plant
 #
 # windows (R4a): a planted fleet over the stand-in agent, no claude: a root opened to <ws-parent>,
 # its child opened to <ws-child>, a hand-started root run in a foot this script spawns. Each wrapper
 # is ended, its heartbeat set before this boot, then ONE `viola up` re-opens the three; each new
 # window's workspace is read by its app-id, and the three are closed on every exit path.
 #
-# plant and after (R4b) refuse as their first act: nothing is read, started or copied.
+# after (R4b) reads a fleet after a reboot and the operator's own `viola up`. Without --granted it
+# refuses as its first act, before any root, PATH or home read. Granted, it starts, copies and types
+# nothing: it reads only the board of <home> (with no claude on PATH) and each listed instance's
+# own window lines under <home>/instances/<name>/events.ndjson. It needs PRESENT outside the tree
+# <home> an existing directory, hyprctl and jq on PATH, the desktop unlocked; and ABSENT the scratch
+# root, which holds only an empty no-claude dir and a scratch HOME for the board read.
 #
-# --rehearse runs windows over the stand-in foot, hyprctl and agent (workspaces 7 and 8 inside the
-# fakes only), with every viola process's PATH the scratch bin alone, so nothing it starts can reach
-# a compositor or a claude. The compositor reading is the instance's own window record there, the
-# fake listing no app-id.
+# after --rehearse plants the R4a rehearsal's fleet over the stand-ins (workspaces 7 and 8), ends
+# it as a reboot would, runs the ONE `viola up` itself, then makes the same reading of the scratch
+# home before it closes every window it opened.
+#
+# plant refuses as its first act: a planted real pair needs a credential, which is never copied.
+#
+# --rehearse runs over the stand-in foot, hyprctl and agent (workspaces inside the fakes only), with
+# every viola process's PATH the scratch bin alone, so nothing it starts can reach a compositor or a
+# claude. The compositor reading is the instance's own window record there, the fake listing no
+# app-id.
 #
 # It strips every VIOLA_* name from its own environment first, reads no other variable but PATH and
-# HOME, and every board read runs with no claude on its PATH.
+# HOME, and every board read runs with no claude on its PATH. A verdict line holds words and counts
+# only: no name, address, pid, workspace number or path.
 #
 # Verdict lines:
 #   r4: <green|red> phase=windows order=<parents-first|child-first|unread> placed=<n>/2 lines=<matched|mismatched>
+#   r4: <green|red> phase=after live=<n> placed=<p>/<w> order=<parents-first|child-first|unread> gone=<g>
 #   r4: red precondition=<word>
 #   r4: rehearsed — not a live reading        (after the verdict, under --rehearse)
 set -u
 
 case "${3:-}" in
-    plant | after)
+    plant)
         echo "r4: red precondition=r4b-not-granted"
         exit 1
         ;;
 esac
 
 rehearse=
+granted=
 words=()
 for word in "$@"; do
-    if [ "$word" = --rehearse ]; then
-        rehearse=1
-    else
-        words+=("$word")
-    fi
+    case $word in
+        --rehearse) rehearse=1 ;;
+        --granted) granted=1 ;;
+        *) words+=("$word") ;;
+    esac
 done
-if [ "${#words[@]}" -ne 5 ] || [ "${words[2]}" != windows ]; then
-    echo "usage: bash scripts/r4-up.sh <scratch root> <built viola> windows <ws-parent> <ws-child> [--rehearse]" >&2
-    exit 2
+phase=${words[2]:-}
+if [ "$phase" = after ] && [ -z "$rehearse" ] && [ -z "$granted" ]; then
+    echo "r4: red precondition=r4b-not-granted"
+    exit 1
 fi
+usage() {
+    echo "usage: bash scripts/r4-up.sh <scratch root> <built viola> windows <ws-parent> <ws-child> [--rehearse]" >&2
+    echo "       bash scripts/r4-up.sh <scratch root> <built viola> after <home> --granted | after --rehearse" >&2
+    exit 2
+}
+case "$phase" in
+    windows)
+        [ "${#words[@]}" -eq 5 ] && [ -z "$granted" ] || usage
+        ;;
+    after)
+        if [ -n "$rehearse" ]; then
+            [ "${#words[@]}" -eq 3 ] && [ -z "$granted" ] || usage
+        else
+            [ "${#words[@]}" -eq 4 ] || usage
+        fi
+        ;;
+    *) usage ;;
+esac
 for name in $(compgen -e); do
     case $name in
         VIOLA_*) unset "$name" ;;
@@ -53,8 +88,13 @@ for name in $(compgen -e); do
 done
 root=$(realpath -m -- "${words[0]}")
 viola=$(realpath -- "${words[1]}")
-ws_parent=${words[3]}
-ws_child=${words[4]}
+if [ "$phase" = windows ]; then
+    ws_parent=${words[3]}
+    ws_child=${words[4]}
+else
+    ws_parent=7
+    ws_child=8
+fi
 case "$ws_parent$ws_child" in
     *[!0-9-]* | '')
         echo "usage: the two workspaces are integers" >&2
@@ -93,6 +133,12 @@ order=unread
 placed=0
 lines=mismatched
 cleaned=
+fleet=
+after_live=0
+after_placed=0
+after_with=0
+after_order=unread
+after_gone=0
 
 # The verdict on a failed precondition: nothing of the fleet was started.
 refuse() {
@@ -113,6 +159,79 @@ v() {
 board_json() {
     env "PATH=$no_claude" "HOME=$user" "$viola" --home "$home" list --json 2>/dev/null
 }
+
+# R4b's reading of <home>, shared by both after arms; it reads and starts nothing else.
+# live: the board's live items. w: the live instances whose window line before their newest one
+# recorded a workspace; p: those of them whose newest window line reads placed on that same
+# workspace. order: over each live child whose recorded parent is live, parents-first when every
+# parent's newest window line is earlier than its child's, child-first when one is not, unread with
+# no such edge. gone: the board's items not live.
+read_after() {
+    local h=$1 board name reading was_set was_placed newest parent_name kid
+    local -A newest_of=()
+    board=$(board_json) || board=
+    after_live=0
+    after_placed=0
+    after_with=0
+    after_order=unread
+    after_gone=$(jq -r '[.ok.items[]? | select(.liveness != "live")] | length' <<<"$board" 2>/dev/null)
+    case "$after_gone" in '' | *[!0-9]*) after_gone=0 ;; esac
+    while IFS= read -r name; do
+        case "$name" in '' | */* | .*) continue ;; esac
+        after_live=$((after_live + 1))
+        reading=$(jq -n -r -R '
+            [inputs | fromjson? | select(type == "object" and .kind == "window")] as $w
+            | ($w | length) as $n
+            | if $n == 0 then "0 0 -"
+              else $w[$n - 1] as $new
+              | (if $n >= 2 then ($w[$n - 2].data.workspace // null) else null end) as $was
+              | "\(if $was != null then 1 else 0 end) \(if $was != null and $new.data.placement == "placed" and $new.data.workspace == $was then 1 else 0 end) \($new.ts // "-")"
+              end' "$h/instances/$name/events.ndjson" 2>/dev/null) || reading="0 0 -"
+        read -r was_set was_placed newest <<<"$reading"
+        [ "$was_set" = 1 ] && after_with=$((after_with + 1))
+        [ "$was_placed" = 1 ] && after_placed=$((after_placed + 1))
+        newest_of[$name]=${newest:--}
+    done < <(jq -r '.ok.items[]? | select(.liveness == "live") | .name' <<<"$board" 2>/dev/null)
+    while read -r parent_name kid; do
+        [ -n "$kid" ] || continue
+        if [ "${newest_of[$parent_name]:--}" != - ] && [ "${newest_of[$kid]:--}" != - ] &&
+            [[ "${newest_of[$parent_name]}" < "${newest_of[$kid]}" ]]; then
+            [ "$after_order" = child-first ] || after_order=parents-first
+        else
+            after_order=child-first
+        fi
+    done < <(jq -r '(.ok.items // []) as $i
+        | [$i[] | select(.liveness == "live") | .name] as $l
+        | $i[] | select(.liveness == "live" and (.parent | type) == "string")
+        | select(.parent as $p | any($l[]; . == $p))
+        | .parent + " " + .name' <<<"$board" 2>/dev/null)
+}
+
+# The after verdict, from the last reading.
+after_verdict() {
+    local word=red
+    if [ "$after_live" -ge 1 ] && [ "$after_placed" -eq "$after_with" ] &&
+        [ "$after_order" = parents-first ]; then
+        word=green
+    fi
+    echo "r4: $word phase=after live=$after_live placed=$after_placed/$after_with order=$after_order gone=$after_gone"
+    [ "$word" = green ]
+}
+
+# The live after arm: preconditions in order, each failure reading and starting nothing; then the
+# one reading of the operator's home.
+if [ "$phase" = after ] && [ -z "$rehearse" ]; then
+    [ ! -e "$root" ] || refuse root-present
+    command -v hyprctl >/dev/null || refuse no-hyprctl
+    [ "$(hyprctl locked 2>/dev/null | tr -d '[:space:]')" = false ] || refuse locked
+    command -v jq >/dev/null || refuse no-jq
+    [ -d "${words[3]}" ] || refuse no-home
+    home=$(realpath -- "${words[3]}")
+    mkdir -p -m 0700 "$root" "$no_claude" "$user" || refuse root-present
+    read_after "$home"
+    after_verdict
+    exit $?
+fi
 
 # The pid a name's snapshot records, while that pid still runs this build or its pinned copy.
 wrapper_of() {
@@ -163,6 +282,7 @@ close_instance() {
 }
 
 cleanup() {
+    [ -n "$fleet" ] || return 0
     [ -z "$cleaned" ] || return 0
     cleaned=1
     local name pid
@@ -182,6 +302,12 @@ trap cleanup EXIT
 finish() {
     local word=red
     cleanup
+    if [ "$phase" = after ]; then
+        after_verdict
+        word=$?
+        echo "r4: rehearsed — not a live reading"
+        exit "$word"
+    fi
     if [ "$order" = parents-first ] && [ "$placed" -eq 2 ] && [ "$lines" = matched ]; then
         word=green
     fi
@@ -277,6 +403,7 @@ if [ "$found" != "$bin/claude" ] || [ -e /usr/bin/claude ] || [ -e /bin/claude ]
     refuse real-claude-reachable
 fi
 echo "r4: build=$(sha256sum -- "$viola" | cut -c1-16)"
+fleet=1
 
 # The fleet: a root and its child opened to their workspaces, a root started by hand.
 (cd "$work" && v open "$parent" --cwd "$work/$parent" --workspace "$ws_parent" -- claude) \
@@ -303,6 +430,11 @@ done
 # The ONE up.
 opened=$(cd "$root" && v up --json 2>/dev/null)
 up_exit=$?
+
+if [ "$phase" = after ]; then
+    read_after "$home"
+    finish
+fi
 
 mapfile -t live < <(jq -r '.ok.instances[] | select(.outcome == "live") | .name' <<<"$opened" 2>/dev/null)
 at_parent=-1

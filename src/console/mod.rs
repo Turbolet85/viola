@@ -1399,7 +1399,7 @@ mod tests {
     }
 
     #[test]
-    fn console_run_on_q_draws_the_frame_then_quits_restored() {
+    fn console_run_on_q_draws_the_whole_key_line_at_80_columns() {
         let mut out = Vec::new();
         let dropped = Rc::new(Cell::new(false));
         let end = run(
@@ -1416,7 +1416,7 @@ mod tests {
         ));
         assert!(holds(
             &out,
-            b"\x1b[3;1H  no wrapped sessions  start one: viola run <name> -- claude\x1b[24;1Hq quit  jk move  l last  p pause  r release  f focus  v revive  s send  m swi..."
+            b"\x1b[3;1H  no wrapped sessions  start one: viola run <name> -- claude\x1b[24;1Hq quit  jk  l last  p pause  r rel  f focus  v rev  s send  m sw  a ans  o open"
         ));
         assert!(out.ends_with(RESTORE));
         assert!(dropped.get());

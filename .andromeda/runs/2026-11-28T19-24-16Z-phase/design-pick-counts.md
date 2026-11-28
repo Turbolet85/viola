@@ -1,0 +1,12 @@
+@pack_count n=1 doc=design-system pack=1 draw=1 rows=96 yes=25 no=71 standing=5 file=design-pick-p1.md of=687c2fd4158a1ad9 rule=any
+@pack_count n=2 doc=design-system pack=1 draw=2 rows=96 yes=35 no=61 standing=2 file=design-pick-p1.d2.md of=da33989dda4a8fdb rule=any
+@pack_count n=3 doc=design-system pack=1 draw=3 rows=96 yes=32 no=64 standing=0 file=design-pick-p1.d3.md of=5811fcb6b343894c rule=any
+@pack_count n=4 doc=design-system pack=2 draw=1 rows=97 yes=47 no=50 standing=4 file=design-pick-p2.md of=3a7c02c4cb82ac34 rule=any
+@pack_count n=5 doc=design-system pack=2 draw=2 rows=97 yes=48 no=49 standing=0 file=design-pick-p2.d2.md of=cfa9368e04ccf613 rule=any
+@pack_count n=6 doc=design-system pack=2 draw=3 rows=97 yes=49 no=48 standing=0 file=design-pick-p2.d3.md of=57dd3bcb3f40aeb9 rule=any
+@pack_count n=7 doc=design-system pack=3 draw=1 rows=91 yes=46 no=45 standing=4 file=design-pick-p3.md of=87a376db7426f761 rule=any
+@pack_count n=8 doc=design-system pack=3 draw=2 rows=91 yes=34 no=57 standing=1 file=design-pick-p3.d2.md of=d114160e0a5fef1c rule=any
+@pack_count n=9 doc=design-system pack=3 draw=3 rows=91 yes=31 no=60 standing=2 file=design-pick-p3.d3.md of=f205584b5ef5a4aa rule=any
+@pack_count n=10 doc=design-system pack=4 draw=1 rows=97 yes=34 no=63 standing=4 file=design-pick-p4.md of=41d0cb7d8f68884f rule=any
+@pack_count n=11 doc=design-system pack=4 draw=2 rows=97 yes=47 no=50 standing=1 file=design-pick-p4.d2.md of=bc2fe8b103b3f136 rule=any
+@pack_count n=12 doc=design-system pack=4 draw=3 rows=97 yes=39 no=58 standing=4 file=design-pick-p4.d3.md of=64a1c5223570d031 rule=any

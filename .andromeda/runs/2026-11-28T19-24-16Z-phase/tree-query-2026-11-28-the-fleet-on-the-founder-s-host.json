@@ -1,0 +1,25 @@
+[
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee_name = 'CONSOLE_KEYS'",
+"rows": 3,
+"result": [
+{
+"callee": "rust-analyzer cargo viola 0.1.0 human/console/CONSOLE_KEYS.",
+"file": "src/human.rs",
+"line": 21
+},
+{
+"callee": "rust-analyzer cargo viola 0.1.0 human/console/CONSOLE_KEYS.",
+"file": "src/human/console.rs",
+"line": 137
+},
+{
+"callee": "rust-analyzer cargo viola 0.1.0 human/console/CONSOLE_KEYS.",
+"file": "src/console/mod.rs",
+"line": 226
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

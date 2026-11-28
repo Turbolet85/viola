@@ -16,8 +16,10 @@ pub(crate) const CONSOLE_RESTORE: &[u8] = b"\x1b[?25h\x1b[?1049l";
 /// The frame's first line.
 pub(crate) const CONSOLE_TITLE: &str = "viola console";
 
-/// The frame's last line in the list: `q quit` first, so a cut never hides it, then the bindings.
-pub(crate) const CONSOLE_KEYS: &str = "q quit  jk move  l last  p pause  r release  f focus  v revive  s send  m switch  a answer  o open";
+/// The frame's last line in the list: `q quit` first, then every binding in short labels, 79
+/// columns, so the whole line stands at the 80-column floor.
+pub(crate) const CONSOLE_KEYS: &str =
+    "q quit  jk  l last  p pause  r rel  f focus  v rev  s send  m sw  a ans  o open";
 
 /// The confirm's prompt in the key line's place: `<verb> <name>? y/n`.
 pub(crate) fn console_confirm_prompt(verb: &str, name: &str) -> String {
@@ -138,8 +140,18 @@ mod tests {
         write_console_frame(&mut out, 24, &[], CONSOLE_KEYS).expect("write");
         assert_eq!(
             out,
-            b"\x1b[H\x1b[2Jviola console\x1b[24;1Hq quit  jk move  l last  p pause  r release  f focus  v revive  s send  m switch  a answer  o open"
+            b"\x1b[H\x1b[2Jviola console\x1b[24;1Hq quit  jk  l last  p pause  r rel  f focus  v rev  s send  m sw  a ans  o open"
         );
+    }
+
+    #[test]
+    fn console_keys_fit_the_80_column_floor() {
+        let line =
+            "q quit  jk  l last  p pause  r rel  f focus  v rev  s send  m sw  a ans  o open";
+        assert_eq!(CONSOLE_KEYS, line);
+        let width: usize = CONSOLE_KEYS.chars().map(columns_of).sum();
+        assert_eq!(width, 79);
+        assert!(width <= 80);
     }
 
     #[test]

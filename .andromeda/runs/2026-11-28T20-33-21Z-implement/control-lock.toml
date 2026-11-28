@@ -1,0 +1,11 @@
+[[control]]
+id = 'lock'
+entry = 8
+guard = 'the live arm refusal on a locked desktop (hyprctl locked not false)'
+case = 'r4b-locked'
+
+[[control.edit]]
+path = 'scripts/r4-up.sh'
+old = '''    [ "$(hyprctl locked 2>/dev/null | tr -d '[:space:]')" = false ] || refuse locked
+    command -v jq >/dev/null || refuse no-jq'''
+new = '''    command -v jq >/dev/null || refuse no-jq'''
