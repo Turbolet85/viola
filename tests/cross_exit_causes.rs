@@ -13,7 +13,8 @@
 //! silent exits, both streams empty by rule, by `crates/viola-e2e/tests/mcp_tools.rs` and
 //! `crates/viola-mcp/tests/handlers.rs`; a program not found under `run` itself is `revive`'s row
 //! here, one resolver, with no pair under `run` (obs-plan §7); `up`'s `boot-time-unread`, a host
-//! that hides its boot time, by its unit pair in `src/human/hints.rs`.
+//! that hides its boot time, by its unit pair in `src/human/hints.rs`; `viola console`'s widened
+//! home, which needs a terminal to be reached, by `tests/tui_console.rs`.
 
 #[allow(dead_code)]
 mod support;
@@ -80,6 +81,9 @@ const FOCUS_OVERSIZE: &str = "viola reads no reply past its frame cap; nothing w
 const FOCUS_MALFORMED: &str = "check that hyprctl matches the running Hyprland";
 const FOCUS_REFUSED: &str = "the window may have closed; viola list shows builder";
 const BOOT_TIME_UNREAD: &str = "viola revive <name> resumes one instance by hand";
+const CONSOLE_NO_TERMINAL: &str = "run viola console in a terminal window";
+const CONSOLE_HOME: &str =
+    "make the viola home readable by you alone, then run viola console again";
 
 /// A code, its exit, and a hint it ends with: `None` where the cause has none.
 type Cause = (&'static str, u8, Option<&'static str>);
@@ -120,6 +124,10 @@ const CAUSES: &[Cause] = &[
     ("malformed", 1, Some(FOCUS_MALFORMED)),
     ("refused", 1, Some(FOCUS_REFUSED)),
     ("boot-time-unread", 1, Some(BOOT_TIME_UNREAD)),
+    // `viola console` takes no `--json` and prints no code: its two causes are named here by
+    // what they refuse.
+    ("no-terminal", 1, Some(CONSOLE_NO_TERMINAL)),
+    ("strict-modes-failed", 1, Some(CONSOLE_HOME)),
 ];
 
 const UNVERIFIED_CLI: &str = "run viola verify for this CLI version";
@@ -713,4 +721,13 @@ fn verify_with_no_claude_on_its_path_is_program_not_found() {
         "program-not-found",
         "ERROR",
     );
+}
+
+/// `viola console` off a terminal: its pair, and nothing under the home made.
+#[test]
+fn console_off_a_terminal_is_refused_with_its_hint() {
+    let home = TestHome::new();
+    let ran = viola(home.path(), &["console"], None, None);
+    assert_hint(&ran, 1, CONSOLE_NO_TERMINAL);
+    assert!(!home.path().exists(), "no home made");
 }

@@ -1,0 +1,130 @@
+[
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "4d0b5024",
+"ts": "2026-11-28T08:03:31Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-28T07-53-14Z-implement",
+"--marker",
+"2026-11-28-console-scaffold"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 5277 · 2026-11-28T00-47-43-2026-11-28-console-scaffold.ndjson",
+"ts 2026-11-28T08:03:19Z · clock 2026-11-28T08:03:31Z · the builders' bound 2026-11-28T07:52:39Z (line 4489)",
+"ids 2026-11-28T08:03:19Z-a … 2026-11-28T08:03:19Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T00-47-43-2026-11-28-console-scaffold.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "4d0b5024",
+"ts": "2026-11-28T08:18:26Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-28T07-53-14Z-implement",
+"--marker",
+"2026-11-28-console-scaffold"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 2 record(s) in the store · tx 5280 · 2026-11-28T00-47-43-2026-11-28-console-scaffold.ndjson",
+"ts 2026-11-28T08:18:13Z · clock 2026-11-28T08:18:25Z · the builders' bound 2026-11-28T08:03:19Z (line 4491)",
+"ids 2026-11-28T08:18:13Z-a … 2026-11-28T08:18:13Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T00-47-43-2026-11-28-console-scaffold.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "4d0b5024",
+"ts": "2026-11-28T08:19:02Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-28T07-53-14Z-implement",
+"--marker",
+"2026-11-28-console-scaffold"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 5281 · 2026-11-28T00-47-43-2026-11-28-console-scaffold.ndjson",
+"ts 2026-11-28T08:19:02Z · clock 2026-11-28T08:19:02Z · the builders' bound 2026-11-28T08:18:13Z (line 4493)",
+"ids 2026-11-28T08:19:02Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T00-47-43-2026-11-28-console-scaffold.ndjson"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.5",
+"sha8": "4d0b5024",
+"ts": "2026-11-28T08:21:24Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-11-28T07-53-14Z-implement",
+"--marker",
+"2026-11-28-console-scaffold"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"landed 1 record(s) in the store · tx 5283 · 2026-11-28T00-47-43-2026-11-28-console-scaffold.ndjson",
+"ts 2026-11-28T08:21:18Z · clock 2026-11-28T08:21:24Z · the builders' bound 2026-11-28T08:19:02Z (line 4494)",
+"ids 2026-11-28T08:21:18Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T00-47-43-2026-11-28-console-scaffold.ndjson"
+],
+"before": null,
+"after": null
+}
+]

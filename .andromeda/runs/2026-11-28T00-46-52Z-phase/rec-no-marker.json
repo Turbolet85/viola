@@ -1,0 +1,28 @@
+[
+{
+"tool": "rec",
+"v": "1.57",
+"sha8": "47332ba4",
+"ts": "2026-11-28T07:52:34Z",
+"argv": [
+"outputs",
+"land",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-11-28T00-46-52Z-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"left · tests-pick-p1.d3.md · dead draw, unread by the union",
+"landed tx 5274 · 3935 record(s) of 180 payload(s)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/db/log/2026-11-28T07-52-34-2026-11-28T00-46-52Z-phase.ndjson"
+],
+"before": null,
+"after": null
+}
+]

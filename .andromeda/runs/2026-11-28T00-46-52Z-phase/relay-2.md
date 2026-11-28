@@ -1,0 +1,1 @@
+yes — apply rev 7. The console item under contract/panic-outcome-by-role lands at the wrap on the technical word, as the role lists do; you read the condition rightly. End the phase; start no implement.

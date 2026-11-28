@@ -135,6 +135,66 @@ pub(super) enum RunBEnd {
     Kill,
 }
 
+/// Why an added paste's step ended before its answer.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Missed {
+    /// The input box was not up: nothing was pasted.
+    Guard,
+    /// The paste failed, or the wait reached its deadline or the stop.
+    Stop,
+}
+
+/// An added paste's answer: when it was pasted and answered, what the answer read, and the rows
+/// the screen stood on after it.
+struct Answered<T> {
+    pasted: Instant,
+    at: Instant,
+    what: T,
+    rows: Option<Vec<String>>,
+}
+
+impl<T> Answered<T> {
+    fn latency_ms(&self) -> u64 {
+        ms(self.at.saturating_duration_since(self.pasted))
+    }
+}
+
+/// One added paste of Run B: the guard on `rows`, the capture counts `counts` takes, the paste of
+/// `text`, the wait until `answered` reads an answer over those counts, then the rows `end` waits
+/// for from the answer's instant.
+fn paste_turn<C, T>(
+    run: &Run,
+    rows: Option<&[String]>,
+    box_only: &mut u32,
+    text: &str,
+    counts: impl FnOnce() -> C,
+    answered: impl Fn(&C) -> Option<T>,
+    end: impl FnOnce(Instant) -> Option<Vec<String>>,
+) -> Result<Answered<T>, Missed> {
+    if !guard(rows, box_only) {
+        return Err(Missed::Guard);
+    }
+    let counted = counts();
+    let clock = run.clock.as_ref();
+    let pasted = clock.now();
+    if !run.paste_text(text) {
+        return Err(Missed::Stop);
+    }
+    let mut what = None;
+    let at = wait_for(clock, probe_until(clock), run.stop, || {
+        what = answered(&counted);
+        what.is_some()
+    })
+    .ok_or(Missed::Stop)?;
+    let what = what.ok_or(Missed::Stop)?;
+    Ok(Answered {
+        pasted,
+        at,
+        what,
+        rows: end(at),
+    })
+}
+
 /// Run B's added pastes, each only into the settled input box the turn before it left (first the
 /// `turn` screen): the long, the tag-like and the newline texts, each until one more
 /// UserPromptSubmit and one more Stop are captured and the input box is back (`Run::box_wait`),
@@ -156,24 +216,35 @@ pub(super) fn framing_turns(
     box_only: &mut u32,
 ) -> RunBEnd {
     let captures = inputs.trusted.captures;
-    let clock = run.clock.as_ref();
     let count = |event| count_of(captures, event);
+    let boxed = |at| run.box_wait(at);
+    let turn_counts = || (count(HookEvent::UserPromptSubmit), count(HookEvent::Stop));
+    let turn_ended = |&(prompts, stops): &(usize, usize)| {
+        added_turn_ended(captures, prompts, stops).then_some(())
+    };
+    let local_counts = || {
+        (
+            count(HookEvent::SessionStart),
+            count(HookEvent::UserPromptSubmit),
+        )
+    };
+    let local_answered = |&(starts, prompts): &(usize, usize)| {
+        local_command_answered(captures, starts, prompts).then_some(())
+    };
     let mut rows = typed.turn.clone();
     for text in [PROBE_LONG_PASTE, PROBE_TAG_PASTE, PROBE_NEWLINE_PASTE] {
-        if !guard(rows.as_deref(), box_only) {
-            return RunBEnd::CtrlC;
-        }
-        let prompts = count(HookEvent::UserPromptSubmit);
-        let stops = count(HookEvent::Stop);
-        if !run.paste_text(text) {
-            return RunBEnd::CtrlC;
-        }
-        let Some(stopped) = wait_for(clock, probe_until(clock), run.stop, || {
-            added_turn_ended(captures, prompts, stops)
-        }) else {
+        let Ok(turn) = paste_turn(
+            run,
+            rows.as_deref(),
+            box_only,
+            text,
+            turn_counts,
+            turn_ended,
+            boxed,
+        ) else {
             return RunBEnd::CtrlC;
         };
-        rows = run.box_wait(stopped);
+        rows = turn.rows;
         if text == PROBE_LONG_PASTE {
             typed.long_turn.clone_from(&rows);
         }
@@ -181,93 +252,87 @@ pub(super) fn framing_turns(
     let echo_from = transcript_of(captures)
         .and_then(|path| crate::run::send::echo::end_of(&path).map(|end| (path, end)));
     if let Some((transcript, from)) = echo_from {
-        if !guard(rows.as_deref(), box_only) {
-            return RunBEnd::CtrlC;
-        }
-        let prompts = count(HookEvent::UserPromptSubmit);
-        let pasted = clock.now();
-        if !run.paste_text(PROBE_ECHO_COMMAND) {
-            return RunBEnd::CtrlC;
-        }
-        let tagged =
-            || crate::run::send::echo::tags_since(&transcript, from).is_some_and(|n| n >= 1);
-        let Some(answered) = wait_for(clock, probe_until(clock), run.stop, || {
-            tagged() || count(HookEvent::UserPromptSubmit) > prompts
-        }) else {
+        let prompts = || count(HookEvent::UserPromptSubmit);
+        let Ok(echo) = paste_turn(
+            run,
+            rows.as_deref(),
+            box_only,
+            PROBE_ECHO_COMMAND,
+            prompts,
+            |&prompts| echo_answered(captures, &transcript, from, prompts),
+            boxed,
+        ) else {
             return RunBEnd::CtrlC;
         };
-        if tagged() && count(HookEvent::UserPromptSubmit) == prompts {
-            typed.echo_latency_ms = Some(ms(answered.saturating_duration_since(pasted)));
+        if echo.what {
+            typed.echo_latency_ms = Some(echo.latency_ms());
         }
-        rows = run.box_wait(answered);
+        rows = echo.rows;
         if let Some(from_context) = crate::run::send::echo::end_of(&transcript) {
-            if !guard(rows.as_deref(), box_only) {
-                return RunBEnd::CtrlC;
-            }
-            let prompts = count(HookEvent::UserPromptSubmit);
-            let pasted = clock.now();
-            if !run.paste_text(PROBE_CONTEXT_COMMAND) {
-                return RunBEnd::CtrlC;
-            }
-            let tagged = || {
-                crate::run::send::echo::tags_since(&transcript, from_context)
-                    .is_some_and(|n| n >= 1)
-            };
-            let Some(answered) = wait_for(clock, probe_until(clock), run.stop, || {
-                tagged() || count(HookEvent::UserPromptSubmit) > prompts
-            }) else {
+            let Ok(context) = paste_turn(
+                run,
+                rows.as_deref(),
+                box_only,
+                PROBE_CONTEXT_COMMAND,
+                prompts,
+                |&prompts| echo_answered(captures, &transcript, from_context, prompts),
+                boxed,
+            ) else {
                 return RunBEnd::CtrlC;
             };
-            if tagged() && count(HookEvent::UserPromptSubmit) == prompts {
-                typed.context_latency_ms = Some(ms(answered.saturating_duration_since(pasted)));
+            if context.what {
+                typed.context_latency_ms = Some(context.latency_ms());
             }
-            rows = run.box_wait(answered);
+            rows = context.rows;
         }
     }
-    if !guard(rows.as_deref(), box_only) {
-        return RunBEnd::CtrlC;
-    }
-    let starts = count(HookEvent::SessionStart);
-    let prompts = count(HookEvent::UserPromptSubmit);
-    let pasted = clock.now();
-    if !run.paste_text(PROBE_COMPACT_COMMAND) {
-        return RunBEnd::CtrlC;
-    }
-    let Some(compacted) = wait_for(clock, probe_until(clock), run.stop, || {
-        local_command_answered(captures, starts, prompts)
-    }) else {
+    let Ok(compact) = paste_turn(
+        run,
+        rows.as_deref(),
+        box_only,
+        PROBE_COMPACT_COMMAND,
+        local_counts,
+        local_answered,
+        boxed,
+    ) else {
         return RunBEnd::CtrlC;
     };
-    typed.compact_latency_ms = Some(ms(compacted.saturating_duration_since(pasted)));
-    let mut rows = run.box_wait(compacted);
-    if !guard(rows.as_deref(), box_only) {
-        return RunBEnd::CtrlC;
-    }
+    typed.compact_latency_ms = Some(compact.latency_ms());
+    let mut rows = compact.rows;
     let address = run
         .child_pid()
         .zip(inputs.runtime_dir)
         .and_then(|(pid, runtime)| ledger::uds_address(runtime, pid));
-    if let Some(address) = address {
-        let Some(after) = cross_session_turn(run, inputs, &address, typed) else {
+    if let Some(address) = &address {
+        if !guard(rows.as_deref(), box_only) {
+            return RunBEnd::CtrlC;
+        }
+        let Some(after) = cross_session_turn(run, inputs, address, typed) else {
             return RunBEnd::CtrlC;
         };
         rows = after;
-        if !guard(rows.as_deref(), box_only) {
-            return RunBEnd::Kill;
-        }
     }
-    let starts = count(HookEvent::SessionStart);
-    let prompts = count(HookEvent::UserPromptSubmit);
-    if !run.paste_text(PROBE_LOCAL_COMMAND) {
-        return RunBEnd::CtrlC;
+    let local = paste_turn(
+        run,
+        rows.as_deref(),
+        box_only,
+        PROBE_LOCAL_COMMAND,
+        local_counts,
+        local_answered,
+        |at| run.settle(at).and_then(|settled| settled.rows),
+    );
+    match local {
+        Err(Missed::Guard) if address.is_some() => RunBEnd::Kill,
+        _ => RunBEnd::CtrlC,
     }
-    let answered = wait_for(clock, probe_until(clock), run.stop, || {
-        local_command_answered(captures, starts, prompts)
-    });
-    if let Some(answered) = answered {
-        run.settle(answered);
-    }
-    RunBEnd::CtrlC
+}
+
+/// A pasted stdout-echo command answered: one more stdout tag in `transcript` past `from`, or one
+/// more UserPromptSubmit than `prompts`. `Some(true)` when the tag answered it with no prompt.
+fn echo_answered(captures: &Path, transcript: &Path, from: u64, prompts: usize) -> Option<bool> {
+    let tagged = crate::run::send::echo::tags_since(transcript, from).is_some_and(|n| n >= 1);
+    let prompted = count_of(captures, HookEvent::UserPromptSubmit) > prompts;
+    (tagged || prompted).then_some(tagged && !prompted)
 }
 
 /// Run B's cross-session turn: the print-mode sender (`verify-sender`) sends one compiled message

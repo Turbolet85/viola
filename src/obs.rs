@@ -56,6 +56,7 @@ fn open_private_append(path: &Path) -> io::Result<File> {
 pub(crate) fn role_file_name(process: ObsProcess, instance: Option<&ViolaName>) -> Option<String> {
     let stem = match (process, instance) {
         (ObsProcess::Mcp, _) => "mcp".to_owned(),
+        (ObsProcess::Console, _) => "console".to_owned(),
         (ObsProcess::Run | ObsProcess::Hook | ObsProcess::Cli, Some(name)) => {
             format!("{}-{}", process.as_str(), name_str(name))
         }
@@ -229,12 +230,15 @@ pub(crate) fn log_config_rejection(rejection: ConfigRejection) {
     );
 }
 
-/// The catch site's role line after a caught panic or a dispatch error: only `run` and `cli` own
-/// one (obs-plan §7).
+/// The catch site's role line after a caught panic or a dispatch error: only `run`, `cli` and
+/// `console` own one (obs-plan §7).
 pub(crate) fn internal_error_exit_line() {
-    if viola_core::obs::ctx()
-        .is_some_and(|c| matches!(c.process, ObsProcess::Run | ObsProcess::Cli))
-    {
+    if viola_core::obs::ctx().is_some_and(|c| {
+        matches!(
+            c.process,
+            ObsProcess::Run | ObsProcess::Cli | ObsProcess::Console
+        )
+    }) {
         obs_event!(
             ERROR,
             ObsEvent::ProcessExit,
@@ -403,6 +407,8 @@ mod tests {
     #[case::hook(ObsProcess::Hook, Some("builder"), Some("hook-builder.ndjson"))]
     #[case::cli(ObsProcess::Cli, Some("overseer"), Some("cli-overseer.ndjson"))]
     #[case::mcp(ObsProcess::Mcp, None, Some("mcp.ndjson"))]
+    #[case::console(ObsProcess::Console, None, Some("console.ndjson"))]
+    #[case::console_with_a_name(ObsProcess::Console, Some("builder"), Some("console.ndjson"))]
     #[case::run_without_name(ObsProcess::Run, None, None)]
     fn role_file_name_maps_every_process(
         #[case] process: ObsProcess,

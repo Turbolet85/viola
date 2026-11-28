@@ -186,6 +186,9 @@ impl LedgerRow {
     }
 }
 
+/// How many rows are relied on: every row of [`LedgerRow::ALL`], the one source a count reads.
+pub const RELIED_COUNT: usize = LedgerRow::ALL.len();
+
 /// The probe's synthetic prompt: ASCII, no tag characters.
 pub const PROBE_PROMPT: &str = "viola verify probe: reply with the single word ok";
 

@@ -104,6 +104,11 @@ path = "tests/tui_channel_fds.rs"
 required-features = ["fake-agent"]
 
 [[test]]
+name = "tui_console"
+path = "tests/tui_console.rs"
+required-features = ["fake-agent"]
+
+[[test]]
 name = "hook_fail_open"
 path = "tests/hook_fail_open.rs"
 required-features = ["fake-agent"]

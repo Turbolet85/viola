@@ -1,6 +1,7 @@
 mod adopt;
 mod answer;
 mod client;
+mod console;
 mod focus;
 mod hook;
 mod last;
@@ -36,7 +37,7 @@ use crate::obs::DetailSink;
 const HELP_TEMPLATE: &str = "\
 {usage-heading} {usage}
 
-board:    list, focus
+board:    list, focus, console
 traffic:  send, wait, last, answer
 wheel:    pause, release
 handoff:  link, unlink
@@ -87,6 +88,8 @@ enum Command {
     List(list::ListArgs),
     /// Bring the named session's window forward and show its workspace on Hyprland
     Focus(focus::FocusArgs),
+    /// Show the terminal fleet console in this terminal (the human's)
+    Console,
     /// Take the named instance's wheel for the human without a keystroke
     Pause(pause::PauseArgs),
     /// Hand the named instance's wheel back to the driver: the human's verb, refused to a driver
@@ -221,6 +224,11 @@ pub(crate) fn dispatch(cli: Cli) -> Result<ExitCode, Failure> {
             let home = resolved_home(cli.home)?;
             let sink = cli_sink(&home, &args.name);
             focus::focus(&home, &args).map_err(|error| Failure { error, sink })
+        }
+        // The console names no instance: no chain is kept, its stderr line is the catch site's.
+        Command::Console => {
+            let home = resolved_home(cli.home)?;
+            console::console(&home).map_err(|error| Failure { error, sink: None })
         }
         Command::Pause(args) => {
             let home = resolved_home(cli.home)?;

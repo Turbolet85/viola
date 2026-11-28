@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://viola.local/schemas/diag-line.v1.json",
   "title": "viola home-level process-log line (codes only)",
-  "description": "One line of <home>/diagnostics/{run-<name>,hook-<name>,mcp,cli-<name>}.ndjson. Required fields per test-plan §3 Log format; additive fields per obs-plan §6 catalog, default-deny (obs-plan §8). A null corr or instance is key absence, never a literal null; message equals event.",
+  "description": "One line of <home>/diagnostics/{run-<name>,hook-<name>,mcp,cli-<name>,console}.ndjson. Required fields per test-plan §3 Log format; additive fields per obs-plan §6 catalog, default-deny (obs-plan §8). A null corr or instance is key absence, never a literal null; message equals event.",
   "type": "object",
   "required": ["timestamp", "level", "target", "message", "event", "process"],
   "properties": {
@@ -11,7 +11,7 @@
     "target": { "type": "string", "minLength": 1 },
     "message": { "type": "string" },
     "event": { "$ref": "#/$defs/event" },
-    "process": { "enum": ["run", "hook", "mcp", "cli"] },
+    "process": { "enum": ["run", "hook", "mcp", "cli", "console"] },
     "instance": { "type": "string", "pattern": "^[a-z][a-z0-9-]{0,31}$" }
   },
   "allOf": [
@@ -31,6 +31,8 @@
     { "if": { "properties": { "event": { "const": "state-recovered" } } }, "then": { "properties": { "message": { "const": "state-recovered" } } } },
     { "if": { "properties": { "event": { "const": "parse-rejected" } } }, "then": { "properties": { "message": { "const": "parse-rejected" } } } },
     { "if": { "properties": { "event": { "const": "trust-record" } } }, "then": { "properties": { "message": { "const": "trust-record" } } } },
+    { "if": { "properties": { "event": { "const": "console-frame" } } }, "then": { "properties": { "message": { "const": "console-frame" } } } },
+    { "if": { "properties": { "event": { "const": "console-key" } } }, "then": { "properties": { "message": { "const": "console-key" } } } },
 
     { "if": { "properties": { "event": { "const": "channel-request" } } }, "then": { "properties": {
       "corr": { "$ref": "#/$defs/corr" }, "method": { "type": "string" }, "conn": { "type": "string" },
@@ -89,6 +91,12 @@
     { "if": { "properties": { "event": { "const": "trust-record" } } }, "then": { "properties": {
       "detail": { "enum": ["written", "already-trusted", "parent-trusted", "unverified-cli", "home-folder", "config-absent", "config-unreadable", "config-link", "config-not-regular", "config-foreign", "config-oversize", "config-malformed", "config-dir-unusable", "home-unknown", "lock-held", "lost"] } },
       "required": ["detail"] } },
+    { "if": { "properties": { "event": { "const": "console-frame" } } }, "then": { "properties": {
+      "cols": { "$ref": "#/$defs/count" }, "rows": { "$ref": "#/$defs/count" }, "fits": { "type": "boolean" } },
+      "required": ["cols", "rows", "fits"] } },
+    { "if": { "properties": { "event": { "const": "console-key" } } }, "then": { "properties": {
+      "key": { "enum": ["quit", "interrupt", "unbound"] } },
+      "required": ["key"] } },
 
     { "$comment": "corr is required wherever obs-plan §3 always defines it: dialog_id, the release request id.",
       "if": { "properties": { "event": { "enum": ["dialog-raised", "dialog-answered", "release-from-driver"] } } },
@@ -109,7 +117,7 @@
   "unevaluatedProperties": false,
   "$defs": {
     "event": {
-      "enum": ["channel-request", "channel-response", "dialog-raised", "dialog-answered", "hook-invoked", "hook-decision", "send-issued", "send-confirmed", "send-refused", "release-from-driver", "process-start", "process-exit", "panic", "state-recovered", "parse-rejected", "trust-record"]
+      "enum": ["channel-request", "channel-response", "dialog-raised", "dialog-answered", "hook-invoked", "hook-decision", "send-issued", "send-confirmed", "send-refused", "release-from-driver", "process-start", "process-exit", "panic", "state-recovered", "parse-rejected", "trust-record", "console-frame", "console-key"]
     },
     "corr": { "type": ["number", "string"] },
     "count": { "type": "integer", "minimum": 0 },

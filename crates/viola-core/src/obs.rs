@@ -8,6 +8,8 @@ use crate::ViolaName;
 
 /// The closed `event` enum; a new value needs an obs-plan Decisions Log entry and a
 /// `schemas/diag-line.v1.json` update. `a11y-violation` is a harness-only row, never a variant.
+/// `console-frame` (`cols`, `rows`, `fits`) and `console-key` (`key`: `quit` · `interrupt` ·
+/// `unbound`) are the fleet console's own lines.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ObsEvent {
     ChannelRequest,
@@ -26,10 +28,12 @@ pub enum ObsEvent {
     StateRecovered,
     ParseRejected,
     TrustRecord,
+    ConsoleFrame,
+    ConsoleKey,
 }
 
 impl ObsEvent {
-    pub const ALL: [Self; 16] = [
+    pub const ALL: [Self; 18] = [
         Self::ChannelRequest,
         Self::ChannelResponse,
         Self::DialogRaised,
@@ -46,6 +50,8 @@ impl ObsEvent {
         Self::StateRecovered,
         Self::ParseRejected,
         Self::TrustRecord,
+        Self::ConsoleFrame,
+        Self::ConsoleKey,
     ];
 
     pub const fn as_str(self) -> &'static str {
@@ -66,6 +72,8 @@ impl ObsEvent {
             Self::StateRecovered => "state-recovered",
             Self::ParseRejected => "parse-rejected",
             Self::TrustRecord => "trust-record",
+            Self::ConsoleFrame => "console-frame",
+            Self::ConsoleKey => "console-key",
         }
     }
 }
@@ -83,10 +91,11 @@ pub enum ObsProcess {
     Hook,
     Mcp,
     Cli,
+    Console,
 }
 
 impl ObsProcess {
-    pub const ALL: [Self; 4] = [Self::Run, Self::Hook, Self::Mcp, Self::Cli];
+    pub const ALL: [Self; 5] = [Self::Run, Self::Hook, Self::Mcp, Self::Cli, Self::Console];
 
     pub const fn as_str(self) -> &'static str {
         match self {
@@ -94,6 +103,7 @@ impl ObsProcess {
             Self::Hook => "hook",
             Self::Mcp => "mcp",
             Self::Cli => "cli",
+            Self::Console => "console",
         }
     }
 }
@@ -161,7 +171,7 @@ mod tests {
     use super::*;
 
     /// test-plan §3 Log format + obs-plan D-01…D-05, written out as the oracle.
-    const LOG_FORMAT_EVENTS: [&str; 16] = [
+    const LOG_FORMAT_EVENTS: [&str; 18] = [
         "channel-request",
         "channel-response",
         "dialog-raised",
@@ -178,6 +188,8 @@ mod tests {
         "state-recovered",
         "parse-rejected",
         "trust-record",
+        "console-frame",
+        "console-key",
     ];
 
     #[test]
@@ -191,9 +203,9 @@ mod tests {
     }
 
     #[test]
-    fn obs_process_display_is_the_four_roles() {
+    fn obs_process_display_is_the_five_roles() {
         let shown: Vec<String> = ObsProcess::ALL.iter().map(ToString::to_string).collect();
-        assert_eq!(shown, ["run", "hook", "mcp", "cli"]);
+        assert_eq!(shown, ["run", "hook", "mcp", "cli", "console"]);
     }
 
     #[test]

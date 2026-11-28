@@ -830,9 +830,10 @@ mod tests {
         );
     }
 
-    /// The counter's total is the relied count: twenty-nine rows.
+    /// The counter's total is the relied count.
     #[test]
     fn step_lines_count_to_the_relied_total() {
+        use viola_agent_claude::ledger::RELIED_COUNT;
         let probes = Probes {
             print: ProbeRun {
                 version_answered: false,
@@ -846,46 +847,71 @@ mod tests {
             env: ledger::EnvReading::default(),
         };
         let results = check_rows(&probes);
-        assert_eq!(results.len(), 29);
+        assert_eq!(results.len(), RELIED_COUNT);
         assert_eq!(
-            step_line(19, 29, LedgerRow::ResumeSession, "fail"),
-            "[19/29] resume-session --resume <id> reopens the session under that id  fail"
+            step_line(19, RELIED_COUNT, LedgerRow::ResumeSession, "fail"),
+            format!(
+                "[19/{RELIED_COUNT}] resume-session --resume <id> reopens the session under that id  fail"
+            )
         );
         assert_eq!(
-            step_line(20, 29, LedgerRow::AgentsJoin, "fail"),
-            "[20/29] agents-join claude agents --json names the live session by pid and session id  fail"
+            step_line(20, RELIED_COUNT, LedgerRow::AgentsJoin, "fail"),
+            format!(
+                "[20/{RELIED_COUNT}] agents-join claude agents --json names the live session by pid and session id  fail"
+            )
         );
         assert_eq!(
-            step_line(21, 29, LedgerRow::LocalCommandCompact, "fail"),
-            "[21/29] local-command-compact /compact keeps the session id and submits no prompt  fail"
+            step_line(21, RELIED_COUNT, LedgerRow::LocalCommandCompact, "fail"),
+            format!(
+                "[21/{RELIED_COUNT}] local-command-compact /compact keeps the session id and submits no prompt  fail"
+            )
         );
         assert_eq!(
-            step_line(22, 29, LedgerRow::LocalCommandEcho, "fail"),
-            "[22/29] local-command-echo /mcp writes its stdout tag to the transcript and submits no prompt  fail"
+            step_line(22, RELIED_COUNT, LedgerRow::LocalCommandEcho, "fail"),
+            format!(
+                "[22/{RELIED_COUNT}] local-command-echo /mcp writes its stdout tag to the transcript and submits no prompt  fail"
+            )
         );
         assert_eq!(
-            step_line(23, 29, LedgerRow::TrustRecord, "pass"),
-            "[23/29] trust-record a trust record written for an untrusted folder opens it with no modal  pass"
+            step_line(23, RELIED_COUNT, LedgerRow::TrustRecord, "pass"),
+            format!(
+                "[23/{RELIED_COUNT}] trust-record a trust record written for an untrusted folder opens it with no modal  pass"
+            )
         );
         assert_eq!(
-            step_line(24, 29, LedgerRow::BrowserToolsPrompt, "absent"),
-            "[24/29] browser-tools-prompt an interactive start's browser-tools prompt reads as a modal, nothing typed  absent"
+            step_line(24, RELIED_COUNT, LedgerRow::BrowserToolsPrompt, "absent"),
+            format!(
+                "[24/{RELIED_COUNT}] browser-tools-prompt an interactive start's browser-tools prompt reads as a modal, nothing typed  absent"
+            )
         );
         assert_eq!(
-            step_line(25, 29, LedgerRow::LocalCommandContext, "pass"),
-            "[25/29] local-command-context /context writes its stdout tag to the transcript and submits no prompt  pass"
+            step_line(25, RELIED_COUNT, LedgerRow::LocalCommandContext, "pass"),
+            format!(
+                "[25/{RELIED_COUNT}] local-command-context /context writes its stdout tag to the transcript and submits no prompt  pass"
+            )
         );
         assert_eq!(
-            step_line(26, 29, LedgerRow::StopSessionCrons, "fail"),
-            "[26/29] stop-session-crons Stop carries session_crons as an array  fail"
+            step_line(26, RELIED_COUNT, LedgerRow::StopSessionCrons, "fail"),
+            format!(
+                "[26/{RELIED_COUNT}] stop-session-crons Stop carries session_crons as an array  fail"
+            )
         );
         assert_eq!(
-            step_line(27, 29, LedgerRow::PermissionRequestQuestion, "fail"),
-            "[27/29] permission-request-question a question raised by PermissionRequest takes the allow body  fail"
+            step_line(
+                27,
+                RELIED_COUNT,
+                LedgerRow::PermissionRequestQuestion,
+                "fail"
+            ),
+            format!(
+                "[27/{RELIED_COUNT}] permission-request-question a question raised by PermissionRequest takes the allow body  fail"
+            )
         );
         assert_eq!(
-            step_line(29, 29, LedgerRow::CrossSessionPrefix, "fail"),
-            "[29/29] cross-session-prefix a message another session sends in opens with a harness prefix  fail"
+            step_line(29, RELIED_COUNT, LedgerRow::CrossSessionPrefix, "fail"),
+            format!(
+                "[29/{RELIED_COUNT}] cross-session-prefix a message another session sends in opens with a harness prefix  fail"
+            )
         );
         assert_eq!(step_word("absent"), "absent");
         assert_eq!(step_word("pass"), "pass");
@@ -904,8 +930,10 @@ mod tests {
             [LedgerRow::LargestHookPayload, LedgerRow::BrowserToolsPrompt]
         );
         assert_eq!(
-            step_line(28, 29, LedgerRow::IdentityFloor, "fail"),
-            "[28/29] identity-floor every CLAUDE name the CLI adds to a hook is a known name  fail"
+            step_line(28, RELIED_COUNT, LedgerRow::IdentityFloor, "fail"),
+            format!(
+                "[28/{RELIED_COUNT}] identity-floor every CLAUDE name the CLI adds to a hook is a known name  fail"
+            )
         );
     }
 

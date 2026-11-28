@@ -1,0 +1,41 @@
+[[control]]
+id = 'quit-key'
+entry = 8
+guard = 'the q to quit mapping in the key decoder, made unbound'
+case = 'console_at_the_floor_logs_a_whole_frame_and_quits_on_q'
+
+[[control.edit]]
+path = 'src/console/keys.rs'
+old = '''        } else if read == b"q" {
+            Self::Quit
+'''
+new = '''        } else if read == b"q" {
+            Self::Unbound
+'''
+
+[[control]]
+id = 'floor-cmp'
+entry = 8
+guard = 'the floor rule fits comparison, >= made >'
+case = 'console_at_the_floor_logs_a_whole_frame_and_quits_on_q'
+
+[[control.edit]]
+path = 'src/console/frame.rs'
+old = '''    size.cols >= FLOOR.cols && size.rows >= FLOOR.rows'''
+new = '''    size.cols > FLOOR.cols && size.rows > FLOOR.rows'''
+
+[[control]]
+id = 'restore'
+entry = 9
+guard = 'the restore guard drop body, made empty'
+case = 'console_restores_the_terminal_on_quit'
+
+[[control.edit]]
+path = 'src/console/mod.rs'
+old = '''    fn drop(&mut self) {
+        let _ = human::write_console_restore(&mut self.out);
+        if let Some(mode) = self.mode.take() {
+            drop(ManuallyDrop::into_inner(mode));
+        }
+    }'''
+new = '''    fn drop(&mut self) {}'''

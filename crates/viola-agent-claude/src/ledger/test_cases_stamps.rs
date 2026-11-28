@@ -79,7 +79,8 @@ fn ledger_rows_are_the_twenty_nine_measured_behaviours_in_order() {
 fn relied_rows_are_every_row_in_order() {
     let here: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
     let all: Vec<&str> = LedgerRow::ALL.into_iter().map(LedgerRow::id).collect();
-    assert_eq!(here.len(), 29);
+    assert_eq!(here.len(), RELIED_COUNT);
+    assert_eq!(RELIED_COUNT, 29);
     assert_eq!(here, all);
     assert_eq!(here.last(), Some(&"cross-session-prefix"));
 }
@@ -202,7 +203,7 @@ fn capture_read_keeps_the_size_and_a_parsed_payload() {
 
 #[test]
 fn check_passes_every_row_on_a_clean_probe() {
-    assert_eq!(verdicts(&clean_run()), [true; 29]);
+    assert_eq!(verdicts(&clean_run()), [true; RELIED_COUNT]);
 }
 
 #[test]
@@ -915,7 +916,7 @@ fn verified_reads_a_stamp_holding_the_two_retired_rows_on_the_relied_rows_alone(
 fn relied_rows_hold_no_retired_row() {
     let retired = retired_rows_of_the_fixture();
     let relied: Vec<&str> = LedgerRow::relied().into_iter().map(LedgerRow::id).collect();
-    assert_eq!(relied.len(), 29);
+    assert_eq!(relied.len(), RELIED_COUNT);
     assert!(relied.iter().all(|id| !retired.iter().any(|r| r == id)));
 }
 
@@ -1105,7 +1106,7 @@ fn verified_reads_the_28_earlier_ids_unverified_and_the_29_verified() {
         doc(&all)["data"]["versions"]["2.1.0"]["rows"]
             .as_object()
             .map(serde_json::Map::len),
-        Some(29)
+        Some(RELIED_COUNT)
     );
     assert_eq!(verified(&all, "2.1.0"), Ok(true));
 }

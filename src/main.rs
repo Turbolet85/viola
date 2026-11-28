@@ -1,4 +1,5 @@
 mod cmd;
+mod console;
 mod human;
 mod obs;
 mod panic_frames;
@@ -392,6 +393,8 @@ mod tests {
     #[case::mcp_after_home_equals(&["--home=C:/h", "mcp"], Role::Mcp)]
     #[case::home_named_mcp(&["--home", "mcp", "list"], Role::Cli)]
     #[case::later_mcp(&["send", "mcp"], Role::Cli)]
+    #[case::console(&["console"], Role::Cli)]
+    #[case::console_after_home(&["--home", "x", "console"], Role::Cli)]
     fn role_of_skips_the_home_flag_and_its_value(#[case] args: &[&str], #[case] role: Role) {
         assert_eq!(role_of(argv(args)), role);
     }

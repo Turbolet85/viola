@@ -1,0 +1,484 @@
+[
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T00:47:47Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-console-scaffold",
+"--source",
+"~/dev/projects/additional/viola-overseer/phase-console-scaffold-directive.md",
+"--kind",
+"relay",
+"--why",
+"the overseer phase directive for Console scaffold: operator away, his forks to founder-forks.md, no live work, measurements and forks at P3",
+"--step",
+"phase:P1",
+"--run-dir",
+".andromeda/runs/2026-11-28T00-46-52Z-phase",
+"--marker",
+"2026-11-28-console-scaffold"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I1 · copy no-repo · ../additional/viola-overseer/phase-console-scaffold-directive.md",
+"cite: inputs#I1"
+],
+"stderr": null,
+"wrote": [
+"inputs/.gitattributes",
+"inputs/I1-phase-console-scaffold-directive.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I1",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/phase-console-scaffold-directive.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "e09e6838778140ea5a6d1238b1dcf9eb856da606693d9e1612959a656caa6781",
+"copy": "I1-phase-console-scaffold-directive.md.txt",
+"link": false,
+"read_at": "2026-11-28T00:47:46Z",
+"step": "phase:P1",
+"why": "the overseer phase directive for Console scaffold: operator away, his forks to founder-forks.md, no live work, measurements and forks at P3"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T01:29:17Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-28-console-scaffold",
+"--run-dir",
+".andromeda/runs/2026-11-28T00-46-52Z-phase",
+"--marker",
+"2026-11-28-console-scaffold"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-console-scaffold-directive.md",
+"I1 cited scope.md:7 · scope.md:18 · scope.md:33 · scope.md:81 · research.md:11 · plan.md:10 · plan.md:144 · plan.md:251 (in fence) · plan.md:374 · plan.md:380",
+"inputs: 1 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T01:31:35Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-28-console-scaffold",
+"--run-dir",
+".andromeda/runs/2026-11-28T00-46-52Z-phase",
+"--marker",
+"2026-11-28-console-scaffold"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-console-scaffold-directive.md",
+"I1 cited scope.md:7 · scope.md:18 · scope.md:33 · scope.md:81 · research.md:11 · plan.md:10 · plan.md:144 · plan.md:262 (in fence) · plan.md:385 · plan.md:391",
+"inputs: 1 entries — unchanged 1 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 1,
+"counts": {
+"unchanged": 1,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T07:31:02Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-console-scaffold",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-console-forks.md",
+"--kind",
+"relay",
+"--why",
+"the operator own answers to F1-F5 and Q1 (F3 his own text: the console starts on bare viola, no verb) and the overseer technical Q2, Q3 and the bare-viola revision order",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-28T00-46-52Z-phase",
+"--marker",
+"2026-11-28-console-scaffold"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I2 · copy no-repo · ../additional/viola-overseer/relay-console-forks.md",
+"cite: inputs#I2"
+],
+"stderr": null,
+"wrote": [
+"inputs/I2-relay-console-forks.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I2",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-console-forks.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "4ea90bbe866e0870576fc78602d512c34e4775576c71f4feb887e932c80c2e05",
+"copy": "I2-relay-console-forks.md.txt",
+"link": false,
+"read_at": "2026-11-28T07:31:02Z",
+"step": "phase:P4",
+"why": "the operator own answers to F1-F5 and Q1 (F3 his own text: the console starts on bare viola, no verb) and the overseer technical Q2, Q3 and the bare-viola revision order"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T07:37:22Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-28-console-scaffold",
+"--run-dir",
+".andromeda/runs/2026-11-28T00-46-52Z-phase",
+"--marker",
+"2026-11-28-console-scaffold"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-console-scaffold-directive.md",
+"I1 cited scope.md:7 · scope.md:18 · scope.md:33 · scope.md:81 · research.md:11 · plan.md:159 · plan.md:286 (in fence) · plan.md:413",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-console-forks.md",
+"I2 cited scope.md:85 · scope.md:88 · research.md:89 · research.md:92 · plan.md:9 · plan.md:12 · plan.md:15 · plan.md:130 · plan.md:413 · plan.md:418 · plan.md:420 · plan.md:442",
+"inputs: 2 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 2,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T07:41:06Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-console-scaffold",
+"--source",
+"~/dev/projects/additional/viola-overseer/relay-console-f3b.md",
+"--kind",
+"relay",
+"--why",
+"the operator own later answer to F3, Вернуть viola console: the bare start withdrawn, the verb viola console in the board row his word; role-classified-before-clap not reached",
+"--step",
+"phase:P4",
+"--run-dir",
+".andromeda/runs/2026-11-28T00-46-52Z-phase",
+"--marker",
+"2026-11-28-console-scaffold"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I3 · copy no-repo · ../additional/viola-overseer/relay-console-f3b.md",
+"cite: inputs#I3"
+],
+"stderr": null,
+"wrote": [
+"inputs/I3-relay-console-f3b.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I3",
+"kind": "relay",
+"repo": null,
+"path": "../additional/viola-overseer/relay-console-f3b.md",
+"form": "copy",
+"state": "no-repo",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "12a589124089feb4a48dd1dc5f2931a76b9707ca2c09c8666d3c9ac96d0b9866",
+"copy": "I3-relay-console-f3b.md.txt",
+"link": false,
+"read_at": "2026-11-28T07:41:06Z",
+"step": "phase:P4",
+"why": "the operator own later answer to F3, Вернуть viola console: the bare start withdrawn, the verb viola console in the board row his word; role-classified-before-clap not reached"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T07:45:07Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-28-console-scaffold",
+"--run-dir",
+".andromeda/runs/2026-11-28T00-46-52Z-phase",
+"--marker",
+"2026-11-28-console-scaffold"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-console-scaffold-directive.md",
+"I1 cited scope.md:7 · scope.md:18 · scope.md:33 · scope.md:81 · research.md:11 · plan.md:156 · plan.md:274 (in fence) · plan.md:398",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-console-forks.md",
+"I2 cited scope.md:85 · scope.md:86 · research.md:90 · research.md:93 · plan.md:9 · plan.md:13 · plan.md:126 · plan.md:398 · plan.md:422",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-console-f3b.md",
+"I3 cited scope.md:87 · research.md:90 · research.md:106 · plan.md:11 · plan.md:59 · plan.md:398 · plan.md:403 · plan.md:431",
+"inputs: 3 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 0 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 3,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 0
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T07:47:40Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-console-scaffold",
+"--message-file",
+".andromeda/runs/2026-11-28T00-46-52Z-phase/relay-1.md",
+"--origin",
+"the overseer, its review word on p5-card-3",
+"--kind",
+"relay",
+"--why",
+"review of p5-card-3: console stays an ordinary CLI role at the catch site (restore, then the internal-error line, exit 1); yes for the revision only if planlint reads 0 hits and no new master row is reached",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-28T00-46-52Z-phase",
+"--marker",
+"2026-11-28-console-scaffold"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I4 · copy message · message: the overseer, its review word on p5-card-3",
+"cite: inputs#I4"
+],
+"stderr": null,
+"wrote": [
+"inputs/I4-relay-1.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I4",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer, its review word on p5-card-3",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "828557e16fd8adac020c8b64e0db42f9206b806462a2e8108a0cb0aa75835b9f",
+"copy": "I4-relay-1.md.txt",
+"link": false,
+"read_at": "2026-11-28T07:47:39Z",
+"step": "phase:P5",
+"why": "review of p5-card-3: console stays an ordinary CLI role at the catch site (restore, then the internal-error line, exit 1); yes for the revision only if planlint reads 0 hits and no new master row is reached"
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T07:50:46Z",
+"argv": [
+"verify",
+"--chunk",
+"2026-11-28-console-scaffold",
+"--run-dir",
+".andromeda/runs/2026-11-28T00-46-52Z-phase",
+"--marker",
+"2026-11-28-console-scaffold"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/viola-overseer/phase-console-scaffold-directive.md",
+"I1 cited scope.md:7 · scope.md:18 · scope.md:33 · scope.md:81 · research.md:11 · plan.md:175 · plan.md:301 (in fence) · plan.md:431",
+"I2 unchanged · copy no-repo · ../additional/viola-overseer/relay-console-forks.md",
+"I2 cited scope.md:85 · scope.md:86 · research.md:90 · research.md:93 · plan.md:9 · plan.md:13 · plan.md:144 · plan.md:431 · plan.md:456",
+"I3 unchanged · copy no-repo · ../additional/viola-overseer/relay-console-f3b.md",
+"I3 cited scope.md:87 · research.md:90 · research.md:106 · plan.md:11 · plan.md:66 · plan.md:431 · plan.md:436 · plan.md:465",
+"I4 n/a — a message has no live source · copy message · message: the overseer, its review word on p5-card-3",
+"I4 cited plan.md:18 · plan.md:63 · plan.md:478",
+"inputs: 4 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 1 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 4,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 1
+},
+"uncited": 0,
+"unparsed": 0
+}
+},
+{
+"tool": "inputs",
+"v": "1.8",
+"sha8": "d4396464",
+"ts": "2026-11-28T07:52:16Z",
+"argv": [
+"snap",
+"--chunk",
+"2026-11-28-console-scaffold",
+"--message-file",
+".andromeda/runs/2026-11-28T00-46-52Z-phase/relay-2.md",
+"--origin",
+"the overseer, its yes on p5-card-4",
+"--kind",
+"relay",
+"--why",
+"the P5 word yes on .andromeda/runs/2026-11-28T00-46-52Z-phase/p5-card-4.md, plan rev 7 (authority: delegate overseer, technical); the console panic-outcome-by-role item lands at the wrap on the technical word",
+"--step",
+"phase:P5",
+"--run-dir",
+".andromeda/runs/2026-11-28T00-46-52Z-phase",
+"--marker",
+"2026-11-28-console-scaffold"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"snapped I5 · copy message · message: the overseer, its yes on p5-card-4",
+"cite: inputs#I5"
+],
+"stderr": null,
+"wrote": [
+"inputs/I5-relay-2.md.txt",
+"inputs/andromeda-inputs.json"
+],
+"before": null,
+"after": {
+"id": "I5",
+"kind": "relay",
+"repo": null,
+"path": "message: the overseer, its yes on p5-card-4",
+"form": "copy",
+"state": "message",
+"commit": null,
+"ref": null,
+"upstream": null,
+"claimed": null,
+"sha256": "9ff2faa1ead2f8bad50994adb94f8021b44fbb7d09739557ab2e1e79c023cf0f",
+"copy": "I5-relay-2.md.txt",
+"link": false,
+"read_at": "2026-11-28T07:52:15Z",
+"step": "phase:P5",
+"why": "the P5 word yes on .andromeda/runs/2026-11-28T00-46-52Z-phase/p5-card-4.md, plan rev 7 (authority: delegate overseer, technical); the console panic-outcome-by-role item lands at the wrap on the technical word"
+}
+}
+]

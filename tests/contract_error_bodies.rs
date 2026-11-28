@@ -589,6 +589,16 @@ const NOT_ERROR_BODIES: &[(&str, &str, &str)] = &[
         "verify's stderr names the fixture file and a closed code, the founder's ratified form",
     ),
     (
+        "src/cmd/console.rs",
+        "human::refuse(NO_TERMINAL.0, NO_TERMINAL.1);",
+        "viola console's exit 1 off a terminal: its fixed stderr pair, no document, no line",
+    ),
+    (
+        "src/cmd/console.rs",
+        "human::refuse(HOME_REFUSED.0, HOME_REFUSED.1);",
+        "viola console's exit 1 on a home another user may read: its fixed stderr pair, no document, no line",
+    ),
+    (
         "src/cmd/mcp.rs",
         "viola_mcp::serve(home.to_path_buf(), own_name, board)?;",
         "viola mcp's exit 1 prints nothing on either stream",
